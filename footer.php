@@ -1,0 +1,32 @@
+			</div>
+			<!-- /.wrapper-lg-->
+			</main>	
+
+			<?php //include_once( 'tweets.php' ); ?>				
+
+			<footer class="site-footer" role="contentinfo">	
+					
+				<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-2')) ?>
+						  			            				
+			    <div class="site-footer-lower">
+			        <div class="wrapper-lg wrapper-pd">
+			        	<?php wp_nav_menu( array( 'theme_location' => 'footer-menu' ) ); ?>
+			            <ul class="nav">
+			                <li>© 2016 University of Leeds, Leeds, LS2 9JT</li>
+			                <li><a href="//www.leeds.ac.uk/termsandconditions">Terms &amp; Conditions</a></li>
+			                <li><a href="//www.leeds.ac.uk/accessibility">Accessibility</a></li>
+			                <li><a href="<?php echo site_url(); ?>/privacy/">Privacy</a></li>
+			                <li><a href="//www.leeds.ac.uk/foi">Freedom of information</a></li>
+			                <li><a href="#">Equality and inclusion</a></li>
+			            </ul>
+			        </div>
+			    </div>
+			</footer>
+
+		</div>
+		<!-- /site-container -->
+
+		<?php wp_footer(); ?>			
+
+	</body>
+</html>
