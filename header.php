@@ -185,7 +185,7 @@
 			            <button class="btn-icon" data-state="body-state" data-class="state-navicon-active">Close</button>
 			        </div>
 			        <div class="tk-nav-inner">
-						<?php html5blank_nav(); ?>
+						<?php tk_header_nav(); ?>
 					</div>
 				</div>
 			</nav>	

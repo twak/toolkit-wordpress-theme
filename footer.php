@@ -10,15 +10,15 @@
 						  			            				
 			    <div class="site-footer-lower">
 			        <div class="wrapper-lg wrapper-pd">
-			        	<?php wp_nav_menu( array( 'theme_location' => 'footer-menu' ) ); ?>
-			            <ul class="nav">
-			                <li>© 2016 University of Leeds, Leeds, LS2 9JT</li>
+			        	<?php tk_footer_nav(); ?>
+			           <!--  <ul class="nav">
+			                
 			                <li><a href="//www.leeds.ac.uk/termsandconditions">Terms &amp; Conditions</a></li>
 			                <li><a href="//www.leeds.ac.uk/accessibility">Accessibility</a></li>
 			                <li><a href="<?php echo site_url(); ?>/privacy/">Privacy</a></li>
 			                <li><a href="//www.leeds.ac.uk/foi">Freedom of information</a></li>
 			                <li><a href="#">Equality and inclusion</a></li>
-			            </ul>
+			            </ul> -->
 			        </div>
 			    </div>
 			</footer>

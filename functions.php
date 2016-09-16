@@ -24,7 +24,7 @@
  */
 
 /*------------------------------------*\
-    $require ACF plugin activation
+    $REQUIRE ACF plugin activation
 \*------------------------------------*/
 
 /**
@@ -97,6 +97,18 @@ function my_theme_register_required_plugins() {
             'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
             'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+        ),
+
+        array(
+            'name'               => 'Toolkit Events', // The plugin name.
+            'slug'               => 'toolkit-events', // The plugin slug (typically the folder name).
+            'source'             => get_stylesheet_directory() . '/lib/plugins/toolkit-events.zip', // The plugin source.
+            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+            'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.
             'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
         ),
@@ -302,10 +314,9 @@ if (function_exists('add_theme_support'))
 	Functions
 \*------------------------------------*/
 
-// HTML5 Blank navigation
-function html5blank_nav()
+// Header navigation
+function tk_header_nav()
 {
-
 
 	wp_nav_menu(
 	array(
@@ -327,6 +338,33 @@ function html5blank_nav()
 		'walker'          => ''
 		)
 	);
+}
+
+function tk_footer_nav()
+{
+
+    $copyright = '<li>© '. date('Y') .' University of Leeds, Leeds, LS2 9JT</li>';
+
+    wp_nav_menu(
+    array(
+        'theme_location'  => 'footer-menu',
+        'menu'            => '',
+        'container'       => 'div',
+        'container_class' => 'menu-{menu slug}-container',
+        'container_id'    => '',
+        'menu_class'      => '',
+        'menu_id'         => '',
+        'echo'            => true,
+        'fallback_cb'     => 'link_to_menu_editor',
+        'before'          => '',
+        'after'           => '',
+        'link_before'     => '',
+        'link_after'      => '',
+        'items_wrap'      => '<ul class="nav">'.$copyright.'%3$s</ul>',
+        'depth'           => 0,
+        'walker'          => ''
+        )
+    );
 }
 
 /**
@@ -389,8 +427,8 @@ function menu_set_dropdown( $sorted_menu_items, $args ) {
 
 add_filter( 'wp_nav_menu_objects', 'menu_set_dropdown', 10, 2 );
 
-// Load HTML5 Blank scripts (header.php)
-function html5blank_header_scripts()
+// Load TK Blank scripts (header.php)
+function tk_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {    	
         wp_register_script('modernizr', 'https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', array()); // Modernizr
@@ -401,8 +439,8 @@ function html5blank_header_scripts()
     }
 }
 
-// Load HTML5 Blank conditional scripts
-function html5blank_conditional_scripts()
+// Load TK Blank conditional scripts
+function tk_conditional_scripts()
 {
     if (is_page('pagenamehere')) {
         wp_register_script('scriptname', get_template_directory_uri() . '/dist/scriptname.js', array('jquery'), '1.0.0'); // Conditional script(s)
@@ -410,8 +448,8 @@ function html5blank_conditional_scripts()
     }
 }
 
-// Load HTML5 Blank styles
-function html5blank_styles()
+// Load TK Blank styles
+function tk_styles()
 {
     // wp_register_style('bootstrap', get_template_directory_uri() . '/dist/theme-green-light/bootstrap.min.css', array(), '1.0', 'all');
     // wp_enqueue_style('bootstrap'); // Enqueue it!
@@ -424,7 +462,7 @@ function html5blank_styles()
 }
 
 // Register HTML5 Blank Navigation
-function register_html5_menu()
+function register_tk_menu()
 {
     register_nav_menus(array( // Using array to specify more menus if needed
         'header-menu' => __('Header Menu', 'html5blank'), // Main Navigation
@@ -630,11 +668,11 @@ function html5blankcomments($comment, $args, $depth)
 \*------------------------------------*/
 
 // Add Actions
-add_action('init', 'html5blank_header_scripts'); // Add Custom Scripts to wp_head
-add_action('wp_print_scripts', 'html5blank_conditional_scripts'); // Add Conditional Page Scripts
+add_action('init', 'tk_header_scripts'); // Add Custom Scripts to wp_head
+add_action('wp_print_scripts', 'tk_conditional_scripts'); // Add Conditional Page Scripts
 add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-add_action('wp_enqueue_scripts', 'html5blank_styles'); // Add Theme Stylesheet
-add_action('init', 'register_html5_menu'); // Add HTML5 Blank Menu
+add_action('wp_enqueue_scripts', 'tk_styles'); // Add Theme Stylesheet
+add_action('init', 'register_tk_menu'); // Add tk Blank Menu
 add_action('widgets_init', 'my_remove_recent_comments_style'); // Remove inline Recent Comment Styles from wp_head()
 
 // Remove Actions
