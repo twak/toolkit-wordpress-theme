@@ -9,7 +9,7 @@
 				<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-2')) ?>
 						  			            				
 			    <div class="site-footer-lower">
-			        <div class="wrapper-lg wrapper-pd">
+			        <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        	<?php tk_footer_nav(); ?>
 			           <!--  <ul class="nav">
 			                

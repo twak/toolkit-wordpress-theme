@@ -1,7 +1,5 @@
 <?php 
-
-	// main lop used on various pages
-
+	// main loop used on various pages
 	if (have_posts()): while (have_posts()) : the_post(); ?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>	

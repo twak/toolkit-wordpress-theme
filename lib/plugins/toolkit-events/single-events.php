@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-
 <?php the_breadcrumb(); ?>
 
 	<?php if (have_posts()): while (have_posts()) : the_post(); ?>
@@ -12,7 +11,7 @@
 		        <span class="name-divider"><?php the_category(', '); // Separated by commas ?></span>
 		        <span><time><span class="date"><?php the_time('l j F Y'); ?></span></time></span>
 		    </p>
-		    <h1 class="heading-underline">Eventsaaaa</h1>		    
+		    <h1 class="heading-underline">Events</h1>		    
 		</div>		
 		
 		<article id="post-<?php the_ID(); ?>" <?php post_class('wrapper-xs wrapper-pd article'); ?>>

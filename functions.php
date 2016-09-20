@@ -16,11 +16,8 @@
  * c.   $POST CATEGORIES
  * d.   $CHANGE SEARCH QUERY STRING
  * e.   $DROPCAP & SUMMARY
- * f.   $ADVANCED CUSTOM FIELDS
+ * f.   $ADVANCED CUSTOM FIELDS (Sidebar toggle and theme options)
  *          
- *
- *
- *
  */
 
 /*------------------------------------*\
@@ -105,6 +102,18 @@ function my_theme_register_required_plugins() {
             'name'               => 'Toolkit Events', // The plugin name.
             'slug'               => 'toolkit-events', // The plugin slug (typically the folder name).
             'source'             => get_stylesheet_directory() . '/lib/plugins/toolkit-events.zip', // The plugin source.
+            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+            'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+        ),
+
+        array(
+            'name'               => 'Toolkit Profiles', // The plugin name.
+            'slug'               => 'toolkit-profiles', // The plugin slug (typically the folder name).
+            'source'             => get_stylesheet_directory() . '/lib/plugins/toolkit-profiles.zip', // The plugin source.
             'required'           => false, // If false, the plugin is only 'recommended' instead of required.
             'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
@@ -765,10 +774,14 @@ function the_breadcrumb() {
         // Home page
         echo '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
         //echo '<li class="separator separator-home"> ' . $separator . ' </li>';
+
+        if ( is_search() ) {           
+            // Search results page
+            echo '<li class="item-current item-current-' . get_search_query() . '"><strong class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</strong></li>';          
            
-        if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
+        } else if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
               
-            echo '<li class="item-current item-archive"><strong class="bread-current bread-archive">' . post_type_archive_title($prefix, false) . '</strong></li>';
+            echo '<li class="item-current item-archive"><strong class="bread-current bread-archive">' . post_type_archive_title(false, false) . '</strong></li>';
               
         } else if ( is_archive() && is_tax() && !is_category() && !is_tag() ) {
               
@@ -959,12 +972,7 @@ function the_breadcrumb() {
         } else if ( is_home() ) {
                 //Blog index
                 echo '<li class="item-current item-current-blog"><strong class="bread-current">Blog</strong></li>';
-        
-        } else if ( is_search() ) {
-           
-            // Search results page
-            echo '<li class="item-current item-current-' . get_search_query() . '"><strong class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</strong></li>';
-           
+                 
         } elseif ( is_404() ) {
                
             // 404 page
@@ -1066,7 +1074,7 @@ add_filter( 'query_vars', 'my_query_vars' );
 
 
 /**
- * $DROPCAP & SUMMARY -  first letter and summary of each post
+ * $DROPCAP & SUMMARY -  first letter and summary of each post (used on news)
  */
 
 function add_drop_caps($content) {
@@ -1121,17 +1129,14 @@ function str_replace_once($search, $replace, $subject) {
 }
 
 /**
- * ADVANCED CUSTOM FIELDS
+ * ADVANCED CUSTOM FIELDS - ACF
  */
 
-//require
-
-//include_once('advanced-custom-fields/acf.php');
-
-//define( 'ACF_LITE', true );
+// Hide the custom field in the sidebar
+//add_filter('acf/settings/show_admin', '__return_false');
 
 /**
- * Sidebat Toggle
+ * Page Sidebar Toggle (Turn the sidebar on and off)
  */
 
 if( function_exists('acf_add_local_field_group') ):
@@ -1208,15 +1213,15 @@ if( function_exists('acf_add_options_page') ) { // Add options page to theme
 if( function_exists('acf_add_local_field_group') ): // Add color selection on theme
 
 acf_add_local_field_group(array (
-    'key' => 'group_573b0e6a8a9a5',
-    'title' => 'Theme color',
+    'key' => 'group_tk_theme_options',
+    'title' => 'Theme options',
     'fields' => array (
         array (
             'key' => 'field_573b0e7425cad',
-            'label' => '',
-            'name' => 'theme_color',
+            'label' => 'Theme colour',
+            'name' => 'tk_theme_color',
             'type' => 'select',
-            'instructions' => 'Select the themes overall color scheme',
+            'instructions' => 'Select the themes overall colour scheme',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array (
@@ -1225,12 +1230,40 @@ acf_add_local_field_group(array (
                 'id' => '',
             ),
             'choices' => array (
-                'red' => 'Red',
+                'default' => 'Red',
                 'blue' => 'Blue',
-                'green-light' => 'Green light'
+                'green-light' => 'Light green'
             ),
             'default_value' => array (
                 0 => 'red',
+            ),
+            'allow_null' => 0,
+            'multiple' => 0,
+            'ui' => 0,
+            'ajax' => 0,
+            'placeholder' => '',
+            'disabled' => 0,
+            'readonly' => 0,
+        ),
+        array (
+            'key' => 'field_573b0e7425cas',
+            'label' => 'Theme layout',
+            'name' => 'tk_theme_layout',
+            'type' => 'radio',
+            'instructions' => 'Select whether is website is contained of full width of the browser window',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array (
+                'default' => 'Default',
+                'full_width' => 'Full width'                
+            ),
+            'default_value' => array (
+                0 => 'default',
             ),
             'allow_null' => 0,
             'multiple' => 0,
@@ -1261,4 +1294,5 @@ acf_add_local_field_group(array (
 ));
 
 endif;
+
 

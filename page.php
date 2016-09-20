@@ -10,17 +10,19 @@ get_header(); ?>
 
 <!-- $TEMPLATE: page -->
 
-<?php the_breadcrumb(); ?>
+<?php if(!$GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 
 <?php if($sidebar_flag): ?>
 
-<div class="column-container">
+<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 
 	<?php get_sidebar(); ?>
 
-    <div class="column-container-primary">   
+    <div class="column-container-primary">       
 	
 <?php endif; ?>
+
+		<?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 
 		<header class="wrapper-pd wrapper-sm">	
 			<h1 class="heading-underline"><?php the_title(); ?></h1>

@@ -38,8 +38,25 @@
 
                 <div class="col-sm-8 col-md-5">
                     <select class="js-action-toggle" name="post_type">
-                        <option <?php if($post_type == 'all'){ echo 'selected'; }?> value="all">All content</option>                        
-                        <option <?php if($post_type == 'post'){ echo 'selected'; }?> value="post">Posts</option>                        
+                        <option <?php if($post_type == 'all'){ echo 'selected'; }?> value="all">All content</option>
+                        <option <?php if($post_type == 'post'){ echo 'selected'; }?> value="post">posts</option>
+
+                        <?php
+
+                         $args = array(
+                               'public'   => true,
+                               '_builtin' => false,
+                            );                            
+                            $post_lists = get_post_types( $args, 'names'); 
+                            foreach ( $post_lists  as $post_list ) {
+                               echo '<option ';
+                               if($post_type == $post_list){ echo 'selected';}
+                               echo ' >';
+                               echo $post_list . '</option>';
+                            }
+
+                        ?>
+
                     </select>
                 </div>     
 

@@ -39,10 +39,24 @@
                 })();    
         </script>        
 
-        <!-- CHnage style sheet based on theme settings page -->
+         <?php // Layout FLAG
+
+        if(get_field( "tk_theme_layout", "option" )): 
+        	$THEME_LAYOUT = get_field("tk_theme_layout", "option" );
+        	if($THEME_LAYOUT == "full_width"){
+				$GLOBALS[ 'full_width' ] = 1;
+        	} else {
+        		$GLOBALS[ 'full_width' ] = 0;
+        	}
+        		     	
+        endif; 
+
+        ?>
+
+        <!-- Change style sheet based on theme settings page -->
         <?php $THEME_OPTION = "default"; ?>
 
-        <?php if(get_field( "theme_color", "option" )): $THEME_OPTION = get_field("theme_color", "option" ); endif; ?>			
+        <?php if(get_field( "tk_theme_color", "option" )): $THEME_OPTION = get_field("tk_theme_color", "option" ); endif; ?>			
 
         <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/bootstrap.min.css" media="screen">
         <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/toolkit.min.css" media="screen">
@@ -62,10 +76,10 @@
 		})(window,document,'script','dataLayer','GTM-WT437X');</script>
 		<!-- End Google Tag Manager -->
 
-		<div class="site-container">
+		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-fw"; }?>">
 
 			<nav id="quicklinks" class="quicklinks collapse" role="navigation">
-			    <div class="wrapper-lg pos-r">
+			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="quicklinks-inner">   
 				        <div class="row">
 						    <div class="col-sm-6 col-md-3">
@@ -134,7 +148,7 @@
 			</nav>
 
 			<header class="masthead" role="banner">
-			    <div class="wrapper-lg">
+			    <div class="<?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <!-- Open button -->
 			        <div class="masthead-links">
 			            <button class="masthead-link masthead-link-quicklinks js-quicklinks-toggle" data-toggle="collapse" data-target="#quicklinks">Quicklinks</button>
@@ -149,7 +163,7 @@
 			</header>
 
 			<div id="sitesearch" class="site-search collapse">
-			    <div class="wrapper-lg wrapper-pd">
+			    <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <form id="header_form" class="site-search-inner" autocomplete="off" method="get" action="<?php echo home_url(); ?>" role="search">
 			            <label class="sr-only" for="searchInput">Search</label>
 			            <input id="searchInput" class="site-search-input" type="search" name="q" placeholder="Search" autocomplete="off">
@@ -164,7 +178,7 @@
 			</div>
 
 			<div class="local-header">
-			    <div class="wrapper-lg wrapper-pd">
+			    <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="local-header-inner">
 			            <div class="local-header-title">
 			                <h1><a href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
@@ -180,7 +194,7 @@
 			</div>
 						
 			<nav class="tk-nav tk-nav-priority" role="navigation">
-			    <div class="wrapper-lg wrapper-relative">
+			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="tk-nav-header">
 			            <button class="btn-icon" data-state="body-state" data-class="state-navicon-active">Close</button>
 			        </div>
@@ -191,5 +205,5 @@
 			</nav>	
 						
 			<main class="main">
-                <div class="wrapper-lg">                	
+                <div class="<?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">                      
 
