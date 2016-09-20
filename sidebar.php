@@ -92,13 +92,14 @@
  
 
 <!-- $SIDEBAR -->
-<aside class="column-container-secondary" role="complementary">
+<aside class="column-container-secondary role="complementary">
    
 <!-- $TEMPLATE: SIDEBAR NAV -->
-    <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>       
-    <h4 class="sidebar-heading heading-related">In this section</h4> 
+    <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>           
 
-    <div class="sidebar-body">         
+    <div class="sidebar-container <?php if($GLOBALS[ 'full_width' ]){ echo "sidebar-container-fw"; }?>">
+
+        <h4 class="sidebar-heading heading-related">In this section</h4> 
     
         <?php echo renderTree($pages, $this_page_id, 0, $first_parent_id); ?>
        
