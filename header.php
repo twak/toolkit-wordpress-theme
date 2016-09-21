@@ -76,7 +76,7 @@
 		})(window,document,'script','dataLayer','GTM-WT437X');</script>
 		<!-- End Google Tag Manager -->
 
-		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-fw"; }?>">
+		<div class="site-container-lg <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
 			<nav id="quicklinks" class="quicklinks collapse" role="navigation">
 			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
@@ -169,7 +169,7 @@
 			            <input id="searchInput" class="site-search-input" type="search" name="q" placeholder="Search" autocomplete="off">
 			            <label class="sr-only" for="searchOption">Destination</label>			            
 			            <select id="searchOption" class="site-search-select js-action-toggle" name="searchOption">
-			                <option value="searchSite" selected data-action="<?php echo home_url(); ?>">This site</option>
+			                <option value="searchSite" selected data-action="<?php echo home_url(); ?>"><?php bloginfo( 'name' ); ?> site</option>
 			                <option value="searchAll" data-action="http://www.leeds.ac.uk/site/scripts/search_results.php">All leeds.ac.uk sites</option>
 			            </select>
 			            <input class="site-search-submit btn btn-primary" type="submit" value="Search">

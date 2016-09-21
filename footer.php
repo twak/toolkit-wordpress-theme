@@ -6,7 +6,7 @@
 
 			<footer class="site-footer" role="contentinfo">	
 					
-				<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-2')) ?>
+				<?php // if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-2')) ?>
 						  			            				
 			    <div class="site-footer-lower">
 			        <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">

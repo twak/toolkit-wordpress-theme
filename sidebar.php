@@ -39,7 +39,11 @@
         $result = "";       
 
         if($ul_count < 1):
-            $result .= '<ul class="sidebar-nav" id="sidebarNav">';
+            if($GLOBALS[ 'full_width' ]){
+                $result .= '<ul class="sidebar-nav sidebar-nav-fw" id="sidebarNav">';
+            } else {
+                $result .= '<ul class="sidebar-nav" id="sidebarNav">';
+            }
         else:
             $result .= '<ul id="' . $parent_id . '">';        
         endif;    
@@ -89,7 +93,6 @@
     }
 
 ?>
- 
 
 <!-- $SIDEBAR -->
 <aside class="column-container-secondary role="complementary">
@@ -127,15 +130,13 @@
 
     </div>
 	
-	<aside class="sidebar" role="complementary">		
+	<div class="sidebar" role="complementary">		
 
 		<div class="sidebar-widget">
 			<?php if(!function_exists('dynamic_sidebar') || !dynamic_sidebar('widget-area-1')) ?>
 		</div>
 
-	</aside>
-	
-
+	</div>
 
 </aside>
 <!-- ./column-container-secondary-->

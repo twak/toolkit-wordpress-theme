@@ -326,52 +326,51 @@ if (function_exists('add_theme_support'))
 // Header navigation
 function tk_header_nav()
 {
-
 	wp_nav_menu(
-	array(
-		'theme_location'  => 'header-menu',
-		'menu'            => '',
-		'container'       => 'div',
-		'container_class' => 'menu-{menu slug}-container',
-		'container_id'    => '',
-		'menu_class'      => 'nav-priority-inner',
-		'menu_id'         => '',
-		'echo'            => true,
-		'fallback_cb'     => 'link_to_menu_editor',
-		'before'          => '',
-		'after'           => '',
-		'link_before'     => '',
-		'link_after'      => '',
-		'items_wrap'      => '<ul class="tk-nav-list tk-nav-list-primary">%3$s</ul>',
-		'depth'           => 0,
-		'walker'          => ''
+    	array(
+    		'theme_location'  => 'header-menu',
+    		'menu'            => '',
+    		'container'       => 'div',
+    		'container_class' => 'menu-{menu slug}-container',
+    		'container_id'    => '',
+    		'menu_class'      => 'nav-priority-inner',
+    		'menu_id'         => '',
+    		'echo'            => true,
+    		'fallback_cb'     => 'link_to_menu_editor',
+    		'before'          => '',
+    		'after'           => '',
+    		'link_before'     => '',
+    		'link_after'      => '',
+    		'items_wrap'      => '<ul class="tk-nav-list tk-nav-list-primary">%3$s</ul>',
+    		'depth'           => 0,
+    		'walker'          => ''
 		)
 	);
 }
 
 function tk_footer_nav()
 {
-
     $copyright = '<li>© '. date('Y') .' University of Leeds, Leeds, LS2 9JT</li>';
+    $terms = '<li><a href="http://www.leeds.ac.uk/info/5000/about/238/terms_and_conditions">Terms and conditions</a></li>';
 
     wp_nav_menu(
-    array(
-        'theme_location'  => 'footer-menu',
-        'menu'            => '',
-        'container'       => 'div',
-        'container_class' => 'menu-{menu slug}-container',
-        'container_id'    => '',
-        'menu_class'      => '',
-        'menu_id'         => '',
-        'echo'            => true,
-        'fallback_cb'     => 'link_to_menu_editor',
-        'before'          => '',
-        'after'           => '',
-        'link_before'     => '',
-        'link_after'      => '',
-        'items_wrap'      => '<ul class="nav">'.$copyright.'%3$s</ul>',
-        'depth'           => 0,
-        'walker'          => ''
+        array(
+            'theme_location'  => 'footer-menu',
+            'menu'            => '',
+            'container'       => 'div',
+            'container_class' => 'menu-{menu slug}-container',
+            'container_id'    => '',
+            'menu_class'      => '',
+            'menu_id'         => '',
+            'echo'            => true,
+            'fallback_cb'     => 'link_to_menu_editor',
+            'before'          => '',
+            'after'           => '',
+            'link_before'     => '',
+            'link_after'      => '',
+            'items_wrap'      => '<ul class="nav">'.$copyright.$terms.'%3$s</ul>',
+            'depth'           => 0,
+            'walker'          => ''
         )
     );
 }
@@ -982,7 +981,7 @@ function the_breadcrumb() {
         echo '</ul></div>';
            
     } else { // leave space
-        echo "<br/>";
+        echo "";
     }
        
 }

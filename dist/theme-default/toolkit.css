@@ -2429,7 +2429,7 @@ be a descendant of the grid when it is being dragged.
       left: 0;
       z-index: 0; }
   .swiper-2 .slide-content {
-    padding: 5% 15%;
+    padding: 5% 20%;
     background: none;
     z-index: 1;
     text-align: center;
@@ -2469,7 +2469,7 @@ be a descendant of the grid when it is being dragged.
 
 @media (min-width: 1260px) {
   .swiper-full-width .slide-img {
-    padding-bottom: 46%; } }
+    padding-bottom: 40%; } }
 
 /**
  * Swiper nav & buttons
@@ -4451,12 +4451,13 @@ body {
   background: white;
   margin: 0 auto; }
 
-[class^="site-container-"] {
+[class^="site-container"] {
   margin: 0 auto;
   background: white;
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1); }
 
-.site-container-fw {
+.site-container-fw,
+.site-container-lg {
   max-width: 1600px; }
 
 .site-container-sm {
@@ -4464,9 +4465,6 @@ body {
 
 .site-container-md {
   max-width: 1400px; }
-
-.site-container-lg {
-  max-width: 1600px; }
 
 .jadu-cms,
 .cms {
@@ -4931,7 +4929,7 @@ input.site-search-submit {
     float: none;
     display: table-cell;
     background: #f4f2f0;
-    padding: 16px 0 40px 0;
+    padding: 0 0 40px 0;
     width: 280px; } }
 
 @media (min-width: 1260px) {
@@ -4954,7 +4952,7 @@ input.site-search-submit {
       display: block; } }
   @media (min-width: 992px) {
     .sidebar-heading {
-      padding: 0 0 10px 0; } }
+      padding: 10px 0 10px 0; } }
 
 .sidebar-button {
   display: block;
@@ -5711,7 +5709,7 @@ input.site-search-submit {
       white-space: normal; } }
   @media (min-width: 992px) {
     .breadcrumb {
-      margin-bottom: 16px; } }
+      margin-bottom: 8px; } }
 
 .breadcrumb > li + li:before {
   padding: 0 1px; }
@@ -7874,7 +7872,7 @@ img {
   0% {
     top: 0px; }
   50% {
-    top: 10px; }
+    top: 6px; }
   100% {
     top: 0px; } }
 
@@ -7882,7 +7880,7 @@ img {
   0% {
     top: 0px; }
   50% {
-    top: 10px; }
+    top: 6px; }
   100% {
     top: 0px; } }
 
@@ -7903,6 +7901,9 @@ img {
     .swiper-more {
       width: 26px;
       height: 26px; } }
+  @media (max-width: 768px) {
+    .swiper-more {
+      display: none; } }
   .svg .swiper-more {
     background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4wLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMjZweCIgaGVpZ2h0PSIyNnB4IiB2aWV3Qm94PSIwIDAgMjYgMjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI2IDI2OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojRkZGRkZGO3N0cm9rZTojMjMxRjIwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1taXRlcmxpbWl0OjEwO30NCjwvc3R5bGU+DQo8cG9seWxpbmUgaWQ9IlhNTElEXzJfIiBjbGFzcz0ic3QwIiBwb2ludHM9IjI1LDggMTMsMTggMSw4ICIvPg0KPC9zdmc+DQo=") center no-repeat; }
 
@@ -10064,5 +10065,3 @@ ul.modules {
       padding: 16px;
       margin: 0;
       width: 100%; } }
-
-/*# sourceMappingURL=toolkit.css.map */
