@@ -1,5 +1,5 @@
 <!--Content Widget-->
-<div class="wrapper-lg wrapper-pd-lg">
+<div class="wrapper-md wrapper-pd">
 	<div class="p-t p-b">
 		
 		<?php if(get_sub_field('content_widget_heading')){ ?>

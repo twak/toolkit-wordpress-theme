@@ -1,5 +1,5 @@
 <!--Content Widget-->
-<div class="skin-bg-module">
+<div class="sk-widget-block">
 	<div class="wrapper-md wrapper-pd-lg">
 		<div class="p-t p-b">
 			

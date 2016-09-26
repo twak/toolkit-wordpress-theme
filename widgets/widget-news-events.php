@@ -24,7 +24,7 @@
 
 ?>
 
-<div class="sk-bg-module p-t p-b">
+<div class="sk-widget-block p-t p-b">
     <div class="wrapper-lg wrapper-pd">
 
         <h3 class="h2-lg heading-underline">

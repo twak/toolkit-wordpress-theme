@@ -77,6 +77,6 @@
         */ ?>
     <?php } ?>      			
 
-	<a class="js-swiper-scroll swiper-more" href="#down">Scroll down</a>	
+	<!-- <a class="js-swiper-scroll swiper-more" href="#down">Scroll down</a>	 -->
 
 </div>		

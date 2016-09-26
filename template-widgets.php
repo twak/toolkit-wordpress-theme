@@ -33,7 +33,7 @@
 				if($widget_top_flag){ //if we have set the top flag widget
 					if($widget_counter == 2 ){ // if we've loop through once
 ?>
-				<div class="column-container">
+				<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 					<?php get_sidebar(); ?>
 				    <div class="column-container-primary">  
 				    	<header class="wrapper-padded wrapper-sm">	
@@ -44,7 +44,7 @@
 				} else {
 					if($widget_counter < 2 ){ // if we've loop first time
 ?>			
-			<div class="column-container">
+			<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 				<?php get_sidebar(); ?>
 			    <div class="column-container-primary">  
 			    	<header class="wrapper-padded wrapper-sm">	

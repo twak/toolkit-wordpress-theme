@@ -39,7 +39,7 @@
         $result = "";       
 
         if($ul_count < 1):
-            if($GLOBALS[ 'full_width' ]){
+            if($GLOBALS[ 'full_width' ]){ //if full width 
                 $result .= '<ul class="sidebar-nav sidebar-nav-fw" id="sidebarNav">';
             } else {
                 $result .= '<ul class="sidebar-nav" id="sidebarNav">';
