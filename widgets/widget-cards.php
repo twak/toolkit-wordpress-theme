@@ -3,10 +3,10 @@
 <?php 
 
 //Block or row view 
-if(get_sub_field('cards_widget_layout') == 'block') {
-	$card_block_flag = 1;
+if(get_sub_field('cards_widget_layout') == 'stacked') {
+	$card_stacked_flag = 1;
 } else {
-	$card_block_flag = 0;
+	$card_stacked_flag = 0;
 }
 
 //Background colour
@@ -14,7 +14,7 @@ $cards_widget_background = "";
 $cards_single_background = "";
 if(get_sub_field('cards_widget_background')) {
 	if(get_sub_field('cards_widget_background') == 'grey') {
-		$cards_widget_background = "sk-bg-module";
+		$cards_widget_background = "sk-widget-block";
 		$cards_single_background = "skin-box-white";
 	} else {
 		$cards_widget_background = "";
@@ -63,7 +63,7 @@ if(get_sub_field('cards_widget_columns')) {
 
 <?php } ?>
 
-<?php if($card_block_flag){ ?>
+<?php if($card_stacked_flag){ ?>
 
 		<div class="row clearfix">
 
@@ -77,7 +77,7 @@ if(get_sub_field('cards_widget_columns')) {
 			while( have_rows('cards_widget_card') ) : the_row();
 ?>
 
-<?php if($card_block_flag){ ?>
+<?php if($card_stacked_flag){ ?>
 
 			<div class="col-sm-<?php echo $cards_widget_columns; ?>">
 				<div class="card-flat card-stacked-sm skin-bd-b <?php echo $cards_single_background; ?>">
@@ -107,7 +107,8 @@ if(get_sub_field('cards_widget_columns')) {
 					</div>
 				<?php } ?>
 
-					<div class="card-content equalize-inner">							
+					<div class="card-content equalize-inner">	
+											
 					<?php if(get_sub_field('cards_widget_card_title')) { //Title ?>			
 						<h3 class="heading-link-alt">
 

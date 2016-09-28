@@ -95,8 +95,9 @@
 				    <div class="tk-row row-reduce-gutter">
 
 				    	<?php if ( !$loop_news->have_posts() ) { ?>
-
+				    	<div class="col-12">
 							<p>No news</p>
+						</div>
 
 						<?php } ?>
 
@@ -167,14 +168,13 @@
 
 				    	<?php if ( !$loop_events->have_posts() ) { ?>
 
+			    		<div class="col-12">
 							<p>No events</p>
+						<div>
 
 						<?php } ?>
 
 						<?php while ( $loop_events->have_posts() ) : $loop_events->the_post(); ?>					
-
-
-
 						<?php 							
 						
 							if(get_field('event_start_date')) {						    
@@ -263,9 +263,9 @@
 				    <div class="tk-row row-reduce-gutter">
 
 				    	<?php if ( !$loop_posts->have_posts() ) { ?>
-
+				    	<div class="col-12">
 							<p>No posts</p>
-
+						</div>
 						<?php } ?>
 
 						<?php while ( $loop_posts->have_posts() ) : $loop_posts->the_post(); ?>

@@ -36,9 +36,15 @@
 				<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 					<?php get_sidebar(); ?>
 				    <div class="column-container-primary">  
+<?php 
+						if(!is_front_page()){				    
+?>							
 				    	<header class="wrapper-padded wrapper-sm">	
-							<h1 class="heading-underline"><?php the_title(); ?></h1>
+							<h1 class="heading-underline">aaa<?php the_title(); ?></h1>
 						</header>		
+<?php
+						}	
+?>						
 <?php 
 					} 
 				} else {
