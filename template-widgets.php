@@ -14,8 +14,6 @@
 <?php get_header(); ?>
 <?php the_breadcrumb(); ?>
 
-
-
 <?php if(!$sidebar_flag){ //close wrapper ?>
 
 </div>
@@ -92,6 +90,11 @@
 			    case 'cards_widget': //Banner Widget    
 					
 					get_template_part('widgets/widget', 'cards'); 
+
+			    break;
+			    case 'tiles_widget': //Banner Widget    
+					
+					get_template_part('widgets/widget', 'tiles'); 
 
 			    break;
 			    default:

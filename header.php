@@ -204,6 +204,6 @@
 				</div>
 			</nav>	
 						
-			<main class="main">
-                <div class="<?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">                      
+			
+            <div class="main <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">                      
 

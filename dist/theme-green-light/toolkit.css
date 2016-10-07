@@ -3464,6 +3464,9 @@ a {
 .more-dark, .divider-header-action {
   color: #4a4a4a; }
 
+.more-light:after {
+  color: white; }
+
 .filter {
   display: inline-block;
   color: #6f9a1b;
@@ -5377,241 +5380,6 @@ input.site-search-submit {
   left: 0;
   width: 100%;
   display: block; }
-
-.multi-block {
-  width: 100%; }
-  .multi-block [class*='col-'] {
-    float: left; }
-
-.grid-block {
-  overflow: hidden; }
-
-.col--right {
-  float: right; }
-
-@media (max-width: 1000px) {
-  .beta-col--right {
-    float: right; } }
-
-.col-1-1 {
-  width: 100%; }
-
-.col-1-2 {
-  width: 50%; }
-
-.col-1-4 {
-  width: 25%; }
-
-@media (max-width: 1000px) {
-  .beta-1-1 {
-    width: 100%; } }
-
-@media (max-width: 1000px) {
-  .beta-col-1-2 {
-    width: 50%; } }
-
-@media (max-width: 1000px) {
-  .beta-col-1-4 {
-    width: 25%; } }
-
-@media (max-width: 800px) {
-  .gamma-col-1-1 {
-    width: 100%; } }
-
-@media (max-width: 800px) {
-  .gamma-col-1-2 {
-    width: 50%; } }
-
-@media (max-width: 800px) {
-  .gamma-col-1-4 {
-    width: 25%; } }
-
-.block {
-  position: relative;
-  -webkit-transition: all 0.25s ease;
-          transition: all 0.25s ease; }
-  @media (max-width: 800px) {
-    .block {
-      border-right: 4px solid white;
-      border-left: 4px solid white;
-      border-bottom: 4px solid white; } }
-
-/* Block Skin */
-.block--img {
-  overflow: hidden; }
-  @media (max-width: 1000px) {
-    .block--img:hover .block__bg {
-      -webkit-transform: scale(1);
-              transform: scale(1); } }
-
-.block--brand-1 {
-  background: #6f9a1b; }
-  .block--brand-1:hover {
-    background: #487a1c; }
-
-.block--brand-2 {
-  background: #aa8f6f; }
-  .block--brand-2:hover {
-    background: #917655; }
-
-.block--nav {
-  background: white; }
-  @media (max-width: 800px) {
-    .block--nav {
-      display: none; } }
-  .block--nav:hover {
-    background: none; }
-
-/* Block Layout*/
-.block--square {
-  width: 100%;
-  padding-bottom: 100%; }
-
-.block--rectangle {
-  width: 100%;
-  padding-bottom: 50%; }
-
-@media (max-width: 1000px) {
-  .beta-block--rectangle {
-    width: 100%;
-    padding-bottom: 50%; } }
-
-.delta-block--square {
-  /*  @include break(delta){
-    width: 100%;
-    padding-bottom: 100%;
-  }*/ }
-
-.block--split .content {
-  width: 50%; }
-
-.block--no-img[class*='--split'] .content {
-  width: 100% !important; }
-
-.block--no-img[class*='--split'] .block__bg {
-  background: none !important; }
-
-@media (max-width: 1000px) {
-  .beta-block--split .content {
-    width: 50%; } }
-
-.delta-block--no-split {
-  /* @include break(delta){
-    .content {
-      width: 100%;
-    }   
-  }*/ }
-
-/* Block Children */
-/*
-<div class="block">
-  <span class="block__bg></span>
-  <div class="block__inner">Content</div>
-  <a class="block__link" href="#">Link</a>
-</div>
-*/
-.block__bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  -webkit-transform: scale(1);
-          transform: scale(1);
-  -webkit-transition: all 0.25s ease;
-          transition: all 0.25s ease; }
-  .block--split .block__bg {
-    width: 50%;
-    margin-left: 50%; }
-  @media (max-width: 1000px) {
-    .beta-block--split .block__bg {
-      width: 50%;
-      margin-left: 50%; } }
-  .block--img .block__bg:after {
-    background: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; }
-
-.block__inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-
-.block__inner ul {
-  padding: 0;
-  margin: 0; }
-  .block__inner ul a {
-    text-decoration: none;
-    text-transform: uppercase;
-    color: black; }
-
-.block__link {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  text-indent: -9999px;
-  z-index: 1; }
-
-/* Content - Lives insdie .block__inner */
-.content {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  color: white;
-  overflow: hidden;
-  font-size: 16px; }
-  .content p {
-    font-size: 1.2vw;
-    line-height: 140%;
-    margin: 0 0 6px 0; }
-    @media (max-width: 1000px) {
-      .content p {
-        font-size: 1.6vw; } }
-    @media (max-width: 800px) {
-      .content p {
-        font-size: 2.4vw; } }
-    @media (max-width: 500px) {
-      .content p {
-        display: none; } }
-  .content h3 {
-    font-size: 1.8vw;
-    margin: 0 0 12px 0;
-    line-height: 125%;
-    font-weight: 300; }
-    @media (max-width: 1000px) {
-      .content h3 {
-        font-size: 2.4vw; } }
-    @media (max-width: 800px) {
-      .content h3 {
-        font-size: 3.6vw; } }
-    @media (max-width: 500px) {
-      .content h3 {
-        font-size: 5vw; } }
-  .content a {
-    color: #ffffff; }
-
-.content__inner {
-  padding: 1.25vw;
-  position: absolute;
-  bottom: 0;
-  width: 100%; }
-
-.content--alt .content__inner {
-  top: 0; }
 
 .bs-docs-header,
 .bs-docs-masthead {
@@ -8040,6 +7808,229 @@ img {
     background: #aa8f6f;
     color: white; }
 
+/**
+ * Tiles grid
+ */
+.tiles-col-1-1 {
+  width: 100%; }
+
+.tiles-col-1-2 {
+  width: 50%; }
+
+.tiles-col-1-4 {
+  width: 25%; }
+
+@media (max-width: 1000px) {
+  .tiles-col-1-1-md {
+    width: 100%; }
+  .tiles-col-1-2-md {
+    width: 50%; }
+  .tiles-col-1-4-md {
+    width: 25%; } }
+
+@media (max-width: 800px) {
+  .tiles-col-1-1-sm {
+    width: 100%; }
+  .tiles-col-1-2-sm {
+    width: 50%; }
+  .tiles-col-1-4-sm {
+    width: 25%; } }
+
+.tiles-grid {
+  width: 100%;
+  overflow: hidden; }
+
+[class^='tiles-col-'] {
+  float: left; }
+
+.tiles-col-right {
+  float: right; }
+
+@media (max-width: 1000px) {
+  .tiles-col-right-md {
+    float: right; } }
+
+/* Tiles */
+.tile {
+  background: #e9e5e1;
+  position: relative;
+  -webkit-transition: all 0.25s ease;
+          transition: all 0.25s ease; }
+  @media (max-width: 800px) {
+    .tile {
+      border-right: 4px solid white;
+      border-left: 4px solid white;
+      border-bottom: 4px solid white; } }
+
+/* Tile Skin */
+.tile-skin-img {
+  overflow: hidden; }
+  @media (max-width: 1000px) {
+    .tile-skin-img:hover .tile-bg {
+      -webkit-transform: scale(1);
+              transform: scale(1); } }
+
+.tile-skin-brand-1 {
+  background: #6f9a1b; }
+  .tile-skin-brand-1:hover {
+    background: #487a1c; }
+
+.tile-skin-brand-2 {
+  background: #aa8f6f; }
+  .tile-skin-brand-2:hover {
+    background: #917655; }
+
+.tile-skin-nav {
+  background: white; }
+  @media (max-width: 800px) {
+    .tile-skin-nav {
+      display: none; } }
+  .tile-skin-nav:hover {
+    background: none; }
+
+/* tile Layout*/
+.tile-shape-rectangle {
+  width: 100%;
+  padding-bottom: 50%; }
+
+.tile-shape-square {
+  width: 100%;
+  padding-bottom: 100%; }
+
+@media (max-width: 1000px) {
+  .tile-shape-rectangle-md {
+    width: 100%;
+    padding-bottom: 50%; }
+  .tile-shape-square-md {
+    width: 100%;
+    padding-bottom: 100%; } }
+
+@media (max-width: 800px) {
+  .tile-shape-rectangle-sm {
+    width: 100%;
+    padding-bottom: 50%; }
+  .tile-shape-square-sm {
+    width: 100%;
+    padding-bottom: 100%; } }
+
+.tile-shape-split .content {
+  width: 50%; }
+
+@media (max-width: 1000px) {
+  .tile-shape-split-md .content {
+    width: 50%; } }
+
+.tile-skin-no-img[class*='-shape-split'] .content {
+  width: 100% !important; }
+
+.tile-skin-no-img[class*='-shape-split'] .tile-bg {
+  background: none !important; }
+
+/* tile Children */
+/*
+<div class="tile">
+  <span class="tile__bg></span>
+  <div class="tile__inner">Content</div>
+  <a class="tile__link" href="#">Link</a>
+</div>
+*/
+.tile-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: all 0.25s ease;
+          transition: all 0.25s ease; }
+  .tile-shape-split .tile-bg {
+    width: 50%;
+    margin-left: 50%; }
+  @media (max-width: 1000px) {
+    .tile-shape-split-md .tile-bg {
+      width: 50%;
+      margin-left: 50%; } }
+  .tile-skin-img .tile-bg:after {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
+.tile-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.tile-inner ul {
+  padding: 0;
+  margin: 0; }
+  .tile-inner ul a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black; }
+
+.tile-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-indent: -9999px;
+  z-index: 1; }
+
+/* Content - Lives insdie .tile__inner */
+.content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  color: white;
+  overflow: hidden;
+  font-size: 16px; }
+  .content p {
+    font-size: 1.2vw;
+    line-height: 140%;
+    margin: 0 0 6px 0; }
+    @media (max-width: 1000px) {
+      .content p {
+        font-size: 1.6vw; } }
+    @media (max-width: 800px) {
+      .content p {
+        font-size: 2.4vw; } }
+  .content h3 {
+    font-size: 1.8vw;
+    margin: 0 0 12px 0;
+    line-height: 125%;
+    font-weight: 300; }
+    @media (max-width: 1000px) {
+      .content h3 {
+        font-size: 2.4vw; } }
+    @media (max-width: 800px) {
+      .content h3 {
+        font-size: 3.6vw; } }
+  .content a {
+    color: #ffffff; }
+
+.content__inner {
+  padding: 1.25vw;
+  position: absolute;
+  bottom: 0;
+  width: 100%; }
+
+.content--alt .content__inner {
+  top: 0; }
+
 /* Footer twitter feed */
 .footer-twitter-feed,
 .twitter-feed-footer,
@@ -8124,10 +8115,13 @@ when combining different styles create a unique name e.g.
 
 .sk-bg-module,
 .skin-bg-module {
-  background: #f8f7f6; }
+  background: #f4f2f0; }
 
 .sk-bg-module-light,
 .skin-bg-module-light {
+  background: #f8f7f6; }
+
+.skin-bg-module-lighter {
   background: #fdfcfc; }
 
 .sk-bg-brand-1,
@@ -8138,15 +8132,24 @@ when combining different styles create a unique name e.g.
 .skin-bg-brand-1-dark {
   background: #487a1c; }
 
-.sk-bg-brand-2 {
+.skin-bg-brand-2 {
   background: #aa8f6f; }
 
-.sk-widget-block {
-  border-bottom: 1px solid #e9e5e1;
+.sk-widget-block,
+.skin-widget-block,
+.skin-row-module {
+  background: #f4f2f0; }
+
+.skin-row-module-light {
   background: #f8f7f6; }
 
-/*------------------------------------------------*    Reusable styles that only affect appearance
-\*------------------------------------------------*/
+.skin-row-module-lighter {
+  background: #fdfcfc; }
+
+.skin-row-white {
+  border-bottom: 1px solid #e9e5e1;
+  background: #ffffff; }
+
 .divider,
 .skin-divider {
   border-bottom: 1px solid #c9bfb5; }

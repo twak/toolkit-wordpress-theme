@@ -57,9 +57,9 @@ if(get_sub_field('cards_widget_columns')) {
 
 <?php } ?>
 
-<?php if(get_sub_field('cards_widget_introduction')) { ?>
+<?php if(get_sub_field('cards_widget_lead')) { ?>
 
-		<p class="lead"><?php the_sub_field('cards_widget_introduction'); ?></p>
+		<p class="lead"><?php the_sub_field('cards_widget_lead'); ?></p>
 
 <?php } ?>
 

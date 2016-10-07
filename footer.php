@@ -1,6 +1,5 @@
 			</div>
-			<!-- /.wrapper-lg-->
-			</main>	
+			<!-- /.main-->			
 
 			<?php //include_once( 'tweets.php' ); ?>				
 

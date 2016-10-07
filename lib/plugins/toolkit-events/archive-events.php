@@ -1,26 +1,30 @@
 <?php get_header(); ?>
 <?php the_breadcrumb(); ?>
 
-<?php    
-    //Pass post type into hidden input for search
-    $posty = post_type_archive_title('',false); //archive title
-    $posty_small = strtolower($posty);  //lowercase title
-?>
-
 <div class="wrapper-sm wrapper-pd">
     <h1 class="heading-underline"><?php post_type_archive_title(); ?></h1>   
 
-    <!--  Add back in when archived is ready
-    <ul class="list-nav">       
-        <li><?php echo "<a href='#' rel='nofollow'>Archived Events <span class='tk-icon tk-icon-chevron-right'></span></a>"; ?></li>        
-    </ul> 
-    -->
+    <?php if(get_field('tk_events_page_settings_introduction', 'option')): ?>
 
+        <p><?php the_field('tk_events_page_settings_introduction', 'option'); ?></p>
+
+    <?php endif; ?>
+   
+    <?php $archived_id = get_cat_ID('Archived events'); //archived cat ID ?>
+
+    <?php if(get_field('tk_events_single_settings_archive', 'option')): //If theme setting checked to hide archived ?>
+    
+    <ul class="list-nav">       
+        <li><a href="<?php echo get_category_link($archived_id); ?>">Archived Events <span class="tk-icon tk-icon-chevron-right"></span></a></li>
+    </ul> 
+
+    <?php endif; ?>
+    
     <form action="<?php echo home_url(); ?>" role="search">
         <div class="island island-featured">
             <div class="row row-reduce-gutter">
                 <div class="col-xs-12 col-sm-8 col-md-10">
-                    <input type="hidden" name="post_type" value="<?php echo $posty_small; ?>">
+                    <input type="hidden" name="post_type" value="events">
                     <label class="sr-only" for="keyword">Search</label>
                     <input id="keyword" type="search" name="q" placeholder="Search by keyword" value="<?php if(isset($_GET['query'])){ echo $_GET['query']; } ?>">
                 </div>
@@ -30,6 +34,36 @@
             </div>                                            
         </div>
     </form>
+
+<?php 
+
+$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+if(get_field('tk_events_single_settings_archive', 'option')): //If theme setting checked to hide archived
+
+    query_posts(array(
+        'post_type' => 'events',         
+        'meta_key'  => 'tk_events_start_date',
+        'orderby'   => 'meta_value_num',
+        'order'     => 'ASC',        
+        'cat'       => '-'.$archived_id,
+        'paged'     => $paged
+    ));
+
+else:
+
+    query_posts(array(
+        'post_type' => 'events',         
+        'meta_key'  => 'tk_events_start_date',
+        'orderby'   => 'meta_value_num',
+        'order'     => 'ASC',
+        'cat'       => '',                
+        'paged'     => $paged
+    ));
+
+endif;
+
+?>
     
 <?php
    if (have_posts()) : while (have_posts()) : the_post(); 
