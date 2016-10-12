@@ -31,34 +31,7 @@
 				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">	
 					<?php the_post_thumbnail('large'); // Declare pixel size you need inside the array ?>					
 				</div>
-			<?php endif; ?>			
-
-			<?php if( have_rows('tk_events_key_facts') || get_field('tk_events_start_date')): ?>
-
-				<div class="island island-bg-module island-m-b island-bd-b">
-		    		<ul class="list-facts">
-		    			 	<?php if(get_field('tk_events_start_date')){ ?>
-						    	<?php echo '<li><strong>Start date:</strong> '.get_field('tk_events_start_date').'</li>' ?>
-						    <?php } ?>
-						    <?php if(get_field('tk_events_end_date')){ ?>
-						    	<?php echo '<li><strong>End date:</strong> '.get_field('tk_events_end_date').'</li>' ?>
-						    <?php } ?>
-
-					<?php while( have_rows('tk_events_key_facts') ): the_row(); ?>
-						<li>												
-							<?php if( get_sub_field('tk_events_key_facts_label') ): ?>
-								<span class="list-label"><?php the_sub_field('tk_events_key_facts_label'); ?>: </span>
-							<?php endif; ?>		
-							<?php if( get_sub_field('tk_events_key_facts_information') ): ?>
-								<?php the_sub_field('tk_events_key_facts_information'); ?>
-							<?php endif; ?>						
-						</li>
-					<?php endwhile; ?>
-
-					</ul>		    	
-			    </div>
-
-			<?php endif; ?>			
+			<?php endif; ?>						
 
 			<div class="jadu-cms">		
 				<?php the_content(); // Dynamic Content ?>
@@ -68,7 +41,7 @@
 
 		</article>	
 		
-	<?php if(get_field('tk_events_single_settings_related', 'option')): //Related events ?>
+	<?php if(get_field('tk_news_single_settings_related', 'option')): //Related news ?>
 
 	</div><!--.main -->
 
@@ -77,24 +50,24 @@
 		        <div class="equalize">
 
 		        	<div class="divider-header">
-		                <h4 class="divider-header-heading divider-header-heading-underline">Related Events</h4>	
+		                <h4 class="divider-header-heading divider-header-heading-underline">Related News</h4>	
 		            </div>
 		                                        
 		            <div class="row">		
 	<?php 
-						//Related events
-						$events_image_flag = 0;
+						//Related news
+						$news_image_flag = 0;
 						$cats = wp_get_post_categories($post->ID); //get post category array
 						$first_cat = $cats[0];		
 						$query = new WP_Query(array(
-						    'post_type' => 'events',
+						    'post_type' => 'news',
 						    'posts_per_page' => 3,
 						    'cat' => $first_cat 		    
 						));
 						while ($query->have_posts()):
 							$query->the_post();
 							if(has_post_thumbnail()):
-								$events_image_flag = 1;
+								$news_image_flag = 1;
 							endif;
 						endwhile;
 						while ($query->have_posts()):
@@ -104,7 +77,7 @@
 			  			<div class="col-sm-4">
 			                <div class="card-flat card-stacked-sm skin-bg-white skin-bd-b equalize-inner">
 
-			                	<?php if($events_image_flag){ ?>
+			                	<?php if($news_image_flag){ ?>
 			                    <div class="card-img">
 			                        <div class="rs-img rs-img-2-1" <?php if(has_post_thumbnail()){ ?> style="background-image: url('<?php the_post_thumbnail_url();?>')" <?php } ?>>
 				                       	<a href="<?php the_permalink(); ?>">

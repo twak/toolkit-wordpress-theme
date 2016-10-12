@@ -10,6 +10,15 @@
  */
 
 /**
+
+    TODO: let the user choose what fields go in the table
+    Create alternative layout and display by category
+    Create order by header in table layout
+
+*/
+
+
+/**
  * Profile Post Types
  */
 
@@ -98,6 +107,16 @@ if (function_exists('acf_add_options_page')) {
  * Profiles Page Settings Fields
  */
 
+// 'conditional_logic' => array (
+//                 array (
+//                     array (
+//                         'field' => 'field_57fcfafe8a820',
+//                         'operator' => '==',
+//                         'value' => 'red',
+//                     ),
+//                 ),
+//             ),
+
 if( function_exists('acf_add_local_field_group') ){
 
     acf_add_local_field_group(array (
@@ -109,7 +128,7 @@ if( function_exists('acf_add_local_field_group') ){
                 'label' => 'Page Title',
                 'name' => 'tk_profiles_page_settings_title',
                 'type' => 'text',
-                'instructions' => 'Add a custom title to the profiles page. If left blank the title of the page will be "Profiles".',
+                'instructions' => 'Add a custom title to the profiles list page. If left blank the title of the page will be "Profiles".',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -129,8 +148,8 @@ if( function_exists('acf_add_local_field_group') ){
                 'key' => 'field_tk_profiles_page_settings_introduction',
                 'label' => 'Page Introduction',
                 'name' => 'tk_profiles_page_settings_introduction',
-                'type' => 'textarea',
-                'instructions' => 'Add and introduction at the top of the profiles page.',
+                'type' => 'wysiwyg',
+                'instructions' => 'Add an introduction at the top of the profiles list page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -139,19 +158,16 @@ if( function_exists('acf_add_local_field_group') ){
                     'id' => '',
                 ),
                 'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
+                'tabs' => 'all',
+                'toolbar' => 'basic',
+                'media_upload' => 0,
             ),
             array (
                 'key' => 'field_tk_profiles_page_settings_template',
                 'label' => 'Page Template',
                 'name' => 'tk_profiles_page_settings_template',
-                'type' => 'radio',
-                'instructions' => 'Choose to show the profiles in a table or a box layout.',
+                'type' => 'select',
+                'instructions' => 'Select the layout of the profiles list page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -167,10 +183,41 @@ if( function_exists('acf_add_local_field_group') ){
                 'readonly' => 0,
                 'disabled' => 0,
                 'choices' => array(
-                    'table_layout'   => 'Table layout',
-                    'img_layout'   => 'Image layout'
+                    'table_layout'   => 'Table layout',                                        
                 ),                       
             ),
+            array ( //Archived profiles cat option
+                'key' => 'field_tk_profiles_page_settings_template_image',
+                'label' => 'Show image in the table',
+                'name' => 'tk_profiles_page_settings_template_image',
+                'type' => 'checkbox',
+                'instructions' => 'Ticking this box will show profile images on profiles list page.',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profiles_page_settings_template',
+                            'operator' => '==',
+                            'value' => 'table_layout',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'maxlength' => '',
+                'rows' => '',
+                'new_lines' => 'wpautop',
+                'readonly' => 0,
+                'disabled' => 0,
+                'choices' => array(
+                    'show_images'   => 'Show images'
+                ),                
+            ),         
         ),
         'location' => array (
             array (
@@ -193,22 +240,20 @@ if( function_exists('acf_add_local_field_group') ){
 
 }
 
-/**
- * Profiles Single Settings
- */
-if(0){ //currently nill
-//if( function_exists('acf_add_local_field_group') ){
+///single setting
 
-    acf_add_local_field_group(array (
+if( function_exists('acf_add_local_field_group') ) {
+
+     acf_add_local_field_group(array (
         'key' => 'group_tk_profiles_single_settings',
-        'title' => 'Profile Page Settings',
+        'title' => 'Single event page settings',
         'fields' => array (
             array (
-                'key' => 'field_tk_profiles_single_settings_title',
-                'label' => 'Page Title',
-                'name' => 'tk_profiles_single_settings_title',
-                'type' => 'text',
-                'instructions' => 'Add a custom title to the profiles page. If left blank the title of the page will be "Profiles".',
+                'key' => 'field_tk_profiles_single_settings_related',
+                'label' => 'Related profiles',
+                'name' => 'tk_profiles_single_settings_related',
+                'type' => 'checkbox',
+                'instructions' => 'Ticking this box will make profiles related by category appear at the bottom of every profile page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -223,7 +268,10 @@ if(0){ //currently nill
                 'new_lines' => 'wpautop',
                 'readonly' => 0,
                 'disabled' => 0,
-            ),        
+                'choices' => array(
+                    'show_related'   => 'Show related profiles on the profile page'
+                ),
+            ),           
         ),
         'location' => array (
             array (
@@ -246,6 +294,7 @@ if(0){ //currently nill
 
 }
 
+
 /**
  * Profile Single Fields
  */
@@ -257,7 +306,7 @@ acf_add_local_field_group(array (
     'title' => 'Profile Facts',
     'fields' => array (
         array (
-            'key' => 'field_573c438c66ffa',
+            'key' => 'field_tk_profiles_title',
             'label' => 'Title',
             'name' => 'tk_profiles_title',
             'type' => 'text',
@@ -278,12 +327,12 @@ acf_add_local_field_group(array (
             'disabled' => 0,
         ),
         array (
-            'key' => 'field_573c3c1e45aca',
-            'label' => 'First Name',
+            'key' => 'field_tk_profiles_first_name',
+            'label' => 'First name',
             'name' => 'tk_profiles_first_name',
             'type' => 'text',
             'instructions' => '',
-            'required' => 0,
+            'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array (
                 'width' => '',
@@ -299,12 +348,12 @@ acf_add_local_field_group(array (
             'disabled' => 0,
         ),
         array (
-            'key' => 'field_573c41219d2ff',
-            'label' => 'Surname',
-            'name' => 'tk_profiles_surname',
+            'key' => 'field_tk_profiles_last_name',
+            'label' => 'Last name',
+            'name' => 'tk_profiles_last_name',
             'type' => 'text',
             'instructions' => '',
-            'required' => 0,
+            'required' => 1,
             'conditional_logic' => 0,
             'wrapper' => array (
                 'width' => '',
@@ -320,49 +369,7 @@ acf_add_local_field_group(array (
             'disabled' => 0,
         ),
         array (
-            'key' => 'field_573c439766ffb',
-            'label' => 'Role',
-            'name' => 'tk_profiles_role',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_573c43a866ffc',
-            'label' => 'Job Title',
-            'name' => 'tk_profiles_job_title',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_573c43b966ffd',
+            'key' => 'field_tk_profiles_email',
             'label' => 'Email',
             'name' => 'tk_profiles_email',
             'type' => 'text',
@@ -383,7 +390,7 @@ acf_add_local_field_group(array (
             'disabled' => 0,
         ),
         array (
-            'key' => 'field_573c44a284a1f',
+            'key' => 'field_tk_profiles_telephone',
             'label' => 'Telephone',
             'name' => 'tk_profiles_telephone',
             'type' => 'text',
@@ -402,10 +409,31 @@ acf_add_local_field_group(array (
             'maxlength' => '',
             'readonly' => 0,
             'disabled' => 0,
-        ),
+        ),    
         array (
-            'key' => 'field_573c48dce60cd',
-            'label' => 'School/Faculty',
+            'key' => 'field_tk_profiles_faculty',
+            'label' => 'Faculty',
+            'name' => 'tk_profiles_faculty',
+            'type' => 'text',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+            'maxlength' => '',
+            'readonly' => 0,
+            'disabled' => 0,
+        ),    
+        array (
+            'key' => 'field_tk_profiles_school',
+            'label' => 'School',
             'name' => 'tk_profiles_school',
             'type' => 'text',
             'instructions' => '',
@@ -425,9 +453,9 @@ acf_add_local_field_group(array (
             'disabled' => 0,
         ),
         array (
-            'key' => 'field_5746d56a1d9a7',
-            'label' => 'External Profile Link',
-            'name' => 'tk_profiles_external_link',
+            'key' => 'field_tk_profiles_job_title',
+            'label' => 'Job title',
+            'name' => 'tk_profiles_job_title',
             'type' => 'text',
             'instructions' => '',
             'required' => 0,
@@ -439,7 +467,50 @@ acf_add_local_field_group(array (
             ),
             'default_value' => '',
             'placeholder' => '',
-            'prepend' => 'http://',
+            'prepend' => '',
+            'append' => '',
+            'maxlength' => '',
+            'readonly' => 0,
+            'disabled' => 0,
+        ),
+        array (
+            'key' => 'field_tk_profiles_location',
+            'label' => 'Location',
+            'name' => 'tk_profiles_location',
+            'type' => 'text',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+            'maxlength' => '',
+            'readonly' => 0,
+            'disabled' => 0,
+        ),
+       
+        array (
+            'key' => 'field_tk_profiles_external_link',
+            'label' => 'External Profile Link',
+            'name' => 'tk_profiles_external_link',
+            'type' => 'url',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'placeholder' => '',
+            'prepend' => '',
             'append' => '',
             'maxlength' => '',
             'readonly' => 0,
@@ -447,7 +518,7 @@ acf_add_local_field_group(array (
         ),
         // Key facts
         array(
-            'key' => 'field_573b2bba9ce96',
+            'key' => 'field_tk_profiles_key_facts',
             'label' => 'Key facts',
             'name' => 'tk_profiles_key_facts',
             'type' => 'repeater',
@@ -466,9 +537,9 @@ acf_add_local_field_group(array (
             'button_label' => 'Add key facts',
             'sub_fields' => array(
                 array(
-                    'key' => 'field_573b2f3b9ce93',
+                    'key' => 'field_tk_profiles_key_facts_label',
                     'label' => 'Label',
-                    'name' => 'key_facts_label',
+                    'name' => 'tk_profiles_key_facts_label',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -487,9 +558,9 @@ acf_add_local_field_group(array (
                     'disabled' => 0,
                 ) ,
                 array(
-                    'key' => 'field_573b2f679ce94',
+                    'key' => 'field_tk_profiles_key_facts_info',
                     'label' => 'Information',
-                    'name' => 'key_facts_information',
+                    'name' => 'tk_profiles_key_facts_info',
                     'type' => 'text',
                     'instructions' => '',
                     'required' => 0,
@@ -523,6 +594,54 @@ acf_add_local_field_group(array (
     'position' => 'acf_after_title',
     'style' => 'default',
     'label_placement' => 'left',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => 1,
+    'description' => '',
+));
+
+endif;
+
+/* External profile */
+
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+    'key' => 'group_tk_profiles_external_link_flag',
+    'title' => 'External profile',
+    'fields' => array (
+        array(
+            'key' => 'field_tk_profiles_external_link_flag',
+            'label' => '',
+            'name' => 'tk_profiles_external_link_flag',
+            'type' => 'checkbox',
+            'instructions' => 'Ticking this box will make this profile link to the external profile.',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ) ,                
+            'choices' => array(
+                'external_link'   => 'Make this profile external'
+            ),
+
+        ) ,
+    ),
+    'location' => array (
+        array (
+            array (
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'profiles',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'side',
+    'style' => 'default',
+    'label_placement' => 'top',
     'instruction_placement' => 'label',
     'hide_on_screen' => '',
     'active' => 1,

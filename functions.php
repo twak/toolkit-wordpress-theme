@@ -134,6 +134,18 @@ function my_theme_register_required_plugins() {
             'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
         ),
 
+        array(
+            'name'               => 'Toolkit News', // The plugin name.
+            'slug'               => 'toolkit-news', // The plugin slug (typically the folder name).
+            'source'             => get_stylesheet_directory() . '/lib/plugins/toolkit-news.zip', // The plugin source.
+            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
+            'version'            => '', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
+            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
+            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+        ),
+
         // This is an example of how to include a plugin from an arbitrary external source in your theme.
         // array(
         //     'name'         => 'TGM New Media Plugin', // The plugin name.
@@ -1218,7 +1230,7 @@ if( function_exists('acf_add_options_page') ) { // Add options page to theme
 }
 
 /** 
- * Options Page Color dropdown
+ * Theme Options
  */
 
 if( function_exists('acf_add_local_field_group') ): // Add color selection on theme
@@ -1227,12 +1239,12 @@ acf_add_local_field_group(array (
     'key' => 'group_tk_theme_options',
     'title' => 'Theme options',
     'fields' => array (
-        array (
-            'key' => 'field_573b0e7425cad',
-            'label' => 'Theme colour',
+        array ( // color dropdown
+            'key' => 'field_tk_theme_options_color',
+            'label' => 'Colour',
             'name' => 'tk_theme_color',
             'type' => 'select',
-            'instructions' => 'Select the themes overall colour scheme',
+            'instructions' => 'Select the themes colour scheme.',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array (
@@ -1256,12 +1268,12 @@ acf_add_local_field_group(array (
             'disabled' => 0,
             'readonly' => 0,
         ),
-        array (
-            'key' => 'field_573b0e7425cas',
-            'label' => 'Theme layout',
+        array ( // site width
+            'key' => 'field_tk_theme_options_layout',
+            'label' => 'Layout',
             'name' => 'tk_theme_layout',
             'type' => 'radio',
-            'instructions' => 'Select whether is website is contained of full width of the browser window',
+            'instructions' => 'Select the layout of the website.',
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array (
@@ -1270,7 +1282,7 @@ acf_add_local_field_group(array (
                 'id' => '',
             ),
             'choices' => array (
-                'default' => 'Default',
+                'default' => 'Wrapped',
                 'full_width' => 'Full width'                
             ),
             'default_value' => array (
@@ -1304,5 +1316,64 @@ acf_add_local_field_group(array (
     'description' => '',
 ));
 
+acf_add_local_field_group(array ( //Navigation
+    'key' => 'group_tk_theme_navigation',
+    'title' => 'Theme navigation options',
+    'fields' => array (
+        array (
+            'key' => 'field_tk_theme_options_menu',
+            'label' => 'Main menu',
+            'name' => 'tk_theme_main_menu',
+            'type' => 'select',
+            'instructions' => 'Select the themes menu pattern. <a href="http://toolkit.leeds.ac.uk/wordpress/">See the toolkit docs</a>.',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array (
+                'priority' => 'Priority menu',                
+            ),
+            'default_value' => array (
+                0 => 'red',
+            ),
+            'allow_null' => 0,
+            'multiple' => 0,
+            'ui' => 0,
+            'ajax' => 0,
+            'placeholder' => '',
+            'disabled' => 0,
+            'readonly' => 0,
+        ),
+    ),
+    'location' => array (
+        array (
+            array (
+                'param' => 'options_page',
+                'operator' => '==',
+                'value' => 'theme-general-settings',
+            ),
+        ),
+    ),
+    'menu_order' => 1,
+    'position' => 'normal',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => 1,
+    'description' => '',
+));
+
 endif;
+
+
+
+
+
+
+
+
 

@@ -2,121 +2,151 @@
 
 <?php the_breadcrumb(); ?>
 
-<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+<?php 
+	if (have_posts()): 
+		while (have_posts()) : the_post(); 
+?>
 
-	<div class="wrapper-xs wrapper-pd">
-
-		<?php if ( has_post_thumbnail()): //Check if Thumbnail exists ?>
-			<div class="rule-image">
-    			<span style="background-image:url('<?php the_post_thumbnail_url('small');?>')"></span>
-			</div>
-		<?php else: ?>				
-			<div class="rule-image">
-        		<span></span>
-    		</div>
-		<?php endif; ?>				
+	<div class="wrapper-xs wrapper-pd">		
+		<div class="rule-image">
+			<span <?php if( has_post_thumbnail()): ?>style="background-image:url('<?php the_post_thumbnail_url('small');?>')" <?php endif; ?>></span>
+		</div>        
 
 	    <h1 class="heading-underline">
 	    	<?php 
-	    	if( get_field('tk_profiles_first_name') || get_field('tk_profiles_surname') ): 
-	    		echo get_field('tk_profiles_first_name') .' '. get_field('tk_profiles_surname'); 
+	    	if( get_field('tk_profiles_first_name') || get_field('tk_profiles_last_name') ): 
+	    		echo get_field('tk_profiles_first_name') .' '. get_field('tk_profiles_last_name'); 
 	    	else: 
 	    		the_title();
 	    	endif; 
 	    	?>		    	
 	    </h1>
+
+	    <?php 
+
+	    // Profiles facts
+
+	    $tk_profiles_facts = array(
+    		'tk_profiles_job_title',	
+    		'tk_profiles_email',
+    		'tk_profiles_telephone',	        		        	
+    		'tk_profiles_faculty',
+    		'tk_profiles_school',
+    		'tk_profiles_location'	        		
+    	); 
+
+    	$profiles_key_facts = "";
+
+    	foreach($tk_profiles_facts as $fact):
+    		if( get_field($fact) ):
+    			$field_object = get_field_object($fact);
+    			$profiles_key_facts .= '<li><strong>'.$field_object['label'].'</strong>: '.$field_object['value'].'</li>';		        		
+    		endif;
+    	endforeach;
+
+    	if(get_field('tk_profiles_external_link')):
+    		$profiles_key_facts .=  '<li><strong>External profile link:</strong> <a href="http://'.get_field('tk_profiles_external_link').'">'.get_field('tk_profiles_external_link').'</a></li>';
+    	endif;
+
+    	if( have_rows('tk_profiles_key_facts') ):				 	
+		    while ( have_rows('tk_profiles_key_facts') ) : the_row();				      
+		        $profiles_key_facts .= '<li><strong>'.get_sub_field('tk_profiles_key_facts_label').'</strong>: '.get_sub_field('tk_profiles_key_facts_info').'</li>';
+		    endwhile;
+		endif;
+
+		?>		
+
+<?php
+		if($profiles_key_facts):
+?>
 	  		    
 	    <div class="island island-featured">
 	        <ul class="key-facts">
-	        	<?php $tk_profiles_facts = array(
-	        		'tk_profiles_role',
-	        		'tk_profiles_job_title',
-	        		'tk_profiles_email',
-	        		'tk_profiles_telephone',
-	        		'tk_profiles_school'
-	        	); ?>
-
-	        	<?php 
-
-	        	foreach($tk_profiles_facts as $fact):
-	        		if( get_field($fact) ):
-	        			$field_object = get_field_object($fact);
-	        			echo '<li><strong>'.$field_object['label'].'</strong>: '.$field_object['value'].'</li>';		        		
-	        		endif;
-	        	endforeach;
-
-	        	if(get_field('tk_profiles_external_link')):
-	        		echo '<li><strong>External link:</strong> <a href="http://'.get_field('tk_profiles_external_link').'">'.get_field('tk_profiles_external_link').'</a></li>';
-	        	endif;
-	        	?>		        			        		            
+	        	<?php echo $profiles_key_facts; ?>	        	      			        		           
 	        </ul>
 	    </div>
+
+<?php 
+		endif; 
+?>
 	    				
-		<div id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>		   
-							
+		<div id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>		   							
 			<div class="jadu-cms">		
-				<?php the_content(); // Dynamic Content ?>
+				<?php the_content(); ?>
 			</div>			
-
-			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>			
-
+			<?php edit_post_link(); ?>			
 		</div>
 	</div>		
 
-<?php endwhile; ?>
-<?php endif; ?>
-
-
-<?php //Related profile
-
-	$related_profiles = get_posts( 
-		array( 
-			'category__in' => wp_get_post_categories($post->ID), 
-			'numberposts' => 3, 
-			'post_type'   => 'profiles',
-			'post__not_in' => array($post->ID) 
-		) 
-	);
-
+<?php
+		endwhile;
+ 	endif; 
 ?>
 
-<?php if( $related_profiles ) { ?>
+
+
+<?php if(get_field('tk_profiles_single_settings_related', 'option')): //Related events ?>
 
 	</div><!-- ./wrapper-lg -->
 
 <div class="skin-bg-module island-lg">
-	<div class="wrapper-md wrapper-pd">
+	<div class="wrapper-sm wrapper-pd">
 		<div class="divider-header">
             <h4 class="divider-header-heading divider-header-heading-underline">Related Profiles</h4>            
         </div>
 
-		<?php foreach( $related_profiles as $profile ) { setup_postdata($profile); ?>
 
-			<div class="tk-row clearfix m-t equalize">
-			    <div class="col-xs-12 col-sm-4">
-			        <div class="card-flat card-stacked-sm skin-box-white skin-bd-b">
-			            <div class="card-img">
-			                <div class="rs-img rs-img-1-1" style="background-image: url('//engineering.leeds.ac.uk/images/SWJT_800x400.JPG');">
-			                    <a href="//engineering.leeds.ac.uk/news/article/283/first_students_welcomed_to_joint_engineering_school_in_china"><img src="//engineering.leeds.ac.uk/images/SWJT_800x400.JPG" alt="First students welcomed to joint engineering school in China "></a>
+		            <div class="row">		
+	<?php 
+						//Related events
+						$events_image_flag = 0;
+						$cats = wp_get_post_categories($post->ID); //get post category array
+						$first_cat = $cats[0];		
+						$query = new WP_Query(array(
+						    'post_type' => 'profiles',
+						    'posts_per_page' => 3,
+						    'cat' => $first_cat 		    
+						));
+						while ($query->have_posts()):
+							$query->the_post();
+							if(has_post_thumbnail()):
+								$events_image_flag = 1;
+							endif;
+						endwhile;
+						while ($query->have_posts()):
+						    $query->the_post();
+						    $post_id = get_the_ID();
+	?>
+			  			<div class="col-sm-4">
+			                <div class="card-flat card-stacked-sm skin-bg-white skin-bd-b equalize-inner">
+
+			                	<?php if($events_image_flag){ ?>
+			                    <div class="card-img">
+			                        <div class="rs-img" <?php if(has_post_thumbnail()){ ?> style="background-image: url('<?php the_post_thumbnail_url();?>')" <?php } ?>>
+				                       	<a href="<?php the_permalink(); ?>">
+				                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>"/>
+				                        </a>
+			                        </div>
+			                    </div>
+			                    <?php } ?>
+			                    <div class="card-content">
+			                        <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+			                        <a class="more" href="<?php the_permalink(); ?>">More</a>
+			                    </div>
 			                </div>
-			            </div>
-			            <div class="card-content equalize-inner" style="height: 183px;">
-			                <span class="equalizer-inner" style="display:block;">
-			                    <h3 class="heading-link-alt"><a href="<?php the_permalink() ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h3>
-			                </span>
-			            </div>
-			        </div>
-			    </div>   
-			</div>
-		    
-			<?php //the_content('Read the rest of this entry &raquo;'); ?>
-		       		    		
-		<?php } wp_reset_postdata(); ?>
+			            </div>						
+	<?php		    		
+						endwhile;		
+						wp_reset_query();
+	?>                       
+		            </div>   
+
+        
 	</div>
 </div>
 
 <div class="wrapper-lg">
 
-<?php } ?>
+<?php endif; ?>
 
 <?php get_footer(); ?>

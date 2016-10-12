@@ -1,7 +1,7 @@
 <?php
 
 if(get_sub_field('content_widget_background') == 'grey'){ 
-	$content_background = "sk-widget-block ";
+	$content_background = "skin-row-module-light ";
 } else {
 	$content_background = "";
 }

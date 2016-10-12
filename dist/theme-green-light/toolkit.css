@@ -19,6 +19,9 @@
 /**
  * Overide the default bootsrap variables here
  */
+/**
+ * Borders
+ */
 /*! Tablesaw - v2.0.2 - 2015-10-28
 * https://github.com/filamentgroup/tablesaw
 * Copyright (c) 2015 Filament Group; Licensed  */
@@ -693,7 +696,9 @@ table.tablesaw thead td {
   cursor: default;
   pointer-events: none; }
 
-/* Over write styles */
+/**
+ * Over write styles 
+ */
 .tablesaw-sortable .tablesaw-sortable-head button,
 .tablesaw thead tr:first-child th {
   background: #fff;
@@ -701,7 +706,8 @@ table.tablesaw thead td {
   font-weight: bold;
   font-size: inherit; }
 
-.tablesaw-sortable th.tablesaw-sortable-head button, .tablesaw thead tr:first-child th {
+.tablesaw-sortable th.tablesaw-sortable-head button,
+.tablesaw thead tr:first-child th {
   background: #f4f2f0 !important;
   border-bottom-width: 1px;
   padding-bottom: 12px; }
@@ -712,7 +718,8 @@ table.tablesaw thead td {
 
 .tablesaw-stack td .tablesaw-cell-label,
 .tablesaw-stack th .tablesaw-cell-label {
-  font-weight: 400; }
+  font-weight: 600;
+  text-transform: none; }
 
 @media (max-width: 320px) {
   .tablesaw-stack tr td {
@@ -734,6 +741,35 @@ table.tablesaw thead td {
   .tablesaw-remove-border tr,
   .tablesaw-remove-border thead {
     border: 0px !important; } }
+
+body .table-profiles {
+  width: 100%;
+  border: 0;
+  margin-bottom: 20px; }
+  body .table-profiles thead {
+    background: none;
+    border: 0; }
+  body .table-profiles tr:first-child th {
+    border: 0 !important;
+    background: none !important;
+    border-bottom: 2px solid #c9bfb5 !important;
+    padding: 10px 5px; }
+  body .table-profiles tr {
+    border: 0; }
+  body .table-profiles tr:last-child td {
+    border-bottom: 0; }
+    @media (max-width: 640px) {
+      body .table-profiles tr:last-child td {
+        border-bottom: 1px solid #e5dcd2; } }
+  body .table-profiles tr td {
+    border: 0;
+    border-bottom: 1px solid #e5dcd2;
+    padding: 10px 5px; }
+  body .table-profiles tr td:last-child {
+    margin: 0; }
+    @media (max-width: 640px) {
+      body .table-profiles tr td:last-child {
+        border-bottom: 2px solid #c9bfb5 !important; } }
 
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
@@ -2907,9 +2943,6 @@ body.modal-open {
   position: absolute; }
 
 /**
- * Borders
- */
-/**
  * Clearfix 
  */
 /**
@@ -3302,7 +3335,7 @@ body.modal-open {
 body {
   color: #4a4a4a;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 15px;
   text-rendering: optimizeLegibility; }
   @media (min-width: 768px) {
     body {
@@ -3342,8 +3375,7 @@ h6, .h6 {
       color: #aa8f6f;
       text-decoration: underline; }
 
-.all-caps, .tablesaw-stack td .tablesaw-cell-label,
-.tablesaw-stack th .tablesaw-cell-label, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
+.all-caps, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
 [class^="profile"] .profile-info > *,
 [class^="profile-block"] .profile-info,
 [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
@@ -3360,8 +3392,7 @@ h6, .h6 {
   font-size: 14px;
   line-height: 110%; }
   @media (min-width: 480px) {
-    .all-caps, .tablesaw-stack td .tablesaw-cell-label,
-    .tablesaw-stack th .tablesaw-cell-label, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
+    .all-caps, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
     [class^="profile"] .profile-info > *,
     [class^="profile-block"] .profile-info,
     [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
@@ -3377,8 +3408,7 @@ h6, .h6 {
       line-height: 140%;
       font-size: 15px; } }
   @media (min-width: 768px) {
-    .all-caps, .tablesaw-stack td .tablesaw-cell-label,
-    .tablesaw-stack th .tablesaw-cell-label, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
+    .all-caps, .heading-caps, .more, .divider-header-action, .filter, .heading-related, .sidebar-heading, [class^="profile"] .profile-info,
     [class^="profile"] .profile-info > *,
     [class^="profile-block"] .profile-info,
     [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
@@ -4812,7 +4842,7 @@ input.site-search-submit {
 
 .site-footer-upper {
   padding: 5px 0;
-  border-top: 1px solid #c9bfb5;
+  border-top: 1px solid #e5dcd2;
   background: #ffffff; }
 
 .site-footer-upper-social,
@@ -4865,10 +4895,10 @@ input.site-search-submit {
     margin: 0; }
     .site-footer-lower ul li {
       display: inline-block;
-      color: #ffffff;
-      font-size: 14px; }
+      font-size: 14px;
+      color: #b7b7b7; }
       .site-footer-lower ul li a {
-        color: #f7f7f7; }
+        color: #ffffff; }
         .site-footer-lower ul li a:hover {
           background: none;
           text-decoration: underline; }
@@ -5465,12 +5495,12 @@ input.site-search-submit {
   line-height: 120%;
   margin-bottom: 0;
   overflow-y: scroll;
-  white-space: nowrap; }
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase; }
   @media (min-width: 480px) {
     .breadcrumb {
-      line-height: 140%;
-      letter-spacing: 0.05em;
-      text-transform: uppercase; } }
+      line-height: 140%; } }
   @media (min-width: 768px) {
     .breadcrumb {
       overflow: visible;
@@ -6392,7 +6422,9 @@ img {
   border-radius: 1000px;
   width: 80px;
   height: 80px;
-  overflow: hidden; }
+  overflow: hidden;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+  padding: 0 !important; }
   @media (min-width: 768px) {
     .img-profile-round,
     .img-avatar {
@@ -6465,6 +6497,7 @@ img {
  * Responsive Images
  */
 .rs-img {
+  display: block;
   overflow: hidden;
   position: relative;
   padding-bottom: 100%;
@@ -6514,6 +6547,7 @@ img {
 
 @media (min-width: 480px) {
   .rs-img-xs {
+    display: block;
     overflow: hidden;
     position: relative;
     padding-bottom: 100%;
@@ -6558,6 +6592,7 @@ img {
 
 @media (min-width: 768px) {
   .rs-img-sm {
+    display: block;
     overflow: hidden;
     position: relative;
     padding-bottom: 100%;
@@ -6602,6 +6637,7 @@ img {
 
 @media (min-width: 992px) {
   .rs-img-md {
+    display: block;
     overflow: hidden;
     position: relative;
     padding-bottom: 100%;
@@ -6646,6 +6682,7 @@ img {
 
 @media (min-width: 1260px) {
   .rs-img-lg {
+    display: block;
     overflow: hidden;
     position: relative;
     padding-bottom: 100%;
@@ -8080,8 +8117,9 @@ img {
 
 .footer-twitter-feed,
 .twitter-feed-footer {
-  border-top: 1px solid #c9bfb5;
-  background: none; }
+  border-top: 1px solid #e5dcd2;
+  background: #fdfcfc;
+  padding: 16px 0; }
 
 /**
  * Skins

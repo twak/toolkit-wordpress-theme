@@ -1,7 +1,7 @@
 <?php 
 
 if(get_sub_field('featured_content_widget_background') == 'grey'){ 
-	$featured_content_background = "sk-widget-block ";
+	$featured_content_background = "skin-row-module-light ";
 } else {
 	$featured_content_background = "";
 }

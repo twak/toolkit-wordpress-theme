@@ -9,6 +9,13 @@
  * License: GPL2
  */
 
+/* 
+ TO DO:
+ Make featured events possible
+ Build in calendar functionality
+ Make the category for archived events selectable
+*/
+
 /**
  * Event Post Types
  */
@@ -136,14 +143,14 @@ if( function_exists('acf_add_local_field_group') ) {
 
     acf_add_local_field_group(array (
         'key' => 'group_tk_events_page_settings',
-        'title' => 'Events Page Settings',
+        'title' => 'Events page settings',
         'fields' => array (
             array ( //page intro
                 'key' => 'field_tk_events_page_settings_introduction',
-                'label' => 'Page Introduction',
+                'label' => 'Page introduction',
                 'name' => 'tk_events_page_settings_introduction',
-                'type' => 'textarea',
-                'instructions' => 'Add and introduction at the top of the events page.',
+                'type' => 'wysiwyg',
+                'instructions' => 'Add an introduction to the top of the events page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -152,19 +159,16 @@ if( function_exists('acf_add_local_field_group') ) {
                     'id' => '',
                 ),
                 'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
+                'tabs' => 'all',
+                'toolbar' => 'basic',
+                'media_upload' => 0,
             ),           
             array ( //Archived events cat option
                 'key' => 'field_tk_events_page_settings_archive',
-                'label' => 'Archive Events',
+                'label' => 'Archived events',
                 'name' => 'tk_events_single_settings_archive',
                 'type' => 'checkbox',
-                'instructions' => 'Ticking this box will remove any events in the archived category',
+                'instructions' => 'Ticking this box will hide events in the \'Archived Events\' category from the events page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -181,8 +185,32 @@ if( function_exists('acf_add_local_field_group') ) {
                 'disabled' => 0,
                 'choices' => array(
                     'archive_events'   => 'Hide archived events'
+                ),                
+            ),
+            array ( //Archived events cat option
+                'key' => 'field_tk_events_page_settings_calendar',
+                'label' => 'Calendar view',
+                'name' => 'tk_events_single_settings_calendar',
+                'type' => 'checkbox',
+                'instructions' => 'Ticking this box will show a calendar view on the events page.',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
                 ),
-            ),                        
+                'default_value' => '',
+                'placeholder' => '',
+                'maxlength' => '',
+                'rows' => '',
+                'new_lines' => 'wpautop',
+                'readonly' => 0,
+                'disabled' => 0,
+                'choices' => array(
+                    'show_calendar'   => 'Show calendar view'
+                ),                
+            ),         
         ),
         'location' => array (
             array (
@@ -239,14 +267,14 @@ if( function_exists('acf_add_local_field_group') ) {
 
      acf_add_local_field_group(array (
         'key' => 'group_tk_events_single_settings',
-        'title' => 'Single Event Page Settings',
+        'title' => 'Single event page settings',
         'fields' => array (
             array (
                 'key' => 'field_tk_events_single_settings_related',
                 'label' => 'Related Events',
                 'name' => 'tk_events_single_settings_related',
                 'type' => 'checkbox',
-                'instructions' => 'Ticking this box will make related events appear at the bottom of every event page',
+                'instructions' => 'Ticking this box will make events related by category appear at the bottom of every event page.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array (
@@ -298,7 +326,7 @@ if (function_exists('acf_add_local_field_group')) {
         'fields' => array(
             array(
                 'key' => 'field_tk_events_start_date',
-                'label' => 'Start Date',
+                'label' => 'Event start date',
                 'name' => 'tk_events_start_date',
                 'type' => 'date_picker',
                 'instructions' => '',
@@ -315,11 +343,11 @@ if (function_exists('acf_add_local_field_group')) {
             ) ,
             array(
                 'key' => 'field_tk_events_end_date',
-                'label' => 'End Date',
+                'label' => 'Event end date',
                 'name' => 'tk_events_end_date',
                 'type' => 'date_picker',
                 'instructions' => '',
-                'required' => 0,
+                'required' => 1,
                 'conditional_logic' => 0,
                 'wrapper' => array(
                     'width' => '50%',
@@ -335,7 +363,7 @@ if (function_exists('acf_add_local_field_group')) {
                 'label' => 'Key facts',
                 'name' => 'tk_events_key_facts',
                 'type' => 'repeater',
-                'instructions' => 'Add any event details e.g. Location: Parkinson Building',
+                'instructions' => 'Add event details e.g. Location: Parkinson Building.',
                 'required' => 0,
                 'conditional_logic' => 0,
                 'wrapper' => array(
@@ -392,25 +420,7 @@ if (function_exists('acf_add_local_field_group')) {
                         'disabled' => 0,
                     ) ,
                 ) ,
-            ) ,
-            // array(
-            //     'key' => 'field_tk_events_featured',
-            //     'label' => 'Featured Event',
-            //     'name' => 'tk_events_featured',
-            //     'type' => 'checkbox',
-            //     'instructions' => 'Ticking this box will make this event appear at the top of the list on the events page',
-            //     'required' => 0,
-            //     'conditional_logic' => 0,
-            //     'wrapper' => array(
-            //         'width' => '',
-            //         'class' => '',
-            //         'id' => '',
-            //     ) ,                
-            //     'choices' => array(
-            //         'featured_event'   => 'Make this event featured'
-            //     ),
-    
-            // ) ,
+            ) ,            
         ) ,
         'location' => array(
             array(
@@ -431,6 +441,54 @@ if (function_exists('acf_add_local_field_group')) {
         'description' => '',
     ));
 }
+
+/* Featured event*/
+
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+    'key' => 'group_tk_events_featured',
+    'title' => 'Featured Event',
+    'fields' => array (
+        array(
+            'key' => 'field_tk_events_featured',
+            'label' => '',
+            'name' => 'tk_events_featured',
+            'type' => 'checkbox',
+            'instructions' => 'Ticking this box will make this event appear at the top of the list on the events page.',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ) ,                
+            'choices' => array(
+                'featured_event'   => 'Make this event featured'
+            ),
+
+        ) ,
+    ),
+    'location' => array (
+        array (
+            array (
+                'param' => 'post_type',
+                'operator' => '==',
+                'value' => 'events',
+            ),
+        ),
+    ),
+    'menu_order' => 0,
+    'position' => 'side',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => 1,
+    'description' => '',
+));
+
+endif;
 
 /**
  * Flush rewrite rules when creating new post type

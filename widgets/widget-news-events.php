@@ -13,6 +13,22 @@
 	} else {
 		$tab_flag = false;
 	}
+
+//display all custom post type
+
+// $args = array(
+//    'public'   => true, 
+//    '_builtin' => false,
+// );
+
+// $output = 'names'; // names or objects, note names is the default
+// $operator = 'and'; // 'and' or 'or'
+
+// $post_types = get_post_types( $args, $output, $operator ); 
+
+// foreach ( $post_types  as $post_type ) {
+//    echo '<p>' . $post_type . '</p>';
+// }
 	
 ?>
 
@@ -24,7 +40,7 @@
 
 ?>
 
-<div class="sk-widget-block p-t p-b">
+<div class="skin-row-module-light p-t p-b">
     <div class="wrapper-lg wrapper-pd">
 
         <h3 class="h2-lg heading-underline">

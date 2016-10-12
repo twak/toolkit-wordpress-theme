@@ -14,8 +14,8 @@ $cards_widget_background = "";
 $cards_single_background = "";
 if(get_sub_field('cards_widget_background')) {
 	if(get_sub_field('cards_widget_background') == 'grey') {
-		$cards_widget_background = "sk-widget-block";
-		$cards_single_background = "skin-box-white";
+		$cards_widget_background = "skin-row-module-light ";
+		$cards_single_background = "skin-row-white";
 	} else {
 		$cards_widget_background = "";
 		$cards_single_background = "skin-box-module";

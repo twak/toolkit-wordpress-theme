@@ -1,5 +1,5 @@
 			</div>
-			<!-- /.main-->			
+			<!-- /.main-->				
 
 			<?php //include_once( 'tweets.php' ); ?>				
 
@@ -18,6 +18,7 @@
 			                <li><a href="//www.leeds.ac.uk/foi">Freedom of information</a></li>
 			                <li><a href="#">Equality and inclusion</a></li>
 			            </ul> -->
+			            
 			        </div>
 			    </div>
 			</footer>

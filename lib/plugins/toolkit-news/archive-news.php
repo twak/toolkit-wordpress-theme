@@ -4,27 +4,17 @@
 <div class="wrapper-sm wrapper-pd">
     <h1 class="heading-underline"><?php post_type_archive_title(); ?></h1>   
 
-    <?php if(get_field('tk_events_page_settings_introduction', 'option')): ?>
+    <?php if(get_field('tk_news_page_settings_introduction', 'option')): ?>
 
-        <p><?php the_field('tk_events_page_settings_introduction', 'option'); ?></p>
+        <p><?php the_field('tk_news_page_settings_introduction', 'option'); ?></p>
 
-    <?php endif; ?>
-   
-    <?php $archived_id = get_cat_ID('Archived events'); //archived cat ID ?>
-
-    <?php if(get_field('tk_events_single_settings_archive', 'option')): //If theme setting checked to hide archived ?>
-    
-    <ul class="list-nav">       
-        <li><a href="<?php echo get_category_link($archived_id); ?>">Archived Events <span class="tk-icon tk-icon-chevron-right"></span></a></li>
-    </ul> 
-
-    <?php endif; ?>
+    <?php endif; ?>    
     
     <form action="<?php echo home_url(); ?>" role="search">
         <div class="island island-featured">
             <div class="row row-reduce-gutter">
                 <div class="col-xs-12 col-sm-8 col-md-10">
-                    <input type="hidden" name="post_type" value="events">
+                    <input type="hidden" name="post_type" value="news">
                     <label class="sr-only" for="keyword">Search</label>
                     <input id="keyword" type="search" name="q" placeholder="Search by keyword" value="<?php if(isset($_GET['query'])){ echo $_GET['query']; } ?>">
                 </div>
@@ -39,29 +29,14 @@
 
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-if(get_field('tk_events_single_settings_archive', 'option')): //If theme setting checked to hide archived
-
-    query_posts(array(
-        'post_type' => 'events',         
-        'meta_key'  => 'tk_events_start_date',
-        'orderby'   => 'meta_value_num',
-        'order'     => 'ASC',        
-        'cat'       => '-'.$archived_id,
-        'paged'     => $paged
-    ));
-
-else:
-
-    query_posts(array(
-        'post_type' => 'events',         
-        'meta_key'  => 'tk_events_start_date',
-        'orderby'   => 'meta_value_num',
-        'order'     => 'ASC',
-        'cat'       => '',                
-        'paged'     => $paged
-    ));
-
-endif;
+query_posts(array(
+    'post_type' => 'news',         
+    'meta_key'  => '',
+    'orderby'   => 'meta_value_num',
+    'order'     => 'ASC',
+    'cat'       => '',                
+    'paged'     => $paged
+));
 
 ?>
     
@@ -81,7 +56,7 @@ endif;
         <?php endif; ?>
 
         <div class="flag-body">
-            <p class="heading-related"><?php tk_post_categories(); if(get_field('tk_events_start_date')) { echo ' - '.get_field('tk_events_start_date'); } ?> </p>
+            <p class="heading-related"><?php tk_post_categories(); ?> </p>
             <h4 class="heading-link"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
             <div class="excerpt">               
                 <?php html5wp_excerpt('html5wp_index');  ?>
@@ -89,10 +64,8 @@ endif;
         </div>
 
     </article>
-
 <?php                    
-        endwhile;    
-    endif;
+    endwhile; endif;
 ?>
     
 <?php get_template_part('pagination'); ?>
