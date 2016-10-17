@@ -58,18 +58,15 @@
 
 <?php
 		if($profiles_key_facts):
-?>
-	  		    
+?>	  		    
 	    <div class="island island-featured">
 	        <ul class="key-facts">
 	        	<?php echo $profiles_key_facts; ?>	        	      			        		           
 	        </ul>
 	    </div>
-
 <?php 
 		endif; 
-?>
-	    				
+?>	    				
 		<div id="post-<?php the_ID(); ?>" <?php post_class(''); ?>>		   							
 			<div class="jadu-cms">		
 				<?php the_content(); ?>
@@ -83,69 +80,81 @@
  	endif; 
 ?>
 
-
-
 <?php if(get_field('tk_profiles_single_settings_related', 'option')): //Related events ?>
 
 	</div><!-- ./wrapper-lg -->
 
-<div class="skin-bg-module island-lg">
-	<div class="wrapper-sm wrapper-pd">
-		<div class="divider-header">
-            <h4 class="divider-header-heading divider-header-heading-underline">Related Profiles</h4>            
-        </div>
+	<div class="skin-bg-module island-lg">
+		<div class="wrapper-sm wrapper-pd">
 
+			<div class="divider-header">
+	            <h4 class="divider-header-heading divider-header-heading-underline">Related Profiles</h4>            
+	        </div>
 
-		            <div class="row">		
-	<?php 
-						//Related events
-						$events_image_flag = 0;
-						$cats = wp_get_post_categories($post->ID); //get post category array
-						$first_cat = $cats[0];		
-						$query = new WP_Query(array(
-						    'post_type' => 'profiles',
-						    'posts_per_page' => 3,
-						    'cat' => $first_cat 		    
-						));
-						while ($query->have_posts()):
-							$query->the_post();
-							if(has_post_thumbnail()):
-								$events_image_flag = 1;
-							endif;
-						endwhile;
-						while ($query->have_posts()):
-						    $query->the_post();
-						    $post_id = get_the_ID();
-	?>
-			  			<div class="col-sm-4">
-			                <div class="card-flat card-stacked-sm skin-bg-white skin-bd-b equalize-inner">
+		    <div class="row equalize">		
+<?php 
+			//Related profiles
+			$current_page_ids = array(get_the_ID());
+			$profiles_image_flag = 0;
+			$cats = wp_get_post_categories($post->ID); //get post category array
+			$first_cat = $cats[0];		
+			$query = new WP_Query(array(
+				
+			    'post_type' => 'profiles',
+			    'posts_per_page' => 3,
+			    'post__not_in' => $current_page_ids,
+			    'cat' => $first_cat 		    
+			));
+			while ($query->have_posts()):
+				$query->the_post();
+				if(has_post_thumbnail()):
+					$profiles_image_flag = 1;
+				endif;
+			endwhile;
+			while ($query->have_posts()):
+			    $query->the_post();
+			    $post_id = get_the_ID();
+?>
+	  			<div class="col-sm-4">
+	                <div class="card-flat card-stacked-sm skin-bg-white skin-bd-b equalize-inner">
 
-			                	<?php if($events_image_flag){ ?>
-			                    <div class="card-img">
-			                        <div class="rs-img" <?php if(has_post_thumbnail()){ ?> style="background-image: url('<?php the_post_thumbnail_url();?>')" <?php } ?>>
-				                       	<a href="<?php the_permalink(); ?>">
-				                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>"/>
-				                        </a>
-			                        </div>
-			                    </div>
-			                    <?php } ?>
-			                    <div class="card-content">
-			                        <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-			                        <a class="more" href="<?php the_permalink(); ?>">More</a>
-			                    </div>
-			                </div>
-			            </div>						
-	<?php		    		
-						endwhile;		
-						wp_reset_query();
-	?>                       
-		            </div>   
-
+	                	<?php if($profiles_image_flag){ ?>
+	                    <div class="card-img">
+	                        <div class="rs-img" <?php if(has_post_thumbnail()){ ?> style="background-image: url('<?php the_post_thumbnail_url();?>')" <?php } ?>>
+		                       	<a href="<?php the_permalink(); ?>">
+		                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>"/>
+		                        </a>
+	                        </div>
+	                    </div>
+	                    <?php } ?>
+	                    <div class="card-content">	                    	
+	                    	
+	                        <h3 class="heading-link text-center">
+	                        <a href="<?php the_permalink(); ?>">
+		                        <?php if( get_field('tk_profiles_first_name') && get_field('tk_profiles_last_name')): ?>
+		                        	<?php  echo get_field('tk_profiles_first_name') .' '. get_field('tk_profiles_last_name'); ?>
+		                        <?php else: ?>
+		                        	<?php the_title(); ?>
+		                        <?php endif; ?>
+	                        </a>
+	                        </h3>
+	                        <?php if( get_field('tk_profiles_job_title')): ?>
+	                        <p class="heading-related text-center"><?php the_field('tk_profiles_job_title'); ?></p>
+	                        <?php endif; ?>
+	                        <!-- <a class="more" href="<?php the_permalink(); ?>">More</a> -->
+	                    </div>
+	                </div>
+	            </div>						
+<?php		    		
+				endwhile;		
+				wp_reset_query();
+?>                       
+		    </div>   
         
+		</div>
 	</div>
-</div>
 
-<div class="wrapper-lg">
+	<div class="wrapper-lg">
 
 <?php endif; ?>
 

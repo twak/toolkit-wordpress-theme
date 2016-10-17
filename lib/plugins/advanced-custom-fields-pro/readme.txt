@@ -106,10 +106,14 @@ http://support.advancedcustomfields.com/
 
 == Changelog ==
 
-= 5.4.7-RC1 =
+= 5.4.8 =
+* Flexible Content field: Fixed bug in 'layout_title' filter preventing values being loaded correctly
+
+= 5.4.7 =
 * Time Picker field: Fixed bug preventing default time from being selected
 * Date Picker field: Improved compatibility with unix timestamp values
 * File field: Fixed validation bugs when used as a sub field (multiple selection)
+* Select field: Fixed bug incorrectly allowing a disabled field (hidden by conditional logic) to save values
 * API: Added new `add_sub_row()` function
 * API: Added new `update_sub_row()` function
 * API: Added new `delete_sub_row()` function

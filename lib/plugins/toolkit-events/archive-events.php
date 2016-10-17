@@ -67,6 +67,7 @@ endif;
     
 <?php
    if (have_posts()) : while (have_posts()) : the_post(); 
+   if (in_array($post->ID, $do_not_duplicate)) continue;
 ?>    
     <article id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>                 
 

@@ -15623,14 +15623,19 @@ jQuery(function($) { //different for timing and wordpress
   	function priorityNav(){      
 
         $('.tk-nav-priority').each(function(){
-        
+
+            var otherNavWidths = 0; //workout the widts of other lists in the nav      
+                $(this).find('.tk-nav-list').not('.tk-nav-list-primary').each(function() {
+                   otherNavWidths += $(this).width();                   
+                });
+                    
       		var windowWidth = window.innerWidth;
                 $navListPrimary = $('.tk-nav-list-primary', this),  			
                 $navListSecondary = $('.tk-nav-list-secondary', this),            
       			navListPrimaryWidth = $navListPrimary.width(),
-      			navContainerWidth = $('.tk-nav-list-secondary').length ? $('.tk-nav-inner').width() - 80 : $('.tk-nav-inner').width(); //80 is roughly the length of the more tab       
+      			navContainerWidth = $('.tk-nav-inner').width() - otherNavWidths;                
 
-                //console.log(windowWidth);
+            console.log(otherNavWidths);
 
             if(windowWidth >= '480') { // if Desktop                
 

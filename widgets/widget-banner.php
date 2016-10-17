@@ -43,9 +43,9 @@
 						<h2 class="slide-heading"><?php the_sub_field('banner_widget_slide_title'); ?></h2>
 						<?php  echo '<p class="slide-lead">' . get_sub_field('banner_widget_slide_lead') . '</p>'; ?>						
 						<?php if(get_sub_field('banner_widget_slide_link') == 'internal') { ?>
-			            	<a class="slide-cta" href="<?php the_sub_field('banner_widget_slide_link_internal'); ?>">More</a>				
+			            	<a class="slide-cta" href="<?php the_sub_field('banner_widget_slide_link_internal'); ?>"><?php the_sub_field('banner_widget_slide_link_text'); ?></a>				
 			            <?php } elseif(get_sub_field('banner_widget_slide_link') == 'external') { ?>
-			            	<a class="slide-cta" href="<?php the_sub_field('banner_widget_slide_link_external'); ?>">More</a>
+			            	<a class="slide-cta" href="<?php the_sub_field('banner_widget_slide_link_external'); ?>"><?php the_sub_field('banner_widget_slide_link_text'); ?></a>
 			            <?php } ?>
 					</div>
 				</div>

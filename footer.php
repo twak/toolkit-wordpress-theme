@@ -9,15 +9,12 @@
 						  			            				
 			    <div class="site-footer-lower">
 			        <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
-			        	<?php tk_footer_nav(); ?>
-			           <!--  <ul class="nav">
-			                
-			                <li><a href="//www.leeds.ac.uk/termsandconditions">Terms &amp; Conditions</a></li>
-			                <li><a href="//www.leeds.ac.uk/accessibility">Accessibility</a></li>
-			                <li><a href="<?php echo site_url(); ?>/privacy/">Privacy</a></li>
-			                <li><a href="//www.leeds.ac.uk/foi">Freedom of information</a></li>
-			                <li><a href="#">Equality and inclusion</a></li>
-			            </ul> -->
+			        	
+			            <ul class="nav pull-left">			                
+			                <li>© <?php echo date("Y"); ?> University of Leeds, Leeds, LS2 9JT</li>
+			                <li><a href="http://www.leeds.ac.uk/info/5000/about/238/terms_and_conditions">Terms and conditions</a></li>
+			            </ul>
+			            <?php tk_footer_nav(); ?>
 			            
 			        </div>
 			    </div>
