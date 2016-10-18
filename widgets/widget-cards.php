@@ -59,7 +59,7 @@ if(get_sub_field('cards_widget_columns')) {
 
 <?php if(get_sub_field('cards_widget_lead')) { ?>
 
-		<p class="lead"><?php the_sub_field('cards_widget_lead'); ?></p>
+		<p><?php the_sub_field('cards_widget_lead'); ?></p>
 
 <?php } ?>
 

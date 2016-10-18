@@ -789,7 +789,7 @@ function the_breadcrumb() {
     if ( !is_front_page() ) {
        
         // Build the breadcrums
-        echo '<div class="wrapper-pd"><ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
+        echo '<div class="wrapper-pd-xs"><ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
            
         // Home page
         echo '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';

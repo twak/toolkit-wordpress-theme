@@ -39,16 +39,27 @@
                 })();    
         </script>        
 
-         <?php // Layout FLAG
+        <?php
 
-        if(get_field( "tk_theme_layout", "option" )): 
-        	$THEME_LAYOUT = get_field("tk_theme_layout", "option" );
-        	if($THEME_LAYOUT == "full_width"){
+        //WP Globals setup
+
+        //Theme layout
+
+        if(get_field( 'tk_theme_layout', 'option' )): 
+        	$THEME_LAYOUT = get_field('tk_theme_layout', 'option' );
+        	if($THEME_LAYOUT == 'full_width'){
 				$GLOBALS[ 'full_width' ] = 1;
         	} else {
         		$GLOBALS[ 'full_width' ] = 0;
-        	}
-        		     	
+        	}        		     	
+        endif; 
+
+        //Sidebar flag
+
+        if(get_field('sidebar_flag') == 'show'): 
+        	$GLOBALS[ 'theme_sidebar_flag' ] = 1;
+        else : 
+        	$GLOBALS[ 'theme_sidebar_flag' ] = 0;
         endif; 
 
         ?>

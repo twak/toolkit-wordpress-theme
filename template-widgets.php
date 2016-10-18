@@ -1,8 +1,6 @@
 <?php /* Template Name: Widgets Page Template */ get_header(); ?>
 
 <?php 
-	//Sidebar flag
-	if(get_field('sidebar_flag') == 'show'): $sidebar_flag = 1; else : $sidebar_flag = 0; endif; 		
 	//Widget top glag
 	if(get_field('widget_top')): $widget_top_flag = 1; else : $widget_top_flag = 0; endif; 		
 	//Widgets flag
@@ -14,7 +12,7 @@
 <?php get_header(); ?>
 <?php the_breadcrumb(); ?>
 
-<?php if(!$sidebar_flag){ //close wrapper ?>
+<?php if(!$GLOBALS[ 'theme_sidebar_flag' ]){ //close wrapper ?>
 
 </div>
 
@@ -27,19 +25,19 @@
 			the_row(); //widgets flexi field			
 			$widget_counter++;	
 
-			if($sidebar_flag){ // if we have a sidebar
+			if($GLOBALS[ 'theme_sidebar_flag' ]){ // if we have a sidebar
 				if($widget_top_flag){ //if we have set the top flag widget
 					if($widget_counter == 2 ){ // if we've loop through once
 ?>
-				<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
-					<?php get_sidebar(); ?>
-				    <div class="column-container-primary">  
+						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
+							<?php get_sidebar(); ?>
+						    <div class="column-container-primary">  
 <?php 
 						if(!is_front_page()){				    
 ?>							
-				    	<header class="wrapper-padded wrapper-sm">	
-							<h1 class="heading-underline">aaa<?php the_title(); ?></h1>
-						</header>		
+					    	<header class="wrapper-padded wrapper-sm">	
+								<h1 class="heading-underline"><?php the_title(); ?></h1>
+							</header>		
 <?php
 						}	
 ?>						
@@ -48,12 +46,12 @@
 				} else {
 					if($widget_counter < 2 ){ // if we've loop first time
 ?>			
-			<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
-				<?php get_sidebar(); ?>
-			    <div class="column-container-primary">  
-			    	<header class="wrapper-padded wrapper-sm">	
-						<h1 class="heading-underline"><?php the_title(); ?></h1>
-					</header>					
+						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
+							<?php get_sidebar(); ?>
+						    <div class="column-container-primary">  
+						    	<header class="wrapper-padded wrapper-sm">	
+									<h1 class="heading-underline"><?php the_title(); ?></h1>
+								</header>					
 <?php 
 					}
 				} 
@@ -139,14 +137,14 @@ endif; ?>
 <?php endif; ?>
 
 
-<?php if($sidebar_flag){ ?>
+<?php if($GLOBALS[ 'theme_sidebar_flag' ]){ ?>
 
 	</div><!-- ./column-container-primary-->	 
 </div><!-- ./column-container-->
 
 <?php } ?>
 
-<?php if(!$sidebar_flag){ // open wrapper ?>
+<?php if(!$GLOBALS[ 'theme_sidebar_flag' ]){ // open wrapper ?>
 
 <div>
 

@@ -10,7 +10,7 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
 
 // If we have tiles
 
-    if( have_rows('tiles_widget_tile') ): 
+if( have_rows('tiles_widget_tile') ): 
 
     $tile_count = 0;
     $tile_shape = array();    
@@ -91,10 +91,9 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
 
     ?>
 
-<?php if(get_sub_field('tiles_widget_title') || get_sub_field('tiles_widget_title')) { ?>
+    
 
-    <div class="wrapper-pd">
-
+<div class="wrapper-pd <?php if($GLOBALS[ 'full_width']){ echo "wrapper-lg";} else { echo "wrapper-md";} ?>">
 
 <?php if(get_sub_field('tiles_widget_title')) { ?>
 
@@ -104,13 +103,18 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
 
 <?php if(get_sub_field('tiles_widget_lead')) { ?>
 
-        <p class="lead"><?php the_sub_field('tiles_widget_lead'); ?></p>
+        <p><?php the_sub_field('tiles_widget_lead'); ?></p>
 
 <?php } ?>
 
-    </div>
+    
 
-<?php } ?>    
+<?php 
+
+// echo $GLOBALS[ 'full_width'];
+// echo $GLOBALS[ 'theme_sidebar_flag'];
+
+?>
 
     <div class="tiles-grid">
 
@@ -170,9 +174,10 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
 <?php           
       endwhile;   
 ?>
-    </div>
-    <br/>
+    </div>    
+</div>
+<br/>
 <?php
-    endif; // end child loop    
+endif; // end child loop    
 ?>
 
