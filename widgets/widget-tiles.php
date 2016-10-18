@@ -85,12 +85,32 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
                 "", 
                 "tiles-col-right", 
                 "tiles-col-1-4 tiles-col-right"
-            );   
-            
+            );               
         }       
     }
 
     ?>
+
+<?php if(get_sub_field('tiles_widget_title') || get_sub_field('tiles_widget_title')) { ?>
+
+    <div class="wrapper-pd">
+
+
+<?php if(get_sub_field('tiles_widget_title')) { ?>
+
+        <h3 class="h2-lg heading-underline"><?php the_sub_field('tiles_widget_title'); ?></h3>
+
+<?php } ?>
+
+<?php if(get_sub_field('tiles_widget_lead')) { ?>
+
+        <p class="lead"><?php the_sub_field('tiles_widget_lead'); ?></p>
+
+<?php } ?>
+
+    </div>
+
+<?php } ?>    
 
     <div class="tiles-grid">
 
@@ -124,7 +144,7 @@ if (get_sub_field('tiles_widget_layout') == 'right') {
     if(get_sub_field('tiles_widget_tile_image')): 
         $tile_image  = 'tile-skin-img';
     else : 
-        $tile_image  = 'tile-skin-img';
+        $tile_image  = 'tile-skin-no-img';
     endif;    
 
 ?>

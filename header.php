@@ -178,7 +178,7 @@
 			</div>
 
 			<div class="local-header">
-			    <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
+			    <div class="wrapper-pd-xs <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="local-header-inner">
 			            <div class="local-header-title">
 			                <h1><a href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
