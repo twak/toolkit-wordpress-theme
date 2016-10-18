@@ -128,7 +128,7 @@ if(get_sub_field('cards_widget_columns')) {
 					<?php }?>
 
 					<?php if(get_sub_field('cards_widget_card_content')) { //content?>			
-						<p class="note"<?php the_sub_field('cards_widget_card_content'); ?></p>
+						<p class="note"><?php the_sub_field('cards_widget_card_content'); ?></p>
 					<?php }?>		
 
 					<?php if(get_sub_field('cards_widget_card_link_option') == 'internal') { ?>			
