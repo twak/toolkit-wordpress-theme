@@ -4305,7 +4305,7 @@ table {
 .sidebar-cta-list a:before, .sidebar-cta a:before,
 .sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .multi-page-footer ul .next a:after,
 .page-footer ul .next a:after, .swiper-banner-alt .swiper-caption .swiper-caption-cta a:after,
-.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .course-cta ul li a:after, .tk-icon-chevron-up:before, .multi-page-btn.active:before,
+.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .tile-inner ul a:after, .course-cta ul li a:after, .tk-icon-chevron-up:before, .multi-page-btn.active:before,
 .page-contents-btn.active:before, .accordion-trigger.active:after, .scroll-up:after, .tk-icon-close:before, .filter.active:after, .active .site-search-btn:before, .state-sidebar-active .sidebar-button:before, .state-navicon-active .navicon button:before, .tk-nav .tk-nav-header button:before, .expander-trigger:after, .social-toggle.toggled:before, .tk-icon-download:before, .tk-icon-external:before, .tk-icon-home:before, .tk-icon-letter:before, .tk-icon-mail:before, .tk-icon-marker:before, .tk-icon-navicon:before, .sidebar-button:before, .navicon button:before, .tk-icon-news:before, .tk-icon-phone:before, .tk-icon-print:before, .tk-icon-profile:before, .tk-icon-remove:before, .tk-icon-rss:before, .tk-icon-search:before, .site-search-btn:before, .tk-icon-share:before, .social-toggle:before, .tk-icon-social-facebook:before, .tk-icon-social-google:before, .tk-icon-social-instagram:before, .tk-icon-social-linkedin:before, .tk-icon-social-twitter:before, .tk-icon-social-weibo:before, .tk-icon-social-youtube:before, .tk-icon-sort:before, .tk-icon-star:before, .tk-icon-triangle-down:before, .masthead-link-quicklinks:after, .sidebar-nav .dropdown > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown > a:after, .tk-icon-triangle-left:before, .tk-icon-triangle-right:before, .tk-icon-triangle-up:before, .state-quicklinks-active .masthead-link-quicklinks:after, .sidebar-nav .dropdown.open > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown.active > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown.active > a:after {
   font-family: "toolkit-icons";
   -webkit-font-smoothing: antialiased;
@@ -4350,7 +4350,7 @@ table {
 .sidebar-cta-list a:before, .sidebar-cta a:before,
 .sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .multi-page-footer ul .next a:after,
 .page-footer ul .next a:after, .swiper-banner-alt .swiper-caption .swiper-caption-cta a:after,
-.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .course-cta ul li a:after {
+.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .tile-inner ul a:after, .course-cta ul li a:after {
   content: ""; }
 
 .tk-icon-chevron-up:before, .multi-page-btn.active:before,
@@ -4459,7 +4459,7 @@ table {
 .page-contents-btn:before, .multi-page-btn.active:before,
 .page-contents-btn.active:before, .multi-page-footer ul a:after,
 .page-footer ul a:after, .accordion-trigger:after, .accordion-trigger.active:after, .social-toggle:before, .swiper-banner-alt .swiper-caption .swiper-caption-cta a:after,
-.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .course-cta ul li a:after, .scroll-up:after {
+.swiper-banner-sm .swiper-caption .swiper-caption-cta a:after, .tile-inner ul a:after, .course-cta ul li a:after, .scroll-up:after {
   /* use !important to prevent issues with browser extensions that change fonts */
   speak: none;
   font-style: normal;
@@ -6889,6 +6889,8 @@ img {
   .swiper-banner-sm .swiper-caption .swiper-caption-cta a:after,
   .swiper-banner-sm .swiper-caption .swiper-caption-cta
   .list-nav a:after,
+  .list-nav .tile-inner ul a:after, .tile-inner ul
+  .list-nav a:after,
   .list-nav .course-cta ul li a:after, .course-cta ul li
   .list-nav a:after,
   .list-nav .scroll-up:after {
@@ -8029,6 +8031,8 @@ img {
       margin-left: 50%; } }
   .tile-skin-img .tile-bg:after {
     background: rgba(0, 0, 0, 0.5);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.6) 100%);
     position: absolute;
     content: "";
     top: 0;
@@ -8046,10 +8050,20 @@ img {
 .tile-inner ul {
   padding: 0;
   margin: 0; }
+  .tile-inner ul li {
+    font-size: 16px; }
   .tile-inner ul a {
     text-decoration: none;
     text-transform: uppercase;
     color: black; }
+    .tile-inner ul a:after {
+      margin-left: 5px;
+      position: relative;
+      top: 2px;
+      color: #aa8f6f; }
+
+.tile-inner[min-width~="450px"] ul li {
+  font-size: 18px; }
 
 .tile-link {
   position: absolute;
@@ -8072,31 +8086,41 @@ img {
   overflow: hidden;
   font-size: 16px; }
   .content p {
-    font-size: 1.2vw;
-    line-height: 140%;
+    line-height: 130%;
     margin: 0 0 6px 0; }
-    @media (max-width: 1000px) {
-      .content p {
-        font-size: 1.6vw; } }
-    @media (max-width: 800px) {
-      .content p {
-        font-size: 2.4vw; } }
   .content h3 {
-    font-size: 1.8vw;
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     line-height: 125%;
     font-weight: 300; }
-    @media (max-width: 1000px) {
-      .content h3 {
-        font-size: 2.4vw; } }
-    @media (max-width: 800px) {
-      .content h3 {
-        font-size: 3.6vw; } }
   .content a {
     color: #ffffff; }
 
+.tile .more, .tile .divider-header-action {
+  display: none; }
+
+.tile[min-width~="440px"] .more, .tile[min-width~="440px"] .divider-header-action {
+  display: inline; }
+
+.tile p {
+  font-size: 14px; }
+
+.tile[min-width~="450px"] p {
+  font-size: 16px; }
+
+.tile[min-width~="600px"] p {
+  font-size: 18px; }
+
+.tile h3 {
+  font-size: 20px; }
+
+.tile[min-width~="450px"] h3 {
+  font-size: 22px; }
+
+.tile[min-width~="600px"] h3 {
+  font-size: 28px; }
+
 .content__inner {
-  padding: 1.25vw;
+  padding: 10px;
   position: absolute;
   bottom: 0;
   width: 100%; }
@@ -9498,7 +9522,7 @@ h1[id] {
 .page-footer ul a:after,
 .page-footer ul .tk-icons a:after, .tk-icons .accordion-trigger:after, .tk-icons .social-toggle:before, .tk-icons .swiper-banner-alt .swiper-caption .swiper-caption-cta a:after, .swiper-banner-alt .swiper-caption .swiper-caption-cta .tk-icons a:after, .tk-icons
 .swiper-banner-sm .swiper-caption .swiper-caption-cta a:after,
-.swiper-banner-sm .swiper-caption .swiper-caption-cta .tk-icons a:after, .tk-icons .course-cta ul li a:after, .course-cta ul li .tk-icons a:after, .tk-icons .scroll-up:after {
+.swiper-banner-sm .swiper-caption .swiper-caption-cta .tk-icons a:after, .tk-icons .tile-inner ul a:after, .tile-inner ul .tk-icons a:after, .tk-icons .course-cta ul li a:after, .course-cta ul li .tk-icons a:after, .tk-icons .scroll-up:after {
   margin-top: 5px;
   margin-bottom: 10px;
   font-size: 24px; }
