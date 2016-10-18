@@ -93,17 +93,25 @@ if( have_rows('tiles_widget_tile') ):
 
     
 
-<div class="wrapper-pd <?php if($GLOBALS[ 'full_width']){ echo "wrapper-lg";} else { echo "wrapper-md";} ?>">
+<div class="<?php if($GLOBALS[ 'full_width']){ echo "wrapper-lg";} else { echo "wrapper-md";} ?>">
 
-<?php if(get_sub_field('tiles_widget_title')) { ?>
+<?php if(get_sub_field('tiles_widget_title') || get_sub_field('tiles_widget_lead') ) { ?>
 
-        <h3 class="h2-lg heading-underline"><?php the_sub_field('tiles_widget_title'); ?></h3>
+    <div class="wrapper-pd">
 
-<?php } ?>
+    <?php if(get_sub_field('tiles_widget_title')) { ?>
 
-<?php if(get_sub_field('tiles_widget_lead')) { ?>
+            <h3 class="h2-lg heading-underline"><?php the_sub_field('tiles_widget_title'); ?></h3>
 
-        <p><?php the_sub_field('tiles_widget_lead'); ?></p>
+    <?php } ?>
+
+    <?php if(get_sub_field('tiles_widget_lead')) { ?>
+
+            <p><?php the_sub_field('tiles_widget_lead'); ?></p>
+
+    <?php } ?>
+
+    </div>
 
 <?php } ?>
 
