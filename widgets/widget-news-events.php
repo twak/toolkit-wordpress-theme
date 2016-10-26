@@ -40,8 +40,8 @@
 
 ?>
 
-<div class="skin-row-module-light p-t p-b">
-    <div class="wrapper-lg wrapper-pd">
+<div class="skin-row-module-light container-row">
+    <div class="wrapper-lg wrapper-pd-md">
 
         <h3 class="h2-lg heading-underline">
         	<?php 
@@ -119,7 +119,7 @@
 
 						<?php while ( $loop_news->have_posts() ) : $loop_news->the_post(); ?>
 
-						<div class="news-item col-sm-6 <?php if(!$sidebar_flag): echo "col-md-3"; endif; ?>">
+						<div class="news-item col-sm-6 col-md-3">
 
 						    <div class="card card-stacked skin-box-white skin-bd-b">
 						    	<?php if(0){ ?>
@@ -205,7 +205,7 @@
 
 						?>
 
-						<div class="events-item col-sm-6 <?php if(!$sidebar_flag): echo "col-md-3"; endif; ?>">
+						<div class="events-item col-sm-6 col-md-3">
 		                    <div class="card card-stacked skin-box-white skin-bd-b">
 		                        <div class="card-content equalize-inner">   		                        	
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
@@ -224,7 +224,7 @@
 
 						?>
 
-						<div class="events-item col-sm-6 <?php if(!$sidebar_flag): echo "col-md-3"; endif; ?>">
+						<div class="events-item col-sm-6 col-md-3">
 		                    <div class="card card-stacked skin-box-white skin-bd-b">                              
 		                        <div class="card-content equalize-inner">   		                        	
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
@@ -286,7 +286,7 @@
 
 						<?php while ( $loop_posts->have_posts() ) : $loop_posts->the_post(); ?>
 
-						<div class="events-item col-sm-6 <?php if(!$sidebar_flag): echo "col-md-3"; endif; ?>">
+						<div class="events-item col-sm-6 col-md-3">
 		                    <div class="card card-stacked skin-box-white skin-bd-b">
 		                        <div class="card-content equalize-inner">   
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>

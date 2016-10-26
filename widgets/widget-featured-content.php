@@ -9,9 +9,8 @@ if(get_sub_field('featured_content_widget_background') == 'grey'){
 ?>
 
 <!-- Featured Content Widget-->
-<div class="<?php echo $featured_content_background; ?>">
-	<div class="wrapper-md wrapper-pd-lg">
-		<div class="p-t p-b">
+<div class="container-row <?php echo $featured_content_background; ?>">
+	<div class="wrapper-md wrapper-pd-md">		
 			
 			<?php if(get_sub_field('featured_content_widget_heading')){ ?>
 				<h3 class="h2-lg heading-underline">
@@ -48,8 +47,7 @@ if(get_sub_field('featured_content_widget_background') == 'grey'){
 			        <?php } ?>
 			    </div>
 			</div>
-						
-		</div>		
+								
 	</div> 
 </div>
 <!--/Featured Content Widget-->

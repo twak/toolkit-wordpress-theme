@@ -33,8 +33,8 @@ get_header(); ?>
 			<div id="post-<?php the_ID(); ?>" <?php post_class('wrapper-sm wrapper-pd'); ?>>
 
 				<?php if (has_post_thumbnail()) { 
-					echo '<div class="m-b">';
-					the_post_thumbnail('large');  
+					echo '<div>';
+					the_post_thumbnail('large', array('class' => 'img-featured'));  
 					echo '</div>';
 				}
 				?>

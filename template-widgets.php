@@ -10,7 +10,8 @@
 ?>
 
 <?php get_header(); ?>
-<?php the_breadcrumb(); ?>
+
+<?php if(!$GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 
 <?php if(!$GLOBALS[ 'theme_sidebar_flag' ]){ //close wrapper ?>
 
@@ -25,30 +26,32 @@
 			the_row(); //widgets flexi field			
 			$widget_counter++;	
 
-			if($GLOBALS[ 'theme_sidebar_flag' ]){ // if we have a sidebar
+			if($GLOBALS[ 'theme_sidebar_flag' ]){ //if we have a sidebar
 				if($widget_top_flag){ //if we have set the top flag widget
-					if($widget_counter == 2 ){ // if we've loop through once
+					if($widget_counter == 2 ){ //if we've loop through once
 ?>
 						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 							<?php get_sidebar(); ?>
 						    <div class="column-container-primary">  
+						    <?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 <?php 
 						if(!is_front_page()){				    
 ?>							
-					    	<header class="wrapper-padded wrapper-sm">	
-								<h1 class="heading-underline"><?php the_title(); ?></h1>
-							</header>		
+						    	<header class="wrapper-pd wrapper-sm">	
+									<h1 class="heading-underline"><?php the_title(); ?></h1>
+								</header>		
 <?php
 						}	
 ?>						
 <?php 
 					} 
 				} else {
-					if($widget_counter < 2 ){ // if we've loop first time
+					if($widget_counter < 2 ){ //if we've loop first time
 ?>			
 						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 							<?php get_sidebar(); ?>
 						    <div class="column-container-primary">  
+						    <?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 						    	<header class="wrapper-padded wrapper-sm">	
 									<h1 class="heading-underline"><?php the_title(); ?></h1>
 								</header>					

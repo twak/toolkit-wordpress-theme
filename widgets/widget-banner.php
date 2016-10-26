@@ -1,18 +1,32 @@
 
-<?php if(get_sub_field('banner_widget_size') == 'large') { ?>
+<?php 
 
-<div>    
-	<div class="swiper swiper-2 swiper-full-width">
+//setup wrapper dependant of width of the site
+
+if(!$GLOBALS[ 'full_width']){
+	$swiper_wrapper = "wrapper-pd";
+	$swiper_width = "";
+
+} else {
+	$swiper_wrapper = "";
+	$swiper_width = "swiper-full-width";
+}
+
+?>
+<?php if(get_sub_field('banner_widget_size') == 'large') { /// make every slide work at every width?>
+
+<div class="<?php echo $swiper_wrapper; ?>">    
+	<div class="swiper swiper-2 <?php echo $swiper_width; ?>">
 
 <?php } elseif(get_sub_field('banner_widget_size') == 'small') {?>
 
-	<div class="wrapper-lg wrapper-pd">    
-		<div class="swiper swiper-1">
+	<div class="<?php echo $swiper_wrapper; ?>">    
+		<div class="swiper swiper-1 <?php echo $swiper_width; ?>">
 
 <?php } else { ?>	
 
-	<div class="wrapper-lg wrapper-pd">    
-		<div class="swiper">
+	<div class="<?php echo $swiper_wrapper; ?>">      
+		<div class="swiper <?php echo $swiper_width; ?>">
 
 <?php } ?>	
 
@@ -34,6 +48,13 @@
 				
 				$slide_footer .= '<a href="#slide'.($counter-1).'" data-slide="'.($counter-1).'">' . get_sub_field('banner_widget_slide_tab_title') .'</a></li>';
 
+				$slide_img_array = get_sub_field('banner_widget_slide_image');		
+				$slide_img_url = $slide_img_array['sizes']['banner-size-large'];
+
+				// echo "<pre>"		;
+				// print_r($slide_img_array);
+				// echo "</pre>"		;
+
 		?>
 
 		<div class="slide">
@@ -49,7 +70,7 @@
 			            <?php } ?>
 					</div>
 				</div>
-				<div class="slide-img" style="background-image:url('<?php the_sub_field('banner_widget_slide_image'); ?>');">
+				<div class="slide-img" style="background-image:url('<?php echo $slide_img_url; ?>');">
 					<img src="<?php the_sub_field('banner_widget_slide_image'); ?>" alt="name">
 				</div>
 

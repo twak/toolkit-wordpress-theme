@@ -2,36 +2,11 @@
 
 <?php 
 
-//Block or row view 
+//Layout - flat or stacked
 if(get_sub_field('cards_widget_layout') == 'stacked') {
 	$card_stacked_flag = 1;
 } else {
 	$card_stacked_flag = 0;
-}
-
-//Background colour
-$cards_widget_background = "";
-$cards_single_background = "";
-if(get_sub_field('cards_widget_background')) {
-	if(get_sub_field('cards_widget_background') == 'grey') {
-		$cards_widget_background = "skin-row-module-light ";
-		$cards_single_background = "skin-row-white";
-	} else {
-		$cards_widget_background = "";
-		$cards_single_background = "skin-box-module";
-	}
-}
-
-//Image proportion
-$cards_widget_image_proportion = "";
-if(get_sub_field('cards_widget_image_proportion')) {
-
-	if(get_sub_field('cards_widget_image_proportion') == "square") {
-		$cards_widget_image_proportion = "1-1";
-	} else {
-		$cards_widget_image_proportion = "2-1";
-	}
-
 }
 
 //Card columns
@@ -47,9 +22,51 @@ if(get_sub_field('cards_widget_columns')) {
 	}
 } 
 
+//Background colour
+$cards_widget_background = "";
+$cards_single_background = "";
+if(get_sub_field('cards_widget_background')) {
+	if(get_sub_field('cards_widget_background') == 'grey') {
+		$cards_widget_background = "skin-row-module-light ";
+		$cards_single_background = "skin-box-white";
+	} else {
+		$cards_widget_background = "";
+		$cards_single_background = "skin-box-module";
+	}
+}
+
+//Image proportion & width
+$cards_widget_image_proportion = "";
+if(get_sub_field('cards_widget_image_proportion')) {
+	if(get_sub_field('cards_widget_image_proportion') == "square") {
+		$cards_widget_image_proportion = "1-1";
+		if(!$card_stacked_flag) {
+			$cards_widget_image_width = "card-img-1-4";
+		}
+	} else {
+		$cards_widget_image_proportion = "2-1";
+		if(!$card_stacked_flag) {
+			$cards_widget_image_width = "card-img-1-3";
+		}
+	}
+}
+
+
+//Wrappers
+if($card_stacked_flag){
+	if($card_columns == 4) {
+		$cards_widget_wrapper = "wrapper-lg";
+	} else {
+		$cards_widget_wrapper = "wrapper-md";
+	}
+
+} else {
+	$cards_widget_wrapper = "wrapper-md";
+}
+
 ?>
-<div class="widget <?php echo $cards_widget_background; ?>">			
-	<div class="wrapper-md wrapper-pd p-t equalize">
+<div class="container-row <?php echo $cards_widget_background; ?>">			
+	<div class="<?php echo $cards_widget_wrapper; ?> wrapper-pd-md equalize">
 
 <?php if(get_sub_field('cards_widget_title')) { ?>
 
@@ -89,7 +106,7 @@ if(get_sub_field('cards_widget_columns')) {
 <?php } ?>
 				
 				<?php if(get_sub_field('cards_widget_card_image')) { //Image ?>
-					<div class="card-img card-img-1-3 card-img-1-4-xs">
+					<div class="card-img <?php echo $cards_widget_image_width; ?>">
 						<div class="rs-img rs-img-<?php echo $cards_widget_image_proportion; ?>" style="background-image: url('<?php the_sub_field('cards_widget_card_image'); ?>');">
 
 						<?php if(get_sub_field('cards_widget_card_link_option') == 'internal') { ?>			
