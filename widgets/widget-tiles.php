@@ -18,15 +18,32 @@ if (get_sub_field('tiles_widget_background') == 'grey') {
 }
 
 //Wrapper
-
-
-if($GLOBALS[ 'full_width'] && $GLOBALS[ 'theme_sidebar_flag' ]){ 
-    $tile_wrapper = ""; 
-} elseif($GLOBALS[ 'full_width']) { 
-    $tile_wrapper = "wrapper-md"; 
+if($GLOBALS[ 'full_width']){ 
+    if($GLOBALS[ 'theme_sidebar_flag' ]){
+        $tile_wrapper = ""; 
+    } else {
+        $tile_wrapper = "wrapper-lg"; 
+    }
+    
 } else {
-    $tile_wrapper = ""; 
+    if($GLOBALS[ 'theme_sidebar_flag' ]){
+        $tile_wrapper = "wrapper-lg"; 
+    } else {
+        $tile_wrapper = "wrapper-lg"; 
+    }
 } 
+
+/*
+
+if(full width) {
+    if(){
+    
+    }
+    
+}
+
+
+*/
 
 
 // If we have tiles
@@ -113,7 +130,7 @@ if( have_rows('tiles_widget_tile') ):
 
 <div class="container-row <?php echo $tiles_widget_background ; ?>">
     
-<div class="wrapper-md <?php //echo $tile_wrapper; ?>">
+<div class="<?php echo $tile_wrapper; ?>">
 
 <?php if(get_sub_field('tiles_widget_title') || get_sub_field('tiles_widget_lead') ) { ?>
 

@@ -4,7 +4,7 @@
 //setup wrapper dependant of width of the site
 
 if(!$GLOBALS[ 'full_width']){
-	$swiper_wrapper = "wrapper-pd";
+	$swiper_wrapper = "wrapper-pd wrapper-lg";
 	$swiper_width = "";
 
 } else {

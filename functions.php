@@ -16,8 +16,7 @@
  * c.   $POST CATEGORIES
  * d.   $CHANGE SEARCH QUERY STRING
  * e.   $DROPCAP & SUMMARY
- * f.   $ADVANCED CUSTOM FIELDS (Sidebar toggle and theme options)
- *          
+ * f.   $ADVANCED CUSTOM FIELDS (Sidebar toggle, pinned widget and theme options)
  */
 
 /*------------------------------------*\
@@ -1168,12 +1167,12 @@ if( function_exists('acf_add_local_field_group') ):
 //Adds sidebar flag to every page type
 
 acf_add_local_field_group(array (
-    'key' => 'group_5731f1ca3b6f5',
+    'key' => 'group_tk_sidebar_page_option',
     'title' => 'Sidebar Page Option',
     'fields' => array (
         array (
-            'key' => 'field_5729ee2141cec',
-            'label' => 'Sidebar',
+            'key' => 'field_tk_sidebar_page_option',
+            'label' => '',
             'name' => 'sidebar_flag',
             'type' => 'radio',
             'instructions' => '',
@@ -1203,7 +1202,61 @@ acf_add_local_field_group(array (
             ),
         ),
     ),
-    'menu_order' => 0,
+    'menu_order' => 2,
+    'position' => 'side',
+    'style' => 'default',
+    'label_placement' => 'top',
+    'instruction_placement' => 'label',
+    'hide_on_screen' => '',
+    'active' => 1,
+    'description' => '',
+));
+
+endif;
+
+/**
+ * Pinned widget for template widgets
+ */
+
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+    'key' => 'group_tk_pinned_widget',
+    'title' => 'Pinned Widget',
+    'fields' => array (
+        array (
+            'key' => 'field_tk_pinned_widget',
+            'label' => '',
+            'name' => 'widget_top',
+            'type' => 'checkbox',
+            'instructions' => 'Pin first widget to the top when the page has a sidebar',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array (
+                'active' => 'Active',
+            ),
+            'default_value' => array (
+            ),
+            'layout' => 'vertical',
+            'toggle' => 0,
+            'return_format' => 'value',
+        ),
+    ),
+    'location' => array (
+        array (
+            array (
+                'param' => 'page_template',
+                'operator' => '==',
+                'value' => 'template-widgets.php',
+            ),
+        ),
+    ),
+    'menu_order' => 1,
     'position' => 'side',
     'style' => 'default',
     'label_placement' => 'top',
