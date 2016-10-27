@@ -16278,7 +16278,7 @@ if( Tablesaw.mustard ) {
      */
 
     if (typeof eventsArray !== 'undefined') {
-        $("#calendar").fullCalendar({
+        $("#calendar, .js-events-calendar").fullCalendar({
             header: {
                 left: "prev,next today",
                 center: "title",
