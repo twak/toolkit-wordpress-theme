@@ -12,7 +12,6 @@
 /**
 
     TODO: let the user choose what fields go in the table
-    Create alternative layout and display by category
     Create order by header in table layout
 
 */
@@ -107,23 +106,13 @@ if (function_exists('acf_add_options_page')) {
  * Profiles Page Settings Fields
  */
 
-// 'conditional_logic' => array (
-//                 array (
-//                     array (
-//                         'field' => 'field_57fcfafe8a820',
-//                         'operator' => '==',
-//                         'value' => 'red',
-//                     ),
-//                 ),
-//             ),
-
 if( function_exists('acf_add_local_field_group') ){
 
     acf_add_local_field_group(array (
         'key' => 'group_tk_profiles_page_settings',
         'title' => 'Profile Page Settings',
         'fields' => array (
-            array (
+            array (//Custom title
                 'key' => 'field_tk_profiles_page_settings_title',
                 'label' => 'Page Title',
                 'name' => 'tk_profiles_page_settings_title',
@@ -144,7 +133,7 @@ if( function_exists('acf_add_local_field_group') ){
                 'readonly' => 0,
                 'disabled' => 0,
             ),
-            array (
+            array (//Profiles page intro
                 'key' => 'field_tk_profiles_page_settings_introduction',
                 'label' => 'Page Introduction',
                 'name' => 'tk_profiles_page_settings_introduction',
@@ -162,7 +151,7 @@ if( function_exists('acf_add_local_field_group') ){
                 'toolbar' => 'basic',
                 'media_upload' => 0,
             ),
-            array (
+            array (//Layout choice of table or card
                 'key' => 'field_tk_profiles_page_settings_template',
                 'label' => 'Page Template',
                 'name' => 'tk_profiles_page_settings_template',
@@ -183,15 +172,16 @@ if( function_exists('acf_add_local_field_group') ){
                 'readonly' => 0,
                 'disabled' => 0,
                 'choices' => array(
-                    'table_layout'   => 'Table layout',                                        
+                    'table_layout'   => 'Table layout',
+                    'card_layout'   => 'Card layout',                                        
                 ),                       
             ),
-            array ( //Archived profiles cat option
+            array ( //Show images in table layout option
                 'key' => 'field_tk_profiles_page_settings_template_image',
                 'label' => 'Show image in the table',
                 'name' => 'tk_profiles_page_settings_template_image',
                 'type' => 'checkbox',
-                'instructions' => 'Ticking this box will show profile images on profiles list page.',
+                'instructions' => 'Ticking this box will show profile images on profiles table page.',
                 'required' => 0,
                 'conditional_logic' => array (
                     array (
@@ -218,7 +208,41 @@ if( function_exists('acf_add_local_field_group') ){
                     'show_images'   => 'Show images'
                 ),                
             ),         
+            array ( //Choose order in card layout (by cat or alpha)
+                'key' => 'field_tk_profiles_page_settings_template_categories',
+                'label' => 'Profiles order',
+                'name' => 'tk_profiles_page_settings_template_categories',
+                'type' => 'radio',
+                'instructions' => 'Select to order profiles by alphabetically or category.',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profiles_page_settings_template',
+                            'operator' => '==',
+                            'value' => 'card_layout',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'maxlength' => '',
+                'rows' => '',
+                'new_lines' => 'wpautop',
+                'readonly' => 0,
+                'disabled' => 0,
+                'choices' => array(
+                    'alphabetical'   => 'Alphabetical',
+                    'by_category'   => 'By category',
+                ),                
+            ),         
         ),
+
         'location' => array (
             array (
                 array (
@@ -602,7 +626,7 @@ acf_add_local_field_group(array (
 
 endif;
 
-/* External profile */
+/* External link profile */
 
 if( function_exists('acf_add_local_field_group') ):
 

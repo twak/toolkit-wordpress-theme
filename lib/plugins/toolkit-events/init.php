@@ -12,7 +12,7 @@
 /* 
  TO DO:
  Make featured events possible
- Build in calendar functionality
+
  Make the category for archived events selectable
 */
 
@@ -166,7 +166,7 @@ if( function_exists('acf_add_local_field_group') ) {
             array ( //Archived events cat option
                 'key' => 'field_tk_events_page_settings_archive',
                 'label' => 'Archived events',
-                'name' => 'tk_events_single_settings_archive',
+                'name' => 'tk_events_page_settings_archive',
                 'type' => 'checkbox',
                 'instructions' => 'Ticking this box will hide events in the \'Archived Events\' category from the events page.',
                 'required' => 0,
@@ -190,7 +190,7 @@ if( function_exists('acf_add_local_field_group') ) {
             array ( //Archived events cat option
                 'key' => 'field_tk_events_page_settings_calendar',
                 'label' => 'Calendar view',
-                'name' => 'tk_events_single_settings_calendar',
+                'name' => 'tk_events_page_settings_calendar',
                 'type' => 'checkbox',
                 'instructions' => 'Ticking this box will show a calendar view on the events page.',
                 'required' => 0,
@@ -338,7 +338,7 @@ if (function_exists('acf_add_local_field_group')) {
                     'id' => '',
                 ) ,
                 'display_format' => 'd/m/Y',
-                'return_format' => 'F j, Y',
+                'return_format' => 'Y-m-d',
                 'first_day' => 1,
             ) ,
             array(
@@ -355,7 +355,7 @@ if (function_exists('acf_add_local_field_group')) {
                     'id' => '',
                 ) ,
                 'display_format' => 'd/m/Y',
-                'return_format' => 'd/m/Y',
+                'return_format' => 'Y-m-d',
                 'first_day' => 1,
             ) ,           
             array(

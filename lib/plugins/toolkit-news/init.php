@@ -221,51 +221,51 @@ if( function_exists('acf_add_local_field_group') ) {
 
 /* Featured news */
 
-if( function_exists('acf_add_local_field_group') ):
+// if( function_exists('acf_add_local_field_group') ):
 
-acf_add_local_field_group(array (
-    'key' => 'group_tk_news_featured',
-    'title' => 'Featured News',
-    'fields' => array (
-        array(
-            'key' => 'field_tk_news_featured',
-            'label' => '',
-            'name' => 'tk_news_featured',
-            'type' => 'checkbox',
-            'instructions' => 'Ticking this box will make this news appear at the top of the list on the news page.',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ) ,                
-            'choices' => array(
-                'featured_news'   => 'Make this news featured'
-            ),
+// acf_add_local_field_group(array (
+//     'key' => 'group_tk_news_featured',
+//     'title' => 'Featured News',
+//     'fields' => array (
+//         array(
+//             'key' => 'field_tk_news_featured',
+//             'label' => '',
+//             'name' => 'tk_news_featured',
+//             'type' => 'checkbox',
+//             'instructions' => 'Ticking this box will make this news appear at the top of the list on the news page.',
+//             'required' => 0,
+//             'conditional_logic' => 0,
+//             'wrapper' => array(
+//                 'width' => '',
+//                 'class' => '',
+//                 'id' => '',
+//             ) ,                
+//             'choices' => array(
+//                 'featured_news'   => 'Make this news featured'
+//             ),
 
-        ) ,
-    ),
-    'location' => array (
-        array (
-            array (
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => 'news',
-            ),
-        ),
-    ),
-    'menu_order' => 0,
-    'position' => 'side',
-    'style' => 'default',
-    'label_placement' => 'top',
-    'instruction_placement' => 'label',
-    'hide_on_screen' => '',
-    'active' => 1,
-    'description' => '',
-));
+//         ) ,
+//     ),
+//     'location' => array (
+//         array (
+//             array (
+//                 'param' => 'post_type',
+//                 'operator' => '==',
+//                 'value' => 'news',
+//             ),
+//         ),
+//     ),
+//     'menu_order' => 0,
+//     'position' => 'side',
+//     'style' => 'default',
+//     'label_placement' => 'top',
+//     'instruction_placement' => 'label',
+//     'hide_on_screen' => '',
+//     'active' => 1,
+//     'description' => '',
+// ));
 
-endif;
+// endif;
 
 /**
  * Flush rewrite rules when creating new post type
