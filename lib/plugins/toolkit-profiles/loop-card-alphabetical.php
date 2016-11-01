@@ -28,8 +28,8 @@ endif;
             
             <div class="card-img">
             <?php if ( has_post_thumbnail()): //Check if Thumbnail exists ?>                                        
-                <div class="rs-img" style="background-image: url('<?php the_post_thumbnail_url('small');?>')">
-                    <a href="<?php echo $profile_link; ?>"><img src="<?php the_post_thumbnail_url('small');?>" alt="<?php the_title(); ?>"></a>                       
+                <div class="rs-img" style="background-image: url('<?php the_post_thumbnail_url('medium');?>')">
+                    <a href="<?php echo $profile_link; ?>"><img src="<?php the_post_thumbnail_url('medium');?>" alt="<?php the_title(); ?>"></a>                       
                 </div>
             <?php else: ?>     
                 <div class="rs-img">

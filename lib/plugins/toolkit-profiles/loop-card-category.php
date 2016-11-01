@@ -27,10 +27,8 @@ $loop = new WP_Query( array(
    			<div class="card-flat card-stacked-xs skin-bd-b skin-box-module">
                 <div class="card-img">          
                     <?php if ( has_post_thumbnail()) { ?>
-                        <div class="rs-img rs-img-1-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">
-                            <a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
-                                <?php the_post_thumbnail('large'); // Declare pixel size you need inside the array ?>
-                            </a>
+                        <div class="rs-img" style="background-image: url('<?php the_post_thumbnail_url('medium');?>')">
+                            <a href="<?php echo $profile_link; ?>"><img src="<?php the_post_thumbnail_url('medium');?>" alt="<?php the_title(); ?>"></a>                       
                         </div>
                     <?php } else { ?>           
                         <div class="rs-img">
