@@ -4,6 +4,9 @@
  *  Custom functions, support, custom post types and more.
  */
 
+/* autoload composer libs */
+require_once get_template_directory() . '/vendor/autoload.php';
+
 /* plugin activation */
 require_once get_template_directory() . '/lib/plugins.php';
 

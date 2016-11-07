@@ -9,10 +9,8 @@ $consumer_secret = get_field('consumer_secret', 'option');
 $access_token = get_field('access_token', 'option');
 $access_token_secret = get_field('access_token_secret', 'option');
 
-/* make sure all the parameters are available */
-if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $access_token_secret ) {
-
-    require(dirname(__FILE__) . '/lib/tmhOAuth.php');
+/* make sure all the parameters are available and the tmhOauth library is loaded */
+if ( class_exists( 'tmhOAuth' ) && $screen_name && $consumer_key && $consumer_secret && $access_token && $access_token_secret ) :
 
     $include_retweets = get_field('include_retweets', 'option');
     $exclude_replies = true;
@@ -50,7 +48,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
 
             foreach ($responses as $status) {
                 $text = tk_parse_tweet( $status );
-                $dateString = tk_get_tweet_date( strtotime( $tweet->created_at ) );
+                $dateString = tk_get_tweet_date( strtotime( $status->created_at ) );
 
                 $buffer .= "<div class='col-sm-6 col-md-3'><div class='tweet'>\n";
                 $buffer .= "<p class='tweet-content'>&ldquo;" . $text . "&rdquo;</p>" . "\n";
@@ -58,7 +56,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
                 $buffer .= "</div></div>";
 
                 $tCount ++;
-                if ($tCount >= $TWITTER_MAX_POSTS)
+                if ($tCount >= $max)
                     break;
 
             }
@@ -76,12 +74,15 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
 </div>
 
 <?php
+
+endif;
 /**
  * parses a tweet, adding the user picture, linked username, and links in body
  */
 function tk_parse_tweet($tweet, $options = array())
 {
     $text = '';
+    $is_retweet = false;
     /*if ( ! isset( $tweet->user ) ) {
         return '';
     }
@@ -90,10 +91,12 @@ function tk_parse_tweet($tweet, $options = array())
     } else {
         $text .= sprintf( '<a href="https://twitter.com/%1$s" title="View @%1$s on twitter">@%1$s</a>', $tweet->user->screen_name );
     }*/
-    if ( isset( $tweet->retweeted_status ) ) {
-        $text = sprintf("RT @%s: %s", $tweet->retweeted_status->user->screen_name, $tweet->retweeted_status->text );
-    }
 
+    /* if this is a retweet, use the original tweet for parsing */
+    if (isset($tweet->retweeted_status)) {
+        $tweet = $tweet->retweeted_status;
+        $is_retweet = true;
+    }
 
     // Number of UTF-8 characters in plain tweet.
     $textlen = mb_strlen( $tweet->text ); 
@@ -116,7 +119,7 @@ function tk_parse_tweet($tweet, $options = array())
         // link to user mentions
         if ( isset( $tweet->entities->user_mentions ) ) {
             foreach ( $tweet->entities->user_mentions as $entity ) {
-                $ChAr[$entity->indices[0]] = "<a href='https://twitter.com/" . $entity->screen_name . "'>" . $ChAr[$entity->indices[0]];
+                $ChAr[$entity->indices[0]] = "<a href='https://twitter.com/" . $entity->screen_name . "' class='user'>" . $ChAr[$entity->indices[0]];
                 $ChAr[$entity->indices[1] -1] .= "</a>";
             }
         }
@@ -143,14 +146,13 @@ function tk_parse_tweet($tweet, $options = array())
                 }
             }
         }
-        $tweet_html .= implode('', $ChAr); // HTML tweet.
+        $text .= implode('', $ChAr); // HTML tweet.
     } else {
-        $tweet_html .= htmlentities(strip_tags($tweet->text, '<br><p>'));
+        $text .= htmlentities(strip_tags($tweet->text, '<br><p>'));
     }
-    $text .= $tweet_html;
-    $tweet_date = tk_get_tweet_date( strtotime( $tweet->created_at ) );
-    $text .= '<br /><span class="tweet-date">' . $tweet_date . '</span>';
-
+    if ($is_retweet) {
+        $text = sprintf('RT <a class="user" href="http://twitter.com/%1$s">@%1$s</a>: %2$s', $tweet->user->screen_name, $text );
+    }
     return $text;
 }
 

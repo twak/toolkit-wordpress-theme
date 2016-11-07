@@ -32,10 +32,6 @@ gulp.task('bower', function() {
 });
 
 gulp.task('copydeps', ['bower'], function() {
-    gulp.src('bower_components/tmhOauth/tmhOauth.php')
-        .pipe(gulp.dest('./lib/'));
-    gulp.src('bower_components/tmhOauth/cacert.pem')
-        .pipe(gulp.dest('./lib/'));
     gulp.src('bower_components/TGM-Plugin-Activation/class-tgm-plugin-activation.php')
         .pipe(gulp.dest('./lib/'));
 });
