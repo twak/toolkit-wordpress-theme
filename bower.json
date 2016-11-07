@@ -1,0 +1,23 @@
+{
+  "name": "toolkit-wordpress-theme",
+  "description": "Wordpress theme for the University of Leeds toolkit",
+  "main": "style.css",
+  "authors": [
+    "Web Team, University of Leeds"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "node"
+  ],
+  "homepage": "https://bitbucket.org/university-of-leeds/toolkit-wordpress-theme",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "tmhOAuth": "themattharris/tmhOAuth#^0.8.4",
+    "TGM-Plugin-Activation": "TGMPA/TGM-Plugin-Activation#^2.6.1"
+  }
+}
