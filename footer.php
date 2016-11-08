@@ -1,7 +1,7 @@
 			</div>
 			<!-- /.main-->				
 
-			<?php //include_once( 'tweets.php' ); ?>				
+			<?php get_template_part( 'templates/tweets' ); ?>				
 
 			<footer class="site-footer" role="contentinfo">	
 					
