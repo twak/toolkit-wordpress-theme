@@ -4,7 +4,7 @@
  */
 
 /* add favicons */
-//add_action( 'wp_head', 'tk_add_favicons' );
+add_action( 'wp_head', 'tk_add_favicons' );
 function tk_add_favicons()
 {
     printf('<link rel="icon" sizes="192x192" href="%s/img/icons/touch-icon-192x192.png">', get_stylesheet_directory_uri() );
@@ -214,12 +214,3 @@ if ( !function_exists( 'tk_post_categories();' ) ) {
         }                        
     }
 }
-
-
-
-
-
-
-
-
-

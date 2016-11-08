@@ -11,9 +11,6 @@
 
 		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
 
-		 <!-- Include Favicon -->
-        <link rel="icon" type="image/png" href="<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>img/icons/favicon.ico" />
-           
         <!-- Typekit Fonts Async -->
         <script type="text/javascript">
             if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
