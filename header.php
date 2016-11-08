@@ -12,7 +12,7 @@
 		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
 
 		 <!-- Include Favicon -->
-        <link rel="icon" type="image/png" href="data:image/vndmicrosofticon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAACXBIWXMAAABkAAAAZAAPlsXdAAAACXZwQWcAAAAgAAAAIACH+pydAAABKklEQVRIx81V0ZGFIAwkjP/SiXRgZ4YOLcESqMDkfeRNjgGPuwe5mfPDUcDdZDeJzv3nCwDa12rRAPcR3YxmXdeUUghBVmyS0O9DCOd5MvN1XTFGS90BIMaYc2ZmImLmnPO2bX/i7ePWrEqIKIHLXa99342F+jFFGICWYNstZtZCmg1fCAAAEZ1zx3Eoh40TEiwRISIiCq5YUss4TDBQYx+glwSl4WUSsrKYcFTSWWYgJqeUqi2l8TMGSLzic2WMPvuZUfGdUOXJZaaKpK3KhNpjy7wfnR8cM4NtE+i0eKMPVJQOzsePdb6OD7vOyHuk9GMZ3Pf9BeF9xUpEU31QzUuF04TK0vLzLV3CGUjUzv1+r81K1EcfJGj/KsYEWja/OmzbyTYElQF9vhd+J/1iV0kY4AAAABp6VFh0SlBFRy1Db2xvcnNwYWNlAAB42jMCAAAzADMRFn5jAAAAJXpUWHRKUEVHLVNhbXBsaW5nLWZhY3RvcnMAAHjaM6ww1DGEYAARbwLnIJ7wIwAAAABJRU5ErkJggg==" />
+        <link rel="icon" type="image/png" href="<link rel="icon" type="image/png" href="<?php echo get_template_directory_uri(); ?>img/icons/favicon.ico" />
            
         <!-- Typekit Fonts Async -->
         <script type="text/javascript">
@@ -168,7 +168,7 @@
                         <button class="btn-icon" data-state="body-state" data-class="state-navicon-active">Menu</button>
                     </div>
 			        <div class="site-logo">
-			            <a href="http://www.leeds.ac.uk/"><img src="http://webdesigntest.leeds.ac.uk/cdn/img/logo-large.svg" alt="University of Leeds"></a>
+			            <a href="http://www.leeds.ac.uk/"><img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="University of Leeds"></a>
 			        </div>
 			    </div>
 			</header>
