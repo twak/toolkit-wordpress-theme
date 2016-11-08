@@ -3,6 +3,7 @@
  * Twitter
  */
 
+/* get twitter settings from theme options */
 $screen_name = get_field('screen_name', 'option');
 $consumer_key = get_field('consumer_key', 'option');
 $consumer_secret = get_field('consumer_secret', 'option');
@@ -10,7 +11,10 @@ $access_token = get_field('access_token', 'option');
 $access_token_secret = get_field('access_token_secret', 'option');
 
 /* make sure all the parameters are available and the tmhOauth library is loaded */
-if ( class_exists( 'tmhOAuth' ) && $screen_name && $consumer_key && $consumer_secret && $access_token && $access_token_secret ) :
+if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $access_token_secret ) :
+
+    /* get twitter OAuth library */
+    require_once get_template_directory() . '/lib/tmhOAuth.php';
 
     $include_retweets = get_field('include_retweets', 'option');
     $exclude_replies = true;
