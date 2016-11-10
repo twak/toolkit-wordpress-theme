@@ -84,7 +84,7 @@
 		})(window,document,'script','dataLayer','GTM-WT437X');</script>
 		<!-- End Google Tag Manager -->
 
-		<div class="site-container-lg <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
+		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
 			<nav id="quicklinks" class="quicklinks collapse" role="navigation">
 			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
