@@ -16939,7 +16939,21 @@ $('body').click(function(e){
     });
 
 
+    // $(window).scroll(function(){
+    //     $('.swiper-2 .slide-img')
+    // });
+
+   
+
+    $(window).scroll(function(){
+        var x = $(this).scrollTop();
+        $('.swiper-2.swiper-full-width .slide-img').css('background-position', '0px ' + (-20 + parseInt(x / 10)) + 'px');
+    });
+
+
 }(jQuery);
+
+
 +function ($) {
   'use strict';
 
