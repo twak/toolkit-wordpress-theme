@@ -31,10 +31,6 @@ $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
 query_posts(array(
     'post_type' => 'news',         
-    'meta_key'  => '',
-    'orderby'   => 'meta_value_num',
-    'order'     => 'ASC',
-    'cat'       => '',                
     'paged'     => $paged
 ));
 

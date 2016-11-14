@@ -3,62 +3,86 @@
  * Plugin Name: Toolkit Profiles
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: This plugin adds toolkit profiles.
- * Version: 1.0.0
+ * Version: 1.0.2
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
  */
 
 /**
+ * Add profiles Post Type taxonomy
+ * added with priority LESS THAN post type registration
+ * to ensure the rewrite slug is not overwritten
+ */
+add_action('init', 'create_taxonomy_tk_profiles', 9);
 
-    TODO: let the user choose what fields go in the table
-    Create order by header in table layout
-
-*/
+function create_taxonomy_tk_profiles()
+{
+    register_taxonomy('profile_category', array('profiles'), array(
+        'hierarchical' => true,
+        'labels' => array(
+            'name' => 'Profile Categories',
+            'singular_name' => 'Profile Category',
+            'search_items' => 'Search Profile Categories',
+            'all_items' => 'All Profile Categories',
+            'parent_item' => 'Parent Profile Category',
+            'parent_item_colon' => 'Parent Profile Category:',
+            'edit_item' => 'Edit Profile Category', 
+            'update_item' => 'Update Profile Category',
+            'add_new_item' => 'Add New Profile Category',
+            'new_item_name' => 'New Profile Category',
+            'menu_name' => 'Profile Categories'
+        ),
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array(
+            'slug' => 'profile_type',
+            'with_front' => false
+        )
+    ) );
+}
 
 
 /**
- * Profile Post Types
+ * Add profiles Custom Post Type
+ * added with priority GREATER THAN taxonomy registration
+ * to ensure the rewrite slug is not overwritten
  */
+add_action('init', 'create_post_type_tk_profiles');
 
 function create_post_type_tk_profiles() {
-    register_taxonomy_for_object_type('category', 'profiles'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('post_tag', 'profiles');
     register_post_type('profiles', // Register Custom Post Type
         array(
         'labels' => array(
-            'name' => __('Profiles', 'html5blank'), // Rename these to suit
-            'singular_name' => __('Profile', 'html5blank'),
-            'add_new' => __('Add New', 'html5blank'),
-            'add_new_item' => __('Add New Profile', 'html5blank'),
-            'edit' => __('Edit', 'html5blank'),
-            'edit_item' => __('Edit Profile', 'html5blank'),
-            'new_item' => __('New Profile', 'html5blank'),
-            'view' => __('View Profile', 'html5blank'),
-            'view_item' => __('View Profile', 'html5blank'),
-            'search_items' => __('Search Profiles', 'html5blank'),
-            'not_found' => __('No Profile found', 'html5blank'),
-            'not_found_in_trash' => __('No Profile found in Trash', 'html5blank')
+            'name' => 'Profiles', 
+            'singular_name' => 'Profile',
+            'add_new' => 'Add New',
+            'add_new_item' => 'Add New Profile',
+            'edit' => 'Edit',
+            'edit_item' => 'Edit Profile',
+            'new_item' => 'New Profile',
+            'view' => 'View Profile',
+            'view_item' => 'View Profile',
+            'search_items' => 'Search Profiles',
+            'not_found' => 'No Profile found',
+            'not_found_in_trash' => 'No Profile found in Trash', 
         ),
         'public' => true,
-        'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
+        'hierarchical' => true,
         'has_archive' => true,
         'supports' => array(
             'title',
             'editor',
-            //'excerpt',
             'thumbnail'
         ),
+        'rewrite' => array(
+            'slug' => 'profiles',
+            'with_front' => false
+        ),
         'menu_icon' => 'dashicons-admin-users',
-        'can_export' => true, // Allows export in Tools > Export
-        'taxonomies' => array(
-            //'post_tag',
-            'category'
-        ) // Add Category and Post Tags support
+        'can_export' => true
     ));
 }
-
-add_action('init', 'create_post_type_tk_profiles'); // Add profiles Custom Post Type
 
 /**
  * Add in profiles templates (single and archive)
@@ -68,16 +92,15 @@ add_action('init', 'create_post_type_tk_profiles'); // Add profiles Custom Post 
 
 function tk_profiles_single_temple($single_template) {
     global $post;
-    if ($post->post_type == 'profiles') {
+    if ($post->post_type == 'profiles' || is_tax( 'profile_category') ) {
         $single_template = dirname(__FILE__) . '/single-profiles.php';
     }
-
     return $single_template;
 }
 
 function tk_profiles_archive_temple($archive_template) {
     global $post;
-    if ($post->post_type == 'profiles') {
+    if ($post->post_type == 'profiles' || is_tax( 'profile_category') ) {
         $archive_template = dirname(__FILE__) . '/archive-profiles.php';
     }
 
@@ -103,11 +126,14 @@ if (function_exists('acf_add_options_page')) {
 }
 
 /**
- * Profiles Page Settings Fields
+ * ACF Fields
  */
 
-if( function_exists('acf_add_local_field_group') ){
+if( function_exists('acf_add_local_field_group') ) {
 
+    /**
+     * Profile page settings (title and intro)
+     */
     acf_add_local_field_group(array (
         'key' => 'group_tk_profiles_page_settings',
         'title' => 'Profile Page Settings',
@@ -151,96 +177,6 @@ if( function_exists('acf_add_local_field_group') ){
                 'toolbar' => 'basic',
                 'media_upload' => 0,
             ),
-            array (//Layout choice of table or card
-                'key' => 'field_tk_profiles_page_settings_template',
-                'label' => 'Page Template',
-                'name' => 'tk_profiles_page_settings_template',
-                'type' => 'select',
-                'instructions' => 'Select the layout of the profiles list page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'table_layout'   => 'Table layout',
-                    'card_layout'   => 'Card layout',                                        
-                ),                       
-            ),
-            array ( //Show images in table layout option
-                'key' => 'field_tk_profiles_page_settings_template_image',
-                'label' => 'Show image in the table',
-                'name' => 'tk_profiles_page_settings_template_image',
-                'type' => 'checkbox',
-                'instructions' => 'Ticking this box will show profile images on profiles table page.',
-                'required' => 0,
-                'conditional_logic' => array (
-                    array (
-                        array (
-                            'field' => 'field_tk_profiles_page_settings_template',
-                            'operator' => '==',
-                            'value' => 'table_layout',
-                        ),
-                    ),
-                ),
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'show_images'   => 'Show images'
-                ),                
-            ),         
-            array ( //Choose order in card layout (by cat or alpha)
-                'key' => 'field_tk_profiles_page_settings_template_categories',
-                'label' => 'Profiles order',
-                'name' => 'tk_profiles_page_settings_template_categories',
-                'type' => 'radio',
-                'instructions' => 'Select to order profiles by alphabetically or category.',
-                'required' => 0,
-                'conditional_logic' => array (
-                    array (
-                        array (
-                            'field' => 'field_tk_profiles_page_settings_template',
-                            'operator' => '==',
-                            'value' => 'card_layout',
-                        ),
-                    ),
-                ),
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'alphabetical'   => 'Alphabetical',
-                    'by_category'   => 'By category',
-                ),                
-            ),         
         ),
 
         'location' => array (
@@ -262,15 +198,296 @@ if( function_exists('acf_add_local_field_group') ){
         'description' => '',
     ));
 
-}
+    /**
+     * Archive Profile page display settings
+     */
+    acf_add_local_field_group(array (
+        'key' => 'tk_group_profiles_display',
+        'title' => 'Profiles Display',
+        'fields' => array (
+            array (
+                'key' => 'field_tk_profile_display',
+                'label' => 'Profile Display',
+                'name' => 'tk_profile_display',
+                'type' => 'select',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'all' => 'Display all profiles in a single page',
+                    'by_cat' => 'Display profiles by category',
+                ),
+                'default_value' => array (
+                ),
+                'allow_null' => 1,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'return_format' => 'value',
+                'placeholder' => '',
+            ),
+            array (
+                'key' => 'field_tk_profile_by_category_rules',
+                'label' => 'Profile Display (by category) rules',
+                'name' => 'tk_profile_display_by_category',
+                'type' => 'repeater',
+                'instructions' => 'Select the desired layout options for each profile category',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profile_display',
+                            'operator' => '==',
+                            'value' => 'by_cat',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'collapsed' => '',
+                'min' => '',
+                'max' => '',
+                'layout' => 'table',
+                'button_label' => 'Add Rule',
+                'sub_fields' => array (
+                    array (
+                        'key' => 'field_tk_profile_category',
+                        'label' => 'Category',
+                        'name' => 'profile_category',
+                        'type' => 'taxonomy',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array (
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'taxonomy' => 'profile_category',
+                        'field_type' => 'select',
+                        'allow_null' => 0,
+                        'add_term' => 0,
+                        'save_terms' => 0,
+                        'load_terms' => 0,
+                        'return_format' => 'id',
+                        'multiple' => 0,
+                    ),
+                    array (
+                        'key' => 'field_tk_category_layout',
+                        'label' => 'Layout',
+                        'name' => 'category_layout',
+                        'type' => 'radio',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array (
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'choices' => array (
+                            'table_layout' => 'Table Layout',
+                            'card_layout' => 'Card Layout',
+                        ),
+                        'allow_null' => 0,
+                        'other_choice' => 0,
+                        'save_other_choice' => 0,
+                        'default_value' => 'table',
+                        'layout' => 'vertical',
+                        'return_format' => 'value',
+                    ),
+                    array (
+                        'key' => 'field_tk_category_order',
+                        'label' => 'Order',
+                        'name' => 'category_order',
+                        'type' => 'radio',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array (
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'choices' => array (
+                            'alphabetical' => 'Alphabetical by surname',
+                            'menu_order' => 'Profile order',
+                        ),
+                        'allow_null' => 0,
+                        'other_choice' => 0,
+                        'save_other_choice' => 0,
+                        'default_value' => 'alphabetical',
+                        'layout' => 'vertical',
+                        'return_format' => 'value',
+                    ),
+                    array (
+                        'key' => 'field_tk_category_image',
+                        'label' => 'Show Image (table layout only)',
+                        'name' => 'category_image',
+                        'type' => 'true_false',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_5825ec2315f16',
+                                    'operator' => '==',
+                                    'value' => 'table',
+                                ),
+                            ),
+                        ),
+                        'wrapper' => array (
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'message' => '',
+                        'default_value' => 0,
+                    ),
+                ),
+            ),
+            array (
+                'key' => 'field_tk_profiles_page_settings_template',
+                'label' => 'Layout',
+                'name' => 'tk_profiles_page_settings_template',
+                'type' => 'select',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profile_display',
+                            'operator' => '==',
+                            'value' => 'all',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'table_layout' => 'Table Layout',
+                    'card_layout' => 'Card Layout',
+                ),
+                'default_value' => array (
+                    0 => 'table_layout',
+                ),
+                'allow_null' => 0,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'return_format' => 'value',
+                'placeholder' => '',
+            ),
+            array (
+                'key' => 'field_tk_profiles_page_settings_template_image',
+                'label' => 'Show images in tables',
+                'name' => 'tk_profiles_page_settings_template_image',
+                'type' => 'true_false',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profile_display',
+                            'operator' => '==',
+                            'value' => 'all',
+                        ),
+                        array (
+                            'field' => 'field_tk_profiles_page_settings_template',
+                            'operator' => '==',
+                            'value' => 'table_layout',
+                        ),
+                    ),
+                    array (
+                        array (
+                            'field' => 'field_tk_profile_display',
+                            'operator' => '==',
+                            'value' => 'by_cat',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'message' => '',
+                'default_value' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_page_settings_profiles_order',
+                'label' => 'Profiles order',
+                'name' => 'tk_profiles_page_settings_profiles_order',
+                'type' => 'select',
+                'instructions' => 'Select to order profiles by alphabetically or category.',
+                'required' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_profile_display',
+                            'operator' => '==',
+                            'value' => 'all',
+                        ),
+                    ),
+                ),
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array (
+                    'alphabetical' => 'Alphabetical by surname',
+                    'menu_order' => 'Profile order',
+                    'alphabetical_category' => 'Alphabetical by surname (grouped by category)',
+                    'menu_order_category' => 'Profile order (grouped by category)',
+                ),
+                'default_value' => array (
+                    0 => 'alphabetical',
+                ),
+                'allow_null' => 0,
+                'multiple' => 0,
+                'ui' => 0,
+                'ajax' => 0,
+                'return_format' => 'value',
+                'placeholder' => '',
+            ),
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'tk-profiles-settings',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => 1,
+        'description' => '',
+    ));
 
-///single setting
-
-if( function_exists('acf_add_local_field_group') ) {
-
-     acf_add_local_field_group(array (
+    /**
+     * Single profile page display settings
+     */
+    acf_add_local_field_group(array (
         'key' => 'group_tk_profiles_single_settings',
-        'title' => 'Single event page settings',
+        'title' => 'Single profile page settings',
         'fields' => array (
             array (
                 'key' => 'field_tk_profiles_single_settings_related',
@@ -316,363 +533,357 @@ if( function_exists('acf_add_local_field_group') ) {
         'description' => '',
     ));
 
+    /**
+     * Single Profile Post Fields
+     */
+    acf_add_local_field_group(array (
+        'key' => 'group_tk_profiles_single_fields',
+        'title' => 'Profile Facts',
+        'fields' => array (
+            array (
+                'key' => 'field_tk_profiles_title',
+                'label' => 'Title',
+                'name' => 'tk_profiles_title',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_first_name',
+                'label' => 'First name',
+                'name' => 'tk_profiles_first_name',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_last_name',
+                'label' => 'Last name',
+                'name' => 'tk_profiles_last_name',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_email',
+                'label' => 'Email',
+                'name' => 'tk_profiles_email',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_telephone',
+                'label' => 'Telephone',
+                'name' => 'tk_profiles_telephone',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),    
+            array (
+                'key' => 'field_tk_profiles_faculty',
+                'label' => 'Faculty',
+                'name' => 'tk_profiles_faculty',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),    
+            array (
+                'key' => 'field_tk_profiles_school',
+                'label' => 'School',
+                'name' => 'tk_profiles_school',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_job_title',
+                'label' => 'Job title',
+                'name' => 'tk_profiles_job_title',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            array (
+                'key' => 'field_tk_profiles_location',
+                'label' => 'Location',
+                'name' => 'tk_profiles_location',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+           
+            array (
+                'key' => 'field_tk_profiles_external_link',
+                'label' => 'External Profile Link',
+                'name' => 'tk_profiles_external_link',
+                'type' => 'url',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+                'readonly' => 0,
+                'disabled' => 0,
+            ),
+            // Key facts
+            array(
+                'key' => 'field_tk_profiles_key_facts',
+                'label' => 'Key facts',
+                'name' => 'tk_profiles_key_facts',
+                'type' => 'repeater',
+                'instructions' => 'Add any profiles details e.g. Course: BA Maths',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ) ,
+                'collapsed' => '',
+                'min' => '',
+                'max' => '',
+                'layout' => 'table',
+                'button_label' => 'Add key facts',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_tk_profiles_key_facts_label',
+                        'label' => 'Label',
+                        'name' => 'tk_profiles_key_facts_label',
+                        'type' => 'text',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ) ,
+                        'default_value' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'maxlength' => '',
+                        'readonly' => 0,
+                        'disabled' => 0,
+                    ) ,
+                    array(
+                        'key' => 'field_tk_profiles_key_facts_info',
+                        'label' => 'Information',
+                        'name' => 'tk_profiles_key_facts_info',
+                        'type' => 'text',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ) ,
+                        'default_value' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'maxlength' => '',
+                        'readonly' => 0,
+                        'disabled' => 0,
+                    ) ,
+                ) ,
+            ) ,
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'profiles',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'acf_after_title',
+        'style' => 'default',
+        'label_placement' => 'left',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => 1,
+        'description' => '',
+    ));
+
+
+    /**
+     * External link profile
+     */
+
+
+    acf_add_local_field_group(array (
+        'key' => 'group_tk_profiles_external_link_flag',
+        'title' => 'External profile',
+        'fields' => array (
+            array(
+                'key' => 'field_tk_profiles_external_link_flag',
+                'label' => '',
+                'name' => 'tk_profiles_external_link_flag',
+                'type' => 'checkbox',
+                'instructions' => 'Ticking this box will make this profile link to the external profile.',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ) ,                
+                'choices' => array(
+                    'external_link'   => 'Make this profile external'
+                ),
+
+            ) ,
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'profiles',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'side',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => 1,
+        'description' => '',
+    ));
+
 }
-
-
-/**
- * Profile Single Fields
- */
-
-if( function_exists('acf_add_local_field_group') ):
-
-acf_add_local_field_group(array (
-    'key' => 'group_tk_profiles_single_fields',
-    'title' => 'Profile Facts',
-    'fields' => array (
-        array (
-            'key' => 'field_tk_profiles_title',
-            'label' => 'Title',
-            'name' => 'tk_profiles_title',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_first_name',
-            'label' => 'First name',
-            'name' => 'tk_profiles_first_name',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 1,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_last_name',
-            'label' => 'Last name',
-            'name' => 'tk_profiles_last_name',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 1,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_email',
-            'label' => 'Email',
-            'name' => 'tk_profiles_email',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_telephone',
-            'label' => 'Telephone',
-            'name' => 'tk_profiles_telephone',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),    
-        array (
-            'key' => 'field_tk_profiles_faculty',
-            'label' => 'Faculty',
-            'name' => 'tk_profiles_faculty',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),    
-        array (
-            'key' => 'field_tk_profiles_school',
-            'label' => 'School',
-            'name' => 'tk_profiles_school',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_job_title',
-            'label' => 'Job title',
-            'name' => 'tk_profiles_job_title',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        array (
-            'key' => 'field_tk_profiles_location',
-            'label' => 'Location',
-            'name' => 'tk_profiles_location',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-       
-        array (
-            'key' => 'field_tk_profiles_external_link',
-            'label' => 'External Profile Link',
-            'name' => 'tk_profiles_external_link',
-            'type' => 'url',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array (
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-            'maxlength' => '',
-            'readonly' => 0,
-            'disabled' => 0,
-        ),
-        // Key facts
-        array(
-            'key' => 'field_tk_profiles_key_facts',
-            'label' => 'Key facts',
-            'name' => 'tk_profiles_key_facts',
-            'type' => 'repeater',
-            'instructions' => 'Add any profiles details e.g. Course: BA Maths',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ) ,
-            'collapsed' => '',
-            'min' => '',
-            'max' => '',
-            'layout' => 'table',
-            'button_label' => 'Add key facts',
-            'sub_fields' => array(
-                array(
-                    'key' => 'field_tk_profiles_key_facts_label',
-                    'label' => 'Label',
-                    'name' => 'tk_profiles_key_facts_label',
-                    'type' => 'text',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ) ,
-                    'default_value' => '',
-                    'placeholder' => '',
-                    'prepend' => '',
-                    'append' => '',
-                    'maxlength' => '',
-                    'readonly' => 0,
-                    'disabled' => 0,
-                ) ,
-                array(
-                    'key' => 'field_tk_profiles_key_facts_info',
-                    'label' => 'Information',
-                    'name' => 'tk_profiles_key_facts_info',
-                    'type' => 'text',
-                    'instructions' => '',
-                    'required' => 0,
-                    'conditional_logic' => 0,
-                    'wrapper' => array(
-                        'width' => '',
-                        'class' => '',
-                        'id' => '',
-                    ) ,
-                    'default_value' => '',
-                    'placeholder' => '',
-                    'prepend' => '',
-                    'append' => '',
-                    'maxlength' => '',
-                    'readonly' => 0,
-                    'disabled' => 0,
-                ) ,
-            ) ,
-        ) ,
-    ),
-    'location' => array (
-        array (
-            array (
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => 'profiles',
-            ),
-        ),
-    ),
-    'menu_order' => 0,
-    'position' => 'acf_after_title',
-    'style' => 'default',
-    'label_placement' => 'left',
-    'instruction_placement' => 'label',
-    'hide_on_screen' => '',
-    'active' => 1,
-    'description' => '',
-));
-
-endif;
-
-/* External link profile */
-
-if( function_exists('acf_add_local_field_group') ):
-
-acf_add_local_field_group(array (
-    'key' => 'group_tk_profiles_external_link_flag',
-    'title' => 'External profile',
-    'fields' => array (
-        array(
-            'key' => 'field_tk_profiles_external_link_flag',
-            'label' => '',
-            'name' => 'tk_profiles_external_link_flag',
-            'type' => 'checkbox',
-            'instructions' => 'Ticking this box will make this profile link to the external profile.',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ) ,                
-            'choices' => array(
-                'external_link'   => 'Make this profile external'
-            ),
-
-        ) ,
-    ),
-    'location' => array (
-        array (
-            array (
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => 'profiles',
-            ),
-        ),
-    ),
-    'menu_order' => 0,
-    'position' => 'side',
-    'style' => 'default',
-    'label_placement' => 'top',
-    'instruction_placement' => 'label',
-    'hide_on_screen' => '',
-    'active' => 1,
-    'description' => '',
-));
-
-endif;
 
 
 /**

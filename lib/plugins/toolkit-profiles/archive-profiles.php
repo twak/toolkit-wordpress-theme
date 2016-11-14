@@ -3,24 +3,19 @@
 //ACF Profile page settings
 
 //Custom title
-if(get_field('tk_profiles_page_settings_title', 'option')): 
-    $custom_title = get_field('tk_profiles_page_settings_title', 'option');
-endif;
+$custom_title = get_field('tk_profiles_page_settings_title', 'option');
 
 //Intro (Lead text)
-if(get_field('tk_profiles_page_settings_introduction', 'option')): 
-    $intro = get_field('tk_profiles_page_settings_introduction', 'option');
-endif;
+$intro = get_field('tk_profiles_page_settings_introduction', 'option');
+
+// Display logic
+$display = get_field('tk_profile_display', 'option');
 
 //Layout
-if(get_field('tk_profiles_page_settings_template', 'option')):
-    $template = get_field('tk_profiles_page_settings_template', 'option');
-endif;
+$template = get_field('tk_profiles_page_settings_template', 'option');
 
 //Card layout order
-if(get_field('tk_profiles_page_settings_template_categories', 'option')):
-    $order = get_field('tk_profiles_page_settings_template_categories', 'option');
-endif;
+$order = get_field('tk_profiles_page_settings_template_categories', 'option');
 
 ?>
 
@@ -43,19 +38,14 @@ endif;
     </div>
     <?php endif; ?>
 
-<?php 
+<?php
 
 //
-if($template == 'card_layout'):
-    if($order == 'alphabetical'):
-        include_once(dirname(__FILE__) . '/loop-card-alphabetical.php' );
-    else:
-        include_once(dirname(__FILE__) . '/loop-card-category.php' );
-    endif;
-else:
-    include_once(dirname(__FILE__) . '/loop-table.php' );
-endif;
-
+if ( $display === 'by_cat' ) {
+    include(dirname(__FILE__) . '/templates/loop-by-cat.php' );
+} else {
+    include(dirname(__FILE__) . '/templates/loop-all.php' );
+}
 ?>
 
 </div>

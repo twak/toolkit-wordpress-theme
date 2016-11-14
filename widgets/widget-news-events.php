@@ -165,14 +165,36 @@
 
 		        <p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="<?php echo get_post_type_archive_link('events'); ?>">See all events</a></p>						                  									
 
-                <?php $loop_events = new WP_Query( 
+                <?php 
+                $today = date('Ymd');
+                $loop_events = new WP_Query( 
 					array( 
 						'post_type' => 'events', 
-						'posts_per_page' => -1,			
-						'meta_key'			=> 'event_start_date',
+						'posts_per_page' => 4,			
+						'meta_key'			=> 'tk_events_start_date',
 						'orderby'			=> 'meta_value_num',
-						'order'				=> 'ASC'		
-						//'order'	=> 'event_start_date'
+						'order'				=> 'ASC',		
+						'meta_query' => array(
+							'relation' => 'OR',
+							array(
+								'key'     => 'tk_events_start_date',
+								'value'   => '',
+								'compare' => '=',
+							),
+                			array(
+                       			'relation' => 'OR',
+		                        array(
+		                                'key' => 'tk_events_end_date',
+		                                'value' => $today,
+		                                'compare' => '>=',
+		                        ),
+		                        array(
+		                                'key' => 'tk_events_start_date',
+		                                'value' => $today,
+		                                'compare' => '>=',
+		                        ),
+							),
+						),
 					) ); 
 
                 	$event_counter = 0;
@@ -186,22 +208,21 @@
 
 			    		<div class="col-12">
 							<p>No events</p>
-						<div>
+						</div>
 
 						<?php } ?>
 
 						<?php while ( $loop_events->have_posts() ) : $loop_events->the_post(); ?>					
 						<?php 							
 						
-							if(get_field('event_start_date')) {						    
-							    $event_date = strtotime(get_field('event_start_date'));						    
-							    $todays_date = strtotime(date("d-m-Y"));
-
-							    if($event_date > $todays_date){	
-
-							    	$event_counter++;		
-
-							    	if($event_counter < 4){				  
+							if ( get_field( 'tk_events_start_date' ) ) {						    
+							    $start_date = get_field('tk_events_start_date');
+							    $end_date = get_field( 'tk_events_end_date' );
+							    if ($end_date && $start_date != $end_date ) {
+							    	$event_date = date('j M Y', strtotime( $start_date ) ) . ' - ' . date('j M Y', strtotime( $end_date ) );
+							    } else {
+								    $event_date = date('j F Y', strtotime( $start_date ) );
+								}
 
 						?>
 
@@ -209,7 +230,7 @@
 		                    <div class="card card-stacked skin-box-white skin-bd-b">
 		                        <div class="card-content equalize-inner">   		                        	
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		                            <p class="heading-related"><?php echo get_field('event_start_date');//the_time('l j F Y'); ?></p>     				                                    
+		                            <p class="heading-related"><?php echo $event_date; ?></p>     				                                    
 		                            <div class="note"><?php html5wp_excerpt('html5wp_custom_post'); ?></div>
 		                            <a class="more" href="<?php the_permalink(); ?>">more</a>
 		                        </div>
@@ -217,8 +238,6 @@
 		                </div>				
 
 		                <?php   	
-		                			}
-							    } 
 
 							} else { //if no date set echo anyways
 
