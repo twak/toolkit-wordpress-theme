@@ -1,56 +1,19 @@
 <?php
+/**
+ * outputs a table row with profile information in it
+ * must be used within a loop with the $post variable set up
+ */
+
+//ACF fields
 
 //Show images flag
-if(get_field('tk_profiles_page_settings_template_image', 'option')):
-    $flag_show_images = get_field('tk_profiles_page_settings_template_image', 'option');
-endif;
+$flag_show_images = get_field('tk_profiles_page_settings_template_image', 'option');
 
-//table profile layout
-$args = array(
-    'post_type' => 'profiles',
-    'posts_per_page' => -1,   
-    'meta_key'  => 'tk_profiles_last_name',
-    'orderby'   => 'meta_value',          
-    'order'    => 'ASC'        
-);
+//External/Internal link flag
+$flag_external_link = ( get_field('tk_profiles_external_link_flag') )? 1: 0;
 
-query_posts($args); 
-
-if (have_posts()) :
-
-?>
-    
-<table class="tablesaw table-profiles table-hover " data-tablesaw-sortable>
-    <thead>
-        <tr>
-            <?php if($flag_show_images): //Related events ?>
-            <th scope="col"></th>
-            <?php endif; ?>                             
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>   
-            <th scope="col">Telephone</th>                
-            <th scope="col">Job title</th>                
-        </tr>
-    </thead>
-    <tbody>
-
-<?php  while (have_posts()) : the_post(); ?>  
-
-<?php 
-
-    //ACF fields
-
-    //External/Internal link flag
-    if(get_field('tk_profiles_external_link_flag')):
-        $flag_external_link = 1;
-    endif;
-
-    //Set link
-    if($flag_external_link): 
-        $profile_link = get_field('tk_profiles_external_link'); 
-    else: 
-        $profile_link = get_permalink(); 
-    endif;
+//Set link
+$profile_link = ( $flag_external_link )? get_field('tk_profiles_external_link'): get_permalink(); 
 
 ?>      
     <tr>
@@ -86,9 +49,3 @@ if (have_posts()) :
         <td><?php if( get_field('tk_profiles_telephone') ): echo get_field('tk_profiles_telephone'); endif; ?></td>
         <td><?php if( get_field('tk_profiles_job_title') ): echo get_field('tk_profiles_job_title'); endif; ?></td>
     </tr>
-            
-<?php endwhile; ?>
-    </tbody>
-</table>    
-
-<?php endif; ?>

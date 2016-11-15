@@ -3,7 +3,7 @@
  * Plugin Name: Toolkit Events
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: This plugin adds toolkit events
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2

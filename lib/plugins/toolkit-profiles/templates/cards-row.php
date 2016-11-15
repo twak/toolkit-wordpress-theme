@@ -1,28 +1,15 @@
 <?php
-//Table card layout - alphabetical
-$args = array(
-    'post_type' => 'profiles',
-    'posts_per_page' => -1,   
-    'meta_key'  => 'tk_profiles_last_name',
-    'orderby'   => 'meta_value',          
-    'order'    => 'ASC'        
-);
+/**
+ * outputs a single card
+ */
 
-query_posts($args); 
-if (have_posts()):
+//External/Internal link flag
+$flag_external_link = ( get_field('tk_profiles_external_link_flag') )? 1: 0;
+
+//Set link
+$profile_link = ( $flag_external_link )? get_field('tk_profiles_external_link'): get_permalink(); 
+
 ?>
-
-<div class="row equalize">
-
-<?php  while (have_posts()) : the_post();
-
-if(get_field('tk_profiles_external_link_flag')): 
-    $profile_link = get_field('tk_profiles_external_link'); 
-else: 
-    $profile_link = get_permalink(); 
-endif;
-
-?>      
     <div class="col-xs-12 col-ms-6 col-sm-4 col-md-3">
         <div class="card-flat card-stacked-xs skin-bd-b skin-box-module">
             
@@ -60,7 +47,3 @@ endif;
             </div>            
         </div>
     </div>
-            
-<?php endwhile; ?>
-</div>    
-<?php endif; ?>
