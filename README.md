@@ -9,6 +9,11 @@ Wordpress theme for the University of Leeds toolkit.
 ChangeLog
 ---------
 
+### 0.1.2
+
+ * Re-factored profiles to allow selection of layouts, fields to include in table view, and use its own taxonomy
+ * Fixed some bugs in ordering of posts/events
+
 ### 0.1.1
 
  * Added twitter back into theme with options in ACF theme options

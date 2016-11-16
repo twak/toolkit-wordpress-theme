@@ -11,7 +11,7 @@ if(get_field('tk_events_page_settings_archive', 'option')): //If theme setting c
         'post_type' => 'events',         
         'meta_key'  => 'tk_events_start_date',
         'orderby'   => 'meta_value_num',
-        'order'     => 'ASC',        
+        'order'     => 'DESC',        
         'cat'       => '-'.$archived_id,
         'paged'     => $paged
     ));
@@ -20,7 +20,7 @@ else:
         'post_type' => 'events',         
         'meta_key'  => 'tk_events_start_date',
         'orderby'   => 'meta_value_num',
-        'order'     => 'ASC',
+        'order'     => 'DESC',
         'cat'       => '',                
         'paged'     => $paged
     ));

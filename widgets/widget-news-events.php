@@ -102,7 +102,7 @@
 		        $loop_news = new WP_Query( 
 					array( 
 					'post_type' => 'news', 
-					'posts_per_page' => 4 
+					'posts_per_page' => 4
 				)); 
 
 		        ?>
@@ -288,8 +288,7 @@
                 <?php $loop_posts = new WP_Query( 
 					array( 
 						'post_type' => 'post', 
-						'posts_per_page' => 4,						
-						'order'	=> 'ASC'
+						'posts_per_page' => 4
 					) ); 
 
 				?>
