@@ -22,15 +22,16 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
     $timeout = 600; // 10 mins
 ?>
 
-<div class="wrapper-lg wrapper-padded">
+<div class="footer-twitter-feed">
+    <div class="wrapper-lg wrapper-padded">
 
-    <div class="row p-t p-b">
-        <div class='col-sm-6 col-md-3'>     
-            <div class="twitter-user">
-                <span class="tk-icon-social-twitter" aria-hidden="true"></span>
-                <a href="https://twitter.com/<?php echo $screen_name; ?>">@<?php echo $screen_name; ?></a>
-            </div>       
-        </div>
+        <div class="row">
+            <div class='col-sm-6 col-md-3'>     
+                <div class="twitter-user">
+                    <span class="tk-icon-social-twitter" aria-hidden="true"></span>
+                    <a href="https://twitter.com/<?php echo $screen_name; ?>">@<?php echo $screen_name; ?></a>
+                </div>       
+            </div>
 <?php
     
     if ( false === ( $value = get_transient( 'twitter_cache' ) ) ) { //if transient not set
@@ -74,6 +75,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
 
 ?>
 
+        </div>
     </div>
 </div>
 

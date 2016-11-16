@@ -32,8 +32,9 @@ get_header(); ?>
 				
 			<div id="post-<?php the_ID(); ?>" <?php post_class('wrapper-sm wrapper-pd'); ?>>
 
-				<?php if (has_post_thumbnail()) { 
-					echo '<div>';
+				<?php if (has_post_thumbnail()) { ?>
+					<div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>')">
+				<?php
 					the_post_thumbnail('large', array('class' => 'img-featured'));  
 					echo '</div>';
 				}
