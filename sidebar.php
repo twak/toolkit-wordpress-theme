@@ -9,8 +9,8 @@
     $first_parent_id = $first_parent->ID;    
   
     $args = array(
-        'sort_order' => 'menu_order',
-        'sort_column' => 'ASC',
+        'sort_order' => 'ASC',
+        'sort_column' => 'menu_order',
         'hierarchical' => 1,
         'exclude' => '',
         'include' => '',

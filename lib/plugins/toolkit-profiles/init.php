@@ -3,7 +3,7 @@
  * Plugin Name: Toolkit Profiles
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: This plugin adds toolkit profiles.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
@@ -14,7 +14,7 @@ if ( ! class_exists( 'tk_profiles' ) ) {
     class tk_profiles
     {
         /* plugin version */
-        public static $version = "1.0.2";
+        public static $version = "1.0.3";
 
         /* register all hooks with wordpress API */
         public static function register()
@@ -64,7 +64,7 @@ if ( ! class_exists( 'tk_profiles' ) ) {
             /**
              * flushes rewrite rules when plugin is activated
              */
-            register_activation_hook( __FILE__, array( __CLASS__, 'flush_rules' ) );
+            //register_activation_hook( __FILE__, array( __CLASS__, 'flush_rules' ) );
 
         }
 
@@ -503,30 +503,6 @@ if ( ! class_exists( 'tk_profiles' ) ) {
                                     'layout' => 'vertical',
                                     'return_format' => 'value',
                                 ),
-                                array (
-                                    'key' => 'field_tk_category_image',
-                                    'label' => 'Show Image (table layout only)',
-                                    'name' => 'category_image',
-                                    'type' => 'true_false',
-                                    'instructions' => '',
-                                    'required' => 0,
-                                    'conditional_logic' => array (
-                                        array (
-                                            array (
-                                                'field' => 'field_5825ec2315f16',
-                                                'operator' => '==',
-                                                'value' => 'table',
-                                            ),
-                                        ),
-                                    ),
-                                    'wrapper' => array (
-                                        'width' => '',
-                                        'class' => '',
-                                        'id' => '',
-                                    ),
-                                    'message' => '',
-                                    'default_value' => 0,
-                                ),
                             ),
                         ),
                         array (
@@ -565,42 +541,6 @@ if ( ! class_exists( 'tk_profiles' ) ) {
                             'placeholder' => '',
                         ),
                         array (
-                            'key' => 'field_tk_profiles_page_settings_template_image',
-                            'label' => 'Show images in tables',
-                            'name' => 'tk_profiles_page_settings_template_image',
-                            'type' => 'true_false',
-                            'instructions' => '',
-                            'required' => 0,
-                            'conditional_logic' => array (
-                                array (
-                                    array (
-                                        'field' => 'field_tk_profile_display',
-                                        'operator' => '==',
-                                        'value' => 'all',
-                                    ),
-                                    array (
-                                        'field' => 'field_tk_profiles_page_settings_template',
-                                        'operator' => '==',
-                                        'value' => 'table_layout',
-                                    ),
-                                ),
-                                array (
-                                    array (
-                                        'field' => 'field_tk_profile_display',
-                                        'operator' => '==',
-                                        'value' => 'by_cat',
-                                    ),
-                                ),
-                            ),
-                            'wrapper' => array (
-                                'width' => '',
-                                'class' => '',
-                                'id' => '',
-                            ),
-                            'message' => '',
-                            'default_value' => 0,
-                        ),
-                        array (
                             'key' => 'field_tk_profiles_page_settings_profiles_order',
                             'label' => 'Profiles order',
                             'name' => 'tk_profiles_page_settings_profiles_order',
@@ -636,6 +576,63 @@ if ( ! class_exists( 'tk_profiles' ) ) {
                             'ajax' => 0,
                             'return_format' => 'value',
                             'placeholder' => '',
+                        ),
+                        array (
+                            'key' => 'field_tk_table_view_fields',
+                            'label' => 'Fields to include in table view',
+                            'name' => 'tk_table_view_fields',
+                            'type' => 'checkbox',
+                            'instructions' => 'Select the fields you want to show as columns in table views',
+                            'required' => 0,
+                            'conditional_logic' => array (
+                                array (
+                                    array (
+                                        'field' => 'field_tk_profile_display',
+                                        'operator' => '==',
+                                        'value' => 'all',
+                                    ),
+                                    array (
+                                        'field' => 'field_tk_profiles_page_settings_template',
+                                        'operator' => '==',
+                                        'value' => 'table_layout',
+                                    ),
+                                ),
+                                array (
+                                    array (
+                                        'field' => 'field_tk_profile_display',
+                                        'operator' => '==',
+                                        'value' => 'by_cat',
+                                    ),
+                                ),
+                            ),
+                            'wrapper' => array (
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'choices' => array (
+                                'featured_image' => 'Profile Image',
+                                'post_title' => 'Full name',
+                                'tk_profiles_title' => 'Title',
+                                'tk_profiles_first_name' => 'First name',
+                                'tk_profiles_last_name' => 'Last name',
+                                'tk_profiles_email' => 'Email',
+                                'tk_profiles_telephone' => 'Telephone',
+                                'tk_profiles_faculty' => 'Faculty',
+                                'tk_profiles_school' => 'School',
+                                'tk_profiles_job_title' => 'Job title',
+                                'tk_profiles_location' => 'Location',
+                                'tk_profiles_research_area' => 'Research Area'
+                            ),
+                            'default_value' => array (
+                                0 => 'post_title',
+                                1 => 'tk_profiles_email',
+                                2 => 'tk_profiles_telephone',
+                                3 => 'tk_profiles_job_title',
+                            ),
+                            'layout' => 'vertical',
+                            'toggle' => 0,
+                            'return_format' => 'array',
                         ),
                     ),
                     'location' => array (
@@ -904,6 +901,27 @@ if ( ! class_exists( 'tk_profiles' ) ) {
                             'readonly' => 0,
                             'disabled' => 0,
                         ),
+                        array (
+                            'key' => 'field_tk_profiles_research_area',
+                            'label' => 'Research Area',
+                            'name' => 'tk_profiles_research_area',
+                            'type' => 'text',
+                            'instructions' => '',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array (
+                                'width' => '',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'default_value' => '',
+                            'placeholder' => '',
+                            'prepend' => '',
+                            'append' => '',
+                            'maxlength' => '',
+                            'readonly' => 0,
+                            'disabled' => 0,
+                        ),
                        
                         array (
                             'key' => 'field_tk_profiles_external_link',
@@ -1068,7 +1086,7 @@ if ( ! class_exists( 'tk_profiles' ) ) {
          */
         function flush_rules()
         {
-            self::register_taxonomy();
+            self::create_taxonomy();
             self::create_post_type();
             flush_rewrite_rules();
         }

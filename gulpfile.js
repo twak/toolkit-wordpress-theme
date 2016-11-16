@@ -43,13 +43,13 @@ gulp.task('copydeps', ['bower'], function() {
 
 // package plugins
 gulp.task('package-plugins', function() {
-  gulp.src('lib/plugins/toolkit-events/*', {base: 'lib/plugins'})
+  gulp.src('lib/plugins/toolkit-events/**/*', {base: 'lib/plugins'})
     .pipe(zip('toolkit-events.zip'))
     .pipe(gulp.dest('lib/plugins'));
-  gulp.src('lib/plugins/toolkit-news/*', {base: 'lib/plugins'})
+  gulp.src('lib/plugins/toolkit-news/**/*', {base: 'lib/plugins'})
     .pipe(zip('toolkit-news.zip'))
     .pipe(gulp.dest('lib/plugins'));
-  gulp.src('lib/plugins/toolkit-profiles/*', {base: 'lib/plugins'})
+  gulp.src('lib/plugins/toolkit-profiles/**/*', {base: 'lib/plugins'})
     .pipe(zip('toolkit-profiles.zip'))
     .pipe(gulp.dest('lib/plugins'));
 });

@@ -64,9 +64,6 @@ if ( $term ) {
                 $template = get_sub_field('category_layout');
                 $template_name = ( $template === 'card_layout' ) ? 'cards': 'table';
 
-                // set image display
-                $flag_show_images = get_sub_field('category_image');
-
             }
 
             // make a tab
