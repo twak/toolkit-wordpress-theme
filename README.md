@@ -9,6 +9,10 @@ Wordpress theme for the University of Leeds toolkit.
 ChangeLog
 ---------
 
+### 0.1.3
+ * Re-factored twitter styles
+ * Improve featured image format
+
 ### 0.1.2
 
  * Re-factored profiles to allow selection of layouts, fields to include in table view, and use its own taxonomy
