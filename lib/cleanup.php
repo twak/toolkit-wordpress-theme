@@ -29,7 +29,7 @@ function my_remove_recent_comments_style()
 }
 
 // Remove 'text/css' from enqueued stylesheet
-add_filter('style_loader_tag', 'html5_style_remove'); 
+add_filter('style_loader_tag', 'html5_style_remove');
 function html5_style_remove($tag)
 {
     return preg_replace('~\s+type=["\'][^"\']++["\']~', '', $tag);
@@ -70,3 +70,15 @@ function tk_disable_emojicons_tinymce( $plugins )
 		return array();
 	}
 }
+
+// Remove query string from static files
+// Google PageSpeed and other SEO ranking tools
+// do not like query strings on CSS and JS
+function remove_cssjs_ver( $src ) {
+  if( strpos( $src, '?ver=' ) ) {
+    $src = remove_query_arg( 'ver', $src );
+    return $src;
+  }
+}
+add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
+add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
