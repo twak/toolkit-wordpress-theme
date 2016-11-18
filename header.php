@@ -9,13 +9,11 @@
 
         <meta name="description" content="<?php bloginfo('description'); ?>">
 
-		<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
-
         <!-- Typekit Fonts Async -->
         <script type="text/javascript">
             if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
             !function(e,t,n,a,r,c,l,s,o){l=a[r],l&&(s=e.createElement("style"),s.innerHTML=l,e.getElementsByTagName("head")[0].appendChild(s),e.documentElement.className+=" wf-cached"),o=t[n],t[n]=function(e,p,u,i){if("string"==typeof p&&p.indexOf(c)>-1){try{u=new XMLHttpRequest,u.open("GET",p,!0),u.onreadystatechange=function(){try{4==u.readyState&&(i=u.responseText.replace(/url\(\//g,"url("+c+"/"),i!==l&&(a[r]=i))}catch(e){s&&(s.innerHTML="")}},u.send(null)}catch(d){}t[n]=o}return o.apply(this,arguments)}}(document,Element.prototype,"setAttribute",localStorage,"tk","https://use.typekit.net");}
-                        
+
                 (function() {
                     var config = {
                       kitId: 'vlw5ilb'
@@ -33,8 +31,8 @@
                     };
                     var s = document.getElementsByTagName('script')[0];
                     s.parentNode.insertBefore(tk, s);
-                })();    
-        </script>        
+                })();
+        </script>
 
         <?php
 
@@ -42,35 +40,35 @@
 
         //Theme layout
 
-        if(get_field( 'tk_theme_layout', 'option' )): 
+        if(get_field( 'tk_theme_layout', 'option' )):
         	$THEME_LAYOUT = get_field('tk_theme_layout', 'option' );
         	if($THEME_LAYOUT == 'full_width'){
 				$GLOBALS[ 'full_width' ] = 1;
         	} else {
         		$GLOBALS[ 'full_width' ] = 0;
-        	}        		     	
-        endif; 
+        	}
+        endif;
 
         //Sidebar flag
 
-        if(get_field('sidebar_flag') == 'show'): 
+        if(get_field('sidebar_flag') == 'show'):
         	$GLOBALS[ 'theme_sidebar_flag' ] = 1;
-        else : 
+        else :
         	$GLOBALS[ 'theme_sidebar_flag' ] = 0;
-        endif; 
+        endif;
 
         ?>
 
         <!-- Change style sheet based on theme settings page -->
         <?php $THEME_OPTION = "default"; ?>
 
-        <?php if(get_field( "tk_theme_color", "option" )): $THEME_OPTION = get_field("tk_theme_color", "option" ); endif; ?>			
+        <?php if(get_field( "tk_theme_color", "option" )): $THEME_OPTION = get_field("tk_theme_color", "option" ); endif; ?>
 
         <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/bootstrap.min.css" media="screen">
         <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/toolkit.min.css" media="screen">
         <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/print.min.css"  media="print">
-					
-		<?php wp_head(); ?>		
+
+		<?php wp_head(); ?>
 
 	</head>
 	<body <?php //body_class(); ?>>
@@ -88,7 +86,7 @@
 
 			<nav id="quicklinks" class="quicklinks collapse" role="navigation">
 			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
-			        <div class="quicklinks-inner">   
+			        <div class="quicklinks-inner">
 				        <div class="row">
 						    <div class="col-sm-6 col-md-3">
 						        <ul class="quicklinks-list">
@@ -143,9 +141,9 @@
 						            <li><a href="http://instagram.com/universityofleeds/">Instagram</a></li>
 						            <li><a href="http://itunes.apple.com/gb/institution/university-of-leeds/id610001825">ITunes U</a></li>
 						        </ul>
-						    </div>					   
-						</div>    			           
-			        </div>			        
+						    </div>
+						</div>
+			        </div>
 			        <div class="quicklinks-close">
 			            <button class="icon-font btn-icon js-quicklinks-close" data-toggle="collapse" data-target="#quicklinks">
 			                <span class="tk-icon-close" aria-hidden="true"></span>
@@ -160,7 +158,7 @@
 			        <!-- Open button -->
 			        <div class="masthead-links">
 			            <button class="masthead-link masthead-link-quicklinks js-quicklinks-toggle" data-toggle="collapse" data-target="#quicklinks">Quicklinks</button>
-			        </div>        			        
+			        </div>
 			        <div class="navicon">
                         <button class="btn-icon" data-state="body-state" data-class="state-navicon-active">Menu</button>
                     </div>
@@ -175,7 +173,7 @@
 			        <form id="header_form" class="site-search-inner" autocomplete="off" method="get" action="<?php echo home_url(); ?>" role="search">
 			            <label class="sr-only" for="searchInput">Search</label>
 			            <input id="searchInput" class="site-search-input" type="search" name="q" placeholder="Search" autocomplete="off">
-			            <label class="sr-only" for="searchOption">Destination</label>			            
+			            <label class="sr-only" for="searchOption">Destination</label>
 			            <select id="searchOption" class="site-search-select js-action-toggle" name="searchOption">
 			                <option value="searchSite" selected data-action="<?php echo home_url(); ?>"><?php bloginfo( 'name' ); ?> site</option>
 			                <option value="searchAll" data-action="http://www.leeds.ac.uk/site/scripts/search_results.php">All leeds.ac.uk sites</option>
@@ -191,16 +189,16 @@
 			            <div class="local-header-title">
 			                <h1><a href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 			            </div>
-			            <div class="local-header-search">			               
+			            <div class="local-header-search">
 			                <button class="icon-font sm-toggle-search btn-icon js-site-search-toggle" data-toggle="collapse" data-target="#sitesearch">
 			                    <span class="site-search-btn" aria-hidden="true"></span>
 			                    <span class="icon-font-text">Search</span>
-			                </button>                        
+			                </button>
 			            </div>
 			        </div>
 			    </div>
 			</div>
-						
+
 			<nav class="tk-nav tk-nav-priority" role="navigation">
 			    <div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="tk-nav-header">
@@ -210,8 +208,7 @@
 						<?php tk_header_nav(); ?>
 					</div>
 				</div>
-			</nav>	
-						
-			
-            <div class="main <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">                      
+			</nav>
 
+
+            <div class="main <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
