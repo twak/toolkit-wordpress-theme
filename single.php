@@ -17,17 +17,8 @@
 		
 		<article id="post-<?php the_ID(); ?>" <?php post_class('wrapper-xs wrapper-pd article'); ?>>
 
-		    <div class="social-share" id="social-share">
-		        <button class="btn-icon social-toggle" data-toggle="toggle" data-target="#social-share">Share</button>
-		        <div class="social-links">
-		            <a href="#" data-type="twitter" data-url="<?php the_permalink(); ?>" data-description="<?php the_title(); ?>" data-via="twitter" class="js-pretty-social"><span class="icon-font-text">Twitter</span><span class="tk-icon-social-twitter"></span></a>
-		            <a href="#" data-type="facebook" data-url="<?php the_permalink(); ?>" data-title="<?php the_title(); ?>" data-description="Insert Description" data-media="http://inserturl.here/image.png" class="js-pretty-social"><span class="icon-font-text">Facebook</span><span class="tk-icon-social-facebook"></span></a>
-		            <a href="#" data-type="googleplus" data-url="<?php the_permalink(); ?>" data-description="<?php the_title(); ?>" class="js-pretty-social"><span class="icon-font-text">Google+</span><span class="tk-icon-social-google"></span></a>
-		            <a href="#" data-type="linkedin" data-url="<?php the_permalink(); ?>" data-title="<?php the_title(); ?>" data-description="Insert Description" data-via="linkedin" data-media="http://inserturl.here/image.png" class="js-pretty-social"><span class="icon-font-text">Linkedin</span><span class="tk-icon-social-linkedin"></span></a>
-		        </div>
-		        <hr>
-		    </div>
-			
+		    <?php tk_social_links('top', 'below'); ?>
+
 			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
 				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">					
 					<?php the_post_thumbnail('large'); // Declare pixel size you need inside the array ?>					
@@ -36,7 +27,9 @@
 
 			<div class="jadu-cms">		
 				<?php the_content(); // Dynamic Content ?>
-			</div>			
+			</div>
+
+		    <?php tk_social_links('bottom', 'above'); ?>
 
 			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>			
 
