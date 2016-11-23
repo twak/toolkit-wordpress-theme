@@ -1,18 +1,12 @@
 <?php 
 
-if(get_field('sidebar_flag')): //Sidebar flag - true/false
-	if(get_field('sidebar_flag') == 'show'): 
-		$sidebar_flag = true;	
-	endif; 
-endif;
-
 get_header(); ?>
 
 <!-- $TEMPLATE: page -->
 
 <?php if(!$GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 
-<?php if($sidebar_flag): ?>
+<?php if($GLOBALS['theme_sidebar_flag']): ?>
 
 <div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
 
@@ -50,7 +44,7 @@ get_header(); ?>
 
 		<?php endif; ?>
 
-<?php if($sidebar_flag): ?>
+<?php if($GLOBALS['theme_sidebar_flag']): ?>
 
 	</div><!-- ./column-container-primary-->	 
 </div><!-- ./column-container-->

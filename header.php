@@ -34,39 +34,9 @@
                 })();
         </script>
 
-        <?php
-
-        //WP Globals setup
-
-        //Theme layout
-
-        if(get_field( 'tk_theme_layout', 'option' )):
-        	$THEME_LAYOUT = get_field('tk_theme_layout', 'option' );
-        	if($THEME_LAYOUT == 'full_width'){
-				$GLOBALS[ 'full_width' ] = 1;
-        	} else {
-        		$GLOBALS[ 'full_width' ] = 0;
-        	}
-        endif;
-
-        //Sidebar flag
-
-        if(get_field('sidebar_flag') == 'show'):
-        	$GLOBALS[ 'theme_sidebar_flag' ] = 1;
-        else :
-        	$GLOBALS[ 'theme_sidebar_flag' ] = 0;
-        endif;
-
-        ?>
-
-        <!-- Change style sheet based on theme settings page -->
-        <?php $THEME_OPTION = "default"; ?>
-
-        <?php if(get_field( "tk_theme_color", "option" )): $THEME_OPTION = get_field("tk_theme_color", "option" ); endif; ?>
-
-        <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/bootstrap.min.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/toolkit.min.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="<?php echo get_stylesheet_directory_uri();  ?>/dist/theme-<?php echo $THEME_OPTION; ?>/print.min.css"  media="print">
+        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/bootstrap.min.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/toolkit.min.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/print.min.css"  media="print">
 
 		<?php wp_head(); ?>
 
