@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+<?php
+// WP Globals setup
+
+// Theme layout
+$GLOBALS['full_width'] = tk_full_width();
+
+// Sidebar flag
+$GLOBALS['theme_sidebar_flag'] = tk_sidebar();
+
+// Change style sheet based on theme settings page
+$GLOBALS['colour'] = tk_colour();
+
+?><!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
 <!--[if IE 9]><html class="no-js ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->

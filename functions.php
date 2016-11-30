@@ -23,16 +23,6 @@ require_once get_template_directory() . '/lib/navigation.php';
 require_once get_template_directory() . '/lib/pluggable.php';
 
 
-// WP Globals setup
-
-// Theme layout
-$GLOBALS['full_width'] = tk_full_width();
-
-// Sidebar flag
-$GLOBALS['theme_sidebar_flag'] = tk_sidebar();
-
-// Change style sheet based on theme settings page
-$GLOBALS['colour'] = tk_colour();
 
 /* Not sure if/where these are used... */
 

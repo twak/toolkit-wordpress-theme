@@ -50,9 +50,9 @@
 
         if($dropdown_status): //
             if($parent_page->ID == $this_page_id){
-                $result .= '<li class="active"><a href="'.$parent_page->guid.'">Overview</a></li>';
+                $result .= '<li class="active"><a href="'.get_permalink($parent_page->ID).'">Overview</a></li>';
             } else {
-                $result .= '<li><a href="'.$parent_page->guid.'">Overview</a></li>';
+                $result .= '<li><a href="'.get_permalink($parent_page->ID).'">Overview</a></li>';
             }
             $reoccursion_end = true;  
         endif;        
@@ -74,7 +74,7 @@
                     $dropdown_status = false;              
                 endif;     
 
-                $result .= '<a href="'.$item->guid.'">';            
+                $result .= '<a href="'.get_permalink($item->ID).'">';            
                 $result .= $item->post_title;
                 $result .= '</a>';
                 $result .= renderTree($pages, $this_page_id, $ul_count, $item->ID, $dropdown_status);                                
