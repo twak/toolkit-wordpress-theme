@@ -17,6 +17,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
     require_once get_template_directory() . '/lib/tmhOAuth.php';
 
     $include_retweets = get_field('include_retweets', 'option');
+    $avatar = get_field('twitter_avatar', 'option');
     $exclude_replies = true;
     $max = 3;
     $timeout = 600; // 10 mins
@@ -30,6 +31,12 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
                 <div class="twitter-user">
                     <span class="tk-icon-social-twitter" aria-hidden="true"></span>
                     <a href="https://twitter.com/<?php echo $screen_name; ?>">@<?php echo $screen_name; ?></a>
+                    <?php
+                    if ( ! empty( $avatar ) ) {
+                        $avatar_url = $avatar['sizes']['thumbnail'];
+                        printf('<br><a href="https://twitter.com/%s"><img src="%s" style="width:50px;height:auto;"></a>', $screen_name, $avatar_url);
+                    }
+                    ?>
                 </div>       
             </div>
 <?php

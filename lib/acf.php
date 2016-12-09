@@ -377,6 +377,30 @@ if( function_exists('acf_add_local_field_group') ):
 	            'message' => '',
 	            'default_value' => 0,
 	        ),
+	        array (
+	            'key' => 'field_tk_twitter_settings_twitter_avatar',
+				'label' => 'Twitter avatar',
+				'name' => 'twitter_avatar',
+				'type' => 'image',
+				'return_format' => 'object',
+				'preview_size' => 'thumbnail',
+				'library' => 'all',
+				'min_width' => '',
+				'min_height' => '',
+				'min_size' => '',
+				'max_width' => '',
+				'max_height' => '',
+				'max_size' => '',
+				'mime_types' => '',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array (
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+	        ),
 	    ),
 	    'location' => array (
 	        array (
@@ -396,5 +420,6 @@ if( function_exists('acf_add_local_field_group') ):
 	    'active' => 1,
 	    'description' => '',
 	));
+
 
 endif;

@@ -1,31 +1,10 @@
 Toolkit Wordpress Theme
 =======================
 
-Wordpress theme for the University of Leeds toolkit.
+Wordpress theme for the University of Leeds toolkit, based on [Bootstrap](https://getbootstrap.com/).
 
  * [View demo site](http://leeds.wpengine.com/toolkit/)
  * [View documentation](http://toolkit.leeds.ac.uk/)
+ * [View Changelog](CHANGES.md)
+ * [View Roadmap](ROADMAP.md)
 
-ChangeLog
----------
-
-### 0.1.3
- * Re-factored twitter styles
- * Improve featured image format
-
-### 0.1.2
-
- * Re-factored profiles to allow selection of layouts, fields to include in table view, and use its own taxonomy
- * Fixed some bugs in ordering of posts/events
-
-### 0.1.1
-
- * Added twitter back into theme with options in ACF theme options
- * Moved Theme options page under Appearance
- * added gulp to compile style.css and include values from package.json
- * Split out ACF functions, plugin activation functions, theme setup, wordpress cleanup and navigation to files in lib/ (from functions.php)
- * Added apple touch icons
-
-### 0.1.0
-
-Initial release
