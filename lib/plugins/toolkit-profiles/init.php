@@ -3,7 +3,7 @@
  * Plugin Name: Toolkit Profiles
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: This plugin adds toolkit profiles.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
@@ -14,7 +14,7 @@ if ( ! class_exists( 'tk_profiles' ) ) {
     class tk_profiles
     {
         /* plugin version */
-        public static $version = "1.0.3";
+        public static $version = "1.0.4";
 
         /* register all hooks with wordpress API */
         public static function register()
@@ -625,10 +625,10 @@ if ( ! class_exists( 'tk_profiles' ) ) {
                                 'tk_profiles_research_area' => 'Research Area'
                             ),
                             'default_value' => array (
-                                0 => 'post_title',
-                                1 => 'tk_profiles_email',
-                                2 => 'tk_profiles_telephone',
-                                3 => 'tk_profiles_job_title',
+                                'post_title' => 'Full name',
+                                'tk_profiles_email' => 'Email',
+                                'tk_profiles_telephone' => 'Telephone',
+                                'tk_profiles_job_title' => 'Job title',
                             ),
                             'layout' => 'vertical',
                             'toggle' => 0,

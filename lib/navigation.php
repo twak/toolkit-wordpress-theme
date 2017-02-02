@@ -148,10 +148,10 @@ if (function_exists('register_sidebar'))
 
     // Define Sidebar Widget Area 2
     register_sidebar(array(
-        'name' => __('Widget Footer', 'html5blank'),
-        'description' => __('Description for this widget-area...', 'html5blank'),
+        'name' => 'Widget Footer',
+        'description' => 'Footer widgets', 'html5blank',
         'id' => 'widget-area-2',
-        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'before_widget' => '<div id="%1$s" class="%2$s col-sm-6 col-md-3">',
         'after_widget' => '</div>',
         'before_title' => '<h3>',
         'after_title' => '</h3>'

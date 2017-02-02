@@ -24,7 +24,8 @@ if ( ! function_exists( 'tk_full_width' ) ) {
 if ( ! function_exists( 'tk_sidebar' ) ) {
 	function tk_sidebar()
 	{
-        if ( 'show' === get_field('sidebar_flag') ) {
+        $flag = get_field('sidebar_flag');
+        if ( ! $flag || 'show' === get_field('sidebar_flag') ) {
         	return true;
         } 
         return false;
