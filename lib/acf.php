@@ -150,7 +150,8 @@ if( function_exists('acf_add_local_field_group') ):
 	            'choices' => array (
 	                'default' => 'Red',
 	                'blue' => 'Blue',
-	                'green-light' => 'Light green'
+	                'green-light' => 'Light green',
+	                'purple' => 'Purple',
 	            ),
 	            'default_value' => array (
 	                0 => 'red',

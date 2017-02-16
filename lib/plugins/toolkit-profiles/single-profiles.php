@@ -45,7 +45,7 @@
     	endforeach;
 
     	if(get_field('tk_profiles_external_link')):
-    		$profiles_key_facts .=  '<li><strong>External profile link:</strong> <a href="http://'.get_field('tk_profiles_external_link').'">'.get_field('tk_profiles_external_link').'</a></li>';
+    		$profiles_key_facts .=  '<li><strong>External profile link:</strong> <a href="'.get_field('tk_profiles_external_link').'">'.get_field('tk_profiles_external_link').'</a></li>';
     	endif;
 
     	if( have_rows('tk_profiles_key_facts') ):				 	

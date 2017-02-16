@@ -1526,7 +1526,7 @@ pre {
   @media (min-width: 768px) {
     .container {
       width: 740px; } }
-  @media (min-width: 992px) {
+  @media (min-width: 1024px) {
     .container {
       width: 960px; } }
   @media (min-width: 1260px) {
@@ -1821,7 +1821,7 @@ pre {
   .col-sm-offset-12 {
     margin-left: 100%; } }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
     float: left; }
   .col-md-1 {
@@ -2870,28 +2870,28 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #871414;
-  border-color: #871414; }
+  background-color: #212122;
+  border-color: #111000; }
   .btn-primary:focus, .btn-primary.focus {
     color: #fff;
-    background-color: #5b0d0d;
-    border-color: #180404; }
+    background-color: #080808;
+    border-color: black; }
   .btn-primary:hover {
     color: #fff;
-    background-color: #5b0d0d;
-    border-color: #520c0c; }
+    background-color: #080808;
+    border-color: black; }
   .btn-primary:active, .btn-primary.active,
   .open > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #5b0d0d;
-    border-color: #520c0c; }
+    background-color: #080808;
+    border-color: black; }
     .btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.active:focus, .btn-primary.active.focus,
     .open > .btn-primary.dropdown-toggle:hover,
     .open > .btn-primary.dropdown-toggle:focus,
     .open > .btn-primary.dropdown-toggle.focus {
       color: #fff;
-      background-color: #3b0909;
-      border-color: #180404; }
+      background-color: black;
+      border-color: black; }
   .btn-primary:active, .btn-primary.active,
   .open > .btn-primary.dropdown-toggle {
     background-image: none; }
@@ -2902,10 +2902,10 @@ fieldset[disabled] a.btn {
   fieldset[disabled] .btn-primary.focus,
   fieldset[disabled] .btn-primary:active,
   fieldset[disabled] .btn-primary.active {
-    background-color: #871414;
-    border-color: #871414; }
+    background-color: #212122;
+    border-color: #111000; }
   .btn-primary .badge {
-    color: #871414;
+    color: #212122;
     background-color: #fff; }
 
 .btn-success {
@@ -5159,7 +5159,7 @@ button.close {
   .modal-sm {
     width: 300px; } }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .modal-lg {
     width: 900px; } }
 
@@ -5667,7 +5667,7 @@ button.close {
   .visible-xs-inline-block {
     display: inline-block !important; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .visible-sm {
     display: block !important; }
   table.visible-sm {
@@ -5678,19 +5678,19 @@ button.close {
   td.visible-sm {
     display: table-cell !important; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .visible-sm-block {
     display: block !important; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .visible-sm-inline {
     display: inline !important; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .visible-sm-inline-block {
     display: inline-block !important; } }
 
-@media (min-width: 992px) and (max-width: 1259px) {
+@media (min-width: 1024px) and (max-width: 1259px) {
   .visible-md {
     display: block !important; }
   table.visible-md {
@@ -5701,15 +5701,15 @@ button.close {
   td.visible-md {
     display: table-cell !important; } }
 
-@media (min-width: 992px) and (max-width: 1259px) {
+@media (min-width: 1024px) and (max-width: 1259px) {
   .visible-md-block {
     display: block !important; } }
 
-@media (min-width: 992px) and (max-width: 1259px) {
+@media (min-width: 1024px) and (max-width: 1259px) {
   .visible-md-inline {
     display: inline !important; } }
 
-@media (min-width: 992px) and (max-width: 1259px) {
+@media (min-width: 1024px) and (max-width: 1259px) {
   .visible-md-inline-block {
     display: inline-block !important; } }
 
@@ -5740,11 +5740,11 @@ button.close {
   .hidden-xs {
     display: none !important; } }
 
-@media (min-width: 768px) and (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .hidden-sm {
     display: none !important; } }
 
-@media (min-width: 992px) and (max-width: 1259px) {
+@media (min-width: 1024px) and (max-width: 1259px) {
   .hidden-md {
     display: none !important; } }
 
@@ -6021,7 +6021,7 @@ button.close {
   .col-sm-offset-12 {
     margin-left: 100%; } }
 
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
     float: left; }
   .col-md-1 {
@@ -6300,3 +6300,5 @@ button.close {
 @media (min-width: 480px) and (max-width: 767px) {
   .hidden-ms {
     display: none !important; } }
+
+/*# sourceMappingURL=bootstrap.css.map */
