@@ -1,4 +1,10 @@
-<?php /* Template Name: Widgets Page Template */ get_header(); ?>
+<?php /* Template Name: Widgets Page Template */ get_header(); 
+
+/*
+ * TODO: Add accordion widget to page template
+ */
+
+?>
 
 <?php 
 	//Widget top glag
@@ -97,6 +103,10 @@
 					
 					get_template_part('widgets/widget', 'tiles'); 
 
+			    break;
+			    case 'accordion_widget': // Accordion widget
+
+			    	get_template_part('widgets/widget', 'accordion');
 			    break;
 			    default:
 
