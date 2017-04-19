@@ -44,11 +44,21 @@ if ( ! class_exists( 'tk_events' ) ) {
              * put columns on events list table and make sortable by date
              * and filterable by category / tag
              */
-            add_action( 'manage_edit-events_columns', array(__CLASS__, 'add_events_columns') );
-            add_action( 'manage_events_posts_custom_column', array(__CLASS__, 'show_events_columns'), 10, 2 );
-            add_filter( 'manage_edit-events_sortable_columns', array(__CLASS__, 'date_column_register_sortable') );
-            add_filter( 'request', array(__CLASS__, 'date_column_orderby') );
-            add_filter( 'parse_query', array(__CLASS__, 'sort_events_by_event_date')) ;
+            add_action( 'manage_edit-events_columns', array( __CLASS__, 'add_events_columns' ) );
+            add_action( 'manage_events_posts_custom_column', array( __CLASS__, 'show_events_columns' ), 10, 2 );
+            add_filter( 'manage_edit-events_sortable_columns', array( __CLASS__, 'date_column_register_sortable' ) );
+            add_filter( 'request', array( __CLASS__, 'date_column_orderby' ) );
+            add_filter( 'pre_get_posts', array( __CLASS__, 'sort_events_by_event_date' ) ) ;
+
+            /**
+             * add dropdowns to filter events by category, tag and event date
+             */
+            add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_events_by_taxonomy' ) );
+            add_action( 'restrict_manage_posts', array( __CLASS__, 'restrict_events_by_date' ) );
+            add_filter( 'parse_query', array( __CLASS__, 'convert_filter_value_in_query' ) );
+            add_action( 'admin_menu', array( __CLASS__, 'remove_dates_dropdown' ) );
+            add_filter( 'query_vars', array( __CLASS__, 'register_events_query_vars' ) );
+
 
             /**
              * Add in events templates (single and archive)
@@ -186,12 +196,14 @@ if ( ! class_exists( 'tk_events' ) ) {
                         foreach ( $events as $event ) {
                             $cats = get_the_category( $event->ID );
                             if ( $cats ) {
-                                $map['event_category'][$event->ID] = array();
                                 foreach ($cats as $cat ) {
                                     if ( ! isset( $used['event_category'][$cat->term_id] ) ) {
                                         $used['event_category'][$cat->term_id] = $cat;
                                     }
-                                    $map['event_category'][$event->ID][] = $cat->term_id;
+                                    if ( ! isset( $map['event_category'][$cat->term_id] ) ) {
+                                        $map['event_category'][$cat->term_id] = array();
+                                    }
+                                    $map['event_category'][$cat->term_id][] = $event->ID;
                                 }
                             }
                             $tags = get_the_tags( $event->ID );
@@ -201,7 +213,10 @@ if ( ! class_exists( 'tk_events' ) ) {
                                     if ( ! isset( $used['event_tag'][$tag->term_id] ) ) {
                                         $used['event_tag'][$tag->term_id] = $tag;
                                     }
-                                    $map['event_tag'][$event->ID][] = $tag->term_id;
+                                    if ( ! isset( $map['event_tag'][$tag->term_id] ) ) {
+                                        $map['event_tag'][$tag->term_id] = array();
+                                    }
+                                    $map['event_tag'][$tag->term_id][] = $event->ID;
                                 }
                             }
                         }
@@ -219,23 +234,27 @@ if ( ! class_exists( 'tk_events' ) ) {
                                             'description' => $term->description
                                         )
                                     );
+                                    // associate events with the new categories/tags
+                                    if ( ! is_wp_error( $result ) ) {
+                                        foreach ( $map[$tax] as $old_term_id => $events ) {
+                                            if ( $old_term_id == $term_id ) {
+                                                foreach( $events as $event_id ) {
+                                                    wp_set_object_terms( $event_id, $result['term_id'], $tax, true );
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
 
-                        // add terms to events
-                        foreach ( $map as $tax => $event_ids ) ) {
-                            foreach( $event_ids as $event_id => $terms ) {
-                                if ( count( $terms ) ) {
-                                    wp_set_object_terms( $event_id, $terms, $tax, false );
-                                }
-                            }
-                        }
                         // delete relationship between events and categories/tags
                         foreach ( $events as $event ) {
                             wp_delete_object_term_relationships( $event->ID, 'category' );
                             wp_delete_object_term_relationships( $event->ID, 'post_tag' );
                         }
+                        unregister_taxonomy_for_object_type( 'category', 'events' );
+                        unregister_taxonomy_for_object_type( 'post_tag', 'events' );
                         break;
 
                 }
@@ -258,7 +277,7 @@ if ( ! class_exists( 'tk_events' ) ) {
                     return $theme_path;
                 } elseif ( file_exists( $template_path ) ) {
                     return $template_path;
-                } else ( file_exists( $plugin_path ) ) {
+                } elseif ( file_exists( $plugin_path ) ) {
                     return $plugin_path;
                 }
             }
@@ -334,10 +353,10 @@ if ( ! class_exists( 'tk_events' ) ) {
         public static function add_events_columns( $posts_columns )
         {
             $posts_columns['title'] = 'Event Title';
-            $posts_columns['author'] = 'Author';
             $posts_columns['event_category'] = 'Categories';
             $posts_columns['event_tag'] = 'Tags';
-            $posts_columns['date'] = 'Date';
+            $posts_columns['event_date'] = 'Event Date';
+            unset($posts_columns['date']);
             return $posts_columns;
         }
 
@@ -351,18 +370,18 @@ if ( ! class_exists( 'tk_events' ) ) {
         {
             global $post;
             switch ($column_id) {
-                case "date":
-                    $event_start = get_field('tk_events_start_date', $post_id);
-                    $event_end = get_field('tk_events_end_date', $post_id);
+                case "event_date":
+                    $event_start = strtotime(get_field('tk_events_start_date', $post_id));
+                    $event_end = strtotime(get_field('tk_events_end_date', $post_id));
                     if ( ! $event_start ) {
                         echo '-';
                     } else {
                         if ( ! $event_end ) {
-                            echo $event_start;
+                            echo date('l jS F, Y', $event_start);
                         } elseif ( $event_start == $event_end ) {
-                            echo $event_start;
+                            echo date('l jS F, Y', $event_start);
                         } else {
-                            echo $event_start . ' - ' . $event_end;
+                            echo date('j/n/Y', $event_start) . ' - ' . date('j/n/Y', $event_end);
                         }
                     }
                     break;
@@ -388,7 +407,7 @@ if ( ! class_exists( 'tk_events' ) ) {
          */
         public static function date_column_register_sortable( $columns )
         {
-            $columns["date"] = "date";
+            $columns["event_date"] = "event_date";
             return $columns;
         }
         
@@ -398,13 +417,142 @@ if ( ! class_exists( 'tk_events' ) ) {
          */
         public static function date_column_orderby( $vars )
         {
-            if (isset($vars["orderby"]) && $vars["orderby"] == "date") {
+            if (isset($vars["orderby"]) && $vars["orderby"] == "event_date") {
                 $vars = array_merge ($vars, array(
                     "meta_key" => "tk_events_start_date",
-                    "orderby" => "meta_value_num"
+                    "orderby" => "meta_value",
+                    "meta_type" => 'DATETIME'
                 ));
             }
             return $vars;
+        }
+
+        /**
+         * removes the dates dropdown from the events list in the dashboard
+         */
+        public static function remove_dates_dropdown()
+        {
+            global $typenow;
+            if ( is_admin() && $typenow == 'events' ) {
+                add_filter('months_dropdown_results', '__return_empty_array');
+            }
+        }
+
+        /**
+         * filters the events list in the dashboard by event taxonomies
+         */
+        public static function restrict_events_by_taxonomy()
+        {
+            global $typenow;
+            global $wp_query;
+            if ( $typenow == 'events' ) {
+                $cat_tax = get_taxonomy('event_category');
+                $selected = ( isset( $wp_query->query['event_category'] ) && $wp_query->query['event_category'] != 0 ) ? $wp_query->query['event_category']: '';
+                wp_dropdown_categories(array(
+                    'show_option_all' =>  __("Show All {$cat_tax->label}"),
+                    'taxonomy'        =>  'event_category',
+                    'name'            =>  'event_category',
+                    'orderby'         =>  'name',
+                    'selected'        =>  $selected,
+                    'hierarchical'    =>  true,
+                    'depth'           =>  3,
+                    'show_count'      =>  true, // Show # listings in parens
+                    'hide_empty'      =>  true, // Don't show businesses w/o listings
+                ));
+                $tag_tax = get_taxonomy('event_tag');
+                $selected = ( isset( $wp_query->query['event_tag'] ) && $wp_query->query['event_tag'] != 0 ) ? $wp_query->query['event_tag']: '';
+                wp_dropdown_categories(array(
+                    'show_option_all' =>  __("Show All {$tag_tax->label}"),
+                    'taxonomy'        =>  'event_tag',
+                    'name'            =>  'event_tag',
+                    'orderby'         =>  'name',
+                    'selected'        =>  $selected,
+                    'hierarchical'    =>  false,
+                    'show_count'      =>  true, // Show # listings in parens
+                    'hide_empty'      =>  true, // Don't show businesses w/o listings
+                ));
+            }  
+        }
+
+        /**
+         * adds a new query var for event_date
+         */
+        public static function register_events_query_vars( $vars )
+        {
+            $vars[] = 'event_date';
+            return $vars;
+        }
+
+        /**
+         * adds a date dropdown to restrict events by date (months)
+         */
+        public static function restrict_events_by_date()
+        {
+            global $wpdb;
+            /* get a distinct list of YYYYMM values from the event start and end values */
+            $r = $wpdb->get_col("
+                SELECT DISTINCT SUBSTRING(pm.meta_value, 1, 6) FROM {$wpdb->postmeta} pm
+                LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+                WHERE ( pm.meta_key = 'tk_events_start_date' OR pm.meta_key = 'tk_events_end_date' )
+                AND pm.meta_value != ''
+                AND p.post_type = 'events'
+                ORDER BY pm.meta_value DESC"
+            );
+            if ( count($r) ) {
+                print('<select name="event_date" id="event_date" class="postform"><option value="0">Show all Event Dates</option>');
+                foreach ($r as $datestr) {
+                    /* datestr is in the format YYYYMM */
+                    $selected = ( isset($_GET["event_date"]) && $_GET["event_date"] == $datestr )? ' selected': '';
+                    $monthNum = substr($datestr, 4, 2);
+                    $dateObj = DateTime::createFromFormat('!m', $monthNum);
+                    $monthname = $dateObj->format('F');
+                    $year = substr($datestr, 0, 4);
+                    printf('<option value="%s"%s>%s %s</option>', $datestr, $selected, $monthname, $year);
+                }
+                print('</select>');
+            }
+        }
+
+        /**
+         * filters the events list in the dashboard by event taxonomies and dates
+         */
+        public static function convert_filter_value_in_query($query)
+        {
+            global $pagenow;
+            // check we are on the events listing page in the dashboard
+            if ( is_admin() && $pagenow == 'edit.php' && isset($query->query_vars['post_type']) && $query->query_vars['post_type'] == 'events' ) {
+                // check query vars for taxonomy filters
+                foreach ( array('event_category', 'event_tag') as $taxonomy ) {
+                    if ( isset($query->query_vars[$taxonomy]) && is_numeric($query->query_vars[$taxonomy]) && $query->query_vars[$taxonomy] != 0 ) {
+                        // convert numeric term to slug
+                        $term = get_term_by('id', $query->query_vars[$taxonomy], $taxonomy);
+                        $query->query_vars[$taxonomy] = $term->slug;
+                    }
+                }
+                // check query vars for date filters
+                if ( isset( $query->query_vars["event_date"] ) &&  $query->query_vars["event_date"] != 0 ) {
+                    // $query->query_vars["event_date"] has the format YYYYMM */
+                    $year = substr($query->query_vars["event_date"], 0, 4);
+                    $month = substr($query->query_vars["event_date"], 4, 2);
+                    $start = mktime(0, 0, 0, intval($month), 1, intval($year));
+                    $end = mktime(0, 0, 0, (intval($month) + 1), 0, intval($year));
+                    $query->query_vars["meta_query"] = array(
+                        'relation' => 'OR',
+                        'start_clause' => array(
+                            'key' => 'tk_events_start_date',
+                            'value' => array(date('Y-m-d', $start), date('Y-m-d', $end)),
+                            'compare' => 'BETWEEN',
+                            'type' => 'DATETIME'
+                        ),
+                        'end_clause' => array(
+                            'key' => 'tk_events_end_date',
+                            'value' => array(date('Y-m-d', $start), date('Y-m-d', $end)),
+                            'compare' => 'BETWEEN',
+                            'type' => 'DATETIME'
+                        )
+                    );
+                }
+            }
         }
 
         /**
@@ -416,9 +564,10 @@ if ( ! class_exists( 'tk_events' ) ) {
         public static function sort_events_by_event_date($query)
         {
             global $pagenow;
-            if (is_admin() && $pagenow=='edit.php' && $query->query_vars['post_type'] == 'events' && !isset($query->query_vars['orderby']))  {
-                $query->query_vars['orderby'] = 'meta_value_num';
+            if (is_admin() && $pagenow=='edit.php' && $query->query_vars['post_type'] == 'events' && ( ! isset($query->query_vars['orderby'] ) || $query->query_vars['orderby'] == 'menu_order title') ) {
+                $query->query_vars['orderby'] = 'meta_value';
                 $query->query_vars['meta_key'] = 'tk_events_start_date';
+                $query->query_vars['meta_type'] = 'DATETIME';
                 $query->query_vars['order'] = 'DESC';
             }
             return $query;
@@ -534,6 +683,7 @@ if ( ! class_exists( 'tk_events' ) ) {
                         'label' => 'Event end date',
                         'name' => 'tk_events_end_date',
                         'type' => 'date_picker',
+                        'required' => 1,
                         'wrapper' => array(
                             'width' => '50%',
                         ),
@@ -638,35 +788,66 @@ if ( ! class_exists( 'tk_events' ) ) {
                 'posts_per_page' => -1,
                 'nopaging' => true
             );
-            /* if called with no arguments, return all events */
-            if ($year === false) {
-                return get_posts($args);
+            // validate month
+            if ( ! in_array( intval($month), range( 1, 12 ) ) ) {
+                $month = false;
+            } else {
+                $month = intval($month);
             }
-            /* set start and end timestamps according to request */
-            if ($day !== false && $month !== false) {
-                /* a specific day has been requested */
-                $start = mktime(0, 0, 0, $month, $day, $year);
-                $end = mktime(0, 0, 0, $month, ($day + 1), $year);
-            } elseif ($day === false && $month !== false) {
-                /* a month has been requested */
-                $start = mktime(0, 0, 0, $month, 1, $year);
-                $end = mktime(0, 0, 0, ($month + 1), 1, $year);
+            // validate day
+            if ( ! in_array( intval($day), range( 1, 31 ) ) ) {
+                $day = false;
+            } else {
+                $day = intval($day);
             }
-            $args['meta_query'] = array(
-                'relation' => 'OR',
-                'start_clause' => array(
-                    'key' => 'tk_events_start_date',
-                    'value' => array($start, $end),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                ),
-                'end_clause' => array(
-                    'key' => 'tk_events_end_date',
-                    'value' => array($start, $end),
-                    'compare' => 'BETWEEN',
-                    'type' => 'NUMERIC'
-                )
-            );
+            // validate year
+            if ( ! in_array( intval($year), range(1970, (date('Y') + 10) ) ) ) {
+                $year = false;
+            }
+            /* make sure we have a valid year */
+            if ($year !== false ) {
+                // set start and end dates to false
+                $start = $end = false;
+                /* set start and end timestamps according to request */
+                if ($day !== false && $month !== false) {
+                    /* a specific day has been requested */
+                    $start = mktime(0, 0, 0, $month, $day, $year);
+                    $args['meta_query'] = array(
+                        'relation' => 'AND',
+                        'start_clause' => array(
+                            'key' => 'tk_events_start_date',
+                            'value' => date('Y-m-d', $start),
+                            'compare' => '<=',
+                            'type' => 'DATETIME'
+                        ),
+                        'end_clause' => array(
+                            'key' => 'tk_events_end_date',
+                            'value' => date('Y-m-d', $start),
+                            'compare' => '>=',
+                            'type' => 'DATETIME'
+                        )
+                    );
+                } elseif ($day === false && $month !== false) {
+                    /* a month has been requested */
+                    $start = mktime(0, 0, 0, $month, 1, $year);
+                    $end = mktime(0, 0, 0, ($month + 1), 0, $year);
+                    $args['meta_query'] = array(
+                        'relation' => 'OR',
+                        'start_clause' => array(
+                            'key' => 'tk_events_start_date',
+                            'value' => array(date('Y-m-d', $start), date('Y-m-d', $end)),
+                            'compare' => 'BETWEEN',
+                            'type' => 'DATETIME'
+                        ),
+                        'end_clause' => array(
+                            'key' => 'tk_events_end_date',
+                            'value' => array(date('Y-m-d', $start), date('Y-m-d', $end)),
+                            'compare' => 'BETWEEN',
+                            'type' => 'DATETIME'
+                        )
+                    );
+                }
+            }
             return get_posts($args);
         }
 
@@ -719,7 +900,6 @@ if ( ! class_exists( 'tk_events' ) ) {
                         $out .= sprintf("DTSTAMP:%sZ\n", str_replace(array(" ","-",":"), array("T", "", ""), $event->publish_date ));
                         $out .= sprintf("DTSTART:%s\n", date("Ymd\THis\Z", $event->start_unixtimestamp));
                         $out .= sprintf("DTEND:%s\n", date("Ymd\THis\Z", $event->end_unixtimestamp));
-                        }
                         $out .= sprintf("SUMMARY:%s\n", $event->title);
                         $out .= "END:VEVENT\n";
                     }
