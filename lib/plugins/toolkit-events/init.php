@@ -179,7 +179,7 @@ if ( ! class_exists( 'tk_events' ) ) {
                         // store used terms in here
                         $used = array('event_category' => array(), 'event_tag' => array());
 
-                        // store mapping in here
+                        // store mappingposts to terms in here
                         $map = array('event_category' => array(), 'event_tag' => array());
 
                         // collect terms from existing events
@@ -199,7 +199,7 @@ if ( ! class_exists( 'tk_events' ) ) {
                                 $map['event_tag'][$event->ID] = array();
                                 foreach ($tags as $tag ) {
                                     if ( ! isset( $used['event_tag'][$tag->term_id] ) ) {
-                                        $used['event_tag'][$tag->term_id] = $cat;
+                                        $used['event_tag'][$tag->term_id] = $tag;
                                     }
                                     $map['event_tag'][$event->ID][] = $tag->term_id;
                                 }
@@ -235,11 +235,12 @@ if ( ! class_exists( 'tk_events' ) ) {
                         foreach ( $events as $event ) {
                             wp_delete_object_term_relationships( $event->ID, 'category' );
                             wp_delete_object_term_relationships( $event->ID, 'post_tag' );
-
+                        }
                         break;
+
                 }
                 /* update the version option */
-                update_option('tk_profiles_plugin_version', self::$version);
+                update_option('tk_events_plugin_version', self::$version);
             }
         }
 
