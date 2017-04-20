@@ -41,6 +41,11 @@ if ( ! class_exists( 'tk_events' ) ) {
             add_action( 'init', array( __CLASS__, 'upgrade' ), 11 );
 
             /**
+             * add scripts for admin
+             */
+            add_action( 'admin_enqueue_scripts', array(__CLASS__, 'admin_scripts') );
+
+            /**
              * put columns on events list table and make sortable by date
              * and filterable by category / tag
              */
@@ -261,6 +266,14 @@ if ( ! class_exists( 'tk_events' ) ) {
                 /* update the version option */
                 update_option('tk_events_plugin_version', self::$version);
             }
+        }
+
+        /**
+         * enqueues scripts for admin area
+         */
+        public static function admin_scripts()
+        {
+            wp_enqueue_script('tk-events-script', plugins_url('/admin.js', __FILE__), array('jquery'));
         }
 
         /**
