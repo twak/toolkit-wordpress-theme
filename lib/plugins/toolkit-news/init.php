@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Toolkit News
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
- * Description: This plugin adds toolkit news
+ * Description: This plugin adds a new post type for news items
  * Version: 1.0.1
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
@@ -76,26 +76,26 @@ if ( ! class_exists( 'tk_news' ) ) {
                             $cats = get_the_category( $n->ID );
                             if ( $cats ) {
                                 foreach ($cats as $cat ) {
-                                    if ( ! isset( $used['event_category'][$cat->term_id] ) ) {
-                                        $used['event_category'][$cat->term_id] = $cat;
+                                    if ( ! isset( $used['news_category'][$cat->term_id] ) ) {
+                                        $used['news_category'][$cat->term_id] = $cat;
                                     }
-                                    if ( ! isset( $map['event_category'][$cat->term_id] ) ) {
-                                        $map['event_category'][$cat->term_id] = array();
+                                    if ( ! isset( $map['news_category'][$cat->term_id] ) ) {
+                                        $map['news_category'][$cat->term_id] = array();
                                     }
-                                    $map['event_category'][$cat->term_id][] = $n->ID;
+                                    $map['news_category'][$cat->term_id][] = $n->ID;
                                 }
                             }
                             $tags = get_the_tags( $n->ID );
                             if ( $tags ) {
-                                $map['event_tag'][$n->ID] = array();
+                                $map['news_tag'][$n->ID] = array();
                                 foreach ($tags as $tag ) {
-                                    if ( ! isset( $used['event_tag'][$tag->term_id] ) ) {
-                                        $used['event_tag'][$tag->term_id] = $tag;
+                                    if ( ! isset( $used['news_tag'][$tag->term_id] ) ) {
+                                        $used['news_tag'][$tag->term_id] = $tag;
                                     }
-                                    if ( ! isset( $map['event_tag'][$tag->term_id] ) ) {
-                                        $map['event_tag'][$tag->term_id] = array();
+                                    if ( ! isset( $map['news_tag'][$tag->term_id] ) ) {
+                                        $map['news_tag'][$tag->term_id] = array();
                                     }
-                                    $map['event_tag'][$tag->term_id][] = $n->ID;
+                                    $map['news_tag'][$tag->term_id][] = $n->ID;
                                 }
                             }
                         }
