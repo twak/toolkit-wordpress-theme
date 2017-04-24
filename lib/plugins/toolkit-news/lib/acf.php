@@ -61,6 +61,16 @@ if ( ! class_exists( 'tk_news_acf' ) ) {
                         'toolbar' => 'basic',
                         'media_upload' => 0,
                     ),                    
+                    /* show search on archive pages option */      
+                    array (
+                        'key' => 'field_tk_news_page_settings_search',
+                        'label' => 'Hide Search',
+                        'name' => 'tk_news_page_settings_search',
+                        'type' => 'checkbox',
+                        'choices' => array(
+                            'hide_search'   => 'Hide search box on the news archive page'
+                        )
+                    ),
                     array (
                         'key' => 'field_tk_news_single_settings_related',
                         'label' => 'Related news',

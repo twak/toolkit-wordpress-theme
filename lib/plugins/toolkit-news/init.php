@@ -170,7 +170,7 @@ if ( ! class_exists( 'tk_news' ) ) {
         public static function archive_template($archive_template)
         {
             global $post;
-            if ( $post->post_type === 'news' ) {
+            if ( is_post_type_archive('news') || is_tax('news_category') || is_tax('news_tag') ) {
                 
                 /**
                  * checks for overrides in template and theme for taxonomy archives
@@ -200,10 +200,13 @@ if ( ! class_exists( 'tk_news' ) ) {
                          */
                         $theme_path_tax = get_stylesheet_directory() . '/taxonomy-' . $tax . '.php';
                         $template_path_tax = get_template_directory() . '/taxonomy-' . $tax . '.php';
+                        $plugin_path_tax = dirname(__FILE__) . '/templates/taxonomy-news.php';
                         if (file_exists($theme_path_tax)) {
                             return $theme_path_tax;
                         } elseif (file_exists($template_path_tax)) {
                             return $template_path_tax;
+                        } elseif (file_exists($plugin_path_tax)) {
+                            return $plugin_path_tax;
                         }
                     }
                 }
