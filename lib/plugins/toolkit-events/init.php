@@ -3,502 +3,367 @@
  * Plugin Name: Toolkit Events
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: This plugin adds toolkit events
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
  */
 
-/* 
- TO DO:
- Make featured events possible
-
- Make the category for archived events selectable
-*/
-
 /**
- * Event Post Types
+ * include stuff from lib
  */
+require_once dirname(__FILE__) . '/lib/acf.php';
+require_once dirname(__FILE__) . '/lib/admin.php';
+require_once dirname(__FILE__) . '/lib/post_type.php';
+require_once dirname(__FILE__) . '/lib/feed.php';
 
-function create_post_type_tk_events(){
-    register_taxonomy_for_object_type('category', 'events'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('post_tag', 'events');
-    register_post_type('events', // Register Custom Post Type
-    array(
-        'labels' => array(
-            'name' => __('Events', 'html5blank') , // Rename these to suit
-            'singular_name' => __('Event', 'html5blank') ,
-            'add_new' => __('Add New', 'html5blank') ,
-            'add_new_item' => __('Add New Event', 'html5blank') ,
-            'edit' => __('Edit', 'html5blank') ,
-            'edit_item' => __('Edit Event', 'html5blank') ,
-            'new_item' => __('New Event', 'html5blank') ,
-            'view' => __('View Event', 'html5blank') ,
-            'view_item' => __('View Event', 'html5blank') ,
-            'search_items' => __('Search Events', 'html5blank') ,
-            'not_found' => __('No Events found', 'html5blank') ,
-            'not_found_in_trash' => __('No Events found in Trash', 'html5blank')
-        ) ,
-        'public' => true,
-        'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
-        'has_archive' => true,
-        'supports' => array(
-            'title',
-            'editor',
-            'excerpt',
-            'thumbnail'
+if ( ! class_exists( 'tk_events' ) ) {
 
-        ) ,
-        'menu_icon' => 'dashicons-calendar',
-        'can_export' => true, // Allows export in Tools > Export
-        'taxonomies' => array(
-            'post_tag',
-            'category'
-        ) // Add Category and Post Tags support
-    ));
-}
+    class tk_events
+    {
+        /* plugin version */
+        public static $version = "1.0.2";
 
-add_action('init', 'create_post_type_tk_events'); // Add our Events Custom Post Type
+        /* register all hooks with wordpress API */
+        public static function register()
+        {
 
-/**
- * Show Custom Post Types in Category Archive Page
- */
+            /**
+             * upgrade from previous version
+             */
+            add_action( 'init', array( __CLASS__, 'upgrade' ), 11 );
 
-function show_events_archives( $query ) {
-    if( is_category() || is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
-        $query->set( 'post_type', array(
-            'post', 'nav_menu_item', 'events'
-        ));
-        return $query;
-    }
-}
-add_filter( 'pre_get_posts', 'show_events_archives' );
+            /**
+             * Add in events templates (single and archive)
+             */
+            add_filter('single_template', array( __CLASS__, 'single_template' ) );
+            add_filter('archive_template', array( __CLASS__, 'archive_template' ) );
 
-/**
- * Add in event templates (single and archive and category archived-events)
- */
+            /**
+             * change main query for events
+             */
+            add_action( 'pre_get_posts', array(__CLASS__, 'query_events' ) );
 
-// https://codex.wordpress.org/Plugin_API/Filter_Reference/single_template
+            /**
+             * plugin activation/deactivation
+             */
+            register_activation_hook( __FILE__, array(__CLASS__, 'plugin_activation' ) );
 
-function tk_events_single_temple($single_template) { //single template
-    global $post;
-    if ($post->post_type == 'events') {
-        $single_template = dirname(__FILE__) . '/single-events.php';
-    }
-
-    return $single_template;
-}
-
-add_filter('single_template', 'tk_events_single_temple');
-
-function tk_events_archive_temple($archive_template) { //archive template
-    global $post;
-    if ($post->post_type == 'events') {
-        $archive_template = dirname(__FILE__) . '/archive-events.php';
-    }
-
-    return $archive_template;
-}
-
-add_filter('archive_template', 'tk_events_archive_temple');
-
-
-
-function category_archived( $template ) {
-
-    if (is_category( 'archived-events' )) {
-        $new_template = dirname(__FILE__) . '/category-archived-events.php';
-        if ( '' != $new_template ) {
-            return $new_template ;
+            /**
+             * add scripts for admin
+             */
+            add_action( 'acf/input/admin_enqueue_scripts', array(__CLASS__, 'admin_scripts') );
         }
+
+        /**
+         * upgrade routine
+         */
+        public static function upgrade()
+        {
+            $current_version = get_option('tk_events_plugin_version');
+            if ($current_version != self::$version) {
+                switch ($current_version) {
+                    case false:
+                        /* updates sites which used built in categories */
+
+                        // get all events
+                        $events = get_posts( array(
+                            'post_type' => 'events',
+                            'numberposts' => -1
+                        ) );
+
+                        // re-add support for built in category and tag taxonomies
+                        register_taxonomy_for_object_type( 'category', 'events' );
+                        register_taxonomy_for_object_type( 'post_tag', 'events' );
+
+                        // store used terms in here
+                        $used = array('event_category' => array(), 'event_tag' => array());
+
+                        // store mappingposts to terms in here
+                        $map = array('event_category' => array(), 'event_tag' => array());
+
+                        // collect terms from existing events
+                        foreach ( $events as $event ) {
+                            $cats = get_the_category( $event->ID );
+                            if ( $cats ) {
+                                foreach ($cats as $cat ) {
+                                    if ( ! isset( $used['event_category'][$cat->term_id] ) ) {
+                                        $used['event_category'][$cat->term_id] = $cat;
+                                    }
+                                    if ( ! isset( $map['event_category'][$cat->term_id] ) ) {
+                                        $map['event_category'][$cat->term_id] = array();
+                                    }
+                                    $map['event_category'][$cat->term_id][] = $event->ID;
+                                }
+                            }
+                            $tags = get_the_tags( $event->ID );
+                            if ( $tags ) {
+                                $map['event_tag'][$event->ID] = array();
+                                foreach ($tags as $tag ) {
+                                    if ( ! isset( $used['event_tag'][$tag->term_id] ) ) {
+                                        $used['event_tag'][$tag->term_id] = $tag;
+                                    }
+                                    if ( ! isset( $map['event_tag'][$tag->term_id] ) ) {
+                                        $map['event_tag'][$tag->term_id] = array();
+                                    }
+                                    $map['event_tag'][$tag->term_id][] = $event->ID;
+                                }
+                            }
+                        }
+
+                        // add the new categories/tags
+                        foreach ( $used as $tax => $terms ) {
+                            if ( count( $used[$tax] ) ) {
+                                foreach( $used[$tax] as $term_id => $term ) {
+                                    // set up new terms
+                                    $result = wp_insert_term(
+                                        $term->name,
+                                        $tax,
+                                        array(
+                                            'slug' => $term->slug,
+                                            'description' => $term->description
+                                        )
+                                    );
+                                    // associate events with the new categories/tags
+                                    if ( ! is_wp_error( $result ) ) {
+                                        foreach ( $map[$tax] as $old_term_id => $events ) {
+                                            if ( $old_term_id == $term_id ) {
+                                                foreach( $events as $event_id ) {
+                                                    wp_set_object_terms( $event_id, $result['term_id'], $tax, true );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // delete relationship between events and categories/tags
+                        foreach ( $events as $event ) {
+                            wp_delete_object_term_relationships( $event->ID, 'category' );
+                            wp_delete_object_term_relationships( $event->ID, 'post_tag' );
+                        }
+                        unregister_taxonomy_for_object_type( 'category', 'events' );
+                        unregister_taxonomy_for_object_type( 'post_tag', 'events' );
+                    case "1.0.2":
+                        // upgrade from 1.0.2
+
+                }
+                /* update the version option */
+                update_option('tk_events_plugin_version', self::$version);
+            }
+        }
+
+
+        /**
+         * ensures template is used from plugin for single event pages
+         */
+        public static function single_template($single_template)
+        {
+            global $post;
+            if ($post->post_type === 'events' ) {
+                $theme_path = get_stylesheet_directory() . '/single-events.php';
+                $template_path = get_template_directory() . '/single-events.php';
+                $plugin_path = dirname(__FILE__) . '/templates/single-events.php';
+                if ( file_exists( $theme_path ) ) {
+                    return $theme_path;
+                } elseif ( file_exists( $template_path ) ) {
+                    return $template_path;
+                } elseif ( file_exists( $plugin_path ) ) {
+                    return $plugin_path;
+                }
+            }
+            return $single_template;
+        }
+
+        /**
+         * ensures template is used from plugin for event archives
+         */
+        public static function archive_template($archive_template)
+        {
+            global $wp_query;
+            if ( is_post_type_archive('events') || is_tax('event_category') || is_tax('event_tag') ) {
+                
+                /**
+                 * checks for overrides in template and theme for taxonomy archives
+                 */
+                foreach ( array('event_category', 'event_tag') as $tax ) {
+                    if ( is_tax( $tax ) ) {
+
+
+                        /**
+                         * first check for templates which are specific to terms
+                         * taxonomy-{taxonomy}-{term}.php
+                         */
+                        $qo = get_queried_object();
+
+                        if ( $qo->slug ) {
+                            $theme_path_term = get_stylesheet_directory() . '/taxonomy-' . $tax . '-' . $qo->slug . '.php';
+                            $template_path_term = get_template_directory() . '/taxonomy-' . $tax . '-' . $qo->slug . '.php';
+                            if (file_exists($theme_path_term)) {
+                                return $theme_path_term;
+                            } elseif (file_exists($template_path_term)) {
+                                return $template_path_term;
+                            }
+                        }
+
+                        /**
+                         * now check for templates which are specific to the taxonomy
+                         * taxonomy-{taxonomy}.php
+                         */
+                        $theme_path_tax = get_stylesheet_directory() . '/taxonomy-' . $tax . '.php';
+                        $template_path_tax = get_template_directory() . '/taxonomy-' . $tax . '.php';
+                        $plugin_path_tax = dirname(__FILE__) . '/templates/taxonomy-events.php';
+                        if (file_exists($theme_path_tax)) {
+                            return $theme_path_tax;
+                        } elseif (file_exists($template_path_tax)) {
+                            return $template_path_tax;
+                        } elseif (file_exists($plugin_path_tax)) {
+                            return $plugin_path_tax;
+                        }
+                    }
+                }
+                /**
+                 * checks for overrides in template and theme for post type archive
+                 */
+                $theme_path = get_stylesheet_directory() . '/archive-events.php';
+                $template_path = get_template_directory() . '/archive-events.php';
+                $plugin_path = dirname(__FILE__) . '/templates/archive-events.php';
+                if (file_exists($theme_path)) {
+                    return $theme_path;
+                } elseif (file_exists($template_path)) {
+                    return $template_path;
+                } elseif (file_exists($plugin_path)) {
+                    return $plugin_path;
+                }
+            }
+            return $archive_template;
+        }
+
+
+
+        /**
+         * Flush rewrite rules when creating new post type
+         * @see https://paulund.co.uk/flush-permalinks-custom-post-type
+         */
+        function plugin_activation()
+        {
+            tk_events_post_type::create_taxonomy();
+            tk_events_post_type::create_post_type();
+            flush_rewrite_rules();
+        }
+
+        /**
+         * enqueues scripts for admin area
+         */
+        public static function admin_scripts()
+        {
+            wp_enqueue_script(
+                'tk-events-script',
+                plugins_url('/js/admin.js', __FILE__),
+                array('jquery'),
+                tk_events::$version,
+                true
+            );
+        }
+
+        /**
+         * filter for pre_get_posts 
+         */
+        public static function query_events( $query )
+        {
+            // limits the main archive page to get only past events in the main query
+            // current events are retrieved using a custom query on the archive page
+            if ( ! is_admin() && ! is_tax() && $query->is_main_query() && is_post_type_archive('events') ) {
+                $query->set('meta_key', 'tk_events_start_date');
+                $query->set('orderby', 'meta_value_num');
+                $query->set('order', 'DESC');
+                $query->set('meta_query', array(
+                    'relation' => 'AND',
+                    'start_clause' => array(
+                        'key' => 'tk_events_start_date',
+                        'value' => date('Y-m-d'),
+                        'compare' => '<',
+                        'type' => 'DATETIME'
+                    ),
+                    'end_clause' => array(
+                        'key' => 'tk_events_end_date',
+                        'value' => date('Y-m-d'),
+                        'compare' => '<',
+                        'type' => 'DATETIME'
+                    )
+                ) );
+            }
+            // ensures the order of events is governed by the event start date on taxonomy archives
+            if ( ! is_admin() && $query->is_main_query() && is_tax( array('event_category', 'event_tag') ) ) {
+                $query->set('meta_key', 'tk_events_start_date');
+                $query->set('orderby', 'meta_value_num');
+                $query->set('order', 'DESC');
+            }
+        }
+
+        /**
+         * TEMPLATE FUNCTIONS
+         */
+
+        /**
+         * gets a formatted date string
+         */
+        public static function get_date_string($event_id, $type = 'single', $formats = array())
+        {
+            // get formats to use
+            $defaults = apply_filters( 'event_date_formats', array(
+                'single_day' => "l j F Y",
+                'single_period_start' => "j F Y",
+                'single_period_end' => "j F Y",
+                'single_period_start_samemonth' => "l j",
+                'single_period_end_samemonth' => "l j F, Y",
+                'single_period_start_sameyear' => "l j F",
+                'single_period_end_sameyear' => "l j F, Y",
+                'archive_day' => "l j F Y",
+                'archive_period_start' => "j F Y",
+                'archive_period_end' => "j F Y",
+                'archive_period_start_samemonth' => "j",
+                'archive_period_end_samemonth' => "j F, Y",
+                'archive_period_start_sameyear' => "j F",
+                'archive_period_end_sameyear' => "j F, Y"
+            ) );
+            $opts = wp_parse_args( $formats, $defaults );
+
+            // sanitise type
+            if ( ! in_array( $type, array('single', 'archive') ) ) {
+                $type = 'single';
+            }
+
+            // Get event vars
+            $start_date = get_field('tk_events_start_date', $event_id);
+            $end_date = get_field('tk_events_end_date', $event_id);
+            $start_ts = strtotime($start_date);
+            $end_ts = strtotime($end_date);
+
+            // Format date
+            $date_format = '';
+            if ( $start_date ) {
+                if ( ! $end_date || $start_date == $end_date ) {       
+                    $date_format = date($opts[$type . '_day'], $start_ts);
+                } else {
+                    $start_month = date("n", $start_ts);
+                    $end_month = date("n", $end_ts);
+                    $start_year = date("Y", $start_ts);
+                    $end_year = date("Y", $end_ts);
+                    if ( $start_year == $end_year && $start_month == $end_month ) {
+                        $date_format = date($opts[$type . '_period_start_samemonth'], $start_ts) . ' - ' . date($opts[$type . '_period_end_samemonth'], $end_ts);
+                    } elseif ( $start_year == $end_year ) {
+                        $date_format = date($opts[$type . '_period_start_sameyear'], $start_ts) . ' - ' . date($opts[$type . '_period_end_sameyear'], $end_ts);
+                    } else {
+                        $date_format = date($opts[$type . '_period_start'], $start_ts) . ' - ' . date($opts[$type . '_period_end'], $end_ts);
+                    }
+                }
+            }
+            return $date_format;
+        }
+
     }
-
-    return $template;
+    tk_events::register();
 }
 
-add_filter( 'template_include', 'category_archived' );
-
-/**
- * AFC Register events settings page
- */
-
-if (function_exists('acf_add_options_page')) {
-    acf_add_options_page(array(
-        'page_title' => 'Events Settings',
-        'menu_title' => 'Events Settings',
-        'menu_slug' => 'tk-events-settings',
-        'capability' => 'edit_posts',
-        'redirect' => false,
-        'parent_slug' => 'edit.php?post_type=events',
-    ));
-}
-
-/**
- * Events settings option page field
- */
-
-if( function_exists('acf_add_local_field_group') ) {
-
-    // General events option page
-
-    acf_add_local_field_group(array (
-        'key' => 'group_tk_events_page_settings',
-        'title' => 'Events page settings',
-        'fields' => array (
-            array ( //page intro
-                'key' => 'field_tk_events_page_settings_introduction',
-                'label' => 'Page introduction',
-                'name' => 'tk_events_page_settings_introduction',
-                'type' => 'wysiwyg',
-                'instructions' => 'Add an introduction to the top of the events page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'tabs' => 'all',
-                'toolbar' => 'basic',
-                'media_upload' => 0,
-            ),           
-            array ( //Archived events cat option
-                'key' => 'field_tk_events_page_settings_archive',
-                'label' => 'Archived events',
-                'name' => 'tk_events_page_settings_archive',
-                'type' => 'checkbox',
-                'instructions' => 'Ticking this box will hide events in the \'Archived Events\' category from the events page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'archive_events'   => 'Hide archived events'
-                ),                
-            ),
-            array ( //Archived events cat option
-                'key' => 'field_tk_events_page_settings_calendar',
-                'label' => 'Calendar view',
-                'name' => 'tk_events_page_settings_calendar',
-                'type' => 'checkbox',
-                'instructions' => 'Ticking this box will show a calendar view on the events page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'show_calendar'   => 'Show calendar view'
-                ),                
-            ),         
-        ),
-        'location' => array (
-            array (
-                array (
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'tk-events-settings',
-                ),
-            ),
-        ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-
-}
-
-/**
- * Dynamically populate a list of categories in the page settings
- */
-
-//https://www.advancedcustomfields.com/resources/dynamically-populate-a-select-fields-choices/
-
-function acf_load_color_field_choices( $field ) {
-    
-    // reset choices
-    $field['choices'] = array();
-
-    $choices = array(
-        'choice1' => '1', 
-        'choice2' => '2', 
-        'choice3' => '3'
-    );    
-    
-    // loop through array and add to field 'choices'
-    if( is_array($choices) ) {        
-        foreach( $choices as $choice ) {            
-            $field['choices'][ $choice ] = $choice;            
-        }        
-    }
-    
-    // return the field
-    return $field;
-}
-
-//add_filter('acf/load_field/name=tk_events_single_settings_test', 'acf_load_color_field_choices');
-
-if( function_exists('acf_add_local_field_group') ) {
-
-     acf_add_local_field_group(array (
-        'key' => 'group_tk_events_single_settings',
-        'title' => 'Single event page settings',
-        'fields' => array (
-            array (
-                'key' => 'field_tk_events_single_settings_related',
-                'label' => 'Related Events',
-                'name' => 'tk_events_single_settings_related',
-                'type' => 'checkbox',
-                'instructions' => 'Ticking this box will make events related by category appear at the bottom of every event page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'show_related'   => 'Show related events on the event page'
-                ),
-            ),           
-        ),
-        'location' => array (
-            array (
-                array (
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'tk-events-settings',
-                ),
-            ),
-        ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-
-
-
-}
-
-/* Individual Events Fields */
-
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
-        'key' => 'group_tk_events',
-        'title' => 'Event Details',
-        'fields' => array(
-            array(
-                'key' => 'field_tk_events_start_date',
-                'label' => 'Event start date',
-                'name' => 'tk_events_start_date',
-                'type' => 'date_picker',
-                'instructions' => '',
-                'required' => 1,
-                'conditional_logic' => 0,
-                'wrapper' => array(
-                    'width' => '50%',
-                    'class' => '',
-                    'id' => '',
-                ) ,
-                'display_format' => 'd/m/Y',
-                'return_format' => 'Y-m-d',
-                'first_day' => 1,
-            ) ,
-            array(
-                'key' => 'field_tk_events_end_date',
-                'label' => 'Event end date',
-                'name' => 'tk_events_end_date',
-                'type' => 'date_picker',
-                'instructions' => '',
-                'required' => 1,
-                'conditional_logic' => 0,
-                'wrapper' => array(
-                    'width' => '50%',
-                    'class' => '',
-                    'id' => '',
-                ) ,
-                'display_format' => 'd/m/Y',
-                'return_format' => 'Y-m-d',
-                'first_day' => 1,
-            ) ,           
-            array(
-                'key' => 'field_tk_events_key_facts',
-                'label' => 'Key facts',
-                'name' => 'tk_events_key_facts',
-                'type' => 'repeater',
-                'instructions' => 'Add event details e.g. Location: Parkinson Building.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array(
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ) ,
-                'collapsed' => '',
-                'min' => '',
-                'max' => '',
-                'layout' => 'table',
-                'button_label' => 'Add key facts',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_tk_events_key_facts_label',
-                        'label' => 'Label',
-                        'name' => 'tk_events_key_facts_label',
-                        'type' => 'text',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ) ,
-                        'default_value' => '',
-                        'placeholder' => '',
-                        'prepend' => '',
-                        'append' => '',
-                        'maxlength' => '',
-                        'readonly' => 0,
-                        'disabled' => 0,
-                    ) ,
-                    array(
-                        'key' => 'field_tk_events_key_facts_information',
-                        'label' => 'Information',
-                        'name' => 'tk_events_key_facts_information',
-                        'type' => 'text',
-                        'instructions' => '',
-                        'required' => 0,
-                        'conditional_logic' => 0,
-                        'wrapper' => array(
-                            'width' => '',
-                            'class' => '',
-                            'id' => '',
-                        ) ,
-                        'default_value' => '',
-                        'placeholder' => '',
-                        'prepend' => '',
-                        'append' => '',
-                        'maxlength' => '',
-                        'readonly' => 0,
-                        'disabled' => 0,
-                    ) ,
-                ) ,
-            ) ,            
-        ) ,
-        'location' => array(
-            array(
-                array(
-                    'param' => 'post_type',
-                    'operator' => '==',
-                    'value' => 'events',
-                ) ,
-            ) ,
-        ) ,
-        'menu_order' => 0,
-        'position' => 'acf_after_title',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-}
-
-/* Featured event*/
-
-if( function_exists('acf_add_local_field_group') ):
-
-acf_add_local_field_group(array (
-    'key' => 'group_tk_events_featured',
-    'title' => 'Featured Event',
-    'fields' => array (
-        array(
-            'key' => 'field_tk_events_featured',
-            'label' => '',
-            'name' => 'tk_events_featured',
-            'type' => 'checkbox',
-            'instructions' => 'Ticking this box will make this event appear at the top of the list on the events page.',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ) ,                
-            'choices' => array(
-                'featured_event'   => 'Make this event featured'
-            ),
-
-        ) ,
-    ),
-    'location' => array (
-        array (
-            array (
-                'param' => 'post_type',
-                'operator' => '==',
-                'value' => 'events',
-            ),
-        ),
-    ),
-    'menu_order' => 0,
-    'position' => 'side',
-    'style' => 'default',
-    'label_placement' => 'top',
-    'instruction_placement' => 'label',
-    'hide_on_screen' => '',
-    'active' => 1,
-    'description' => '',
-));
-
-endif;
-
-/**
- * Flush rewrite rules when creating new post type
- */
-
-//https://paulund.co.uk/flush-permalinks-custom-post-type
-
-function flush_rules_tk_events() {
-    create_post_type_tk_events();
-    flush_rewrite_rules();
-}
-
-register_activation_hook( __FILE__, 'flush_rules_tk_events' );
