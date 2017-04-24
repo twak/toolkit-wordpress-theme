@@ -62,6 +62,16 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'toolbar' => 'basic',
                         'media_upload' => 0,
                     ),
+                    /* show search on archive pages option */      
+                    array (
+                        'key' => 'field_tk_events_page_settings_search',
+                        'label' => 'Hide Search',
+                        'name' => 'tk_events_page_settings_search',
+                        'type' => 'checkbox',
+                        'choices' => array(
+                            'hide_search'   => 'Hide search box on the events archive page'
+                        )
+                    ),
                     /* custom current events tab title */
                     array (
                         'key' => 'field_tk_events_page_settings_current_title',
@@ -99,6 +109,15 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'type' => 'text',
                         'instructions' => 'The title of the tab for the calendar. If left blank the tab will be "Calendar View".',
                         'default_value' => 'Calendar View',
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_tk_events_page_settings_calendar',
+                                    'operator' => '==',
+                                    'value' => 'show_calendar',
+                                ),
+                            ),
+                        )
                     ),
                     array (
                         'key' => 'field_tk_events_single_settings_related',
@@ -137,6 +156,7 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                 'key' => 'group_tk_events',
                 'title' => 'Event Details',
                 'fields' => array(
+                    // event start date
                     array(
                         'key' => 'field_tk_events_start_date',
                         'label' => 'Event start date',
@@ -150,6 +170,7 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'return_format' => 'Y-m-d',
                         'first_day' => 1,
                     ),
+                    // event end date
                     array(
                         'key' => 'field_tk_events_end_date',
                         'label' => 'Event end date',
@@ -163,12 +184,29 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'return_format' => 'Y-m-d',
                         'first_day' => 1,
                     ),
+                    // external url for event
                     array(
                         'key' => 'field_tk_events_external_url',
                         'label' => 'Event URL (external)',
                         'name' => 'tk_events_external_url',
                         'instructions' => 'Entering a URL here will redirect this event to the external site from the calendar and the events listing pages',
                         'type' => 'url',
+                        'wrapper' => array(
+                            'width' => '60%',
+                        )
+                    ),
+                    /* link to external URL from listings? */      
+                    array (
+                        'key' => 'field_tk_events_external_url_link',
+                        'label' => 'Link to external URL',
+                        'name' => 'tk_events_external_url_link',
+                        'instructions' => 'Link directly to the external URL from the listings page and calendar',
+                        'type' => 'true_false',
+                        'ui' => true,
+                        'default_value' => false,
+                        'wrapper' => array(
+                            'width' => '40%',
+                        )
                     ),
                     array(
                         'key' => 'field_tk_events_key_facts',

@@ -40,9 +40,9 @@ if ( ! class_exists( 'tk_events' ) ) {
             add_filter('archive_template', array( __CLASS__, 'archive_template' ) );
 
             /**
-             * change main query to only get past events
+             * change main query for events
              */
-            add_action( 'pre_get_posts', array(__CLASS__, 'limit_to_past_events' ) );
+            add_action( 'pre_get_posts', array(__CLASS__, 'query_events' ) );
 
             /**
              * plugin activation/deactivation
@@ -145,7 +145,8 @@ if ( ! class_exists( 'tk_events' ) ) {
                         }
                         unregister_taxonomy_for_object_type( 'category', 'events' );
                         unregister_taxonomy_for_object_type( 'post_tag', 'events' );
-                        break;
+                    case "1.0.2":
+                        // upgrade from 1.0.2
 
                 }
                 /* update the version option */
@@ -159,8 +160,8 @@ if ( ! class_exists( 'tk_events' ) ) {
          */
         public static function single_template($single_template)
         {
-            global $post;
-            if ($post->post_type === 'events' ) {
+            global $wp_query;
+            if ($wp_query->query['post_type'] === 'events' ) {
                 $theme_path = get_stylesheet_directory() . '/single-events.php';
                 $template_path = get_template_directory() . '/single-events.php';
                 $plugin_path = dirname(__FILE__) . '/templates/single-events.php';
@@ -180,8 +181,8 @@ if ( ! class_exists( 'tk_events' ) ) {
          */
         public static function archive_template($archive_template)
         {
-            global $post;
-            if ( $post->post_type === 'events' ) {
+            global $wp_query;
+            if ( $wp_query->query['post_type'] === 'events' ) {
                 
                 /**
                  * checks for overrides in template and theme for taxonomy archives
@@ -211,10 +212,13 @@ if ( ! class_exists( 'tk_events' ) ) {
                          */
                         $theme_path_tax = get_stylesheet_directory() . '/taxonomy-' . $tax . '.php';
                         $template_path_tax = get_template_directory() . '/taxonomy-' . $tax . '.php';
+                        $plugin_path_tax = dirname(__FILE__) . '/templates/taxonomy-events.php';
                         if (file_exists($theme_path_tax)) {
                             return $theme_path_tax;
                         } elseif (file_exists($template_path_tax)) {
                             return $template_path_tax;
+                        } elseif (file_exists($plugin_path_tax)) {
+                            return $plugin_path_tax;
                         }
                     }
                 }
@@ -263,17 +267,18 @@ if ( ! class_exists( 'tk_events' ) ) {
         }
 
         /**
-         * filter for pre_get_posts which limits the archive page to get only past events
-         * current events are retrieved using a custom query on the archive page
+         * filter for pre_get_posts 
          */
-        public static function limit_to_past_events( $query )
+        public static function query_events( $query )
         {
-            if ( ! is_admin() && ! is_tax() && $query->is_main_query() && is_archive() ) {
+            // limits the main archive page to get only past events in the main query
+            // current events are retrieved using a custom query on the archive page
+            if ( ! is_admin() && ! is_tax() && $query->is_main_query() && is_post_type_archive('events') ) {
                 $query->set('meta_key', 'tk_events_start_date');
                 $query->set('orderby', 'meta_value_num');
                 $query->set('order', 'DESC');
                 $query->set('meta_query', array(
-                    'relation' => 'OR',
+                    'relation' => 'AND',
                     'start_clause' => array(
                         'key' => 'tk_events_start_date',
                         'value' => date('Y-m-d'),
@@ -288,6 +293,73 @@ if ( ! class_exists( 'tk_events' ) ) {
                     )
                 ) );
             }
+            // ensures the order of events is governed by the event start date on taxonomy archives
+            if ( ! is_admin() && $query->is_main_query() && is_tax( array('event_category', 'event_tag') ) ) {
+                $query->set('meta_key', 'tk_events_start_date');
+                $query->set('orderby', 'meta_value_num');
+                $query->set('order', 'DESC');
+            }
+        }
+
+        /**
+         * TEMPLATE FUNCTIONS
+         */
+
+        /**
+         * gets a formatted date string
+         */
+        public static function get_date_string($event_id, $type = 'single', $formats = array())
+        {
+            // get formats to use
+            $defaults = apply_filters( 'event_date_formats', array(
+                'single_day' => "l j F Y",
+                'single_period_start' => "j F Y",
+                'single_period_end' => "j F Y",
+                'single_period_start_samemonth' => "l j",
+                'single_period_end_samemonth' => "l j F, Y",
+                'single_period_start_sameyear' => "l j F",
+                'single_period_end_sameyear' => "l j F, Y",
+                'archive_day' => "l j F Y",
+                'archive_period_start' => "j F Y",
+                'archive_period_end' => "j F Y",
+                'archive_period_start_samemonth' => "j",
+                'archive_period_end_samemonth' => "j F, Y",
+                'archive_period_start_sameyear' => "j F",
+                'archive_period_end_sameyear' => "j F, Y"
+            ) );
+            $opts = wp_parse_args( $formats, $defaults );
+
+            // sanitise type
+            if ( ! in_array( $type, array('single', 'archive') ) ) {
+                $type = 'single';
+            }
+
+            // Get event vars
+            $start_date = get_field('tk_events_start_date', $event_id);
+            $end_date = get_field('tk_events_end_date', $event_id);
+            $start_ts = strtotime($start_date);
+            $end_ts = strtotime($end_date);
+
+            // Format date
+            $date_format = '';
+            if ( $start_date ) {
+                if ( ! $end_date || $start_date == $end_date ) {       
+                    $date_format = date($opts[$type . '_day'], $start_ts);
+                } else {
+                    $start_month = date("n", $start_ts);
+                    $end_month = date("n", $end_ts);
+                    $start_year = date("Y", $start_ts);
+                    $end_year = date("Y", $end_ts);
+                    if ( $start_year == $end_year && $start_month == $end_month ) {
+                        $date_format = date($opts[$type . '_period_start_samemonth'], $start_ts) . ' - ' . date($opts[$type . '_period_end_samemonth'], $end_ts);
+                    } elseif ( $start_year == $end_year ) {
+                        $date_format = date($opts[$type . '_period_start_sameyear'], $start_ts) . ' - ' . date($opts[$type . '_period_end_sameyear'], $end_ts);
+                    } else {
+                        $date_format = date($opts[$type . '_period_start'], $start_ts) . ' - ' . date($opts[$type . '_period_end'], $end_ts);
+                    }
+                }
+            }
+            return $date_format;
         }
 
     }

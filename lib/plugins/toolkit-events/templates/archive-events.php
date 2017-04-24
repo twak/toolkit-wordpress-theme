@@ -26,8 +26,10 @@ $current_events = new WP_Query(array(
     ),
 ));
 
-//Events calendar flag
-$events_cal_flag = get_field('tk_events_page_settings_calendar', 'option'); 
+// booleans for content to display
+$has_calendar = get_field('tk_events_page_settings_calendar', 'option'); 
+$has_current = $current_events->have_posts();
+$has_archive = have_posts();
 
 get_header();
 the_breadcrumb();
@@ -39,179 +41,177 @@ if ( ! $title ) {
 <div class="wrapper-sm wrapper-pd">
     <h1 class="heading-underline"><?php echo $title; ?></h1>   
 
-    <?php if ( get_field( 'tk_events_page_settings_introduction', 'option' ) ) : ?>
+    <?php 
+    // events page introduction (option)
+    $intro = get_field( 'tk_events_page_settings_introduction', 'option' );
+    if ( $intro ) {
+        print( apply_filters( 'the_content', $intro ) );
+    }
 
-        <p><?php the_field('tk_events_page_settings_introduction', 'option'); ?></p>
+    // show search?
+    $hide_search = get_field('tk_events_page_settings_search', 'option');
+    if ( ! $hide_search && ( $has_current || $has_archive ) ) {
+        printf('<form action="%s" role="search"><div class="island island-featured"><div class="row row-reduce-gutter">', home_url() );
+        print('<div class="col-xs-12 col-sm-8 col-md-10">');
+        print('<input type="hidden" name="post_type" value="events">');
+        print('<label class="sr-only" for="keyword">Search</label>');
+        print('<input id="keyword" type="search" name="q" placeholder="Search by keyword" value="">');
+        print('</div>');
+        print('<div class="col-xs-4 col-sm-4 col-md-2 pull-right">');
+        print('<input type="submit" value="Search">');
+        print('</div>');
+        print('</div></div></form>');
+    }
 
-    <?php endif; ?>
-        <form action="<?php echo home_url(); ?>" role="search">
-            <div class="island island-featured">
-                <div class="row row-reduce-gutter">
-                    <div class="col-xs-12 col-sm-8 col-md-10">
-                        <input type="hidden" name="post_type" value="events">
-                        <label class="sr-only" for="keyword">Search</label>
-                        <input id="keyword" type="search" name="q" placeholder="Search by keyword" value="<?php if(isset($_GET['query'])){ echo $_GET['query']; } ?>">
-                    </div>
-                    <div class="col-xs-4 col-sm-4 col-md-2 pull-right">
-                        <input type="submit" value="Search">
-                    </div>                           
-                </div>                                            
+    // flags for availibility of events
+
+    // tabs for event listings / calendar
+    if ( $has_current || $has_archive ) {
+        print('<div class="tk-tabs-header m-b"><ul id="myTab" class="nav nav-tabs tk-nav-tabs">');
+        if ( $has_current ) {
+            $tab_title = get_field('tk_events_page_settings_current_title', 'option');
+            if ( ! $tab_title ) {
+                $tab_title = "Current Events";
+            }
+            $active = ( $paged == 1 ) ? ' class="active"': '';
+            printf('<li%s><a href="#current_events" data-toggle="tab">%s</a></li>', $active, $tab_title );
+        }
+        if ( $has_archive ) {
+            $active = ( $has_current && $paged == 1 ) ? '': ' class="active"';
+            $tab_title = get_field('tk_events_page_settings_archive_title', 'option');
+            if ( ! $tab_title ) {
+                $tab_title = "Events Archive";
+            }
+            printf('<li%s><a href="#past_events" data-toggle="tab">%s</a></li>', $active, $tab_title );
+        }
+        if ( $has_calendar ) {
+            $tab_title = get_field('tk_events_page_settings_calendar_title', 'option');
+            if ( ! $tab_title ) {
+                $tab_title = "Calendar View";
+            }
+            printf('<li><a href="#calendar-view" data-toggle="tab">%s</a></li>', $tab_title );
+        }
+        print('</ul></div>');
+
+        // tab content
+        print('<div class="tab-content">');
+
+        // current events list (custom query)
+        if ( $has_current ) {
+            $active = ( $paged == 1 ) ? ' active in': '';
+            printf('<div class="tab-pane fade%s" id="current_events">', $active);
+            while ( $current_events->have_posts() ) : $current_events->the_post();
+
+                $date_format = tk_events::get_date_string($post->ID, 'archive');
+
+                // get taxonomy data
+                $categories = get_the_term_list( $post->ID, 'event_category', '', ', ', ' - ');
+                $tags = get_the_term_list( $post->ID, 'event_tag');
+
+                // event URL
+                $event_url = get_permalink();
+                $external_url = get_field('tk_events_external_url');
+                $use_external = get_field('tk_events_external_url_link');
+                if ( $external_url && $use_external ) {
+                    $event_url = $external_url;
+                }
+    ?>    
+        <div id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>              
+            <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
+            <div class="flag-img">
+                <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">
+                    <a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>">
+                        <?php the_post_thumbnail('large'); ?>
+                    </a>
+                </div>
+            </div>              
+            <?php endif; ?>
+            <div class="flag-body">
+                <p class="heading-related"><?php echo $categories . $date_format; ?></p>
+                <h4 class="heading-link"><a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
+                <div class="excerpt">               
+                    <?php the_excerpt(); ?>
+                </div>
             </div>
-        </form>
-
+        </div>
     <?php
-    print('<div class="tk-tabs-header m-b"><ul id="myTab" class="nav nav-tabs tk-nav-tabs">');
-    if ( $current_events->have_posts() ) {
-        $tab_title = get_field('tk_events_page_settings_current_title', 'option');
-        if ( ! $tab_title ) {
-            $tab_title = "Current Events";
-        }
-        $active = ( $paged == 1 ) ? ' class="active"': '';
-        printf('<li%s><a href="#current_events" data-toggle="tab">%s</a></li>', $active, $tab_title );
-    }
-    $active = ( $current_events->have_posts() && $paged == 1 ) ? '': ' class="active"';
-    $tab_title = get_field('tk_events_page_settings_archive_title', 'option');
-    if ( ! $tab_title ) {
-        $tab_title = "Events Archive";
-    }
-    printf('<li%s><a href="#past_events" data-toggle="tab">%s</a></li>', $active, $tab_title );
-    $tab_title = get_field('tk_events_page_settings_calendar_title', 'option');
-    if ( ! $tab_title ) {
-        $tab_title = "Calendar View";
-    }
-    if ( get_field('tk_events_page_settings_calendar', 'option') ) {
-        printf('<li><a href="#calendar-view" data-toggle="tab">%s</a></li>', $tab_title );
-    }
-    print('</ul></div>');
-    print('<div class="tab-content">');
-    if ( $current_events && $current_events->have_posts() ) {
-        $active = ( $paged == 1 ) ? ' active in': '';
-        printf('<div class="tab-pane fade%s" id="current_events">', $active);
-        while ( $current_events->have_posts() ) : $current_events->the_post();
-
-            //Get event vars
-            $start_date = get_field('tk_events_start_date');
-            $end_date = get_field('tk_events_end_date');
-
-            //Format date
-            if ( $start_date ) {
-                if ( ! $end_date || $start_date == $end_date ) {       
-                    $date_format = date("l j F Y", strtotime($start_date));
-                } else {
-                    $date_format = date("j/nY", strtotime($start_date)) . ' - ' . date("j/nY", strtotime($end_date));
-                }
-            } else {
-                $date_format = '';
-            }
-
-            // get taxonomy data
-            $categories = get_the_term_list( $post->ID, 'event_category', '', ', ', ' - ');
-            $tags = get_the_term_list( $post->ID, 'event_tag');
-
-            // event URL
-            $event_url = get_field('tk_events_external_url');
-            if ( ! $event_url ) {
-                $event_url = get_permalink();
-            }
-?>    
-    <div id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>              
-        <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
-        <div class="flag-img">
-            <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">
-                <a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>">
-                    <?php the_post_thumbnail('large'); ?>
-                </a>
-            </div>
-        </div>              
-        <?php endif; ?>
-        <div class="flag-body">
-            <p class="heading-related"><?php echo $categories . $date_format; ?></p>
-            <h4 class="heading-link"><a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
-            <div class="excerpt">               
-                <?php the_excerpt(); ?>
-            </div>
-        </div>
-    </div>
-<?php
-        endwhile;
-        print('</div>');
-        wp_reset_postdata();
-    }
-    if ( have_posts() ) {
-        $active = ( $current_events->have_posts() && $paged == 1 ) ? '': ' active in';
-        printf('<div class="tab-pane fade%s" id="past_events">', $active);
-
-        global $wp_query;
-        if ($wp_query->max_num_pages > 1) {
-            printf('<div><p class="divider-header-heading pull-right">page %d of %d</p></div>', $paged, $wp_query->max_num_pages );
+            endwhile;
+            print('</div>');
+            wp_reset_postdata();
         }
 
-        while (have_posts()) : the_post(); 
-            //Get event vars
-            $start_date = get_field('tk_events_start_date');
-            $end_date = get_field('tk_events_end_date');
+        // events archive (normal query - made to get only past events by limit_to_past_events())
+        if ( $has_archive ) {
+            $active = ( $current_events->have_posts() && $paged == 1 ) ? '': ' active in';
+            printf('<div class="tab-pane fade%s" id="past_events">', $active);
 
-            //Format date
-            if ( $start_date ) {
-                if ( ! $end_date || $start_date == $end_date ) {       
-                    $date_format = date("l j F Y", strtotime($start_date));
-                } else {
-                    $date_format = date("j/nY", strtotime($start_date)) . ' - ' . date("j/nY", strtotime($end_date));
-                }
-            } else {
-                $date_format = '';
+            global $wp_query;
+            if ($wp_query->max_num_pages > 1) {
+                printf('<div><p class="divider-header-heading pull-right">page %d of %d</p></div>', $paged, $wp_query->max_num_pages );
             }
 
-            // get taxonomy data
-            $categories = get_the_term_list( $post->ID, 'event_category', '', ', ', ' - ');
-            $tags = get_the_term_list( $post->ID, 'event_tag');
+            while (have_posts()) : the_post(); 
+                
+                $date_format = tk_events::get_date_string($post->ID, 'archive');
 
-            // event URL
-            $event_url = get_field('tk_events_external_url');
-            if ( ! $event_url ) {
+                // get taxonomy data
+                $categories = get_the_term_list( $post->ID, 'event_category', '', ', ', ' - ');
+                $tags = get_the_term_list( $post->ID, 'event_tag');
+
+                // event URL
                 $event_url = get_permalink();
-            }
-?>    
-    <div id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>              
-        <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
-        <div class="flag-img">
-            <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">
-                <a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>">
-                    <?php the_post_thumbnail('large'); ?>
-                </a>
-            </div>
-        </div>              
-        <?php endif; ?>
-        <div class="flag-body">
-            <p class="heading-related"><?php echo $categories . $date_format; ?></p>
-            <h4 class="heading-link"><a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
-            <div class="excerpt">               
-                <?php the_excerpt(); ?>
+                $external_url = get_field('tk_events_external_url');
+                $use_external = get_field('tk_events_external_url_link');
+                if ( $external_url && $use_external ) {
+                    $event_url = $external_url;
+                }
+    ?>    
+        <div id="post-<?php the_ID(); ?>" <?php post_class('flag'); ?>>              
+            <?php if ( has_post_thumbnail()) : // Check if thumbnail exists ?>
+            <div class="flag-img">
+                <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">
+                    <a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>">
+                        <?php the_post_thumbnail('large'); ?>
+                    </a>
+                </div>
+            </div>              
+            <?php endif; ?>
+            <div class="flag-body">
+                <p class="heading-related"><?php echo $categories . $date_format; ?></p>
+                <h4 class="heading-link"><a href="<?php echo $event_url; ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
+                <div class="excerpt">               
+                    <?php the_excerpt(); ?>
+                </div>
             </div>
         </div>
-    </div>
-<?php
-        endwhile;
-        ?>
-        <nav>   
-        <?php tk_pagination(); ?>
-        </nav>
-        <?php
-        print('</div>');
-    } 
-    
-    if ( $events_cal_flag ) : ?>
-    <div class="tab-pane fade" id="calendar-view">
-        <div class="calendar-container">
-            <div class="js-events-calendar calendar-events" id='calendar'></div>
-        </div>            
-    </div>
-    <?php endif; ?>
+    <?php
+            endwhile;
+
+            ?>
+            <nav>   
+            <?php tk_pagination(); ?>
+            </nav>
+            <?php
+            print('</div>');
+        } 
+        
+        // calendar
+        if ( $has_calendar ) : ?>
+        <div class="tab-pane fade" id="calendar-view">
+            <div class="calendar-container">
+                <div class="js-events-calendar calendar-events" id='calendar'></div>
+            </div>            
+        </div>
+        <?php endif; 
+    } else {
+        print('<p>No events to display</p>');
+    }
+    ?>
 
 </div>
 
 <script>
-    //Events cal object
+    // Events cal object - sets parameters for AJAX
     var eventsArray = {
         url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
         type: 'POST',

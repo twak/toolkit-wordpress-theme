@@ -91,9 +91,11 @@ if ( ! class_exists( 'tk_events_feed' ) ) {
                         $event_end = mktime(0, 0, 0, date("n", $event_start), (date("j", $event_start) + 1), date("Y", $event_start));
                     }
 		            // event URL
-		            $event_url = get_field('tk_events_external_url', $event->ID);
-		            if ( ! $event_url ) {
-		                $event_url = get_permalink($event->ID);
+		            $event_url = get_permalink($event->ID);
+		            $external_url = get_field('tk_events_external_url', $event->ID);
+		            $use_external = get_field('tk_events_external_url_link', $event->ID);
+		            if ( $external_url && $use_external ) {
+		                $event_url = $external_url;
 		            }
 
                     $eventObj = new stdClass();

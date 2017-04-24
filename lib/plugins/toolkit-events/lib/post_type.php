@@ -98,7 +98,7 @@ if ( ! class_exists( 'tk_events_post_type' ) ) {
                         'view_item'          => 'View Event',
                         'search_items'       => 'Search Events',
                         'not_found'          => 'No Events found',
-                        'not_found_in_trash' => 'No Events found in the bin'
+                        'not_found_in_trash' => 'No Events found in the bin',
                     ) ,
                     'public' => true,
                     'hierarchical' => true,

@@ -1,20 +1,18 @@
 <?php 
 
-//Setup vars
+// first see if this event should link to an external URL
+$event_id = get_queried_object_id();
+$external_url = get_field('tk_events_external_url', $event_id);
+$use_external = get_field('tk_events_external_url_link', $event_id);
+if ( $external_url && $use_external ) {
+    wp_redirect($external_url);
+    exit;
+}
 
-$start_date_format = get_field('tk_events_start_date');
-$end_date_format = get_field('tk_events_end_date');
+get_header();
+the_breadcrumb();
 
-$start_date = date("l j F Y", strtotime($start_date_format));
-$end_date = date("l j F Y", strtotime($end_date_format));
-
-
-?>
-
-<?php get_header(); ?>
-<?php the_breadcrumb(); ?>
-
-	<?php if (have_posts()): while (have_posts()) : the_post(); ?>		
+if (have_posts()): while (have_posts()) : the_post(); ?>		
 
 		<div class="wrapper-sm wrapper-pd text-center">
 		    <div class="rule-image rule-image-sm">
@@ -50,15 +48,16 @@ $end_date = date("l j F Y", strtotime($end_date_format));
 
 				<div class="island island-bg-module island-m-b island-bd-b">
 		    		<ul class="list-facts">
-	    			<?php 
-	    			 	if($start_date): 
-					    	echo '<li><strong>Start date:</strong> '.$start_date.'</li>';
-					    endif; 
-					    if($end_date):
-					    	echo '<li><strong>End date:</strong> '.$end_date.'</li>';
-					    endif;
-					?>
-					<?php while( have_rows('tk_events_key_facts') ): the_row(); ?>
+	    			<?php
+	    			// get formatted date
+	    			$date_format = tk_events::get_date_string($post->ID, 'single');
+
+					printf('<li><strong>Date:</strong> %s</li>', $date_format);
+					if ( $external_url ) {
+						printf('<li><strong>External URL:</strong> <a href="%1$s">%1$s</a></li>', $external_url);
+					}
+
+					while( have_rows('tk_events_key_facts') ): the_row(); ?>
 						<li>												
 							<?php if( get_sub_field('tk_events_key_facts_label') ): ?>
 								<span class="list-label"><?php the_sub_field('tk_events_key_facts_label'); ?>: </span>
@@ -67,8 +66,17 @@ $end_date = date("l j F Y", strtotime($end_date_format));
 								<?php the_sub_field('tk_events_key_facts_information'); ?>
 							<?php endif; ?>						
 						</li>
-					<?php endwhile; ?>
-
+					<?php endwhile;
+					// taxonomy data
+		            $categories = get_the_term_list( $post->ID, 'event_category', '', ', ');
+		            if ( $categories ) {
+		            	printf('<li><strong>Categories:</strong> %s</li>', $categories);
+		            }
+		            $tags = get_the_term_list( $post->ID, 'event_tag', '', ', ');
+		            if ( $tags ) {
+		            	printf('<li><strong>Tags:</strong> %s</li>', $tags);
+		            }
+		            ?>
 					</ul>		    	
 			    </div>
 
