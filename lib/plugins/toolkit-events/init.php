@@ -160,8 +160,8 @@ if ( ! class_exists( 'tk_events' ) ) {
          */
         public static function single_template($single_template)
         {
-            global $wp_query;
-            if ($wp_query->query['post_type'] === 'events' ) {
+            global $post;
+            if ($post->post_type === 'events' ) {
                 $theme_path = get_stylesheet_directory() . '/single-events.php';
                 $template_path = get_template_directory() . '/single-events.php';
                 $plugin_path = dirname(__FILE__) . '/templates/single-events.php';
@@ -182,13 +182,14 @@ if ( ! class_exists( 'tk_events' ) ) {
         public static function archive_template($archive_template)
         {
             global $wp_query;
-            if ( $wp_query->query['post_type'] === 'events' ) {
+            if ( is_post_type_archive('events') || is_tax('event_category') || is_tax('event_tag') ) {
                 
                 /**
                  * checks for overrides in template and theme for taxonomy archives
                  */
                 foreach ( array('event_category', 'event_tag') as $tax ) {
                     if ( is_tax( $tax ) ) {
+
 
                         /**
                          * first check for templates which are specific to terms

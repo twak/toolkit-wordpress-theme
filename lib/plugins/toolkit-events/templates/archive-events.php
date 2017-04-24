@@ -207,9 +207,7 @@ if ( ! $title ) {
         print('<p>No events to display</p>');
     }
     ?>
-
 </div>
-
 <script>
     // Events cal object - sets parameters for AJAX
     var eventsArray = {
@@ -223,4 +221,5 @@ if ( ! $title ) {
     var eventsDate = '<?php echo date('Y-m-d'); ?>'; // set to today
 </script>
 <style>.calendar-container { overflow-y:hidden; }</style>
+</div>
 <?php get_footer(); ?>

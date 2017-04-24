@@ -4,11 +4,28 @@
  */
 get_header();
 the_breadcrumb();
+$use_prefix = get_field('tk_events_taxonomy_settings_prefix', 'option');
+if ( $use_prefix ) {
+    $archive_title = get_field('tk_events_page_settings_title', 'option');
+    if ( ! $archive_title ) {
+        $obj = get_post_type_object( 'events' );
+        $archive_title = $obj->labels->name;
+    }
+    $archive_prefix = $archive_title . ': ';
+} else {
+    $archive_prefix = '';
+}
 ?>
 <div class="wrapper-sm wrapper-pd">
-    <h1 class="heading-underline">Events: <?php single_term_title(); ?></h1>   
+    <h1 class="heading-underline"><?php single_term_title($archive_prefix); ?></h1>   
 
     <?php 
+    // events page introduction (taxonomy introduction)
+    $term_obj = get_queried_object();
+    $intro = get_field('tk_events_taxonomy_introduction', $term_obj->taxonomy . '_' . $term_obj->term_id);
+    if ( $intro ) {
+        print( apply_filters( 'the_content', $intro ) );
+    }
 
     // show search?
     $hide_search = get_field('tk_events_page_settings_search', 'option');

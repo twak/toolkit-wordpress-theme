@@ -51,7 +51,17 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'instructions' => 'Add a custom title to the events list page. If left blank the title of the page will be "Events".',
                         'default_value' => 'Events',
                     ),
-                    /* custom archive page introduction */
+                    /* show archive title as prefix on taxonomy archives */      
+                    array (
+                        'key' => 'field_tk_events_taxonomy_settings_prefix',
+                        'label' => 'Prefix event Category and Tag archives with the page title',
+                        'name' => 'tk_events_taxonomy_settings_prefix',
+                        'type' => 'checkbox',
+                        'choices' => array(
+                            'prefix_taxonomy'   => 'This will add a prefix to the title of all event category or tag archive pages'
+                        )
+                    ),
+                     /* custom archive page introduction */
                     array (
                         'key' => 'field_tk_events_page_settings_introduction',
                         'label' => 'Page introduction',
@@ -124,7 +134,7 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                         'label' => 'Related Events',
                         'name' => 'tk_events_single_settings_related',
                         'type' => 'checkbox',
-                        'instructions' => 'Ticking this box will make events related by category appear at the bottom of every event page.',
+                        'instructions' => 'Ticking this box will make a maximum of three events related by category or tag appear at the bottom of every event page.',
                         'choices' => array(
                             'show_related'   => 'Show related events on the event page'
                         )
@@ -147,6 +157,49 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                 'hide_on_screen' => '',
                 'active' => 1,
                 'description' => '',
+            ));
+
+            /**
+             * taxonomy introductions
+             */
+            acf_add_local_field_group(array (
+                'key' => 'group_tk_events_taxonomy_settings',
+                'title' => 'Archive page options',
+                'fields' => array (
+                    array (
+                        'key' => 'field_tk_events_taxonomy_introduction',
+                        'label' => 'Introduction',
+                        'name' => 'tk_events_taxonomy_introduction',
+                        'type' => 'wysiwyg',
+                        'instructions' => 'Text here will be displayed on the archive page for this category/tag',
+                        'tabs' => 'all',
+                        'toolbar' => 'full',
+                        'media_upload' => 1,
+                    ),
+                ),
+                'location' => array (
+                    array (
+                        array (
+                            'param' => 'taxonomy',
+                            'operator' => '==',
+                            'value' => 'event_category',
+                        ),
+                    ),
+                    array (
+                        array (
+                            'param' => 'taxonomy',
+                            'operator' => '==',
+                            'value' => 'event_tag',
+                        ),
+                    ),
+                ),
+                'menu_order' => 0,
+                'position' => 'normal',
+                'style' => 'default',
+                'label_placement' => 'top',
+                'instruction_placement' => 'label',
+                'hide_on_screen' => 'term-description',
+                'active' => 1,
             ));
 
             /**

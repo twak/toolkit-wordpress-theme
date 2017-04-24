@@ -86,17 +86,87 @@ if (have_posts()): while (have_posts()) : the_post(); ?>
 				<?php the_content(); // Dynamic Content ?>
 			</div>			
 
-			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>			
-
 		</article>	
 		
-	<?php if(get_field('tk_events_single_settings_related', 'option')): //Related events 
+	<?php
+	//Related events 
+	if ( get_field('tk_events_single_settings_related', 'option' ) ) {
+		//get the categories and tags assigned to the event
+		$terms = array();
+		$terms['event_category'] = get_the_terms( $post, 'event_category' );
+		$terms['event_tag'] = get_the_terms( $post, 'event_tag' );
 
-		include_once(dirname(__FILE__) . '/include-related-events.php' );
-	    
-	endif; ?>
+		// if any have been assigned, build a query to get related events
+		if ( $terms['event_category'] || $terms['event_tag'] ) {
+			$tax_query = array();
+			foreach( $terms as $tax => $term_objs ) {
+				if ( $term_objs && ! is_wp_error($term_objs) ) {
+					$term_ids = array();
+					foreach ($term_objs as $term_obj ) {
+						$term_ids[] = $term_obj->term_id;
+					}
+					$tax_query[] = array(
+						'taxonomy' => $tax,
+						'field' => 'term_id',
+						'terms' => $term_ids
+					);
+				}
+			}
+			// if there are categories and tags assigned to the event, query other events with either
+			if ( count($tax_query) > 1 ) {
+				$tax_query['relation'] = 'OR';
+			}
+			//print_r($tax_query);
+			$related_query = new WP_Query(array(
+				'post_type' => 'events',
+				'posts_per_page' => 3,
+				'post__not_in' => array($post->ID),
+				'tax_query' => $tax_query,
+			));
+			if ( $related_query->have_posts() ) {
+				//print_r($related_query);
+				// close off main container and open new container
+				print('</div><div class="skin-bg-module"><div class="wrapper-md wrapper-pd p-t"><div class="equalize">');
+				// print header
+				print('<div class="divider-header"><h4 class="divider-header-heading divider-header-heading-underline">Related Events</h4></div>');
+				// start row
+				print('<div class="row">');
+				// whether or not to show post thumbnmails
+				$events_image_flag = 0;
+				while ($related_query->have_posts()) {
+					$related_query->the_post();
+					if ( has_post_thumbnail() ) {
+						$events_image_flag = 1;
+					}
+				}
+				while ($related_query->have_posts()) {
+					$related_query->the_post();
+					?>
+			  			<div class="col-sm-4">
+			                <div class="card-flat card-stacked-sm skin-bg-white skin-bd-b equalize-inner">
+			                	<?php if ( $events_image_flag ) { ?>
+			                    <div class="card-img">
+			                        <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_post_thumbnail_url();?>')">
+				                       	<a href="<?php the_permalink(); ?>">
+				                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php esc_attr(the_title()); ?>"/>
+				                        </a>
+			                        </div>
+			                    </div>
+			                    <?php } ?>
+			                    <div class="card-content">
+			                        <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+			                        <a class="more" href="<?php the_permalink(); ?>">More</a>
+			                    </div>
+			                </div>
+			            </div>						
+					<?php
+				}
+				wp_reset_postdata();
+				print('</div></div></div></div><div>');
+			}
+		}
+	}
+	endwhile;
+	endif;
 
-	<?php endwhile; ?>
-	<?php endif; ?>
-
-<?php get_footer(); ?>
+get_footer();
