@@ -220,12 +220,13 @@ function the_breadcrumb() {
               
             // If post is a custom post type
             $post_type = get_post_type();
+            $post_type_obj = get_post_type_object($post_type);
 
             // display name and link
             $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
             if ( ! $title ) {
-                $title = post_type_archive_title(false, false);
-                if ( ! $title && $post_type = 'post' ) {
+                $title = $post_type_obj->labels->name;
+                if ( $post_type == 'post' ) {
                     $title = "Blog";
                 }
             }
@@ -244,7 +245,7 @@ function the_breadcrumb() {
             if( $post->post_parent ){
                    
                 $parents = '';
-                
+
                 // If child page, get parents 
                 $anc = get_post_ancestors( $post->ID );
                    
