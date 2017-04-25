@@ -1,8 +1,22 @@
 <?php
 
 class Sidebar_Walker extends Walker_Page {
+
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+
+	    if ( 'preserve' === $args['item_spacing'] ) {
+	        $t = "\t";
+	        $n = "\n";
+	    } else {
+	        $t = '';
+	        $n = '';
+	    }
+
+	    $indent = str_repeat( $t, $depth );
+	    $output .= "{$n}{$indent}<ul class='children'>{$n}";
+	}
     
-	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
@@ -14,13 +28,8 @@ class Sidebar_Walker extends Walker_Page {
 
     	if ( ! empty( $current_page ) ) {
 	        $_current_page = get_post( $current_page );
-	        if ( $_current_page && in_array( $page->ID, $_current_page->ancestors ) ) {
-	            $css_class[] = 'current_page_ancestor';
-	        }
 	        if ( $page->ID == $current_page ) {
-	            $css_class[] = 'current_page_item';
-	        } elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
-	            $css_class[] = 'current_page_parent';
+	            $css_class[] = 'active';
 	        }
 	    } elseif ( $page->ID == get_option('page_for_posts') ) {
 	        $css_class[] = 'current_page_parent';
@@ -46,10 +55,10 @@ class Sidebar_Walker extends Walker_Page {
 	        '<li class="%s"><a href="%s">%s%s%s</a>',
 	        $css_classes,
 	        get_permalink( $page->ID ),
-	        $args['link_before'],
+	        $args[ 'link_before' ],
 	        /** This filter is documented in wp-includes/post-template.php */
 	        apply_filters( 'the_title', $page->post_title, $page->ID ),
-	        $args['link_after']
+	        $args[ 'link_after' ]
 	    );
 
 	 }
