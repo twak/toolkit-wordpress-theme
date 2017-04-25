@@ -13,7 +13,12 @@ class Sidebar_Walker extends Walker_Page {
 	    }
 
 	    $indent = str_repeat( $t, $depth );
-	    $output .= "{$n}{$indent}<ul class='children'>{$n}";
+	    $top_link = '';
+    	if ( preg_match('/<li([^>]*)>.*href="([^"]+)".*$/U', $output, $matches ) ) {
+    		$class = ( strstr( $matches[1], 'open' ) ) ? ' class="active"': '';
+    		$top_link = sprintf('<li%s><a href="%s">Overview</a></li>', $class, $matches[2]);
+    	}
+	    $output .= "{$n}{$indent}<ul class='children'>{$top_link}{$n}";
 	}
     
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
@@ -30,6 +35,9 @@ class Sidebar_Walker extends Walker_Page {
 	        $_current_page = get_post( $current_page );
 	        if ( $page->ID == $current_page ) {
 	            $css_class[] = 'active';
+	            if ( in_array('dropdown', $css_class) ) {
+	            	$css_class[] = 'open';
+	            }
 	        }
 	    } elseif ( $page->ID == get_option('page_for_posts') ) {
 	        $css_class[] = 'current_page_parent';

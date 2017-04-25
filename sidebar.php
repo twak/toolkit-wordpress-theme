@@ -1,7 +1,7 @@
 <?php
     // Sidebar
 ?>
-<aside class="column-container-secondary role="complementary">
+<aside class="column-container-secondary" role="complementary">
    
 <!-- $TEMPLATE: SIDEBAR NAV -->
     <!--<button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>-->
