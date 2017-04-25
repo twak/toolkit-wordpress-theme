@@ -2,45 +2,55 @@
 
 class Sidebar_Walker extends Walker_Page {
     
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
-		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+		$css_class = array( 'page_item', 'page-item-' . $page->ID );
+ 
+    	if ( isset( $args['pages_with_children'][ $page->ID ] ) ) {
+        	$css_class[] = 'dropdown';
+    	}
 
-		if( $args->has_children ) {
-			$output .= $indent . '<li class="dropdown" ' . $id . '>';
-		} else {
-			$output .= $indent . '<li' . $id . '>';
-		}
+    	if ( ! empty( $current_page ) ) {
+	        $_current_page = get_post( $current_page );
+	        if ( $_current_page && in_array( $page->ID, $_current_page->ancestors ) ) {
+	            $css_class[] = 'current_page_ancestor';
+	        }
+	        if ( $page->ID == $current_page ) {
+	            $css_class[] = 'current_page_item';
+	        } elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
+	            $css_class[] = 'current_page_parent';
+	        }
+	    } elseif ( $page->ID == get_option('page_for_posts') ) {
+	        $css_class[] = 'current_page_parent';
+	    }
 
-		$atts = array();
-		$atts['title']  = ! empty( $item->title )	? $item->title	: '';
-		$atts['target'] = ! empty( $item->target )	? $item->target	: '';
-		$atts['rel']    = ! empty( $item->xfn )		? $item->xfn	: '';
-		$atts['href'] = ! empty( $item->url ) ? $item->url : '';
-		
-		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
-		$attributes = '';
-		foreach ( $atts as $attr => $value ) {
-			if ( ! empty( $value ) ) {
-				$value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-				$attributes .= ' ' . $attr . '="' . $value . '"';
-			}
-		}
+	    /**
+	     * Filters the list of CSS classes to include with each page item in the list.
+	     *
+	     * @since 2.8.0
+	     *
+	     * @see wp_list_pages()
+	     *
+	     * @param array   $css_class    An array of CSS classes to be applied
+	     *                              to each list item.
+	     * @param WP_Post $page         Page data object.
+	     * @param int     $depth        Depth of page, used for padding.
+	     * @param array   $args         An array of arguments.
+	     * @param int     $current_page ID of the current page.
+	     */
+	    $css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
 
-		$item_output = $args->before;
-
-		$item_output .= '<a href="' . get_permalink( $item->ID ) . '" '. $attributes .'>';
-		$item_output .= $args->link_before;
-		$item_output .= apply_filters( 'the_title', $item->post_title, $item->ID );
-		$item_output .= $args->link_after;
-		$item_output .= '</a>';
-
-		$item_output .= $args->after;
-
-		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+		$output .= $indent . sprintf(
+	        '<li class="%s"><a href="%s">%s%s%s</a>',
+	        $css_classes,
+	        get_permalink( $page->ID ),
+	        $args['link_before'],
+	        /** This filter is documented in wp-includes/post-template.php */
+	        apply_filters( 'the_title', $page->post_title, $page->ID ),
+	        $args['link_after']
+	    );
 
 	 }
 
