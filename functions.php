@@ -16,11 +16,21 @@ require_once get_template_directory() . '/lib/setup.php';
 /* Wordpress cleanup */
 require_once get_template_directory() . '/lib/cleanup.php';
 
-/* Navigation */
-require_once get_template_directory() . '/lib/navigation.php';
-
 /* Pluggable functions */
 require_once get_template_directory() . '/lib/pluggable.php';
+
+
+
+/* *
+ * * Custom Walkers
+ * */
+
+// Navigation
+require_once get_template_directory() . '/lib/navigation.php';
+
+// Sidebar
+require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php';
+
 
 
 

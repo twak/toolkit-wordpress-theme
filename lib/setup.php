@@ -115,6 +115,13 @@ function tk_scripts_styles()
     wp_enqueue_script('tkscripts'); // Enqueue it!
 
 }
+add_action('admin_enqueue_scripts', 'tk_admin_enqueue_scripts');
+function tk_admin_enqueue_scripts() 
+{
+    wp_enqueue_script( 'acf-admin-js', get_template_directory_uri() . '/js/admin.js', array('jquery'), '1.0.0', true );
+}
+
+
 
 // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'do_shortcode');
@@ -147,9 +154,10 @@ function tk_query_vars( $public_query_vars ) {
 /**
  * $DROPCAP & SUMMARY -  first letter and summary of each post (used on news)
  */
-
-add_filter('the_content', 'add_drop_caps', 30);
-add_filter('the_excerpt', 'add_drop_caps', 30);
+if ( get_field('tk_content_settings_dropcap', 'option') ) {
+    add_filter('the_content', 'add_drop_caps', 30);
+    add_filter('the_excerpt', 'add_drop_caps', 30);
+}
 function add_drop_caps($content) {
     global $post;
 
