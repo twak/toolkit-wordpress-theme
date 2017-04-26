@@ -3,224 +3,274 @@
  * Theme setup functions
  */
 
-/* add favicons */
-add_action( 'wp_head', 'tk_add_favicons' );
-function tk_add_favicons()
-{
-    printf('<link rel="icon" sizes="192x192" href="%s/img/icons/touch-icon-192x192.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="shortcut icon" href="%s/img/icons/favicon.ico">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="180x180" href="%s/img/icons/apple-touch-icon-180x180-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="152x152" href="%s/img/icons/apple-touch-icon-152x152-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="144x144" href="%s/img/icons/apple-touch-icon-144x144-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="120x120" href="%s/img/icons/apple-touch-icon-120x120-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="114x114" href="%s/img/icons/apple-touch-icon-114x114-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="76x76" href="%s/img/icons/apple-touch-icon-76x76-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" sizes="72x72" href="%s/img/icons/apple-touch-icon-72x72-precomposed.png">', get_stylesheet_directory_uri() );
-    printf('<link rel="apple-touch-icon-precomposed" href="%s/img/icons/apple-touch-icon-precomposed.png">', get_stylesheet_directory_uri() );
-}
-
-if (!isset($content_width))
-{
-    $content_width = 900;
-}
-
-
-if (function_exists('add_theme_support'))
-{
-    // Add Menu Support
-    add_theme_support('menus');
-
-    // Add Title Tag support as per the WordPress specification: https://codex.wordpress.org/Title_Tag
-    add_theme_support( 'title-tag' );
-
-    // Add Thumbnail Theme Support
-    add_theme_support('post-thumbnails');
-    add_image_size('large', 700, '', true); // Large Thumbnail
-    add_image_size('medium', 250, '', true); // Medium Thumbnail
-    add_image_size('small', 120, '', true); // Small Thumbnail
-    add_image_size('custom-size', 700, 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
-    add_image_size('profile-size', 400, '', true); //profile img
-    add_image_size('featured-size', 800, '', true); //featured img
-    add_image_size('banner-size-small', 1000, '', true); //banner swiper size small
-    add_image_size('banner-size-large', 1400, '', true); //banner swiper size
-
-    // Enables post and comment RSS feed links to head
-    add_theme_support('automatic-feed-links');
-
-    // Localisation Support
-    load_theme_textdomain('html5blank', get_template_directory() . '/languages');
-}
-
-// Change seperator from WordPress default - to : in the <title> tag
-function change_separator()
-{
-  return ':';
-}
-add_filter('document_title_separator', 'change_separator');
-
-// Threaded Comments
-add_action('get_header', 'enable_threaded_comments'); // Enable Threaded Comments
-function enable_threaded_comments()
-{
-    if (!is_admin()) {
-        if (is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
-            wp_enqueue_script('comment-reply');
-        }
-    }
-}
-
-// Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
-add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10);
-function remove_thumbnail_dimensions( $html )
-{
-    $html = preg_replace('/(width|height)=\"\d*\"\s/', "", $html);
-    return $html;
-}
-
-// Add page slug to body class, love this - Credit: Starkers Wordpress Theme
-add_filter('body_class', 'add_slug_to_body_class');
-function add_slug_to_body_class($classes)
-{
-    global $post;
-    if (is_home()) {
-        $key = array_search('blog', $classes);
-        if ($key > -1) {
-            unset($classes[$key]);
-        }
-    } elseif (is_page()) {
-        $classes[] = sanitize_html_class($post->post_name);
-    } elseif (is_singular()) {
-        $classes[] = sanitize_html_class($post->post_name);
-    }
-
-    return $classes;
-}
-
-// Add Theme Scripts and Stylesheet
-add_action('wp_enqueue_scripts', 'tk_scripts_styles');
-function tk_scripts_styles()
-{
-    wp_register_style('style', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
-    wp_enqueue_style('style'); // Enqueue it!
-    wp_register_script('modernizr', 'https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', array()); // Modernizr
-    wp_enqueue_script('modernizr'); // Enqueue it!
-
-    wp_register_script(
-    	'tkscripts',
-    	get_template_directory_uri() . '/dist/script.min.js',
-    	array('jquery'),
-    	'1.0',
-    	true
-    );
-    wp_enqueue_script('tkscripts'); // Enqueue it!
-
-}
-
-// Allow shortcodes in Dynamic Sidebar
-add_filter('widget_text', 'do_shortcode');
-
-// Allows Shortcodes to be executed in Excerpt (Manual Excerpts only)
-add_filter('the_excerpt', 'do_shortcode');
-
-// Custom View Article link to Post
-add_filter('excerpt_more', 'tk_view_article');
-function tk_view_article($more)
-{
-    return '...';
-}
-
-// Remove <p> tags from Excerpt altogether
-remove_filter('the_excerpt', 'wpautop');
-
-/**
- * CHANGE SEARCH QUERY STRING - Change search query string 's' work with 'q' for corporate search
- */
-add_filter( 'query_vars', 'tk_query_vars' );
-function tk_query_vars( $public_query_vars ) {
-    if ( isset( $_GET['q'] ) && ! empty( $_GET['q'] ) ) {
-        $_GET['s'] = $_GET['q'];
-    }
-
-    return $public_query_vars;
-}
-
-/**
- * $DROPCAP & SUMMARY -  first letter and summary of each post (used on news)
- */
-
-add_filter('the_content', 'add_drop_caps', 30);
-add_filter('the_excerpt', 'add_drop_caps', 30);
-function add_drop_caps($content) {
-    global $post;
-
-    //only posts
-    if(!empty($post) && $post->post_type == "post")
+if ( ! class_exists( 'tk_setup' ) ) {
+    class tk_setup
     {
-        //find first p tag with a letter following it
-        $match = getMatches("/\<p\>[A-Z]/i", $content, true);
-        if(!empty($match))
+        /**
+         * registers all hooks and filters
+         */
+        public static function register()
         {
-            $letter = str_replace("<p>", "", $match);
-            $dropcap = '<p class="summary"><span class="dropcaps">' . $letter . '</span>';
-            $content = str_replace_once($match, $dropcap, $content);
+            /* ensure content width variable is set */
+            add_action( 'template_redirect', array( __CLASS__, 'set_content_width' ) );
+
+            /* add favicons */
+            add_action( 'wp_head', array( __CLASS__, 'add_favicons' ) );
+
+            /* add theme support for various features */
+            add_action( 'after_setup_theme', array( __CLASS__, 'add_theme_support' ) );
+
+            /* add custom image sizes */
+            add_action( 'after_setup_theme', array( __CLASS__, 'add_image_sizes' ) );
+
+            /* Threaded Comments script inclusion */
+            add_action( 'get_header', array( __CLASS__, 'enable_threaded_comments' ) );
+
+            /* Add Theme Scripts and Stylesheet */
+            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'scripts_styles' ) );
+
+            /* Add scripts for back-end */
+            add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_scripts' ) );
+
+            /* change separator character for titles */
+            add_filter( 'document_title_separator', array( __CLASS__, 'change_separator' ) );
+
+            /* Remove thumbnail width and height dimensions */
+            add_filter( 'post_thumbnail_html', array( __CLASS__, 'remove_thumbnail_dimensions' ), 10 );
+
+            /* Add page slug to body class */
+            add_filter( 'body_class', array( __CLASS__, 'add_slug_to_body_class' ) );
+
+            /* Change search query string 's' work with 'q' for corporate search */
+            add_filter( 'query_vars', array( __CLASS__, 'change_search_query' ) );
+
+            /* Custom View Article link to Post */
+            add_filter( 'excerpt_more', array( __CLASS__, 'excerpt_more' ) );
+
+            /* drop caps on posts - controlled by theme option */
+            if ( get_field( 'tk_content_settings_dropcap', 'option' ) ) {
+                add_filter( 'the_content', array( __CLASS__, 'add_drop_caps' ), 30 );
+                add_filter( 'the_excerpt', array( __CLASS__, 'add_drop_caps' ), 30 );
+            }
+
+            /* Allow shortcodes in Dynamic Sidebar */
+            add_filter( 'widget_text', 'do_shortcode' );
+
+            /* Allow shortcodes in Excerpt (Manual Excerpts only) */
+            add_filter( 'the_excerpt', 'do_shortcode' );
+
+            /* Remove <p> tags from excerpt */
+            remove_filter( 'the_excerpt', 'wpautop' );
+
         }
-    }
 
-    return $content;
-}
+        /**
+         * sets the content_width global variable
+         * @see https://codex.wordpress.org/Content_Width
+         * @see https://core.trac.wordpress.org/ticket/21256 
+         * TRAC ticket which gives example of setting it dynamically
+         */
+        public static function set_content_width()
+        {
+            global $content_width;
+            $content_width = 900;
+        }
 
-// Helper for Getting RegExp Matches
+        /**
+         * adds icons to the head using the wp_head action
+         */
+        public static function add_favicons()
+        {
+            printf('<link rel="icon" sizes="192x192" href="%s/img/icons/touch-icon-192x192.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="shortcut icon" href="%s/img/icons/favicon.ico">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="180x180" href="%s/img/icons/apple-touch-icon-180x180-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="152x152" href="%s/img/icons/apple-touch-icon-152x152-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="144x144" href="%s/img/icons/apple-touch-icon-144x144-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="120x120" href="%s/img/icons/apple-touch-icon-120x120-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="114x114" href="%s/img/icons/apple-touch-icon-114x114-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="76x76" href="%s/img/icons/apple-touch-icon-76x76-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" sizes="72x72" href="%s/img/icons/apple-touch-icon-72x72-precomposed.png">', get_stylesheet_directory_uri() );
+            printf('<link rel="apple-touch-icon-precomposed" href="%s/img/icons/apple-touch-icon-precomposed.png">', get_stylesheet_directory_uri() );
+        }
 
-function getMatches($p, $s, $firstvalue = FALSE, $n = 0) {
-    $ok = preg_match_all($p, $s, $matches);
+        /**
+         * adds theme support for various features
+         */
+        public static function add_theme_support()
+        {
+            // Add Menu Support
+            add_theme_support('menus');
 
-    if(!$ok)
-        return false;
-    else
-    {
-        if($firstvalue)
-            return $matches[$n][0];
-        else
-            return $matches[$n];
-    }
-}
+            // Add Title Tag support as per the WordPress specification: https://codex.wordpress.org/Title_Tag
+            add_theme_support( 'title-tag' );
 
-// Replace a string once. From: http://php.net/manual/en/function.str-replace.php#86177
+            // Add Thumbnail Theme Support
+            add_theme_support('post-thumbnails');
 
-function str_replace_once($search, $replace, $subject) {
-    $firstChar = strpos($subject, $search);
-    if($firstChar !== false) {
-        $beforeStr = substr($subject,0,$firstChar);
-        $afterStr = substr($subject, $firstChar + strlen($search));
-        return $beforeStr.$replace.$afterStr;
-    } else {
-        return $subject;
-    }
-}
+            // Enables post and comment RSS feed links to head
+            add_theme_support('automatic-feed-links');
+        }
 
-/**
- * $POST CATEGORIES - Spits out lists of categories of post (used in the loop)
- */
+        /**
+         * adds custom image sizes
+         */
+        public static function add_image_sizes()
+        {
+            // Large Thumbnail
+            add_image_size('large', 700, '', true);
+            // Medium Thumbnail
+            add_image_size('medium', 250, '', true);
+            // Small Thumbnail
+            add_image_size('small', 120, '', true);
+            // Profile image
+            add_image_size('profile-size', 400, '', true);
+            // Featured image
+            add_image_size('featured-size', 800, '', true);
+            // Banner swiper size small 
+            add_image_size('banner-size-small', 1000, '', true);
+            // Banner swiper size large
+            add_image_size('banner-size-large', 1400, '', true); 
+        }
 
-if ( !function_exists( 'tk_post_categories();' ) ) {
-
-    function tk_post_categories() {
-
-        echo get_post_type();
-
-        $count_cat = 0;
-        foreach((get_the_category()) as $category) {
-            if(strtolower($category->cat_name) != 'uncategorised' && strtolower($category->cat_name) != 'uncategorized'){ // ignore uncategorised
-
-                if($count_cat == 0){
-                    echo ' in ';
+        /**
+         * Enable Threaded Comments by including default script
+         */
+        public static function enable_threaded_comments()
+        {
+            if (!is_admin()) {
+                if (is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
+                    wp_enqueue_script('comment-reply');
                 }
-                if($count_cat > 0){
-                    echo ',';
-                }
-                $count_cat++;
-                echo ' <a href="' . get_category_link( $category->term_id ) . '">' . $category->name.'</a> ';
             }
         }
+
+        /**
+         * enqueues scripts and styles for front end
+         */
+        public static function scripts_styles()
+        {
+            wp_register_style(
+                'style', 
+                get_template_directory_uri() . '/style.css', 
+                array(), 
+                tk_admin::$version, 
+                'all'
+            );
+            wp_enqueue_style('style');
+
+            wp_register_script(
+                'modernizr', 
+                'https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js'
+            ); 
+            wp_enqueue_script('modernizr');
+
+            wp_register_script(
+                'tkscripts',
+                get_template_directory_uri() . '/dist/script.min.js',
+                array('jquery'),
+                tk_admin::$version,
+                true
+            );
+            wp_enqueue_script('tkscripts');
+        }
+
+        /**
+         * enqueue scripts for wordpress admin area
+         */
+        public static function admin_scripts() 
+        {
+            wp_register_script(
+                'acf-admin-js', 
+                get_template_directory_uri() . '/js/admin.js', 
+                array('jquery'), 
+                tk_admin::$version,
+                true
+            );
+            wp_enqueue_script('acf-admin-js');
+        }
+
+        /**
+         * Change seperator from WordPress default - to : in the <title> tag
+         */
+        public static function change_separator()
+        {
+            return ':';
+        }
+
+        /**
+         * Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
+         */
+        public static function remove_thumbnail_dimensions( $html )
+        {
+            $html = preg_replace('/(width|height)=\"\d*\"\s/', "", $html);
+            return $html;
+        }
+
+        /**
+         * Adds page slug to body class
+         */
+        public static function add_slug_to_body_class($classes)
+        {
+            global $post;
+            if (is_home()) {
+                $key = array_search('blog', $classes);
+                if ($key > -1) {
+                    unset($classes[$key]);
+                }
+            } elseif (is_page()) {
+                $classes[] = sanitize_html_class($post->post_name);
+            } elseif (is_singular()) {
+                $classes[] = sanitize_html_class($post->post_name);
+            }
+
+            return $classes;
+        }
+
+        /**
+         * Change search query string 's' work with 'q' for corporate search
+         */
+        public static function change_search_query( $public_query_vars ) {
+            if ( isset( $_GET['q'] ) && ! empty( $_GET['q'] ) ) {
+                $_GET['s'] = $_GET['q'];
+            }
+
+            return $public_query_vars;
+        }
+
+        /**
+         * change excerpt more link
+         */
+        public static function excerpt_more($more)
+        {
+            return '...';
+        }
+
+        /**
+         * adds summary class and drop cap to first paragraph
+         */
+        public static function add_drop_caps($content)
+        {
+            global $post;
+
+            //only posts
+            if ( ! empty($post) && $post->post_type == "post")
+            {
+                if ( preg_match("/\<p\>[A-Z]/i", $content, $matches ) ) {
+                    $match = $matches[0];
+                    if ( ! empty($match) ) {
+                        $letter = str_replace("<p>", "", $match);
+                        $dropcap = '<p class="summary"><span class="dropcaps">' . $letter . '</span>';
+                        $firstChar = strpos($content, $match);
+                        if ($firstChar !== false) {
+                            $beforeStr = substr($content, 0, $firstChar);
+                            $afterStr = substr($content, $firstChar + strlen($match) );
+                            $content = $beforeStr . $dropcap . $afterStr;
+                        }
+                    }
+                }
+            }
+            return $content;
+        }
     }
+    tk_setup::register();
 }

@@ -1,42 +1,73 @@
 <?php
 
-class Sidebar_Walker extends Walker_Nav_Menu {
+class Sidebar_Walker extends Walker_Page {
+
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+
+	    if ( 'preserve' === $args['item_spacing'] ) {
+	        $t = "\t";
+	        $n = "\n";
+	    } else {
+	        $t = '';
+	        $n = '';
+	    }
+
+	    $indent = str_repeat( $t, $depth );
+	    $top_link = '';
+    	if ( preg_match('/<li([^>]*)>.*href="([^"]+)".*$/U', $output, $matches ) ) {
+    		$class = ( strstr( $matches[1], 'open' ) ) ? ' class="active"': '';
+    		$top_link = sprintf('<li%s><a href="%s">Overview</a></li>', $class, $matches[2]);
+    	}
+	    $output .= "{$n}{$indent}<ul class='children'>{$top_link}{$n}";
+	}
     
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 
-		$class_names = $value = '';
-		$classes = '';
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
-		if ( $args->has_children ) {
-			$class_names .= 'dropdown';
-		}
-		
-		if ( $item->current == true ) {
-			$class_names .= ' active';
-		}
+		$css_class = array( 'page_item', 'page-item-' . $page->ID );
+ 
+    	if ( isset( $args['pages_with_children'][ $page->ID ] ) ) {
+        	$css_class[] = 'dropdown';
+    	}
 
-		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
-		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+    	if ( ! empty( $current_page ) ) {
+	        $_current_page = get_post( $current_page );
+	        if ( $page->ID == $current_page ) {
+	            $css_class[] = 'active';
+	            if ( in_array('dropdown', $css_class) ) {
+	            	$css_class[] = 'open';
+	            }
+	        }
+	    } elseif ( $page->ID == get_option('page_for_posts') ) {
+	        $css_class[] = 'current_page_parent';
+	    }
 
-		$output .= $indent . '<li' . $id . $value . $class_names .'>';
+	    /**
+	     * Filters the list of CSS classes to include with each page item in the list.
+	     *
+	     * @since 2.8.0
+	     *
+	     * @see wp_list_pages()
+	     *
+	     * @param array   $css_class    An array of CSS classes to be applied
+	     *                              to each list item.
+	     * @param WP_Post $page         Page data object.
+	     * @param int     $depth        Depth of page, used for padding.
+	     * @param array   $args         An array of arguments.
+	     * @param int     $current_page ID of the current page.
+	     */
+	    $css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
 
-		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-        $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-        $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-        $attributes .= ! empty( $item->url )        ? ' href="'   . '#' .'"' : '';
-
-		$item_output = $args->before;
-
-		$item_output .= '<a href="' . get_permalink( $item->ID ) . '" '. $attributes .'>';
-		$item_output .= $args->link_before;
-		$item_output .= $args->link_after;
-		$item_output .= '</a>';
-
-		$item_output .= $args->after;
-
-		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+		$output .= $indent . sprintf(
+	        '<li class="%s"><a href="%s">%s%s%s</a>',
+	        $css_classes,
+	        get_permalink( $page->ID ),
+	        $args[ 'link_before' ],
+	        /** This filter is documented in wp-includes/post-template.php */
+	        apply_filters( 'the_title', $page->post_title, $page->ID ),
+	        $args[ 'link_after' ]
+	    );
 
 	 }
 

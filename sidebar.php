@@ -1,7 +1,7 @@
 <?php
     // Sidebar
 ?>
-<aside class="column-container-secondary role="complementary">
+<aside class="column-container-secondary" role="complementary">
    
 <!-- $TEMPLATE: SIDEBAR NAV -->
     <!--<button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>-->
@@ -14,12 +14,42 @@
 
         <?php
 
-        wp_list_pages( array(
-            'title_li' => '',
-            'child_of' => $post->post_parent,
-            'walker'   => new Sidebar_Walker()
-        ) );
-        ?>
+        if( !$post->post_parent ) {
+
+            // Echo the list item with active class
+            echo '<li class="active"><a href="'. get_permalink( $post->ID ) .'">Overview</a></li>';
+
+            // Will display the subpages of this top level page.
+            $children = wp_list_pages( array(
+                'title_li' => '',
+                'child_of' => $post->ID,
+                'walker'   => new Sidebar_Walker()
+            ) );
+
+        } elseif ( $post->ancestors ) {
+
+            // Get the ancestors for all pages (multiple depths)
+            $ancestors = get_post_ancestors( $post->ID );
+
+            // Get the URL of the root-level page (always last in array, hence end())
+            echo '<li><a href="'. get_permalink( end( $ancestors ) ) .'">Overview</a></li>';
+
+            // Display the subpages from the root-level page down.
+            $children  = wp_list_pages( array(
+                'title_li' => '',
+                'child_of' => end( $ancestors ),
+                'walker'   => new Sidebar_Walker()
+            ) );
+
+        }
+
+        if( $children ) : ?>
+
+            <?php 
+            echo $children; 
+            ?>
+
+        <?php endif; ?>
 
         </ul>
 

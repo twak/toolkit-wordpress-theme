@@ -2,23 +2,12 @@
 			<!-- /.main-->				
 
 
-			<?php get_template_part( 'templates/tweets' ); ?>				
+			<?php get_template_part( 'templates/tweets' ); ?>
+
 
 			<footer class="site-footer" role="contentinfo">	
 					
-				<?php  if ( is_active_sidebar( 'widget-area-2' ) ) { ?>
-				<div class="site-footer-upper">
-					<div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
-					    <div class="row">
-						<?php
-						dynamic_sidebar('widget-area-2');
-						?>
-						</div>
-					</div>
-				</div>
-				<?php
-				}
-				?>
+				<?php get_template_part( 'templates/footer-links'); ?>
 
 			    <div class="site-footer-lower">
 			        <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">

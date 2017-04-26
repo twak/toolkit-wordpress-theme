@@ -4,11 +4,16 @@
  *  Custom functions, support, custom post types and more.
  */
 
+/* theme admin */
+require_once get_template_directory() . '/lib/admin.php';
+
 /* plugin activation */
 require_once get_template_directory() . '/lib/plugins.php';
 
 /* ACF fields */
-require_once get_template_directory() . '/lib/acf.php';
+require_once get_template_directory() . '/lib/acf/theme-options.php';
+require_once get_template_directory() . '/lib/acf/pages.php';
+//require_once get_template_directory() . '/lib/acf/widgets-page-template.php';
 
 /* Theme setup */
 require_once get_template_directory() . '/lib/setup.php';

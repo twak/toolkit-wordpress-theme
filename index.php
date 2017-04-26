@@ -1,32 +1,37 @@
-<?php get_header(); ?>
+<?php
+/**
+ * main index template
+ */
+get_header();
+the_breadcrumb();
+$post_type = get_post_type();
+$title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
+if ( ! $title ) {
+    $title = post_type_archive_title(false, false);
+    if ( ! $title && $post_type = 'post' ) {
+        $title = "Blog";
+    }
+}
 
-<?php the_breadcrumb(); ?>
+printf('<div class="wrapper-sm wrapper-pd"><h1 class="heading-underline">%s</h1>', $title );
 
-<div class="wrapper-sm wrapper-pd">
+$hide_search = get_field('tk_' . $post_type . '_page_settings_search', 'option');
+if ( ! $hide_search ) {
+    printf('<form action="%s" role="search"><div class="island island-featured"><div class="row row-reduce-gutter">', home_url() );
+    print('<div class="col-xs-12 col-sm-8 col-md-10">');
+    printf('<input type="hidden" name="post_type" value="%s">', $post_type );
+    print('<label class="sr-only" for="keyword">Search</label>');
+    print('<input id="keyword" type="search" name="q" placeholder="Search by keyword" value="">');
+    print('</div>');
+    print('<div class="col-xs-4 col-sm-4 col-md-2 pull-right">');
+    print('<input type="submit" value="Search">');
+    print('</div>');
+    print('</div></div></form>');
+}
 
-	<h1 class="heading-underline">Blog</h1>
+get_template_part('loop-flag'); 
+get_template_part('pagination');  
 
-    <form action="<?php echo home_url(); ?>" role="search">
-        <div class="island island-featured">
-            <div class="row row-reduce-gutter">   
-                <div class="col-sm-8 col-md-10">                                        
-                    <label class="sr-only" for="keyword">Search</label>
-                    <input id="keyword" type="search" name="q" placeholder="Search by keyword" value="">
-                    <input type="hidden" name="post_type" value="post">
-                </div>
-               
-                <div class="col-xs-4 col-sm-4 col-md-2 pull-right">
-                    <input type="submit" value="Search">
-                </div>
-            </div>
-        </div>          
-    </form>    
+print('</div>');
 
-    <?php 
-        get_template_part('loop-flag'); 
-        get_template_part('pagination');  
-    ?>		
-
-</div>
-
-<?php get_footer(); ?>
+get_footer();
