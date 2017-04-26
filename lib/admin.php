@@ -15,7 +15,15 @@ if ( ! class_exists( 'tk_admin' ) ) {
         public static function register()
         {
 
-        	
+
+        }
+
+
+        public static function upgrade()
+        {
+
+        	$acf_fields = array(
+        	);
         }
 
 	}

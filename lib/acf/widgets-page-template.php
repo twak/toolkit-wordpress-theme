@@ -144,7 +144,6 @@ if( function_exists('acf_add_local_field_group') ):
 								'instructions' => 'Recommended 75 characters or less',
 								'tabs' => 'all',
 								'toolbar' => 'full',
-								'media_upload' => 0,
 							),
 							array (
 								'key' => 'field_57ebb30e4c0fb',
@@ -251,7 +250,7 @@ if( function_exists('acf_add_local_field_group') ):
 								'max' => 4,
 								'layout' => 'row',
 								'button_label' => 'Add Slide',
-								'collapsed' => 'field_5731fd2fcc850',
+								'collapsed' => '',
 								'sub_fields' => array (
 									array (
 										'key' => 'field_5731fce9cc84f',
@@ -537,6 +536,40 @@ if( function_exists('acf_add_local_field_group') ):
 							),
 						),
 					),
+					array (
+						'key' => '58ecf4772cc35',
+						'name' => 'accordion_widget',
+						'label' => 'Accordion Widget',
+						'display' => 'block',
+						'sub_fields' => array (
+							array (
+								'key' => 'field_58ecf4802cc36',
+								'label' => 'Accordion Item',
+								'name' => 'accordion_item',
+								'type' => 'repeater',
+								'instructions' => 'Add an accordion item to build this widget',
+								'layout' => 'row',
+								'button_label' => 'Add Accordion Item',
+								'sub_fields' => array (
+									array (
+										'key' => 'field_58ecf4ac2cc37',
+										'label' => 'title',
+										'name' => 'accordion_title',
+										'type' => 'text',
+									),
+									array (
+										'key' => 'field_58ecf4bb2cc38',
+										'label' => 'content',
+										'name' => 'accordion_content',
+										'type' => 'wysiwyg',
+										'tabs' => 'all',
+										'toolbar' => 'full',
+										'media_upload' => 1,
+									),
+								),
+							),
+						),
+					),
 				),
 			),
 		),
@@ -556,7 +589,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'instruction_placement' => 'label',
 		'hide_on_screen' => '',
 		'active' => 1,
-		'description' => '',
 	));
+
 
 endif;
