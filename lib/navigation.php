@@ -190,7 +190,7 @@ function the_breadcrumb() {
            
         } else if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
               
-            $title = get_field("tk_" . get_post_type() . "_page_settings_title");
+            $title = get_field('tk_' . get_post_type() . '_page_settings_title', 'option');
             if ( ! $title ) {
                 $title = post_type_archive_title(false, false);
             }
