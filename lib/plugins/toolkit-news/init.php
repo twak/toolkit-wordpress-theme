@@ -53,6 +53,7 @@ if ( ! class_exists( 'tk_news' ) ) {
             if ($current_version != self::$version) {
                 switch ($current_version) {
                     case false:
+                        set_time_limit(0);
                         /* updates sites which used built in categories */
 
                         // get all events

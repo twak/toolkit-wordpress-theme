@@ -49,7 +49,7 @@ if ( ! $title ) {
         <?php endif; ?>
 
         <div class="flag-body">
-            <p class="heading-related"><?php tk_post_categories(); ?> </p>
+            <p class="heading-related"><?php tk_post_categories(); ?> - <?php the_time('l j F Y'); ?></p>
             <h4 class="heading-link"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>                           
             <div class="excerpt">               
                 <?php the_excerpt();  ?>
