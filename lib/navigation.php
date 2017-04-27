@@ -190,7 +190,7 @@ function the_breadcrumb() {
            
         } else if ( is_archive() && !is_tax() && !is_category() && !is_tag() ) {
               
-            $title = get_field("tk_" . get_post_type() . "_page_settings_title");
+            $title = get_field('tk_' . get_post_type() . '_page_settings_title', 'option');
             if ( ! $title ) {
                 $title = post_type_archive_title(false, false);
             }
@@ -235,7 +235,16 @@ function the_breadcrumb() {
             echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . esc_attr($title) . '">' . $title . '</a></li>';
               
         } else if ( is_category() ) {
-               
+            if ( get_option( 'show_on_front' ) == 'page' ) {
+                // blog is assigned to a page
+                $title = get_field('tk_post_page_settings_title', 'option');
+                if ( ! $title ) {
+                    $title = 'Blog';
+                }
+                $url = get_permalink(get_option( 'page_for_posts' ));
+                echo '<li class="item-posts-page"><strong class="bread-posts"><a class="bread-posts" href="' . $url . '" title="' . esc_attr($title) . '">' . $title . '</a></strong></li>';
+            }             
+
             // Category page
             echo '<li class="item-current item-cat"><strong class="bread-current bread-cat">' . single_cat_title('', false) . '</strong></li>';
                
@@ -262,10 +271,9 @@ function the_breadcrumb() {
                 echo $parents;
                    
                 // Current page
-                echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></li>';
+                echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . 'page</strong></li>';
                    
             } else {
-                   
                 // Just display current page if not parents
                 echo '<li class="item-current item-' . $post->ID . '"><strong class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</strong></li>';
                    
@@ -273,6 +281,15 @@ function the_breadcrumb() {
                
         } else if ( is_tag() ) {
                
+            if ( get_option( 'show_on_front' ) == 'page' ) {
+                // blog is assigned to a page
+                $title = get_field('tk_post_page_settings_title', 'option');
+                if ( ! $title ) {
+                    $title = 'Blog';
+                }
+                $url = get_permalink(get_option( 'page_for_posts' ));
+                echo '<li class="item-posts-page"><strong class="bread-posts"><a class="bread-posts" href="' . $url . '" title="' . esc_attr($title) . '">' . $title . '</a></strong></li>';
+            }             
             // Tag page
                
             // Get tag information
@@ -335,8 +352,12 @@ function the_breadcrumb() {
             echo '<li class="item-current item-current-' . get_query_var('paged') . '"><strong class="bread-current bread-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">'.__('Page') . ' ' . get_query_var('paged') . '</strong></li>';
                
         } else if ( is_home() ) {
-                //Blog index
-                echo '<li class="item-current item-current-blog"><strong class="bread-current">Blog</strong></li>';
+            //Blog index
+            $title = get_field('tk_post_page_settings_title', 'option');
+            if ( ! $title ) {
+                $title = 'Blog';
+            }
+            echo '<li class="item-current item-current-blog"><strong class="bread-current">' . $title . '</strong></li>';
                  
         } elseif ( is_404() ) {
                
@@ -396,7 +417,18 @@ if ( !function_exists( 'wpex_pagination' ) ) {
     
 }
 
-
+add_filter('get_the_terms', 'tk_modify_term_list', 1, 3);
+function tk_modify_term_list($terms, $post_id, $tax)
+{
+    if ( ! is_admin() && 'category' === $tax ) {
+        foreach( $terms as $term_index => $term_object ) {
+            if ( $term_object->name == 'Uncategorized' ) {
+                unset($terms[$term_index]);
+            }
+        }
+    }
+    return $terms;
+}
 
 
 

@@ -2,280 +2,247 @@
 /**
  * Plugin Name: Toolkit News
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
- * Description: This plugin adds toolkit news
- * Version: 1.0.0
+ * Description: This plugin adds a new post type for news items
+ * Version: 1.0.1
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
  */
 
-/**
- * News Post Types
- */
+// include files from lib
+require_once dirname(__FILE__) . '/lib/acf.php';
+require_once dirname(__FILE__) . '/lib/admin.php';
+require_once dirname(__FILE__) . '/lib/post_type.php';
 
-/* TODO:
+if ( ! class_exists( 'tk_news' ) ) {
 
-    Create featured news functionality
+    class tk_news
+    {
+        /* plugin version */
+        public static $version = "1.0.1";
 
-*/
+        /* register all hooks with wordpress API */
+        public static function register()
+        {
 
-function create_post_type_tk_news(){
-    register_taxonomy_for_object_type('category', 'news'); // Register Taxonomies for Category
-    register_taxonomy_for_object_type('post_tag', 'news');
-    register_post_type('news', // Register Custom Post Type
-    array(
-        'labels' => array(
-            'name' => __('News', 'html5blank') , // Rename these to suit
-            'singular_name' => __('News', 'html5blank') ,
-            'add_new' => __('Add New', 'html5blank') ,
-            'add_new_item' => __('Add New News', 'html5blank') ,
-            'edit' => __('Edit', 'html5blank') ,
-            'edit_item' => __('Edit News', 'html5blank') ,
-            'new_item' => __('New News', 'html5blank') ,
-            'view' => __('View News', 'html5blank') ,
-            'view_item' => __('View News', 'html5blank') ,
-            'search_items' => __('Search News', 'html5blank') ,
-            'not_found' => __('No News found', 'html5blank') ,
-            'not_found_in_trash' => __('No News found in Trash', 'html5blank')
-        ) ,
-        'public' => true,
-        'hierarchical' => true, // Allows your posts to behave like Hierarchy Pages
-        'has_archive' => true,
-        'supports' => array(
-            'title',
-            'editor',
-            'excerpt',
-            'thumbnail'
+            /**
+             * upgrade from previous version
+             */
+            add_action( 'init', array( __CLASS__, 'upgrade' ), 11 );
 
-        ) ,
-        'menu_icon' => 'dashicons-admin-page',
-        'can_export' => true, // Allows export in Tools > Export
-        'taxonomies' => array(
-            'post_tag',
-            'category'
-        ) // Add Category and Post Tags support
-    ));
-}
+            /**
+             * Add in events templates (single and archive)
+             */
+            add_filter('single_template', array( __CLASS__, 'single_template' ) );
+            add_filter('archive_template', array( __CLASS__, 'archive_template' ) );
 
-add_action('init', 'create_post_type_tk_news'); // Add our News Custom Post Type
 
-/**
- * Show Custom Post Types in Category Archive Page
- */
+            /**
+             * plugin activation/deactivation
+             */
+            register_activation_hook( __FILE__, array(__CLASS__, 'plugin_activation' ) );
 
-function show_news_archives( $query ) {
-    if( is_category() || is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
-        $query->set( 'post_type', array(
-            'post', 'nav_menu_item', 'news'
-        ));
-        return $query;
+        }
+
+        /**
+         * upgrade routine
+         */
+        public static function upgrade()
+        {
+            $current_version = get_option('tk_news_plugin_version');
+            if ($current_version != self::$version) {
+                switch ($current_version) {
+                    case false:
+                        set_time_limit(0);
+                        /* updates sites which used built in categories */
+
+                        // get all events
+                        $news = get_posts( array(
+                            'post_type' => 'news',
+                            'numberposts' => -1
+                        ) );
+
+                        // re-add support for built in category and tag taxonomies
+                        register_taxonomy_for_object_type( 'category', 'news' );
+                        register_taxonomy_for_object_type( 'post_tag', 'news' );
+
+                        // store used terms in here
+                        $used = array('news_category' => array(), 'news_tag' => array());
+
+                        // store mapping of posts to terms in here
+                        $map = array('news_category' => array(), 'news_tag' => array());
+
+                        // collect terms from existing events
+                        foreach ( $news as $n ) {
+                            $cats = get_the_category( $n->ID );
+                            if ( $cats ) {
+                                foreach ($cats as $cat ) {
+                                    if ( ! isset( $used['news_category'][$cat->term_id] ) ) {
+                                        $used['news_category'][$cat->term_id] = $cat;
+                                    }
+                                    if ( ! isset( $map['news_category'][$cat->term_id] ) ) {
+                                        $map['news_category'][$cat->term_id] = array();
+                                    }
+                                    $map['news_category'][$cat->term_id][] = $n->ID;
+                                }
+                            }
+                            $tags = get_the_tags( $n->ID );
+                            if ( $tags ) {
+                                $map['news_tag'][$n->ID] = array();
+                                foreach ($tags as $tag ) {
+                                    if ( ! isset( $used['news_tag'][$tag->term_id] ) ) {
+                                        $used['news_tag'][$tag->term_id] = $tag;
+                                    }
+                                    if ( ! isset( $map['news_tag'][$tag->term_id] ) ) {
+                                        $map['news_tag'][$tag->term_id] = array();
+                                    }
+                                    $map['news_tag'][$tag->term_id][] = $n->ID;
+                                }
+                            }
+                        }
+
+                        // add the new categories/tags
+                        foreach ( $used as $tax => $terms ) {
+                            if ( count( $used[$tax] ) ) {
+                                foreach( $used[$tax] as $term_id => $term ) {
+                                    // set up new terms
+                                    $result = wp_insert_term(
+                                        $term->name,
+                                        $tax,
+                                        array(
+                                            'slug' => $term->slug,
+                                            'description' => $term->description
+                                        )
+                                    );
+                                    // associate events with the new categories/tags
+                                    if ( ! is_wp_error( $result ) ) {
+                                        foreach ( $map[$tax] as $old_term_id => $events ) {
+                                            if ( $old_term_id == $term_id ) {
+                                                foreach( $events as $event_id ) {
+                                                    wp_set_object_terms( $event_id, $result['term_id'], $tax, true );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // delete relationship between events and categories/tags
+                        foreach ( $news as $n ) {
+                            wp_delete_object_term_relationships( $n->ID, 'category' );
+                            wp_delete_object_term_relationships( $n->ID, 'post_tag' );
+                        }
+                        unregister_taxonomy_for_object_type( 'category', 'news' );
+                        unregister_taxonomy_for_object_type( 'post_tag', 'news' );
+                        break;
+
+                }
+                /* update the version option */
+                update_option('tk_news_plugin_version', self::$version);
+            }
+        }
+
+
+        /**
+         * ensures template is used from plugin for single news pages
+         */
+        public static function single_template($single_template)
+        {
+            global $post;
+            if ($post->post_type === 'news' ) {
+                $theme_path = get_stylesheet_directory() . '/single-news.php';
+                $template_path = get_template_directory() . '/single-news.php';
+                $plugin_path = dirname(__FILE__) . '/templates/single-news.php';
+                if ( file_exists( $theme_path ) ) {
+                    return $theme_path;
+                } elseif ( file_exists( $template_path ) ) {
+                    return $template_path;
+                } elseif ( file_exists( $plugin_path ) ) {
+                    return $plugin_path;
+                }
+            }
+            return $single_template;
+        }
+
+        /**
+         * ensures template is used from plugin for news archives
+         */
+        public static function archive_template($archive_template)
+        {
+            global $post;
+            if ( is_post_type_archive('news') || is_tax('news_category') || is_tax('news_tag') ) {
+                
+                /**
+                 * checks for overrides in template and theme for taxonomy archives
+                 */
+                foreach ( array('news_category', 'news_tag') as $tax ) {
+                    if ( is_tax( $tax ) ) {
+
+                        /**
+                         * first check for templates which are specific to terms
+                         * taxonomy-{taxonomy}-{term}.php
+                         */
+                        $qo = get_queried_object();
+
+                        if ( $qo->slug ) {
+                            $theme_path_term = get_stylesheet_directory() . '/taxonomy-' . $tax . '-' . $qo->slug . '.php';
+                            $template_path_term = get_template_directory() . '/taxonomy-' . $tax . '-' . $qo->slug . '.php';
+                            if (file_exists($theme_path_term)) {
+                                return $theme_path_term;
+                            } elseif (file_exists($template_path_term)) {
+                                return $template_path_term;
+                            }
+                        }
+
+                        /**
+                         * now check for templates which are specific to the taxonomy
+                         * taxonomy-{taxonomy}.php
+                         */
+                        $theme_path_tax = get_stylesheet_directory() . '/taxonomy-' . $tax . '.php';
+                        $template_path_tax = get_template_directory() . '/taxonomy-' . $tax . '.php';
+                        $plugin_path_tax = dirname(__FILE__) . '/templates/taxonomy-news.php';
+                        if (file_exists($theme_path_tax)) {
+                            return $theme_path_tax;
+                        } elseif (file_exists($template_path_tax)) {
+                            return $template_path_tax;
+                        } elseif (file_exists($plugin_path_tax)) {
+                            return $plugin_path_tax;
+                        }
+                    }
+                }
+                /**
+                 * checks for overrides in template and theme for post type archive
+                 */
+                $theme_path = get_stylesheet_directory() . '/archive-news.php';
+                $template_path = get_template_directory() . '/archive-news.php';
+                $plugin_path = dirname(__FILE__) . '/templates/archive-news.php';
+                if (file_exists($theme_path)) {
+                    return $theme_path;
+                } elseif (file_exists($template_path)) {
+                    return $template_path;
+                } elseif (file_exists($plugin_path)) {
+                    return $plugin_path;
+                }
+            }
+            return $archive_template;
+        }
+
+
+
+        /**
+         * Flush rewrite rules when creating new post type
+         * @see https://paulund.co.uk/flush-permalinks-custom-post-type
+         */
+        function plugin_activation()
+        {
+            tk_news_post_type::create_taxonomy();
+            tk_news_post_type::create_post_type();
+            flush_rewrite_rules();
+        }
+
     }
-}
-add_filter( 'pre_get_posts', 'show_news_archives' );
-
-/**
- * Add in news templates
- */
-
-// https://codex.wordpress.org/Plugin_API/Filter_Reference/single_template
-
-function tk_news_single_temple($single_template) { //single template
-    global $post;
-    if ($post->post_type == 'news') {
-        $single_template = dirname(__FILE__) . '/single-news.php';
-    }
-
-    return $single_template;
+    tk_news::register();
 }
 
-add_filter('single_template', 'tk_News_single_temple');
 
-function tk_news_archive_temple($archive_template) { //archive template
-    global $post;
-    if ($post->post_type == 'news') {
-        $archive_template = dirname(__FILE__) . '/archive-news.php';
-    }
-
-    return $archive_template;
-}
-
-add_filter('archive_template', 'tk_news_archive_temple');
-
-/**
- * AFC Register News settings page
- */
-
-if (function_exists('acf_add_options_page')) {
-    acf_add_options_page(array(
-        'page_title' => 'News Settings',
-        'menu_title' => 'News Settings',
-        'menu_slug' => 'tk-news-settings',
-        'capability' => 'edit_posts',
-        'redirect' => false,
-        'parent_slug' => 'edit.php?post_type=news',
-    ));
-}
-
-/**
- * News settings option page field
- */
-
-if( function_exists('acf_add_local_field_group') ) {
-
-    // General news option page
-
-    acf_add_local_field_group(array (
-        'key' => 'group_tk_news_page_settings',
-        'title' => 'News page settings',
-        'fields' => array (
-            array ( //page intro
-                'key' => 'field_tk_news_page_settings_introduction',
-                'label' => 'Page introduction',
-                'name' => 'tk_news_page_settings_introduction',
-                'type' => 'wysiwyg',
-                'instructions' => 'Add an introduction to the top of the news page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'tabs' => 'all',
-                'toolbar' => 'basic',
-                'media_upload' => 0,
-            ),                    
-        ),
-        'location' => array (
-            array (
-                array (
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'tk-news-settings',
-                ),
-            ),
-        ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-
-}
-if( function_exists('acf_add_local_field_group') ) {
-
-     acf_add_local_field_group(array (
-        'key' => 'group_tk_news_single_settings',
-        'title' => 'Single news page settings',
-        'fields' => array (
-            array (
-                'key' => 'field_tk_news_single_settings_related',
-                'label' => 'Related news',
-                'name' => 'tk_news_single_settings_related',
-                'type' => 'checkbox',
-                'instructions' => 'Ticking this box will make news related by category appear at the bottom of every news page.',
-                'required' => 0,
-                'conditional_logic' => 0,
-                'wrapper' => array (
-                    'width' => '',
-                    'class' => '',
-                    'id' => '',
-                ),
-                'default_value' => '',
-                'placeholder' => '',
-                'maxlength' => '',
-                'rows' => '',
-                'new_lines' => 'wpautop',
-                'readonly' => 0,
-                'disabled' => 0,
-                'choices' => array(
-                    'show_related'   => 'Show related news on the news page'
-                ),
-            ),           
-        ),
-        'location' => array (
-            array (
-                array (
-                    'param' => 'options_page',
-                    'operator' => '==',
-                    'value' => 'tk-news-settings',
-                ),
-            ),
-        ),
-        'menu_order' => 0,
-        'position' => 'normal',
-        'style' => 'default',
-        'label_placement' => 'top',
-        'instruction_placement' => 'label',
-        'hide_on_screen' => '',
-        'active' => 1,
-        'description' => '',
-    ));
-
-}
-
-/* Featured news */
-
-// if( function_exists('acf_add_local_field_group') ):
-
-// acf_add_local_field_group(array (
-//     'key' => 'group_tk_news_featured',
-//     'title' => 'Featured News',
-//     'fields' => array (
-//         array(
-//             'key' => 'field_tk_news_featured',
-//             'label' => '',
-//             'name' => 'tk_news_featured',
-//             'type' => 'checkbox',
-//             'instructions' => 'Ticking this box will make this news appear at the top of the list on the news page.',
-//             'required' => 0,
-//             'conditional_logic' => 0,
-//             'wrapper' => array(
-//                 'width' => '',
-//                 'class' => '',
-//                 'id' => '',
-//             ) ,                
-//             'choices' => array(
-//                 'featured_news'   => 'Make this news featured'
-//             ),
-
-//         ) ,
-//     ),
-//     'location' => array (
-//         array (
-//             array (
-//                 'param' => 'post_type',
-//                 'operator' => '==',
-//                 'value' => 'news',
-//             ),
-//         ),
-//     ),
-//     'menu_order' => 0,
-//     'position' => 'side',
-//     'style' => 'default',
-//     'label_placement' => 'top',
-//     'instruction_placement' => 'label',
-//     'hide_on_screen' => '',
-//     'active' => 1,
-//     'description' => '',
-// ));
-
-// endif;
-
-/**
- * Flush rewrite rules when creating new post type
- */
-
-//https://paulund.co.uk/flush-permalinks-custom-post-type
-
-function flush_rules_tk_news() {
-    create_post_type_tk_news();
-    flush_rewrite_rules();
-}
-
-register_activation_hook( __FILE__, 'flush_rules_tk_news' );

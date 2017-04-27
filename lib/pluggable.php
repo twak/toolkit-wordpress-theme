@@ -88,3 +88,30 @@ if ( ! function_exists( 'tk_social_links' ) ) {
 		printf('</div><hr></div>', $hr );
 	}
 }
+
+/**
+ * $POST CATEGORIES - Spits out lists of categories of post (used in the loop)
+ */
+
+if ( !function_exists( 'tk_post_categories();' ) ) {
+
+    function tk_post_categories() {
+
+        echo get_post_type();
+
+        $count_cat = 0;
+        foreach((get_the_category()) as $category) {
+            if(strtolower($category->cat_name) != 'uncategorised' && strtolower($category->cat_name) != 'uncategorized'){ // ignore uncategorised
+
+                if($count_cat == 0){
+                    echo ' in ';
+                }
+                if($count_cat > 0){
+                    echo ',';
+                }
+                $count_cat++;
+                echo ' <a href="' . get_category_link( $category->term_id ) . '">' . $category->name.'</a> ';
+            }
+        }
+    }
+}

@@ -82,6 +82,16 @@ if ( ! class_exists( 'tk_events_acf' ) ) {
                             'hide_search'   => 'Hide search box on the events archive page'
                         )
                     ),
+                    /* show tags on single pages option */      
+                    array (
+                        'key' => 'field_tk_events_page_settings_tags',
+                        'label' => 'Show tags',
+                        'name' => 'tk_events_page_settings_tags',
+                        'type' => 'checkbox',
+                        'choices' => array(
+                            'show_tags'   => 'Show tag list on single event pages'
+                        )
+                    ),
                     /* custom current events tab title */
                     array (
                         'key' => 'field_tk_events_page_settings_current_title',

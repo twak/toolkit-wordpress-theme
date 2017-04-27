@@ -1,6 +1,6 @@
 <?php
 /**
- * ADVANCED CUSTOM FIELDS - ACF
+ * Theme options fields for ACF
  */
 
 // Hide the custom field in the sidebar
@@ -8,120 +8,20 @@
 
 // only run if ACF plugin is loaded
 
-if( function_exists('acf_add_local_field_group') ):
+if( function_exists('acf_add_local_field_group') && function_exists('acf_add_options_page') ):
 
-	/**
-	 * Page Sidebar Toggle (Turn the sidebar on and off)
-	 */
-	acf_add_local_field_group(array (
-	    'key' => 'group_tk_sidebar_page_option',
-	    'title' => 'Sidebar Page Option',
-	    'fields' => array (
-	        array (
-	            'key' => 'field_tk_sidebar_page_option',
-	            'label' => '',
-	            'name' => 'sidebar_flag',
-	            'type' => 'radio',
-	            'instructions' => '',
-	            'required' => 0,
-	            'conditional_logic' => 0,
-	            'wrapper' => array (
-	                'width' => '',
-	                'class' => '',
-	                'id' => '',
-	            ),
-	            'choices' => array (
-	                'show' => 'Show Sidebar',
-	                'hide' => 'Hide Sidebar',
-	            ),
-	            'other_choice' => 0,
-	            'save_other_choice' => 0,
-	            'default_value' => 'show',
-	            'layout' => 'horizontal',
-	        ),
-	    ),
-	    'location' => array (
-	        array (
-	            array (
-	                'param' => 'post_type',
-	                'operator' => '==',
-	                'value' => 'page',
-	            ),
-	        ),
-	    ),
-	    'menu_order' => 2,
-	    'position' => 'side',
-	    'style' => 'default',
-	    'label_placement' => 'top',
-	    'instruction_placement' => 'label',
-	    'hide_on_screen' => '',
-	    'active' => 1,
-	    'description' => '',
-	));
-
-	/**
-	 * Pinned widget for template widgets
-	 */
-	acf_add_local_field_group(array (
-	    'key' => 'group_tk_pinned_widget',
-	    'title' => 'Pinned Widget',
-	    'fields' => array (
-	        array (
-	            'key' => 'field_tk_pinned_widget',
-	            'label' => '',
-	            'name' => 'widget_top',
-	            'type' => 'checkbox',
-	            'instructions' => 'Pin first widget to the top when the page has a sidebar',
-	            'required' => 0,
-	            'conditional_logic' => 0,
-	            'wrapper' => array (
-	                'width' => '',
-	                'class' => '',
-	                'id' => '',
-	            ),
-	            'choices' => array (
-	                'active' => 'Active',
-	            ),
-	            'default_value' => array (
-	            ),
-	            'layout' => 'vertical',
-	            'toggle' => 0,
-	            'return_format' => 'value',
-	        ),
-	    ),
-	    'location' => array (
-	        array (
-	            array (
-	                'param' => 'page_template',
-	                'operator' => '==',
-	                'value' => 'template-widgets.php',
-	            ),
-	        ),
-	    ),
-	    'menu_order' => 1,
-	    'position' => 'side',
-	    'style' => 'default',
-	    'label_placement' => 'top',
-	    'instruction_placement' => 'label',
-	    'hide_on_screen' => '',
-	    'active' => 1,
-	    'description' => '',
-	));
 
 	/**
 	 * Theme Options Page
 	 */
-	if( function_exists('acf_add_options_page') ) { // Add options page to theme
-	    
-	    acf_add_options_page(array( //Theme options
-	        'page_title'    => 'Theme General Settings',
-	        'menu_title'    => 'Theme Settings',
-	        'menu_slug'     => 'theme-general-settings',
-	        'parent_slug'   => 'themes.php',
-	        'capability'    => 'edit_posts',
-	        'redirect'      => false
-	    ));  
-	}
+    acf_add_options_page(array( //Theme options
+        'page_title'    => 'Theme Settings',
+        'menu_title'    => 'Theme Settings',
+        'menu_slug'     => 'theme-general-settings',
+        'parent_slug'   => 'themes.php',
+        'capability'    => 'edit_posts',
+        'redirect'      => false
+    ));  
 
 	/** 
 	 * Theme Options
@@ -180,6 +80,15 @@ if( function_exists('acf_add_local_field_group') ):
 	            'instructions' => 'The title of the page that shows your blog posts (default: Blog)',
 	            'type' => 'text',
 	        ),
+            array (
+                'key' => 'field_tk_post_page_settings_tags',
+                'label' => 'Show tags',
+                'name' => 'tk_post_page_settings_tags',
+                'type' => 'checkbox',
+                'choices' => array(
+                    'show_tags'   => 'Show tags at the foot of each post'
+                )
+            ),
             array (
                 'key' => 'field_tk_post_page_settings_search',
                 'label' => 'Hide Search',
