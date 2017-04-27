@@ -179,28 +179,31 @@ if ( ! class_exists( 'tk_events_admin' ) ) {
          */
         public static function restrict_events_by_date()
         {
-            global $wpdb;
-            /* get a distinct list of YYYYMM values from the event start and end values */
-            $r = $wpdb->get_col("
-                SELECT DISTINCT SUBSTRING(pm.meta_value, 1, 6) FROM {$wpdb->postmeta} pm
-                LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-                WHERE ( pm.meta_key = 'tk_events_start_date' OR pm.meta_key = 'tk_events_end_date' )
-                AND pm.meta_value != ''
-                AND p.post_type = 'events'
-                ORDER BY pm.meta_value DESC"
-            );
-            if ( count($r) ) {
-                print('<select name="event_date" id="event_date" class="postform"><option value="0">Show all Event Dates</option>');
-                foreach ($r as $datestr) {
-                    /* datestr is in the format YYYYMM */
-                    $selected = ( isset($_GET["event_date"]) && $_GET["event_date"] == $datestr )? ' selected': '';
-                    $monthNum = substr($datestr, 4, 2);
-                    $dateObj = DateTime::createFromFormat('!m', $monthNum);
-                    $monthname = $dateObj->format('F');
-                    $year = substr($datestr, 0, 4);
-                    printf('<option value="%s"%s>%s %s</option>', $datestr, $selected, $monthname, $year);
+            global $typenow;
+            global $wp_query;
+            if ( $typenow == 'events' ) {
+                /* get a distinct list of YYYYMM values from the event start and end values */
+                $r = $wpdb->get_col("
+                    SELECT DISTINCT SUBSTRING(pm.meta_value, 1, 6) FROM {$wpdb->postmeta} pm
+                    LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+                    WHERE ( pm.meta_key = 'tk_events_start_date' OR pm.meta_key = 'tk_events_end_date' )
+                    AND pm.meta_value != ''
+                    AND p.post_type = 'events'
+                    ORDER BY pm.meta_value DESC"
+                );
+                if ( count($r) ) {
+                    print('<select name="event_date" id="event_date" class="postform"><option value="0">Show all Event Dates</option>');
+                    foreach ($r as $datestr) {
+                        /* datestr is in the format YYYYMM */
+                        $selected = ( isset($_GET["event_date"]) && $_GET["event_date"] == $datestr )? ' selected': '';
+                        $monthNum = substr($datestr, 4, 2);
+                        $dateObj = DateTime::createFromFormat('!m', $monthNum);
+                        $monthname = $dateObj->format('F');
+                        $year = substr($datestr, 0, 4);
+                        printf('<option value="%s"%s>%s %s</option>', $datestr, $selected, $monthname, $year);
+                    }
+                    print('</select>');
                 }
-                print('</select>');
             }
         }
 
