@@ -143,9 +143,8 @@ if ( ! class_exists( 'tk_events_admin' ) ) {
          */
         public static function restrict_events_by_taxonomy()
         {
-            global $typenow;
             global $wp_query;
-            if ( $typenow == 'events' ) {
+            if ( isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'events' ) {
                 $cat_tax = get_taxonomy('event_category');
                 $selected = ( isset( $wp_query->query['event_category'] ) && $wp_query->query['event_category'] != 0 ) ? $wp_query->query['event_category']: '';
                 wp_dropdown_categories(array(
@@ -179,9 +178,8 @@ if ( ! class_exists( 'tk_events_admin' ) ) {
          */
         public static function restrict_events_by_date()
         {
-            global $typenow;
-            global $wp_query;
-            if ( $typenow == 'events' ) {
+            global $wp_query, $wpdb;
+            if ( isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'events' ) {
                 /* get a distinct list of YYYYMM values from the event start and end values */
                 $r = $wpdb->get_col("
                     SELECT DISTINCT SUBSTRING(pm.meta_value, 1, 6) FROM {$wpdb->postmeta} pm
