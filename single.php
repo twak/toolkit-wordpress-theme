@@ -29,9 +29,14 @@
 				<?php the_content(); // Dynamic Content ?>
 			</div>
 
-		    <?php tk_social_links('bottom', 'above'); ?>
+			<?php 
+			$show_tags = get_field( 'tk_post_page_settings_tags', 'option' );
+			if ( $show_tags ) {
+				the_terms($post->ID, 'post_tag', '<ul class="list-related"><li class="title">Tags:</li><li>', '</li><li>', '</li></ul>');
+			}
+			?>
 
-			<?php edit_post_link(); // Always handy to have Edit Post Links available ?>			
+		    <?php tk_social_links('bottom', 'above'); ?>
 
 		</article>		
 

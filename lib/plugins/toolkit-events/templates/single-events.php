@@ -74,10 +74,12 @@ if (have_posts()): while (have_posts()) : the_post();
 		            if ( $categories ) {
 		            	printf('<li><strong>Categories:</strong> %s</li>', $categories);
 		            }
-		            $tags = get_the_term_list( $post->ID, 'event_tag', '', ', ');
-		            if ( $tags ) {
-		            	printf('<li><strong>Tags:</strong> %s</li>', $tags);
-		            }
+		            if ( get_field('tk_events_page_settings_tags', 'option') ) {
+			            $tags = get_the_term_list( $post->ID, 'event_tag', '', ', ');
+			            if ( $tags ) {
+			            	printf('<li><strong>Tags:</strong> %s</li>', $tags);
+		    	        }
+		    	    }
 		            ?>
 					</ul>		    	
 			    </div>

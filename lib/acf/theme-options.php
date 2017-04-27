@@ -15,7 +15,7 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	 * Theme Options Page
 	 */
     acf_add_options_page(array( //Theme options
-        'page_title'    => 'Theme General Settings',
+        'page_title'    => 'Theme Settings',
         'menu_title'    => 'Theme Settings',
         'menu_slug'     => 'theme-general-settings',
         'parent_slug'   => 'themes.php',
@@ -80,6 +80,15 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	            'instructions' => 'The title of the page that shows your blog posts (default: Blog)',
 	            'type' => 'text',
 	        ),
+            array (
+                'key' => 'field_tk_post_page_settings_tags',
+                'label' => 'Show tags',
+                'name' => 'tk_post_page_settings_tags',
+                'type' => 'checkbox',
+                'choices' => array(
+                    'show_tags'   => 'Show tags at the foot of each post'
+                )
+            ),
             array (
                 'key' => 'field_tk_post_page_settings_search',
                 'label' => 'Hide Search',

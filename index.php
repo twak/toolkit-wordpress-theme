@@ -2,13 +2,18 @@
 /**
  * main index template
  */
+
+/* die when bots request this file directly */
+if ( ! function_exists('get_header') ) {
+     die();
+}
 get_header();
 the_breadcrumb();
 $post_type = get_post_type();
 $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
 if ( ! $title ) {
     $title = post_type_archive_title(false, false);
-    if ( ! $title && $post_type = 'post' ) {
+    if ( ! $title && $post_type == 'post' ) {
         $title = "Blog";
     }
 }
