@@ -66,12 +66,43 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	            )
 	        ),
 			array(
-				'key' => 'field_tk_post_page_settings_intro',
-				'name' => 'tk_post_page_settings_intro',
+				'key' => 'field_tk_google_analytics_intro',
+				'name' => 'tk_google_analytics_intro',
 				'type' => 'message',
-				'message' => '<h3>Posts</h3>',
+				'message' => '<h3>Google Analytics</h3>',
 				'new_lines' => '',
 				'esc_html' => 0,
+			),
+            array (
+                'key' => 'field_tk_google_tagmanager',
+                'label' => 'Include corporate tag manager',
+                'name' => 'tk_google_tagmanager',
+                'type' => 'checkbox',
+                'choices' => array(
+                    'include_tagmanager'   => 'Include the corporate tagmanager code in each page'
+                )
+            ),
+    		array (
+				'key' => 'field_tk_google_analytics',
+				'label' => 'Google Analytics tracking codes',
+				'name' => 'tk_google_analytics',
+				'type' => 'repeater',
+				'instructions' => 'Your site will include analytics tracking which is managed by the web team. If you want to use your own tracking codes in addition to this, please add them below',
+				'layout' => 'table',
+				'button_label' => 'Add tracking code',
+				'sub_fields' => array (
+					array (
+						'key' => 'field_tk_google_analytics_code',
+						'label' => 'Tracking code',
+						'name' => 'tk_google_analytics_code',
+						'type' => 'text',
+					),
+				),
+			),
+			array(
+				'key' => 'field_tk_tab_posts',
+				'label' => 'Posts',
+				'type' => 'tab',
 			),
  	        array (
 	            'key' => 'field_tk_post_page_settings_title',

@@ -11,6 +11,7 @@ var bower = require('gulp-bower');
 var fs = require('fs');
 var exec = require('child_process').execSync;
 var zip = require('gulp-zip');
+var replace = require('gulp-replace');
 
 // read package.json
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
@@ -66,6 +67,13 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./'));
 });
 
+// update version number in lib/admin.php
+gulp.task('bumpversion', function() {
+  gulp.src(['lib/admin.php'])
+    .pipe(replace(/version = "[0-9\.]+"/g, 'version = "'+pkg.version+'"'))
+    .pipe(gulp.dest('lib'));
+});
+
 // Watch Files For Changes
 gulp.task('watch', function() {
   gulp.watch('scss/**/*.scss', ['sass']);
@@ -73,3 +81,6 @@ gulp.task('watch', function() {
 
 // Default Task
 gulp.task('default', ['copydeps', 'sass', 'watch']);
+
+// Bump version
+gulp.task('bump', ['sass', 'bumpversion']);
