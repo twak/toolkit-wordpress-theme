@@ -1,7 +1,7 @@
 {
   "name": "toolkit-wordpress-theme",
   "themename": "Toolkit Wordpress Theme",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Wordpress theme for the University of Leeds toolkit",
   "main": "style.css",
   "repository": {
@@ -19,6 +19,7 @@
     "gulp-bower": "0.0.13",
     "gulp-clean-css": "^2.0.13",
     "gulp-header": "^1.8.8",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-zip": "^3.2.0"
   }
