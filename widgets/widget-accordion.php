@@ -3,7 +3,7 @@
 <?php ?>
 
 <div class="container-row">
-	<div class="wrapper-lg wrapper-pd-md">	
+	<div class="wrapper-md wrapper-pd-md">	
 
 	<?php
 	// Start the loop for each accordion
