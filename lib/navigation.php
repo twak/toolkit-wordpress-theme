@@ -271,7 +271,7 @@ function the_breadcrumb() {
                 echo $parents;
                    
                 // Current page
-                echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . 'page</strong></li>';
+                echo '<li class="item-current item-' . $post->ID . '"><strong title="' . get_the_title() . '"> ' . get_the_title() . '</strong></li>';
                    
             } else {
                 // Just display current page if not parents
