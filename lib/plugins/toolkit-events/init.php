@@ -22,7 +22,7 @@ if ( ! class_exists( 'tk_events' ) ) {
     class tk_events
     {
         /* plugin version */
-        public static $version = "1.0.3";
+        public static $version = "1.0.5";
 
         /* register all hooks with wordpress API */
         public static function register()
@@ -145,8 +145,8 @@ if ( ! class_exists( 'tk_events' ) ) {
                         }
                         unregister_taxonomy_for_object_type( 'category', 'events' );
                         unregister_taxonomy_for_object_type( 'post_tag', 'events' );
-                    case "1.0.2":
-                        // upgrade from 1.0.2
+                    case "1.0.5":
+                        // upgrade from 1.0.5
 
                 }
                 /* update the version option */
