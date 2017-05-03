@@ -10,6 +10,9 @@ if ( ! function_exists('get_header') ) {
 get_header();
 the_breadcrumb();
 $post_type = get_post_type();
+if ( ! $post_type ) {
+    $post_type = 'post';
+}
 $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
 if ( ! $title ) {
     $title = post_type_archive_title(false, false);
