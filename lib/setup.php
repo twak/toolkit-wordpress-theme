@@ -183,13 +183,13 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function admin_scripts() 
         {
             wp_register_script(
-                'acf-admin-js', 
+                'tk-admin-js', 
                 get_template_directory_uri() . '/js/admin.js', 
                 array('jquery'), 
                 tk_admin::$version,
                 true
             );
-            wp_enqueue_script('acf-admin-js');
+            wp_enqueue_script('tk-admin-js');
         }
 
         /**

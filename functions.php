@@ -37,16 +37,6 @@ require_once get_template_directory() . '/lib/navigation.php';
 require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php';
 
 
-/* *
- * * WordPress Dashboard JS
- * */
-function admin_scripts() {
-	wp_register_script( 'admin', '/wp-content/themes/toolkit-wordpress-theme/lib/admin/admin.js', array( 'jquery' ), '', true );
-  	wp_enqueue_script( 'admin' );
-}
-add_action( 'admin_enqueue_scripts', 'admin_scripts' );
-
-
 /* Not sure if/where these are used... */
 
 // Custom Excerpts

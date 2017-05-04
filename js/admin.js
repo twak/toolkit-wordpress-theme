@@ -25,4 +25,46 @@
 		});
 		sharingCheckboxes();
 	});
+
+	// limit number of characters on title field
+	$(document).ready(function(){
+
+		var maxTitleLength = 75;
+
+		// set maxlength attribute on title input if the contents are less than maxTitleLength characters
+		// if contents are more than maxTitleLength characters, this may cause titles to be truncated(?)
+		if ( $('#title').val().length < maxTitleLength ) {
+			$('#title').attr( "maxlength", maxTitleLength );
+		}
+
+		// colours the title input red when the maximum number of characters is reached
+		function titleWarning(){
+
+			var getLength = $('#title').val().length;
+
+			// If length is maxTitleLength characters or more, add highlight
+			if( getLength >= maxTitleLength) {
+				$('#title').css({
+					'border': '1px solid red',
+					'boxShadow': '0 0 6px red'
+				});
+
+			// Otherwise remove inline styles
+			} else {
+				$('#title').css({
+					'border': '',
+					'boxShadow': ''
+				});
+				// make sure the maxlength attribute is set
+				$('#title').attr( "maxlength", maxTitleLength );
+			}
+
+		}
+
+		// watch title field
+		$(document).on('keyup', '#title', titleWarning);
+
+		// highlight title field
+		titleWarning();
+	});
 })(jQuery);
