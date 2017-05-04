@@ -10,7 +10,9 @@ if(get_sub_field('content_widget_background') == 'grey'){
 
 
 <!--Content Widget-->
-<div class="container-row <?php echo $content_background; ?>">
+<?php if( $content_background != '' ) { ?>
+<div class="<?php echo $content_background; ?>">
+<?php } ?>
 	<div class="wrapper-md wrapper-pd-md">				
 		<?php if(get_sub_field('content_widget_heading')){ ?>
 			<h3 class="h2-lg heading-underline">
@@ -18,9 +20,11 @@ if(get_sub_field('content_widget_background') == 'grey'){
 			</h3>
 		<?php } ?>
 		
-		<div class="cms">			
+		<div class="cms">
 			<?php the_sub_field('content_widget_content'); ?>
-		</div>								
+		</div>
 	</div> 
+<?php if( $content_background != '' ) { ?>
 </div>
+<?php } ?>
 <!--/Content Widget-->

@@ -4,7 +4,7 @@
 <aside class="column-container-secondary" role="complementary">
    
 <!-- $TEMPLATE: SIDEBAR NAV -->
-    <!--<button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>-->
+    <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>
 
     <div class="sidebar-container <?php if($GLOBALS[ 'full_width' ]){ echo "sidebar-container-fw"; }?>">
 
