@@ -53,6 +53,9 @@ gulp.task('package-plugins', function() {
   gulp.src('lib/plugins/toolkit-profiles/**/*', {base: 'lib/plugins'})
     .pipe(zip('toolkit-profiles.zip'))
     .pipe(gulp.dest('lib/plugins'));
+  gulp.src('lib/plugins/toolkit-shortcodes/**/*', {base: 'lib/plugins'})
+    .pipe(zip('toolkit-shortcodes.zip'))
+    .pipe(gulp.dest('lib/plugins'));
 });
 
 // Compile Sass
