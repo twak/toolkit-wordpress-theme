@@ -1,10 +1,15 @@
 <?php
     // Sidebar
+if ($post->post_parent) {
+    $ancestors = get_post_ancestors($post->ID);
+    $first_parent = get_the_title( end($ancestors) );
+} else {
+    $first_parent = '';
+}
 ?>
 <aside class="column-container-secondary" role="complementary">
    
-<!-- $TEMPLATE: SIDEBAR NAV -->
-    <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent->post_title; ?></button>
+    <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent; ?></button>
 
     <div class="sidebar-container <?php if($GLOBALS[ 'full_width' ]){ echo "sidebar-container-fw"; }?>">
 

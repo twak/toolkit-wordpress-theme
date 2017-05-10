@@ -56,39 +56,51 @@ function tk_register_required_plugins() {
         ),
 
         array(
-            'name'               => 'Toolkit Events', // The plugin name.
-            'slug'               => 'toolkit-events', // The plugin slug (typically the folder name).
-            'source'             => get_template_directory() . '/lib/plugins/toolkit-events.zip', // The plugin source.
-            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '1.0.5', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
-            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+            'name'               => 'Toolkit Events',
+            'slug'               => 'toolkit-events',
+            'source'             => get_template_directory() . '/lib/plugins/toolkit-events.zip',
+            'required'           => false,
+            'version'            => '1.0.5',
+            'force_activation'   => false,
+            'force_deactivation' => true,
+            'external_url'       => '',
+            'is_callable'        => '',
         ),
 
         array(
-            'name'               => 'Toolkit Profiles', // The plugin name.
-            'slug'               => 'toolkit-profiles', // The plugin slug (typically the folder name).
-            'source'             => get_template_directory() . '/lib/plugins/toolkit-profiles.zip', // The plugin source.
-            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '1.0.5', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
-            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+            'name'               => 'Toolkit Profiles',
+            'slug'               => 'toolkit-profiles',
+            'source'             => get_template_directory() . '/lib/plugins/toolkit-profiles.zip',
+            'required'           => false,
+            'version'            => '1.0.5',
+            'force_activation'   => false,
+            'force_deactivation' => true, 
+            'external_url'       => '',
+            'is_callable'        => '', 
         ),
 
         array(
-            'name'               => 'Toolkit News', // The plugin name.
-            'slug'               => 'toolkit-news', // The plugin slug (typically the folder name).
-            'source'             => get_template_directory() . '/lib/plugins/toolkit-news.zip', // The plugin source.
-            'required'           => false, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '1.0.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-            'force_activation'   => false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-            'force_deactivation' => true, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
-            'external_url'       => '', // If set, overrides default API URL and points to an external URL.
-            'is_callable'        => '', // If set, this callable will be be checked for availability to determine if a plugin is active.
+            'name'               => 'Toolkit News',
+            'slug'               => 'toolkit-news',
+            'source'             => get_template_directory() . '/lib/plugins/toolkit-news.zip',
+            'required'           => false,
+            'version'            => '1.0.1',
+            'force_activation'   => false,
+            'force_deactivation' => true,
+            'external_url'       => '',
+            'is_callable'        => '', 
+        ),
+
+        array(
+            'name'               => 'Toolkit Shortcodes',
+            'slug'               => 'toolkit-shortcodes',
+            'source'             => get_template_directory() . '/lib/plugins/toolkit-shortcodes.zip',
+            'required'           => false,
+            'version'            => '1.0.0',
+            'force_activation'   => false,
+            'force_deactivation' => true,
+            'external_url'       => '',
+            'is_callable'        => '', 
         ),
     );
 
