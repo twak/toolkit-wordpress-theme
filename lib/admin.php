@@ -10,7 +10,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
         /**
          * theme version
          */
-        public static $version = "0.2.4";
+        public static $version = "0.2.5";
 
         public static function register()
         {
@@ -33,7 +33,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
                 }
             }
             /* update the version option */
-            //update_option('tk_theme_version', self::$version);
+            update_option('tk_theme_version', self::$version);
         }
 	}
     tk_admin::register();

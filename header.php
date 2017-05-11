@@ -52,6 +52,14 @@ $GLOBALS['colour'] = tk_colour();
 
 		<?php wp_head(); ?>
 
+		<!--[if IE]>
+			<style>
+				.cms img, .jadu-cms img {
+					width: 100%;
+				}
+			</style>
+		<![endif]-->
+
 	</head>
 	<body <?php //body_class(); ?>>
 <?php if ( get_field('tk_google_tagmanager', 'option') ) : ?>

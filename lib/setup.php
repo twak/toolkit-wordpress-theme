@@ -84,16 +84,79 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function add_favicons()
         {
-            printf('<link rel="icon" sizes="192x192" href="%s/img/icons/touch-icon-192x192.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="shortcut icon" href="%s/img/icons/favicon.ico">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="180x180" href="%s/img/icons/apple-touch-icon-180x180-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="152x152" href="%s/img/icons/apple-touch-icon-152x152-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="144x144" href="%s/img/icons/apple-touch-icon-144x144-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="120x120" href="%s/img/icons/apple-touch-icon-120x120-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="114x114" href="%s/img/icons/apple-touch-icon-114x114-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="76x76" href="%s/img/icons/apple-touch-icon-76x76-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" sizes="72x72" href="%s/img/icons/apple-touch-icon-72x72-precomposed.png">', get_stylesheet_directory_uri() );
-            printf('<link rel="apple-touch-icon-precomposed" href="%s/img/icons/apple-touch-icon-precomposed.png">', get_stylesheet_directory_uri() );
+            /**
+             * icons can be added to the set using the tk_favicons filter
+             * icons is an array of associative arrays with each member having three possible keys:
+             *   filename - the filename of the image
+             *   sizes - the sizes attribute for the icon
+             *   rel - the rel attribute for the icon
+             * all icons should be stored in the img/icons folder (or a subfolder) in the theme/child theme
+             */
+            $icons = apply_filters( 'tk_favicons', array(
+                array(
+                    "filename" => "touch-icon-192x192.png",
+                    "sizes" => "192x192",
+                    "rel" => "icon"
+                ),
+                array(
+                    "filename" => "favicon.ico",
+                    "rel" => "shortcut icon"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-180x180-precomposed.png",
+                    "sizes" => "180x180",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-152x152-precomposed.png",
+                    "sizes" => "152x152",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-144x144-precomposed.png",
+                    "sizes" => "144x144",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-120x120-precomposed.png",
+                    "sizes" => "120x120",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-114x114-precomposed.png",
+                    "sizes" => "114x114",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-76x76-precomposed.png",
+                    "sizes" => "76x76",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-72x72-precomposed.png",
+                    "sizes" => "72x72",
+                    "rel" => "apple-touch-icon-precomposed"
+                ),
+                array(
+                    "filename" => "apple-touch-icon-precomposed.png",
+                    "rel" => "apple-touch-icon-precomposed"
+                )
+            ));
+            foreach ( $icons as $icon ) {
+                $uri = false;
+                if ( isset( $icon["filename"] ) ) {
+                    if ( file_exists( get_stylesheet_directory() . '/img/icons/' . $icon["filename"] ) ) {
+                        $uri = get_stylesheet_directory_uri() . '/img/icons/' . $icon["filename"];
+                    } elseif ( file_exists( get_template_directory() . '/img/icons/' . $icon["filename"] ) ) {
+                        $uri = get_template_directory_uri() . '/img/icons/' . $icon["filename"];
+                    }
+                }
+                if ( $uri ) {
+                    $sizes_attr = ( isset( $icon["sizes"] ) ) ? sprintf(' sizes="%s"', esc_attr( $icon["sizes"] ) ): "";
+                    $rel_attr = ( isset( $icon["rel"] ) ) ? sprintf(' rel="%s"', esc_attr( $icon["rel"] ) ): "";
+                    printf("<link%s%s href=\"%s\">\n", $rel_attr, $sizes_attr, $uri );
+                }
+            }
         }
 
         /**
@@ -183,13 +246,13 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function admin_scripts() 
         {
             wp_register_script(
-                'acf-admin-js', 
+                'tk-admin-js', 
                 get_template_directory_uri() . '/js/admin.js', 
                 array('jquery'), 
                 tk_admin::$version,
                 true
             );
-            wp_enqueue_script('acf-admin-js');
+            wp_enqueue_script('tk-admin-js');
         }
 
         /**

@@ -37,8 +37,6 @@ require_once get_template_directory() . '/lib/navigation.php';
 require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php';
 
 
-
-
 /* Not sure if/where these are used... */
 
 // Custom Excerpts
