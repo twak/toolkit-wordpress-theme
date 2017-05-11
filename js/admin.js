@@ -66,5 +66,15 @@
 
 		// highlight title field
 		titleWarning();
+
+        // only allow custom menu widgets in sidebar
+        $('.widget').on( 'dragcreate dragstart', function( event, ui ){
+            id =  $(this).find( 'input[name="id_base"]').val();
+            if( id == 'custom_menu' ){ //check if the widget is the right one
+                $(this).draggable({
+                    connectToSortable: '#primary-sidebar, #wp_inactive_widgets'//limit drop event only to these sidebars
+                })
+            }
+        });
 	});
 })(jQuery);
