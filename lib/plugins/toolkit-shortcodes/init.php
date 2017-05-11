@@ -204,16 +204,20 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
             foreach ($attachments as $id => $attachment) {
                 $image_src_url = wp_get_attachment_image_src($id, "thumbnail");//$gallery_atts["size"]);
                 $image_link_url = wp_get_attachment_image_src($id, "large");
-                $output .= sprintf( '<div class="%s"><button data-toggle="modal" data-target="#tk_lightbox%d" data-imgsrc="%s" data-alt="%s" data-caption="%s"><img src="%s" alt="%s"></button></div>', $class, $instance, esc_attr($image_link_url[0]), esc_attr($attachment->post_title), esc_attr($attachment->post_excerpt), $image_src_url[0], esc_attr($attachment->post_title) );
+                // this was to target clicks with the modal window
+                //$output .= sprintf( '<div class="%s"><button data-toggle="modal" data-target="#tk_lightbox%d" data-imgsrc="%s" data-alt="%s" data-caption="%s"><img src="%s" alt="%s"></button></div>', $class, $instance, esc_attr($image_link_url[0]), esc_attr($attachment->post_title), esc_attr($attachment->post_excerpt), $image_src_url[0], esc_attr($attachment->post_title) );
+                $output .= sprintf( '<div class="%s"><a href="%s"><img src="%s" alt="%s"></a></div>', $class, esc_attr($image_link_url[0]), $image_src_url[0], esc_attr($attachment->post_title) );
             }
 
             $output .= '</div>';
-            $output .= '<!-- Modal -->';
+
+            // modal window
+            /*$output .= '<!-- Modal -->';
             $output .= sprintf('<div id="tk_lightbox%d" class="tk-lightbox modal fade" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content">', $instance );
             //$output .= '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>';
             $output .= '<div class="modal-body"><img src="" alt="" /></div>';
             $output .= '<div class="modal-footer"><p class="caption"></p><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div>';
-            $output .= '</div></div></div><!-- #Modal -->';
+            $output .= '</div></div></div><!-- #Modal -->';*/
 
             $output .= '</div><!-- #Gallery -->';
             return $output;
