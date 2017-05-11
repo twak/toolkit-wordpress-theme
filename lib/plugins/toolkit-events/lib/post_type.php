@@ -107,7 +107,8 @@ if ( ! class_exists( 'tk_events_post_type' ) ) {
                         'title',
                         'editor',
                         'excerpt',
-                        'thumbnail'
+                        'thumbnail',
+                        'author'
                     ),
                     'menu_icon' => 'dashicons-calendar',
                     'can_export' => true
