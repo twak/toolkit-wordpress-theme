@@ -62,7 +62,7 @@ $GLOBALS['colour'] = tk_colour();
 
 	</head>
 	<body <?php //body_class(); ?>>
-<?php if ( get_field('tk_google_tagmanager', 'option') ) : ?>
+	<?php if ( get_field('tk_google_tagmanager', 'option') ) : ?>
 		<!-- Google Tag Manager -->
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WT437X"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -72,7 +72,7 @@ $GLOBALS['colour'] = tk_colour();
 		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-WT437X');</script>
 		<!-- End Google Tag Manager -->
-<?php endif; ?>
+	<?php endif; ?>
 		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
 			<nav id="quicklinks" class="quicklinks collapse" role="navigation">

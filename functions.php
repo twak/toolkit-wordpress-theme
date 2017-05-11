@@ -69,6 +69,14 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
     echo $output;
 }
 
+/**
+ * Remove the additional CSS section from the Customizer.
+ */
+function prefix_remove_css_section( $wp_customize ) {
+    $wp_customize->remove_section( 'custom_css' );
+}
+add_action( 'customize_register', 'prefix_remove_css_section', 15 );
+
 
 // Custom Comments Callback
 function html5blankcomments($comment, $args, $depth)

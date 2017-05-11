@@ -33,8 +33,6 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
 
             // enqueue scripts and styles
             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'toolkit_shortcodes_script' ) );
-
-
         }
 
 
