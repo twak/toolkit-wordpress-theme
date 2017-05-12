@@ -71,7 +71,7 @@ if(!$GLOBALS[ 'full_width']){
 					</div>
 				</div>
 				<div class="slide-img" style="background-image:url('<?php echo $slide_img_url; ?>');">
-					<img src="<?php the_sub_field('banner_widget_slide_image'); ?>" alt="name">
+					<img src="<?php echo $slide_img_url; ?>" alt="name">
 				</div>
 
 				<?php if(get_sub_field('banner_widget_slide_link') == 'internal') { ?>
