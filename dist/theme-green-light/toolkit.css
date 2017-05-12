@@ -3407,7 +3407,7 @@ body {
 .tablesaw thead tr:first-child th,
 .tablesaw-sortable .tablesaw-sortable-head button, .all-caps, .radio-tabs label, .sidebar-cta a,
 .sidebar-cta-btn a, .nav-tabs > li > a,
-.nav-pills > li > a, .heading-related, .heading-related-small, .sidebar-body-fw .sidebar-heading,
+.nav-pills > li > a, .heading-related, .heading-related-small, blockquote footer, .sidebar-body-fw .sidebar-heading,
 .sidebar-container-fw .sidebar-heading, .docs-contents .heading, [class^="profile-block"] .profile-info,
 [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
 .twitter-feed-footer .twitter-user,
@@ -3426,7 +3426,7 @@ body {
     .tablesaw thead tr:first-child th,
     .tablesaw-sortable .tablesaw-sortable-head button, .all-caps, .radio-tabs label, .sidebar-cta a,
     .sidebar-cta-btn a, .nav-tabs > li > a,
-    .nav-pills > li > a, .heading-related, .heading-related-small, .sidebar-body-fw .sidebar-heading,
+    .nav-pills > li > a, .heading-related, .heading-related-small, blockquote footer, .sidebar-body-fw .sidebar-heading,
     .sidebar-container-fw .sidebar-heading, .docs-contents .heading, [class^="profile-block"] .profile-info,
     [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
     .twitter-feed-footer .twitter-user,
@@ -3444,7 +3444,7 @@ body {
     .tablesaw thead tr:first-child th,
     .tablesaw-sortable .tablesaw-sortable-head button, .all-caps, .radio-tabs label, .sidebar-cta a,
     .sidebar-cta-btn a, .nav-tabs > li > a,
-    .nav-pills > li > a, .heading-related, .heading-related-small, .sidebar-body-fw .sidebar-heading,
+    .nav-pills > li > a, .heading-related, .heading-related-small, blockquote footer, .sidebar-body-fw .sidebar-heading,
     .sidebar-container-fw .sidebar-heading, .docs-contents .heading, [class^="profile-block"] .profile-info,
     [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
     .twitter-feed-footer .twitter-user,
@@ -3626,7 +3626,7 @@ h6, .h6 {
 /**
 	 * Heading related - mostly used in cards for the date or the category
 	 */
-.heading-related, .heading-related-small, .sidebar-body-fw .sidebar-heading,
+.heading-related, .heading-related-small, blockquote footer, .sidebar-body-fw .sidebar-heading,
 .sidebar-container-fw .sidebar-heading, .docs-contents .heading, [class^="profile-block"] .profile-info,
 [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
 .twitter-feed-footer .twitter-user,
@@ -3637,25 +3637,25 @@ h6, .h6 {
   margin-bottom: 8px;
   line-height: 140%; }
   @media (min-width: 480px) {
-    .heading-related, .heading-related-small, .sidebar-body-fw .sidebar-heading,
+    .heading-related, .heading-related-small, blockquote footer, .sidebar-body-fw .sidebar-heading,
     .sidebar-container-fw .sidebar-heading, .docs-contents .heading, [class^="profile-block"] .profile-info,
     [class^="profile-block"] .profile-info > *, .footer-twitter-feed .twitter-user,
     .twitter-feed-footer .twitter-user,
     .twitter-feed .twitter-user, .sidebar-widget h3 {
       line-height: 160%; } }
-  .heading-related a, .heading-related-small a, .sidebar-body-fw .sidebar-heading a,
+  .heading-related a, .heading-related-small a, blockquote footer a, .sidebar-body-fw .sidebar-heading a,
   .sidebar-container-fw .sidebar-heading a, .docs-contents .heading a, [class^="profile-block"] .profile-info a, .footer-twitter-feed .twitter-user a,
   .twitter-feed-footer .twitter-user a,
   .twitter-feed .twitter-user a, .sidebar-widget h3 a {
     color: #aa8f6f;
     text-decoration: none;
     border: 0; }
-    .heading-related a:hover, .heading-related-small a:hover, .sidebar-body-fw .sidebar-heading a:hover,
+    .heading-related a:hover, .heading-related-small a:hover, blockquote footer a:hover, .sidebar-body-fw .sidebar-heading a:hover,
     .sidebar-container-fw .sidebar-heading a:hover, .docs-contents .heading a:hover, [class^="profile-block"] .profile-info a:hover, .footer-twitter-feed .twitter-user a:hover,
     .twitter-feed-footer .twitter-user a:hover,
     .twitter-feed .twitter-user a:hover, .sidebar-widget h3 a:hover {
       text-decoration: underline; }
-  .heading-related a.active, .heading-related-small a.active, .sidebar-body-fw .sidebar-heading a.active,
+  .heading-related a.active, .heading-related-small a.active, blockquote footer a.active, .sidebar-body-fw .sidebar-heading a.active,
   .sidebar-container-fw .sidebar-heading a.active, .docs-contents .heading a.active, [class^="profile-block"] .profile-info a.active, .footer-twitter-feed .twitter-user a.active,
   .twitter-feed-footer .twitter-user a.active,
   .twitter-feed .twitter-user a.active, .sidebar-widget h3 a.active {
@@ -3812,7 +3812,6 @@ p, .p, .list-featured {
 .cms-no-lead > p:first-child {
   margin-bottom: 8px;
   font-weight: 400;
-  font-family: "freight-sans-pro", sans-serif;
   font-size: 14px;
   line-height: 150%; }
   @media (min-width: 480px) {
@@ -3826,6 +3825,11 @@ p, .p, .list-featured {
       margin-bottom: 16px;
       font-size: 18px;
       line-height: 170%; } }
+
+.cms-serif {
+  font-family: "freight-text-pro", serif; }
+  .cms-serif > * {
+    font-family: "freight-text-pro", serif; }
 
 .summary {
   line-height: 150%;
@@ -4045,7 +4049,7 @@ blockquote {
   font-size: 16px;
   color: #666;
   line-height: 130%;
-  padding: 8px; }
+  padding: 12px; }
   @media (min-width: 480px) {
     blockquote {
       font-family: "freight-display-pro", sans-serif;
@@ -4064,6 +4068,11 @@ blockquote {
       content: open-quote; }
     blockquote p:after {
       content: close-quote; }
+  blockquote footer {
+    display: block;
+    padding-top: 12px; }
+    blockquote footer:before {
+      content: ""; }
 
 @media (min-width: 768px) {
   .blockquote-sm {
@@ -4550,6 +4559,15 @@ img {
   display: block;
   height: auto; }
 
+.jadu-cms img[src$=".svg"],
+.cms img[src$=".svg"] {
+  width: 100%; }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .jadu-cms img[src$=".svg"],
+  .cms img[src$=".svg"] {
+    width: 100%; } }
+
 .jadu-cms img.float_right,
 .jadu-cms img.alignright,
 .jadu-cms img.align-right,
@@ -4592,7 +4610,7 @@ img {
 
 .tk-icon-add:before, .tk-icon-alert-danger:before, .tk-icon-alert-info:before, .tk-icon-alert-success:before, .tk-icon-alert-warning:before, .tk-icon-calendar:before, .tk-icon-campus-map:before, .tk-icon-chevron-down:before, .filter:after, .sidebar-button:after, .expander-trigger.collapsed:after, .multi-page-btn:before,
 .page-contents-btn:before, .accordion-trigger:after, .tk-icon-chevron-left:before, .multi-page-footer ul .prev a:after,
-.page-footer ul .prev a:after, .ekko-lightbox .glyphicon-chevron-left:before, .tk-icon-chevron-right:before, .swiper .slide-cta:after, .heading-more:after,
+.page-footer ul .prev a:after, .tk-icon-chevron-right:before, .swiper .slide-cta:after, .heading-more:after,
 .heading-link-more:after, .heading-more-sm:after,
 .heading-link-more-sm:after, .more:after, .divider-header-action:after,
 .more-dark:after, .more-light:after, .tk-tabs-more:after, .sidebar-university a:before,
@@ -4600,7 +4618,7 @@ img {
 .sidebar-cta-list a:before, .sidebar-cta a:before,
 .sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-footer ul .next a:after,
 .page-footer ul .next a:after, .tile-inner ul a:after, .content h3:after,
-.tile-content h3:after, .ekko-lightbox .glyphicon-chevron-right:before, .course-cta ul li a:after, .tk-icon-chevron-up:before, .multi-page-btn.active:before,
+.tile-content h3:after, .course-cta ul li a:after, .tk-icon-chevron-up:before, .multi-page-btn.active:before,
 .page-contents-btn.active:before, .accordion-trigger.active:after, .scroll-up:after, .tk-icon-close:before, .filter.active:after, .active .site-search-btn:before, .state-sidebar-active .sidebar-button:before, .state-navicon-active .navicon button:before, .tk-nav .tk-nav-header button:before, .expander-trigger:after, .social-toggle.toggled:before, .tk-icon-download:before, .tk-icon-external:before, .tk-icon-home:before, .tk-icon-letter:before, .tk-icon-mail:before, .tk-icon-marker:before, .tk-icon-navicon:before, .sidebar-button:before, .navicon button:before, .tk-icon-news:before, .tk-icon-phone:before, .tk-icon-print:before, .tk-icon-profile:before, .tk-icon-remove:before, .tk-icon-rss:before, .tk-icon-search:before, .site-search-btn:before, .tk-icon-share:before, .social-toggle:before, .tk-icon-social-facebook:before, .tk-icon-social-google:before, .tk-icon-social-instagram:before, .tk-icon-social-linkedin:before, .tk-icon-social-twitter:before, .tk-icon-social-weibo:before, .tk-icon-social-youtube:before, .tk-icon-sort:before, .tablesaw-sortable th.tablesaw-sortable-head button:before, .tk-icon-star:before, .tk-icon-triangle-down:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-ascending button:before, .masthead-link-quicklinks:after, .sidebar-nav .dropdown > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown > a:after, .tk-icon-triangle-left:before, .tk-icon-triangle-right:before, .tk-icon-triangle-up:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-descending button:before, .state-quicklinks-active .masthead-link-quicklinks:after, .sidebar-nav .dropdown.open > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown.active > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown.active > a:after {
   font-family: "toolkit-icons";
   -webkit-font-smoothing: antialiased;
@@ -4637,7 +4655,7 @@ img {
   content: ""; }
 
 .tk-icon-chevron-left:before, .multi-page-footer ul .prev a:after,
-.page-footer ul .prev a:after, .ekko-lightbox .glyphicon-chevron-left:before {
+.page-footer ul .prev a:after {
   content: ""; }
 
 .tk-icon-chevron-right:before, .swiper .slide-cta:after, .heading-more:after,
@@ -4648,7 +4666,7 @@ img {
 .sidebar-cta-list a:before, .sidebar-cta a:before,
 .sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-footer ul .next a:after,
 .page-footer ul .next a:after, .tile-inner ul a:after, .content h3:after,
-.tile-content h3:after, .ekko-lightbox .glyphicon-chevron-right:before, .course-cta ul li a:after {
+.tile-content h3:after, .course-cta ul li a:after {
   content: ""; }
 
 .tk-icon-chevron-up:before, .multi-page-btn.active:before,
@@ -4828,7 +4846,7 @@ button.mdi::before {
 .page-contents-btn:before, .multi-page-btn.active:before,
 .page-contents-btn.active:before, .multi-page-footer ul a:after,
 .page-footer ul a:after, .accordion-trigger:after, .accordion-trigger.active:after, .social-toggle:before, .tile-inner ul a:after, .content h3:after,
-.tile-content h3:after, .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox .glyphicon-chevron-left:before, .course-cta ul li a:after, .scroll-up:after {
+.tile-content h3:after, .course-cta ul li a:after, .scroll-up:after {
   /* use !important to prevent issues with browser extensions that change fonts */
   speak: none;
   font-style: normal;
@@ -5248,7 +5266,7 @@ $space-half:                    8px;
     .page-footer ul a:after,
     .page-footer ul .local-header-title h1 a:after, .local-header-title h1 .accordion-trigger:after, .local-header-title h1 .social-toggle:before, .local-header-title h1 .tile-inner ul a:after, .tile-inner ul .local-header-title h1 a:after, .local-header-title h1 .content h3:after, .content .local-header-title h1 h3:after, .local-header-title h1
     .tile-content h3:after,
-    .tile-content .local-header-title h1 h3:after, .local-header-title h1 .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox .local-header-title h1 .glyphicon-chevron-right:before, .local-header-title h1 .ekko-lightbox .glyphicon-chevron-left:before, .ekko-lightbox .local-header-title h1 .glyphicon-chevron-left:before, .local-header-title h1 .course-cta ul li a:after, .course-cta ul li .local-header-title h1 a:after, .local-header-title h1 .scroll-up:after {
+    .tile-content .local-header-title h1 h3:after, .local-header-title h1 .course-cta ul li a:after, .course-cta ul li .local-header-title h1 a:after, .local-header-title h1 .scroll-up:after {
       vertical-align: middle; }
   .local-header-title a {
     border: 0;
@@ -7261,10 +7279,6 @@ hr {
   .tile-content h3:after,
   .tile-content
   .list-nav h3:after,
-  .list-nav .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox
-  .list-nav .glyphicon-chevron-right:before,
-  .list-nav .ekko-lightbox .glyphicon-chevron-left:before, .ekko-lightbox
-  .list-nav .glyphicon-chevron-left:before,
   .list-nav .course-cta ul li a:after, .course-cta ul li
   .list-nav a:after,
   .list-nav .scroll-up:after {
@@ -7746,6 +7760,14 @@ body.modal-open {
     background-position: center; }
     .profile-block .profile-img img {
       display: none; }
+  .profile-block .more {
+    color: white;
+    padding: 12px 0 0 0; }
+    @media (min-width: 1024px) {
+      .profile-block .more {
+        padding: 0 16px 16px 16px; } }
+    .profile-block .more:after {
+      color: white; }
   @media (min-width: 1024px) {
     .profile-block {
       display: -webkit-box;
@@ -8170,6 +8192,19 @@ etc
       position: static;
       top: auto;
       left: auto; } }
+
+/*Image caption used inside of responsive images */
+[class*="rs-img"] .img-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #212121;
+  background: rgba(33, 33, 33, 0.75);
+  margin: 0;
+  padding: 5px 10px;
+  color: white;
+  font-size: 15px; }
 
 /**
  * Social Links
@@ -8739,6 +8774,21 @@ etc
   background: #fdfcfc;
   padding: 16px 0; }
 
+/* Featured content */
+/* Flex box supported */
+/* Flex box rectangle */
+/* Flex box square */
+@media (min-width: 768px) {
+  .featured-content.featured-content-square {
+    display: table;
+    width: 100%;
+    vertical-align: top; }
+    .featured-content.featured-content-square .featured-content-img,
+    .featured-content.featured-content-square .featured-content-content {
+      display: table-cell;
+      width: 48%;
+      border: 1px solid red; } }
+
 /**
  * Skin - Common design styles applied to elements
  */
@@ -8796,6 +8846,12 @@ when combining different styles create a unique name e.g.
 
 .skin-bg-brand-2 {
   background: #aa8f6f; }
+
+.skin-bg-beige {
+  background: #FFFEF5; }
+
+.skin-bg-beige-dark {
+  background: #E1DDD4; }
 
 .sk-widget-block,
 .skin-widget-block,
@@ -8882,9 +8938,26 @@ $screen-sm-max:              ($screen-md-min - 1);
 $screen-md-max:              ($screen-lg-min - 1);
 
 */
+@media (min-width: 480px) {
+  body {
+    border: 1px solid blue; } }
+
+@media (min-width: 768px) {
+  body {
+    border: 1px solid yellow; } }
+
+@media (min-width: 1024px) {
+  body {
+    border: 1px solid orange; } }
+
+@media (min-width: 1260px) {
+  body {
+    border: 1px solid red; } }
+
 .ajax-loader {
   width: auto !important; }
 
+/* Idea for general cookie compliance styles, no used with the actual js plugin */
 .cookie-compliance {
   padding: 6px;
   background: #333333; }
@@ -8905,6 +8978,7 @@ $screen-md-max:              ($screen-lg-min - 1);
   transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
   transition-delay: 0; }
 
+/* Used for concept water at leeds templates */
 .list-feed {
   display: table;
   width: 100%;
@@ -8942,10 +9016,6 @@ $screen-md-max:              ($screen-lg-min - 1);
     line-height: 140%; }
   .list-feed-item:last-child .media {
     border-bottom: 0; }
-
-.inverted {
-  filter: invert(100%);
-  -webkit-filter: invert(1); }
 
 .course-terms a {
   font-size: 16px;
