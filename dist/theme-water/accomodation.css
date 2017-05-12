@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*------------------------------------*    ACCOMODATION.CSS
 \*------------------------------------*/
 /**
@@ -15,6 +16,229 @@
 /**
  * Overide the default bootsrap variables here
  */
+@font-face {
+  font-family: "toolkit-icons";
+  src: url("../fonts/toolkit-icons.eot");
+  src: url("../fonts/toolkit-icons.eot?#iefix") format("eot"), url("../fonts/toolkit-icons.woff2") format("woff2"), url("../fonts/toolkit-icons.woff") format("woff"), url("../fonts/toolkit-icons.ttf") format("truetype"), url("../fonts/toolkit-icons.svg#toolkit-icons") format("svg"); }
+
+.tk-icon-add:before, .tk-icon-alert-danger:before, .tk-icon-alert-info:before, .tk-icon-alert-success:before, .tk-icon-alert-warning:before, .tk-icon-calendar:before, .tk-icon-campus-map:before, .tk-icon-chevron-down:before, .tk-icon-chevron-left:before, .ekko-lightbox .glyphicon-chevron-left:before, .tk-icon-chevron-right:before, .ekko-lightbox .glyphicon-chevron-right:before, .tk-icon-chevron-up:before, .tk-icon-close:before, .tk-icon-download:before, .tk-icon-external:before, .tk-icon-home:before, .tk-icon-letter:before, .tk-icon-mail:before, .tk-icon-marker:before, .tk-icon-navicon:before, .tk-icon-news:before, .tk-icon-phone:before, .tk-icon-print:before, .tk-icon-profile:before, .tk-icon-remove:before, .tk-icon-rss:before, .tk-icon-search:before, .tk-icon-share:before, .tk-icon-social-facebook:before, .tk-icon-social-google:before, .tk-icon-social-instagram:before, .tk-icon-social-linkedin:before, .tk-icon-social-twitter:before, .tk-icon-social-weibo:before, .tk-icon-social-youtube:before, .tk-icon-sort:before, .tk-icon-star:before, .tk-icon-triangle-down:before, .tk-icon-triangle-left:before, .tk-icon-triangle-right:before, .tk-icon-triangle-up:before {
+  font-family: "toolkit-icons";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-decoration: none;
+  text-transform: none; }
+
+.tk-icon-add:before {
+  content: ""; }
+
+.tk-icon-alert-danger:before {
+  content: ""; }
+
+.tk-icon-alert-info:before {
+  content: ""; }
+
+.tk-icon-alert-success:before {
+  content: ""; }
+
+.tk-icon-alert-warning:before {
+  content: ""; }
+
+.tk-icon-calendar:before {
+  content: ""; }
+
+.tk-icon-campus-map:before {
+  content: ""; }
+
+.tk-icon-chevron-down:before {
+  content: ""; }
+
+.tk-icon-chevron-left:before, .ekko-lightbox .glyphicon-chevron-left:before {
+  content: ""; }
+
+.tk-icon-chevron-right:before, .ekko-lightbox .glyphicon-chevron-right:before {
+  content: ""; }
+
+.tk-icon-chevron-up:before {
+  content: ""; }
+
+.tk-icon-close:before {
+  content: ""; }
+
+.tk-icon-download:before {
+  content: ""; }
+
+.tk-icon-external:before {
+  content: ""; }
+
+.tk-icon-home:before {
+  content: ""; }
+
+.tk-icon-letter:before {
+  content: ""; }
+
+.tk-icon-mail:before {
+  content: ""; }
+
+.tk-icon-marker:before {
+  content: ""; }
+
+.tk-icon-navicon:before {
+  content: ""; }
+
+.tk-icon-news:before {
+  content: ""; }
+
+.tk-icon-phone:before {
+  content: ""; }
+
+.tk-icon-print:before {
+  content: ""; }
+
+.tk-icon-profile:before {
+  content: ""; }
+
+.tk-icon-remove:before {
+  content: ""; }
+
+.tk-icon-rss:before {
+  content: ""; }
+
+.tk-icon-search:before {
+  content: ""; }
+
+.tk-icon-share:before {
+  content: ""; }
+
+.tk-icon-social-facebook:before {
+  content: ""; }
+
+.tk-icon-social-google:before {
+  content: ""; }
+
+.tk-icon-social-instagram:before {
+  content: ""; }
+
+.tk-icon-social-linkedin:before {
+  content: ""; }
+
+.tk-icon-social-twitter:before {
+  content: ""; }
+
+.tk-icon-social-weibo:before {
+  content: ""; }
+
+.tk-icon-social-youtube:before {
+  content: ""; }
+
+.tk-icon-sort:before {
+  content: ""; }
+
+.tk-icon-star:before {
+  content: ""; }
+
+.tk-icon-triangle-down:before {
+  content: ""; }
+
+.tk-icon-triangle-left:before {
+  content: ""; }
+
+.tk-icon-triangle-right:before {
+  content: ""; }
+
+.tk-icon-triangle-up:before {
+  content: ""; }
+
+/* Material design icons - https://materialdesignicons.com/bootstrap */
+i.mdi::before,
+span.mdi::before,
+button.mdi::before {
+  font-size: 24px;
+  line-height: 13px; }
+
+.btn.mdi::before,
+.btn .mdi::before {
+  position: relative;
+  top: 4px; }
+
+.btn-xs.mdi::before,
+.btn-xs .mdi::before {
+  font-size: 18px;
+  top: 3px; }
+
+.btn-sm.mdi::before,
+.btn-sm .mdi::before {
+  font-size: 18px;
+  top: 3px; }
+
+.dropdown-menu .mdi {
+  width: 18px; }
+
+.dropdown-menu .mdi::before {
+  position: relative;
+  top: 4px;
+  left: -8px; }
+
+.nav .mdi::before {
+  position: relative;
+  top: 4px; }
+
+.navbar .navbar-toggle .mdi::before {
+  position: relative;
+  top: 4px;
+  color: #FFF; }
+
+.breadcrumb .mdi::before {
+  position: relative;
+  top: 4px; }
+
+.breadcrumb a:hover {
+  text-decoration: none; }
+
+.breadcrumb a:hover span {
+  text-decoration: underline; }
+
+.alert .mdi::before {
+  position: relative;
+  top: 4px;
+  margin-right: 2px; }
+
+.input-group-addon .mdi::before {
+  position: relative;
+  top: 3px; }
+
+.navbar-brand .mdi::before {
+  position: relative;
+  top: 2px;
+  margin-right: 2px; }
+
+.list-group-item .mdi::before {
+  position: relative;
+  top: 3px;
+  left: -3px; }
+
+.icon-font-text {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden; }
+
+[class^="tk-icon-"], [class*=" tk-icon-"], .tk-icon, .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox .glyphicon-chevron-left:before {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
 /**
  *  Residence Map
  */
@@ -125,11 +349,11 @@
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; } }
-  .icon-list-item .tk-icon {
+  .icon-list-item .tk-icon, .icon-list-item .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox .icon-list-item .glyphicon-chevron-right:before, .icon-list-item .ekko-lightbox .glyphicon-chevron-left:before, .ekko-lightbox .icon-list-item .glyphicon-chevron-left:before {
     font-size: 48px;
     color: #aa8f6f; }
     @media (min-width: 768px) {
-      .icon-list-item .tk-icon {
+      .icon-list-item .tk-icon, .icon-list-item .ekko-lightbox .glyphicon-chevron-right:before, .ekko-lightbox .icon-list-item .glyphicon-chevron-right:before, .icon-list-item .ekko-lightbox .glyphicon-chevron-left:before, .ekko-lightbox .icon-list-item .glyphicon-chevron-left:before {
         font-size: 60px; } }
 
 /*
@@ -206,3 +430,7 @@
   .divider-bottom-lg {
     border: 0;
     border-bottom: 1px solid #aa8f6f; } }
+
+.inverted {
+  filter: invert(100%);
+  -webkit-filter: invert(1); }
