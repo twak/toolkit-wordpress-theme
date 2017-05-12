@@ -96,7 +96,7 @@ function tk_register_required_plugins() {
             'slug'               => 'toolkit-shortcodes',
             'source'             => get_template_directory() . '/lib/plugins/toolkit-shortcodes.zip',
             'required'           => false,
-            'version'            => '1.0.0',
+            'version'            => '1.0.1',
             'force_activation'   => false,
             'force_deactivation' => true,
             'external_url'       => '',

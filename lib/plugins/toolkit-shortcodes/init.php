@@ -3,7 +3,7 @@
  * Plugin Name: Toolkit Shortcodes
  * Plugin URI: http://toolkit.leeds.ac.uk/wordpress
  * Description: Shortcodes for components in the UoL WordPress Toolkit theme.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Web Team
  * Author URI: http://toolkit.leeds.ac.uk/wordpress
  * License: GPL2
@@ -14,7 +14,7 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
     class tk_shortcodes
     {
         /* plugin version */
-        public static $version = "1.0.0";
+        public static $version = "1.0.1";
 
         /* register all shortcodes with wordpress API */
         public static function register()
@@ -25,6 +25,9 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
             // button shortcode
             add_shortcode( 'button', array( __CLASS__, 'button_shortcode' ) );
 
+            // PDF download button
+            add_shortcode( 'downloadfile', array( __CLASS__, 'download_shortcode' ) );
+
             // Remove built in gallery shortcode
             remove_shortcode('gallery', 'gallery_shortcode');
 
@@ -34,8 +37,6 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
             // enqueue scripts and styles
             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'toolkit_shortcodes_script' ) );
         }
-
-
 
         /*
          * PANEL SHORTCODE [panel title=""]Blah Blah[/panel]
@@ -89,6 +90,30 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
 
             // Return the button
             return '<a href="' . wp_kses_post( $button_atts['link'] ) . '" class="btn btn-lg ' . $button_type . '">' . wp_kses_post( $button_atts['text'] ) . '</a>';
+        }
+
+        /**
+         * DOWNLOAD SHORTCODE
+         * Places a link to a file in an island with an icon
+         */
+        public static function download_shortcode( $atts, $content = null )
+        {
+            // Set default parameters
+            $pdf_atts = shortcode_atts( array (
+                'url' => '',
+                'type' => ''
+            ), $atts );
+
+            // sanitise
+            if ( ! $content || trim($content) == "" ) {
+                $content = "Download";
+            }
+            $type = strtolower(trim($pdf_atts["type"]));
+            $types = array('word', 'powerpoint', 'zip', 'pdf', 'excel');
+            $url = filter_var( $pdf_atts["url"], FILTER_VALIDATE_URL );
+            if ( $url && in_array( $type, $types ) ) {
+                return sprintf('<h4><a class="island island-sm island-m-b skin-box-module downloadlink type-%s" href="%s">%s</a></h4>', $type, $url, $content );
+            }
         }
         
         /**
