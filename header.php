@@ -21,46 +21,6 @@ $GLOBALS['colour'] = tk_colour();
 
         <meta name="copyright" content="Copyright (c)<?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All Rights Reserved." />
 
-		<!-- SEO -->
-        <?php if ( (is_page()) && (!is_front_page()) || (is_single()) && (!is_front_page()) ) : if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-		<meta name="description" content="<?php echo get_the_excerpt(); ?>" />
-        <?php endwhile; endif; endif; ?>
-        <?php if( is_front_page() ) { ?>
-        <meta name="description" content="<?php bloginfo('description'); ?>">
-        <?php } ?>
-
-        <!-- Open Graph -->
-        <meta property="og:locale" content="en_GB" />
-		<meta property="og:type" content="website" />
-		<meta property="og:title" content="<?php if (!is_front_page()) { echo the_title() . ' | '; } ?><?php bloginfo('name'); ?>" />
-		<?php if ( has_post_thumbnail() ) { ?>
-		<meta property="og:image" content="<?php the_post_thumbnail_url(); ?>" />
-		<?php } ?>
-		<meta property="og:url" content="<?php if( is_front_page() ) { echo home_url(); } elseif ( !is_front_page() ) { echo the_permalink(); } ?>" />
-		<meta property="og:site_name" content="<?php bloginfo('name'); ?>" />
-		<?php if ( (is_page()) && (!is_front_page()) || (is_single()) && (!is_front_page()) ) : if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-		<meta property="og:description" content="<?php echo get_the_excerpt(); ?>" />
-        <?php endwhile; endif; endif; ?>
-        <?php if( is_front_page() ) { ?>
-        <meta property="og:description" content="<?php bloginfo('description'); ?>">
-        <?php } ?>
-
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="<?php if (!is_front_page()) { echo the_title() . ' | '; } ?><?php bloginfo('name'); ?>" />
-        <?php if ( has_post_thumbnail() ) { ?>
-        <meta name="twitter:image" content="<?php the_post_thumbnail_url(); ?>" />
-        <?php } ?>
-        <?php if ( (is_page()) && (!is_front_page()) || (is_single()) && (!is_front_page()) ) : if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-        <meta name="twitter:description" content="<?php echo get_the_excerpt(); ?>" />
-        <?php endwhile; endif; endif; ?>
-        <?php if( is_front_page() ) { ?>
-        <meta name="twitter:description" content="<?php bloginfo('description'); ?>">
-        <?php } ?>
-
-        <!-- Canonical -->
-        <link rel="canonical" href="<?php if( is_front_page() ) { echo home_url(); } elseif ( !is_front_page() ) { echo the_permalink(); } ?>" />
-
         <!-- Typekit Fonts Async -->
         <script type="text/javascript">
             if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){

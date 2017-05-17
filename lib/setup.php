@@ -17,6 +17,9 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* add favicons */
             add_action( 'wp_head', array( __CLASS__, 'add_favicons' ) );
 
+            /* add SEO stuff */
+            add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
+
             /* add theme support for various features */
             add_action( 'after_setup_theme', array( __CLASS__, 'add_theme_support' ) );
 
@@ -64,6 +67,9 @@ if ( ! class_exists( 'tk_setup' ) ) {
 
             /* Remove <p> tags from excerpt */
             remove_filter( 'the_excerpt', 'wpautop' );
+
+            /* adds support for excerpts on pages */
+            add_action( 'init', array( __CLASS__, 'add_excerpts_to_pages' ) );
 
         }
 
@@ -157,6 +163,65 @@ if ( ! class_exists( 'tk_setup' ) ) {
                     printf("<link%s%s href=\"%s\">\n", $rel_attr, $sizes_attr, $uri );
                 }
             }
+        }
+
+        /**
+         * adds SEO stuff to header
+         */
+        public static function add_seo()
+        {
+            $post_id = get_queried_object_id();
+            $sitename_attr = esc_attr( get_bloginfo('name') );
+            $title_attr = esc_attr( get_bloginfo('name') );
+            $description_attr = esc_attr( get_bloginfo('description') );
+            $thumbnail_attr = '';
+            $url = home_url();
+            /* see if the request is for a single page or other post type */
+            if ( ! is_front_page() && $post_id && ( is_single( $post_id ) || is_page ( $post_id ) ) ) {
+                $title_attr = esc_attr( get_the_title( $post_id ) ) . ' | ' . $title_attr;
+                $description_attr = esc_attr( trim( strip_tags( get_the_excerpt( $post_id ) ) ) );
+                if ( has_post_thumbnail( $post_id ) ) {
+                    $thumbnail_attr = esc_attr( get_the_post_thumbnail_url( $post_id ) );
+                }
+                $url = wp_get_canonical_url( $post_id );
+            }
+            if ( is_post_type_archive() ) {
+                $post_type = get_post_type();
+                $post_type_obj = get_post_type_object($post_type);
+                $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
+                if ( ! $title ) {
+                    $title = $post_type_obj->labels->name;
+                    if ( $post_type == 'post' ) {
+                        $title = "Blog";
+                    }
+                }
+                $title_attr = esc_attr( $title );
+                $description = get_field('tk_' . $post_type . '_page_settings_introduction', 'option');
+                if ( $description ) {
+                    $description_attr = esc_attr( trim( strip_tags( $description ) ) );
+                }
+                $url = get_post_type_archive_link($post_type);
+            }
+            print("<!-- SEO -->\n");
+            printf('<meta name="description" content="%s" />', $description_attr );
+            print("\n<!-- Open Graph -->\n");
+            print('<meta property="og:locale" content="en_GB" /><meta property="og:type" content="website" />');
+            printf('<meta property="og:title" content="%s" />', $title_attr );
+            if ( $thumbnail_attr ) {
+                printf('<meta property="og:image" content="%s" />', $thumbnail_attr );
+            }
+            printf('<meta property="og:url" content="%s" />', $url );
+            printf('<meta property="og:site_name" content="%s" />', $sitename_attr );
+            printf('<meta property="og:description" content="%s" />', $description_attr );
+            print("\n<!-- Twitter -->\n");
+            print('<meta name="twitter:card" content="summary" />');
+            printf('<meta name="twitter:title" content="%s" />', $title_attr );
+            if ( $thumbnail_attr ) {
+                printf('<meta name="twitter:image" content="%s" />', $thumbnail_attr );
+            }
+            printf('<meta name="twitter:description" content="%s" />', $description_attr );
+            print("\n<!-- Canonical URL -->\n");
+            printf('<link rel="canonical" href="%s" />', $url );
         }
 
         /**
@@ -361,6 +426,14 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 }
             }
             return $content;
+        }
+
+        /**
+         * add excerpt support for pages
+         */
+        public static function add_excerpts_to_pages()
+        {
+            add_post_type_support( 'page', 'excerpt' );
         }
     }
     tk_setup::register();
