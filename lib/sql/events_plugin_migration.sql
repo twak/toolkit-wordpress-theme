@@ -1,0 +1,10 @@
+/* migration queries for events plugin to convert values from old plugin to new toolkit plugin */
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, 'tk_events_start_date', FROM_UNIXTIME(`meta_value`, '%Y%m%d') FROM `wp_68_postmeta` WHERE `meta_key` = 'event_start' AND `meta_value` != '';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, '_tk_events_start_date', 'field_tk_events_start_date' FROM `wp_68_postmeta` WHERE `meta_key` = 'tk_events_start_date';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, 'tk_events_end_date', FROM_UNIXTIME(`meta_value`, '%Y%m%d') FROM `wp_68_postmeta` WHERE `meta_key` = 'event_end' AND `meta_value` != '';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, '_tk_events_end_date', 'field_tk_events_end_date' FROM `wp_68_postmeta` WHERE `meta_key` = 'tk_events_end_date';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, 'tk_events_external_url', `meta_value` FROM `wp_68_postmeta` WHERE `meta_key` = 'event_url' AND `meta_value` != '';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, '_tk_events_external_url', 'field_tk_events_external_url' FROM `wp_68_postmeta` WHERE `meta_key` = 'tk_events_external_url';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, 'tk_events_external_url_link', 1 FROM `wp_68_postmeta` WHERE `meta_key` = 'tk_events_external_url';
+INSERT INTO `wp_68_postmeta` (`post_id`, `meta_key`, `meta_value`) SELECT `post_id`, '_tk_events_external_url_link', 'field_tk_events_external_url_link' FROM `wp_68_postmeta` WHERE `meta_key` = 'tk_events_external_url_link';
+DELETE FROM `wp_68_postmeta` WHERE `meta_key` IN ('event_start', 'event_end', 'event_allday', 'event_url', 'event_is_sticky');
