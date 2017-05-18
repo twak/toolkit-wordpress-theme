@@ -20,5 +20,6 @@ Roadmap
 
 ## Requires Investigation
 
+- Built-in WordPress Customiser options instead of ACF theme settings
 - WordPress sidebar navigation
 - Links appearance on mobile
