@@ -24,6 +24,9 @@ require_once get_template_directory() . '/lib/cleanup.php';
 /* Pluggable functions */
 require_once get_template_directory() . '/lib/pluggable.php';
 
+/* TinyMCE Viewable controls */
+require_once get_template_directory() . '/lib/tinymce.php';
+
 
 
 /* *
