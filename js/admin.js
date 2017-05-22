@@ -39,8 +39,23 @@
 
 		// If title length is more than 75 characters, disable button and add colours
 		if( $('#title').val().length > maxTitleLength ) {
+
 			// disable the publish button
     		$( '#publish' ).prop( 'disabled', true );
+
+            // And prevent form submit
+            $( 'form' ).on( 'submit', function( event ) {
+                event.preventDefault();
+            });
+
+            // Prevent submit on pressing Enter key
+            $( 'form' ).keypress( function ( event ) {
+                var key = event.which;
+
+                if( key === 13 ) {
+                    event.preventDefault();
+                }
+            });
 
     		// Add the colours
     		$('#title').css({
@@ -67,6 +82,20 @@
 
     				// disable the publish button
     				$( '#publish' ).prop( 'disabled', true );
+
+                    // And prevent form submit
+                    $( 'form' ).on( 'submit', function( event ) {
+                        event.preventDefault();
+                    });
+
+                    // Prevent submit on pressing Enter key
+                    $( 'form' ).keypress( function ( event ) {
+                        var key = event.which;
+
+                        if( key === 13 ) {
+                            event.preventDefault();
+                        }
+                    });
 
     				// Add the colours
     				$('#title').css({
