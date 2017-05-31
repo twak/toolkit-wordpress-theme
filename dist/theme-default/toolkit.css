@@ -3482,8 +3482,7 @@ h6, .h6 {
   h4 a, .h4 a,
   h5 a, .h5 a,
   h6 a, .h6 a {
-    color: #b31b1b;
-    text-decoration: none; }
+    color: #b31b1b; }
     h1 a:hover, .h1 a:hover,
     h2 a:hover, .h2 a:hover,
     h3 a:hover, .h3 a:hover,
@@ -3492,6 +3491,13 @@ h6, .h6 {
     h6 a:hover, .h6 a:hover {
       color: #aa8f6f;
       text-decoration: underline; }
+  .no-touch h1 a, .no-touch .h1 a, .no-touch
+  h2 a, .no-touch .h2 a, .no-touch
+  h3 a, .no-touch .h3 a, .no-touch
+  h4 a, .no-touch .h4 a, .no-touch
+  h5 a, .no-touch .h5 a, .no-touch
+  h6 a, .no-touch .h6 a {
+    text-decoration: none; }
 
 h1, .h1 {
   font-size: 30px; }
@@ -4983,16 +4989,13 @@ $space-half:                    8px;
 .column-container {
   position: relative;
   overflow: hidden; }
-  .column-container .column-container-primary {
-    padding-bottom: 10px; }
-    @media (min-width: 1024px) {
-      .column-container .column-container-primary {
-        float: left;
-        width: 78%;
-        padding-bottom: 40px; } }
-    @media (min-width: 1260px) {
-      .column-container .column-container-primary {
-        width: 75%; } }
+  @media (min-width: 1024px) {
+    .column-container .column-container-primary {
+      float: left;
+      width: 78%; } }
+  @media (min-width: 1260px) {
+    .column-container .column-container-primary {
+      width: 75%; } }
   .column-container .column-container-secondary {
     position: relative; }
     @media (min-width: 1024px) {
@@ -5021,7 +5024,6 @@ $space-half:                    8px;
 @media (min-width: 1024px) {
   .column-container-fw .column-container-primary {
     width: auto;
-    padding-bottom: 40px;
     display: table-cell;
     float: none;
     max-width: 5px; } }
@@ -9162,6 +9164,26 @@ $screen-md-max:              ($screen-lg-min - 1);
     background-size: 16px;
     padding-left: 20px; }
 
+/* Pearsons sidebar */
+.column-container-reverse {
+  direction: rtl; }
+
+.column-container-reverse .column-container-primary,
+.column-container-reverse .column-container-secondary {
+  direction: ltr; }
+
+.column-container-reverse .column-container-secondary {
+  padding: 40px; }
+  @media (min-width: 1024px) {
+    .column-container-reverse .column-container-secondary {
+      float: none;
+      display: table-cell;
+      background: #f4f2f0;
+      width: 400px; } }
+  @media (min-width: 1260px) {
+    .column-container-reverse .column-container-secondary {
+      width: 400px; } }
+
 /*
 The complexity/custom styles here relate to handle the course page right column that splits on mobile, the keyfacts become an accordion and are moved to the top the remaining content is moved to the bottom of the main accordion
 */
@@ -9382,3 +9404,5 @@ ul.modules {
   border-bottom: 1px solid #c9bfb5;
   font-size: 14px;
   padding: 5px 0; }
+
+/*# sourceMappingURL=toolkit.css.map */
