@@ -16109,6 +16109,174 @@ if( Tablesaw.mustard ) {
 
 }(jQuery);
 
+// Temporary fix to see if google map is loaded
+if(typeof google === 'object' && typeof google.maps === 'object' && $('#accmap').length ){	
+     
+$(function(){	
+
+	google.maps.event.addDomListener(window, 'load', toolkitMap.init({
+		el : '#accmap', 
+		//mapCenterLat : 7.823426,
+	    //mapCenterLng : 21.893232,
+	    zoom : 14
+	          
+	}));
+
+	//toolkitMap.openFlyout(intro);
+
+	//Fetch marker data from a json file
+	var arrayMarkers = (function() {
+	    var json = null;
+	    $.ajax({
+	        async: false,
+	        global: false,
+	        url: './json/acc-map-markers.json',
+	        dataType: 'json',
+	        success: function (data) {
+	            json = data;
+	        }
+	    });
+	    return json;
+	})();   	
+
+
+	var campusOutline = (function() {
+	    var json = null;
+	    $.ajax({
+	        async: false,
+	        global: false,
+	        url: './json/map-campus-outline.json',
+	        dataType: 'json',
+	        success: function (data) {
+	            json = data;
+	        }
+	    });
+	    return json;
+	})();   
+
+	//Map markers
+	toolkitMap.mapMarkers(arrayMarkers);
+	//Hide local essentials & travel markers on load
+	toolkitMap.hideMarkers('local-essentials');
+	toolkitMap.hideMarkers('travel');
+	toolkitMap.mapPolyline(campusOutline);
+
+});
+
+/* tabs functionality */
+
+$("[data-gm-tabs-action]").click(function(){
+
+	var $this = $(this);
+
+	if($this.hasClass('disabled')){
+		toolkitMap.triggerMarker('1');
+		return false;
+		
+	} else if($this.hasClass('active')){
+		$this.removeClass('active')
+	} else {
+		$this.addClass('active')
+	}
+
+	var thisAction = $(this).data('gm-tabs-action'),
+		thisTarget = $(this).data('gm-tabs-target');
+
+	toolkitMap.toggleMarkers(thisTarget);
+
+	return false;
+
+});
+
+// /* Triggers */	
+
+// $('.map-markers').click(function(){
+
+// 	var arrayMarkers = (function() {
+// 	    var json = null;
+// 	    $.ajax({
+// 	        'async': false,
+// 	        'global': false,
+// 	        'url': './json/map-markers.json',
+// 	        'dataType': 'json',
+// 	        'success': function (data) {
+// 	            json = data;
+// 	        }
+// 	    });
+// 	    return json;
+// 	})();   	
+	
+// 	toolkitMap.mapMarkers(arrayMarkers);
+	
+// 	return false;
+
+// });
+
+// $('.map-markers2').click(function(){
+
+// 	var arrayMarkers2 = (function() {
+// 	    var json = null;
+// 	    $.ajax({
+// 	        'async': false,
+// 	        'global': false,
+// 	        'url': './json/map-markers2.json',
+// 	        'dataType': 'json',
+// 	        'success': function (data) {
+// 	            json = data;
+// 	        }
+// 	    });
+// 	    return json;
+// 	})();   	
+	
+// 	toolkitMap.mapMarkers(arrayMarkers2);
+	
+// 	return false;
+
+// });
+
+// $('.go-to-marker').click(function(){
+
+// 	var thisText = $(this).text();		
+
+// 	toolkitMap.goToMarker(thisText);
+	
+// 	return false;
+
+// });
+
+// $('.show-markers').click(function(){
+	
+// 	toolkitMap.showMarkers();
+	
+// 	return false;
+
+// });
+
+// $('.clear-markers').click(function(){
+	
+// 	toolkitMap.hideMarkers();
+	
+// 	return false;
+
+// });
+
+// $('.show-some-markers').click(function(){
+	
+// 	toolkitMap.showMarkers('default');
+	
+// 	return false;
+
+// });
+
+// $('.clear-some-markers').click(function(){
+	
+// 	toolkitMap.hideMarkers('default');
+	
+// 	return false;
+
+// });
+
+}
 /**
  * acc-googlemaps.js  
  */

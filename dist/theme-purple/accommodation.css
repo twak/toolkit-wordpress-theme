@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*------------------------------------*    ACCOMODATION.CSS
+/*------------------------------------*    accommodation.CSS
 \*------------------------------------*/
 /**
  * Import Variables
@@ -258,7 +258,7 @@ button.mdi::before {
     margin-right: 5px;
     background: #212121; }
     .marker-toggle button.active {
-      background: #b31b1b; }
+      background: #6b3f88; }
 
 .residence-map {
   position: relative; }
