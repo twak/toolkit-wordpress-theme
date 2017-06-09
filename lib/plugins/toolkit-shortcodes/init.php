@@ -229,9 +229,10 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
             foreach ($attachments as $id => $attachment) {
                 $image_src_url = wp_get_attachment_image_src($id, "thumbnail");//$gallery_atts["size"]);
                 $image_link_url = wp_get_attachment_image_src($id, "large");
+                $image_caption = get_the_excerpt($id);
                 // this was to target clicks with the modal window
                 //$output .= sprintf( '<div class="%s"><button data-toggle="modal" data-target="#tk_lightbox%d" data-imgsrc="%s" data-alt="%s" data-caption="%s"><img src="%s" alt="%s"></button></div>', $class, $instance, esc_attr($image_link_url[0]), esc_attr($attachment->post_title), esc_attr($attachment->post_excerpt), $image_src_url[0], esc_attr($attachment->post_title) );
-                $output .= sprintf( '<div class="%s"><a href="%s"><img src="%s" alt="%s"></a></div>', $class, esc_attr($image_link_url[0]), $image_src_url[0], esc_attr($attachment->post_title) );
+                $output .= sprintf( '<div class="gallery-item %s"><a href="%s"><img src="%s" alt="%s"><p class="gallery-item-caption">%s</p></a></div>', $class, esc_attr($image_link_url[0]), $image_src_url[0], esc_attr($attachment->post_title), $image_caption ) ;
             }
 
             $output .= '</div>';
