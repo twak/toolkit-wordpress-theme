@@ -125,7 +125,7 @@
   overflow: hidden;
   left: -9999px; }
 
-.show-accessible, .tab-content > .active {
+.show-accessible, .tab-content > .active, .no-js .tab-content > .tab-pane {
   position: static !important;
   clip: auto;
   height: auto;
@@ -426,6 +426,9 @@
  */
 .no-js .collapse {
   display: block; }
+
+.no-js .fade {
+  opacity: 1; }
 
 /**
  * Panels
@@ -2521,6 +2524,149 @@ be a descendant of the grid when it is being dragged.
       background: #aa8f6f;
       border-color: #917655; }
 
+/* Default ekkolightbox styles */
+.ekko-lightbox-container {
+  position: relative; }
+  .ekko-lightbox-container > div.ekko-lightbox-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%; }
+    .ekko-lightbox-container > div.ekko-lightbox-item.in {
+      z-index: 10; }
+
+.ekko-lightbox iframe {
+  width: 100%;
+  height: 100%; }
+
+.ekko-lightbox-nav-overlay a {
+  display: block;
+  width: 50px;
+  height: 50px;
+  background: #212121;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  margin-top: -25px;
+  color: white; }
+  .ekko-lightbox-nav-overlay a span {
+    color: white;
+    display: block;
+    padding: 8px 4px 6px 4px; }
+  .ekko-lightbox-nav-overlay a:first-child {
+    left: 0px;
+    border-right: 5px solid #aa8f6f; }
+    @media (min-width: 1260px) {
+      .ekko-lightbox-nav-overlay a:first-child {
+        left: -45px; } }
+  .ekko-lightbox-nav-overlay a:last-child {
+    right: 0px;
+    text-align: right;
+    border-left: 5px solid #aa8f6f; }
+    @media (min-width: 1260px) {
+      .ekko-lightbox-nav-overlay a:last-child {
+        right: -45px; } }
+  .ekko-lightbox-nav-overlay a:hover, .ekko-lightbox-nav-overlay a:focus {
+    text-decoration: none;
+    outline: none; }
+
+.ekko-lightbox a:hover {
+  opacity: 1;
+  text-decoration: none; }
+
+.ekko-lightbox.modal {
+  padding: 0 12px !important; }
+
+.ekko-lightbox + .modal-backdrop.in {
+  opacity: 0.8; }
+
+.ekko-lightbox .modal-content {
+  background: none;
+  box-shadow: none;
+  border: 0; }
+
+.ekko-lightbox .modal-header {
+  border: 0;
+  padding: 0 0 12px 12px; }
+  .ekko-lightbox .modal-header .close {
+    color: white;
+    opacity: 1;
+    box-shadow: none; }
+    .ekko-lightbox .modal-header .close span {
+      display: none; }
+    .ekko-lightbox .modal-header .close:after {
+      position: relative;
+      top: 2px;
+      left: 2px; }
+
+.ekko-lightbox .modal-title {
+  color: white; }
+
+.ekko-lightbox .modal-body {
+  padding: 0; }
+
+.ekko-lightbox-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* establish flex container */
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* make main axis vertical */
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  /* center items vertically, in this case */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .ekko-lightbox-loader > div {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    text-align: center; }
+    .ekko-lightbox-loader > div > div {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #fff;
+      opacity: 0.6;
+      position: absolute;
+      top: 0;
+      left: 0;
+      -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+              animation: sk-bounce 2.0s infinite ease-in-out; }
+      .ekko-lightbox-loader > div > div:last-child {
+        -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s; }
+
+.modal-dialog .ekko-lightbox-loader > div > div {
+  background-color: #333; }
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% {
+    -webkit-transform: scale(0); }
+  50% {
+    -webkit-transform: scale(1); } }
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0);
+    -webkit-transform: scale(0); }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1); } }
+
 /* 
  * 	Core Owl Carousel CSS File
  *	v1.3.3
@@ -2783,6 +2929,9 @@ be a descendant of the grid when it is being dragged.
 +-----------------------+
 
 */
+.no-js .swiper {
+  opacity: 1; }
+
 .swiper {
   background: #212121;
   opacity: 0;
@@ -3290,10 +3439,28 @@ be a descendant of the grid when it is being dragged.
       margin: 0 auto;
       font-size: 16px;
       color: #ffffff;
-      margin-top: 10px;
       padding: 0px 10px 20px 10px; }
     .swiper-multi .owl-item .item {
       padding: 5px; }
+    .swiper-multi .owl-item .tk-icon, .swiper-multi .owl-item .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head .swiper-multi .owl-item button:before, .swiper-multi .owl-item .ekko-lightbox-nav-overlay a span, .ekko-lightbox-nav-overlay a .swiper-multi .owl-item span, .swiper-multi .owl-item .ekko-lightbox .modal-header .close:after, .ekko-lightbox .modal-header .swiper-multi .owl-item .close:after, .swiper-multi .owl-item .swiper .slide-cta:after, .swiper .swiper-multi .owl-item .slide-cta:after, .swiper-multi .owl-item .heading-more:after, .swiper-multi .owl-item
+    .heading-link-more:after, .swiper-multi .owl-item .heading-more-sm:after, .swiper-multi .owl-item
+    .heading-link-more-sm:after, .swiper-multi .owl-item .more:after, .swiper-multi .owl-item .divider-header-action:after, .swiper-multi .owl-item
+    .more-dark:after, .swiper-multi .owl-item .more-light:after, .swiper-multi .owl-item .tk-tabs-more:after, .swiper-multi .owl-item .filter:after, .swiper-multi .owl-item .masthead-link-quicklinks:after, .swiper-multi .owl-item .site-search-btn:before, .swiper-multi .owl-item .sidebar-button:before, .swiper-multi .owl-item .sidebar-button:after, .swiper-multi .owl-item .sidebar-nav .dropdown > a:after, .sidebar-nav .swiper-multi .owl-item .dropdown > a:after, .swiper-multi .owl-item .sidebar-university a:before, .sidebar-university .swiper-multi .owl-item a:before, .swiper-multi .owl-item
+    .sidebar-contact a:before,
+    .sidebar-contact .swiper-multi .owl-item a:before, .swiper-multi .owl-item
+    .sidebar-cta-list a:before,
+    .sidebar-cta-list .swiper-multi .owl-item a:before, .swiper-multi .owl-item .sidebar-cta a:before, .sidebar-cta .swiper-multi .owl-item a:before, .swiper-multi .owl-item
+    .sidebar-cta-btn a:before,
+    .sidebar-cta-btn .swiper-multi .owl-item a:before, .swiper-multi .owl-item .navicon button:before, .navicon .swiper-multi .owl-item button:before, .swiper-multi .owl-item .tk-nav .tk-nav-header button:before, .tk-nav .tk-nav-header .swiper-multi .owl-item button:before, .swiper-multi .owl-item .tk-nav .tk-nav-list .tk-nav-dropdown > a:after, .tk-nav .tk-nav-list .swiper-multi .owl-item .tk-nav-dropdown > a:after, .swiper-multi .owl-item .tk-nav .tk-nav-list-cta > li > a:after, .tk-nav .swiper-multi .owl-item .tk-nav-list-cta > li > a:after, .swiper-multi .owl-item .expander-trigger:after, .swiper-multi .owl-item .filter-box ul li a:after, .filter-box ul li .swiper-multi .owl-item a:after, .swiper-multi .owl-item .event-card h3:after, .event-card .swiper-multi .owl-item h3:after, .swiper-multi .owl-item .multi-page-btn:before, .swiper-multi .owl-item
+    .page-contents-btn:before, .swiper-multi .owl-item .multi-page-footer ul a:after, .multi-page-footer ul .swiper-multi .owl-item a:after, .swiper-multi .owl-item
+    .page-footer ul a:after,
+    .page-footer ul .swiper-multi .owl-item a:after, .swiper-multi .owl-item .accordion-trigger:after, .swiper-multi .owl-item .social-toggle:before, .swiper-multi .owl-item .tile-inner ul a:after, .tile-inner ul .swiper-multi .owl-item a:after, .swiper-multi .owl-item .content h3:after, .content .swiper-multi .owl-item h3:after, .swiper-multi .owl-item
+    .tile-content h3:after,
+    .tile-content .swiper-multi .owl-item h3:after, .swiper-multi .owl-item .course-cta ul li a:after, .course-cta ul li .swiper-multi .owl-item a:after, .swiper-multi .owl-item .scroll-up:after {
+      color: white;
+      font-size: 60px;
+      margin-top: 12px;
+      display: block; }
   .swiper-multi .owl-buttons div {
     top: 25px; }
   .swiper-multi .owl-buttons .owl-prev {
@@ -3312,58 +3479,6 @@ be a descendant of the grid when it is being dragged.
     @media (min-width: 1340px) {
       .swiper-multi .owl-buttons .owl-next {
         top: 25px; } }
-
-/*!
- * Lightbox for Bootstrap 3 by @ashleydw
- * https://github.com/ashleydw/lightbox
- *
- * License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
- */
-.ekko-lightbox-container {
-  position: relative; }
-
-.ekko-lightbox-nav-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 100%;
-  height: 100%; }
-
-.ekko-lightbox-nav-overlay a {
-  z-index: 100;
-  display: block;
-  width: 49%;
-  height: 100%;
-  font-size: 30px;
-  color: #fff;
-  text-shadow: 2px 2px 4px #000;
-  opacity: 0;
-  -webkit-filter: dropshadow(color=#000000, offx=2, offy=2);
-          filter: dropshadow(color=#000000, offx=2, offy=2);
-  transition: opacity 0.5s; }
-
-.ekko-lightbox-nav-overlay a:empty {
-  width: 49%; }
-
-.ekko-lightbox a:hover {
-  text-decoration: none;
-  opacity: 1; }
-
-.ekko-lightbox .glyphicon-chevron-left {
-  left: 0;
-  float: left;
-  padding-left: 15px;
-  text-align: left; }
-
-.ekko-lightbox .glyphicon-chevron-right {
-  right: 0;
-  float: right;
-  padding-right: 15px;
-  text-align: right; }
-
-.ekko-lightbox .modal-footer {
-  text-align: left; }
 
 /**
  * Foundations
@@ -4426,6 +4541,10 @@ input[type="file"] {
 .form-group button {
   margin-bottom: 0; }
 
+/* Forms elements inside of islands */
+[class*="island"] input, [class*="island"] select, [class*="island"] button, [class*="island"] .btn, [class*="island"] .main input[type="submit"], .main [class*="island"] input[type="submit"], [class*="island"] .main input[type="button"], .main [class*="island"] input[type="button"], [class*="island"] .main input[type="reset"], .main [class*="island"] input[type="reset"] {
+  margin: 4px 0; }
+
 /**
  * Tables (Scroll and responsive)
  */
@@ -4546,7 +4665,6 @@ img {
 .jadu-cms img,
 .cms img {
   max-width: 100%;
-  width: 100%;
   margin: 0 auto 8px auto;
   display: block;
   height: auto; }
@@ -4595,60 +4713,88 @@ img {
 .embed-responsive {
   max-width: 100%; }
 
+/**
+ * Icon font CSS generated by gulp see templates -> _tk-icons.scss
+ */
 @font-face {
-  font-family: "toolkit-icons";
-  src: url("../fonts/toolkit-icons.eot");
-  src: url("../fonts/toolkit-icons.eot?#iefix") format("eot"), url("../fonts/toolkit-icons.woff2") format("woff2"), url("../fonts/toolkit-icons.woff") format("woff"), url("../fonts/toolkit-icons.ttf") format("truetype"), url("../fonts/toolkit-icons.svg#toolkit-icons") format("svg"); }
+  font-family: "tk-icons";
+  src: url("../fonts/tk-icons.eot");
+  src: url("../fonts/tk-icons.eot?#iefix") format("eot"), url("../fonts/tk-icons.woff2") format("woff2"), url("../fonts/tk-icons.woff") format("woff"), url("../fonts/tk-icons.ttf") format("truetype"), url("../fonts/tk-icons.svg#tk-icons") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
-.tk-icon-add:before, .tk-icon-alert-danger:before, .tk-icon-alert-info:before, .tk-icon-alert-success:before, .tk-icon-alert-warning:before, .tk-icon-calendar:before, .tk-icon-campus-map:before, .tk-icon-chevron-down:before, .filter:after, .sidebar-button:after, .expander-trigger.collapsed:after, .multi-page-btn:before,
-.page-contents-btn:before, .accordion-trigger:after, .tk-icon-chevron-left:before, .multi-page-footer ul .prev a:after,
-.page-footer ul .prev a:after, .tk-icon-chevron-right:before, .swiper .slide-cta:after, .heading-more:after,
+.tk-icon, .tablesaw-sortable th.tablesaw-sortable-head button:before, .ekko-lightbox-nav-overlay a span, .ekko-lightbox .modal-header .close:after, .swiper .slide-cta:after, .heading-more:after,
 .heading-link-more:after, .heading-more-sm:after,
 .heading-link-more-sm:after, .more:after, .divider-header-action:after,
-.more-dark:after, .more-light:after, .tk-tabs-more:after, .sidebar-university a:before,
+.more-dark:after, .more-light:after, .tk-tabs-more:after, .filter:after, .filter.active:after, .masthead-link-quicklinks:after, .site-search-btn:before, .sidebar-button:before, .sidebar-button:after, .sidebar-nav .dropdown > a:after, .sidebar-university a:before,
 .sidebar-contact a:before,
 .sidebar-cta-list a:before, .sidebar-cta a:before,
-.sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-footer ul .next a:after,
-.page-footer ul .next a:after, .tile-inner ul a:after, .content h3:after,
-.tile-content h3:after, .course-cta ul li a:after, .tk-icon-chevron-up:before, .multi-page-btn.active:before,
-.page-contents-btn.active:before, .accordion-trigger.active:after, .scroll-up:after, .tk-icon-close:before, .filter.active:after, .active .site-search-btn:before, .state-sidebar-active .sidebar-button:before, .state-navicon-active .navicon button:before, .tk-nav .tk-nav-header button:before, .expander-trigger:after, .social-toggle.toggled:before, .tk-icon-download:before, .tk-icon-external:before, .tk-icon-home:before, .tk-icon-letter:before, .tk-icon-mail:before, .tk-icon-marker:before, .tk-icon-navicon:before, .sidebar-button:before, .navicon button:before, .tk-icon-news:before, .tk-icon-phone:before, .tk-icon-print:before, .tk-icon-profile:before, .tk-icon-remove:before, .tk-icon-rss:before, .tk-icon-search:before, .site-search-btn:before, .tk-icon-share:before, .social-toggle:before, .tk-icon-social-facebook:before, .tk-icon-social-google:before, .tk-icon-social-instagram:before, .tk-icon-social-linkedin:before, .tk-icon-social-twitter:before, .tk-icon-social-weibo:before, .tk-icon-social-youtube:before, .tk-icon-sort:before, .tablesaw-sortable th.tablesaw-sortable-head button:before, .tk-icon-star:before, .tk-icon-triangle-down:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-ascending button:before, .masthead-link-quicklinks:after, .sidebar-nav .dropdown > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown > a:after, .tk-icon-triangle-left:before, .tk-icon-triangle-right:before, .tk-icon-triangle-up:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-descending button:before, .state-quicklinks-active .masthead-link-quicklinks:after, .sidebar-nav .dropdown.open > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown.active > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown.active > a:after {
-  font-family: "toolkit-icons";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.sidebar-cta-btn a:before, .navicon button:before, .tk-nav .tk-nav-header button:before, .tk-nav .tk-nav-list .tk-nav-dropdown > a:after, .tk-nav .tk-nav-list-cta > li > a:after, .expander-trigger:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-btn:before,
+.page-contents-btn:before, .multi-page-btn.active:before,
+.page-contents-btn.active:before, .multi-page-footer ul a:after,
+.page-footer ul a:after, .accordion-trigger:after, .accordion-trigger.active:after, .social-toggle:before, .tile-inner ul a:after, .content h3:after,
+.tile-content h3:after, .course-cta ul li a:after, .scroll-up:after,
+[class*="tk-icon"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "tk-icons" !important;
+  speak: none;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-decoration: none;
-  text-transform: none; }
+  text-transform: none;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  line-height: 1;
+  font-size: 16px;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.tk-icon-16, .masthead-link-quicklinks:after,
+.tk-icon-16:before {
+  font-size: 16px; }
+
+.tk-icon-24,
+.tk-icon-24:before {
+  font-size: 24px; }
+
+.tk-icon-32, .ekko-lightbox-nav-overlay a span, .ekko-lightbox .modal-header .close:after,
+.tk-icon-32:before,
+.ekko-lightbox-nav-overlay a span:before {
+  font-size: 32px; }
+
+.tk-icon-48,
+.tk-icon-48:before {
+  font-size: 48px; }
 
 .tk-icon-add:before {
-  content: ""; }
+  content: "\EA01"; }
 
 .tk-icon-alert-danger:before {
-  content: ""; }
+  content: "\EA02"; }
 
 .tk-icon-alert-info:before {
-  content: ""; }
+  content: "\EA03"; }
 
 .tk-icon-alert-success:before {
-  content: ""; }
+  content: "\EA04"; }
 
 .tk-icon-alert-warning:before {
-  content: ""; }
+  content: "\EA05"; }
 
 .tk-icon-calendar:before {
-  content: ""; }
+  content: "\EA06"; }
 
 .tk-icon-campus-map:before {
-  content: ""; }
+  content: "\EA07"; }
 
 .tk-icon-chevron-down:before, .filter:after, .sidebar-button:after, .expander-trigger.collapsed:after, .multi-page-btn:before,
 .page-contents-btn:before, .accordion-trigger:after {
-  content: ""; }
+  content: "\EA08"; }
 
 .tk-icon-chevron-left:before, .multi-page-footer ul .prev a:after,
 .page-footer ul .prev a:after {
-  content: ""; }
+  content: "\EA09"; }
 
 .tk-icon-chevron-right:before, .swiper .slide-cta:after, .heading-more:after,
 .heading-link-more:after, .heading-more-sm:after,
@@ -4659,98 +4805,332 @@ img {
 .sidebar-cta-btn a:before, .tk-nav .tk-nav-list-cta > li > a:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-footer ul .next a:after,
 .page-footer ul .next a:after, .tile-inner ul a:after, .content h3:after,
 .tile-content h3:after, .course-cta ul li a:after {
-  content: ""; }
+  content: "\EA0A"; }
 
 .tk-icon-chevron-up:before, .multi-page-btn.active:before,
 .page-contents-btn.active:before, .accordion-trigger.active:after, .scroll-up:after {
-  content: ""; }
+  content: "\EA0B"; }
 
 .tk-icon-close:before, .filter.active:after, .active .site-search-btn:before, .state-sidebar-active .sidebar-button:before, .state-navicon-active .navicon button:before, .tk-nav .tk-nav-header button:before, .expander-trigger:after, .social-toggle.toggled:before {
-  content: ""; }
+  content: "\EA0C"; }
 
 .tk-icon-download:before {
-  content: ""; }
+  content: "\EA0D"; }
 
 .tk-icon-external:before {
-  content: ""; }
+  content: "\EA0E"; }
 
 .tk-icon-home:before {
-  content: ""; }
+  content: "\EA0F"; }
 
 .tk-icon-letter:before {
-  content: ""; }
+  content: "\EA10"; }
 
 .tk-icon-mail:before {
-  content: ""; }
+  content: "\EA11"; }
 
 .tk-icon-marker:before {
-  content: ""; }
+  content: "\EA12"; }
 
 .tk-icon-navicon:before, .sidebar-button:before, .navicon button:before {
-  content: ""; }
+  content: "\EA13"; }
 
 .tk-icon-news:before {
-  content: ""; }
+  content: "\EA14"; }
 
 .tk-icon-phone:before {
-  content: ""; }
+  content: "\EA15"; }
 
 .tk-icon-print:before {
-  content: ""; }
+  content: "\EA16"; }
 
 .tk-icon-profile:before {
-  content: ""; }
+  content: "\EA17"; }
 
 .tk-icon-remove:before {
-  content: ""; }
+  content: "\EA18"; }
 
 .tk-icon-rss:before {
-  content: ""; }
+  content: "\EA19"; }
 
 .tk-icon-search:before, .site-search-btn:before {
-  content: ""; }
+  content: "\EA1A"; }
 
 .tk-icon-share:before, .social-toggle:before {
-  content: ""; }
+  content: "\EA1B"; }
 
 .tk-icon-social-facebook:before {
-  content: ""; }
+  content: "\EA1C"; }
 
 .tk-icon-social-google:before {
-  content: ""; }
+  content: "\EA1D"; }
 
 .tk-icon-social-instagram:before {
-  content: ""; }
+  content: "\EA1E"; }
 
 .tk-icon-social-linkedin:before {
-  content: ""; }
+  content: "\EA1F"; }
 
 .tk-icon-social-twitter:before {
-  content: ""; }
+  content: "\EA20"; }
 
 .tk-icon-social-weibo:before {
-  content: ""; }
+  content: "\EA21"; }
 
 .tk-icon-social-youtube:before {
-  content: ""; }
+  content: "\EA22"; }
 
 .tk-icon-sort:before, .tablesaw-sortable th.tablesaw-sortable-head button:before {
-  content: ""; }
+  content: "\EA23"; }
 
 .tk-icon-star:before {
-  content: ""; }
+  content: "\EA24"; }
 
 .tk-icon-triangle-down:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-ascending button:before, .masthead-link-quicklinks:after, .sidebar-nav .dropdown > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown > a:after {
-  content: ""; }
+  content: "\EA25"; }
 
 .tk-icon-triangle-left:before {
-  content: ""; }
+  content: "\EA26"; }
 
 .tk-icon-triangle-right:before {
-  content: ""; }
+  content: "\EA27"; }
 
 .tk-icon-triangle-up:before, .tablesaw-sortable th.tablesaw-sortable-head.tablesaw-sortable-descending button:before, .state-quicklinks-active .masthead-link-quicklinks:after, .sidebar-nav .dropdown.open > a:after, .tk-nav .tk-nav-list ul li.tk-nav-dropdown.active > a:after, .tk-nav .tk-nav-list > li.tk-nav-dropdown.active > a:after {
-  content: ""; }
+  content: "\EA28"; }
+
+.tk-icon-action-add:before {
+  content: "\EA29"; }
+
+.tk-icon-action-bookmark:before {
+  content: "\EA2A"; }
+
+.tk-icon-action-call:before {
+  content: "\EA2B"; }
+
+.tk-icon-action-cancel:before, .ekko-lightbox .modal-header .close:after {
+  content: "\EA2C"; }
+
+.tk-icon-action-create:before {
+  content: "\EA2D"; }
+
+.tk-icon-action-delete:before {
+  content: "\EA2E"; }
+
+.tk-icon-action-download:before {
+  content: "\EA2F"; }
+
+.tk-icon-action-link-external:before {
+  content: "\EA30"; }
+
+.tk-icon-action-lock:before {
+  content: "\EA31"; }
+
+.tk-icon-action-pause:before {
+  content: "\EA32"; }
+
+.tk-icon-action-play:before {
+  content: "\EA33"; }
+
+.tk-icon-action-print:before {
+  content: "\EA34"; }
+
+.tk-icon-action-remove:before {
+  content: "\EA35"; }
+
+.tk-icon-action-reply:before {
+  content: "\EA36"; }
+
+.tk-icon-action-search:before {
+  content: "\EA37"; }
+
+.tk-icon-action-test:before {
+  content: "\EA38"; }
+
+.tk-icon-action-upload:before {
+  content: "\EA39"; }
+
+.tk-icon-content-bar:before {
+  content: "\EA3A"; }
+
+.tk-icon-content-basket:before {
+  content: "\EA3B"; }
+
+.tk-icon-content-bbq:before {
+  content: "\EA3C"; }
+
+.tk-icon-content-bed:before {
+  content: "\EA3D"; }
+
+.tk-icon-content-bike:before {
+  content: "\EA3E"; }
+
+.tk-icon-content-bus:before {
+  content: "\EA3F"; }
+
+.tk-icon-content-cafe:before {
+  content: "\EA40"; }
+
+.tk-icon-content-calendar:before {
+  content: "\EA41"; }
+
+.tk-icon-content-couch:before {
+  content: "\EA42"; }
+
+.tk-icon-content-email-open:before {
+  content: "\EA43"; }
+
+.tk-icon-content-email:before {
+  content: "\EA44"; }
+
+.tk-icon-content-fitness:before {
+  content: "\EA45"; }
+
+.tk-icon-content-home:before {
+  content: "\EA46"; }
+
+.tk-icon-content-hospital:before {
+  content: "\EA47"; }
+
+.tk-icon-content-key:before {
+  content: "\EA48"; }
+
+.tk-icon-content-location:before {
+  content: "\EA49"; }
+
+.tk-icon-content-map:before {
+  content: "\EA4A"; }
+
+.tk-icon-content-music:before {
+  content: "\EA4B"; }
+
+.tk-icon-content-news:before {
+  content: "\EA4C"; }
+
+.tk-icon-content-parking:before {
+  content: "\EA4D"; }
+
+.tk-icon-content-restaurant:before {
+  content: "\EA4E"; }
+
+.tk-icon-content-rss:before {
+  content: "\EA4F"; }
+
+.tk-icon-content-shower:before {
+  content: "\EA50"; }
+
+.tk-icon-content-table-tennis:before {
+  content: "\EA51"; }
+
+.tk-icon-content-tag:before {
+  content: "\EA52"; }
+
+.tk-icon-content-train:before {
+  content: "\EA53"; }
+
+.tk-icon-content-tv:before {
+  content: "\EA54"; }
+
+.tk-icon-content-user:before {
+  content: "\EA55"; }
+
+.tk-icon-content-videogame:before {
+  content: "\EA56"; }
+
+.tk-icon-content-wc:before {
+  content: "\EA57"; }
+
+.tk-icon-content-wifi:before {
+  content: "\EA58"; }
+
+.tk-icon-device-desktop:before {
+  content: "\EA59"; }
+
+.tk-icon-device-laptop:before {
+  content: "\EA5A"; }
+
+.tk-icon-device-phone:before {
+  content: "\EA5B"; }
+
+.tk-icon-form-check-checked:before {
+  content: "\EA5C"; }
+
+.tk-icon-form-check-unchecked:before {
+  content: "\EA5D"; }
+
+.tk-icon-form-radio-checked:before {
+  content: "\EA5E"; }
+
+.tk-icon-form-radio-unckecked:before {
+  content: "\EA5F"; }
+
+.tk-icon-nav-arrow-dropdown-down:before {
+  content: "\EA60"; }
+
+.tk-icon-nav-arrow-dropdown-up:before {
+  content: "\EA61"; }
+
+.tk-icon-nav-chevron-down:before {
+  content: "\EA62"; }
+
+.tk-icon-nav-chevron-left:before {
+  content: "\EA63"; }
+
+.tk-icon-nav-chevron-right:before {
+  content: "\EA64"; }
+
+.tk-icon-nav-chevron-up:before {
+  content: "\EA65"; }
+
+.tk-icon-nav-more-horizontal:before {
+  content: "\EA66"; }
+
+.tk-icon-nav-more-vertical:before {
+  content: "\EA67"; }
+
+.tk-icon-nav-navicon:before {
+  content: "\EA68"; }
+
+.tk-icon-nav-select:before {
+  content: "\EA69"; }
+
+.tk-icon-content-vr:before {
+  content: "\EA6A"; }
+
+.tk-icon-device-tablet:before {
+  content: "\EA6B"; }
+
+.tk-icon-nav-chevron-left-large:before, .ekko-lightbox-nav-overlay a:first-child span:before {
+  content: "\EA6C"; }
+
+.tk-icon-nav-chevron-right-large:before, .ekko-lightbox-nav-overlay a span:before, .ekko-lightbox-nav-overlay a:last-child span:before {
+  content: "\EA6D"; }
+
+.tk-icon-nav-chevron-down-large:before {
+  content: "\EA6E"; }
+
+.tk-icon-nav-chevron-up-large:before {
+  content: "\EA6F"; }
+
+.tk-icon-content-washing-machine:before {
+  content: "\EA70"; }
+
+.tk-icon-content-credit-card:before {
+  content: "\EA71"; }
+
+.tk-icon-content-sport:before {
+  content: "\EA72"; }
+
+.tk-icon-content-security:before {
+  content: "\EA73"; }
+
+/* Hidden font text for accessibility */
+.icon-font-text {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden; }
 
 /* Material design icons - https://materialdesignicons.com/bootstrap */
 i.mdi::before,
@@ -4819,36 +5199,6 @@ button.mdi::before {
   position: relative;
   top: 3px;
   left: -3px; }
-
-.icon-font-text {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden; }
-
-[class^="tk-icon-"], [class*=" tk-icon-"], .tk-icon, .tablesaw-sortable th.tablesaw-sortable-head button:before, .swiper .slide-cta:after, .heading-more:after,
-.heading-link-more:after, .heading-more-sm:after,
-.heading-link-more-sm:after, .more:after, .divider-header-action:after,
-.more-dark:after, .more-light:after, .tk-tabs-more:after, .filter:after, .filter.active:after, .masthead-link-quicklinks:after, .site-search-btn:before, .sidebar-button:before, .sidebar-button:after, .sidebar-nav .dropdown > a:after, .sidebar-university a:before,
-.sidebar-contact a:before,
-.sidebar-cta-list a:before, .sidebar-cta a:before,
-.sidebar-cta-btn a:before, .navicon button:before, .tk-nav .tk-nav-header button:before, .tk-nav .tk-nav-list .tk-nav-dropdown > a:after, .tk-nav .tk-nav-list-cta > li > a:after, .expander-trigger:after, .filter-box ul li a:after, .event-card h3:after, .multi-page-btn:before,
-.page-contents-btn:before, .multi-page-btn.active:before,
-.page-contents-btn.active:before, .multi-page-footer ul a:after,
-.page-footer ul a:after, .accordion-trigger:after, .accordion-trigger.active:after, .social-toggle:before, .tile-inner ul a:after, .content h3:after,
-.tile-content h3:after, .course-cta ul li a:after, .scroll-up:after {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
 
 /**
  * Layout
@@ -5240,7 +5590,7 @@ $space-half:                    8px;
     @media (min-width: 768px) {
       .local-header-title > a {
         font-size: 20px; } }
-    .local-header-title > a .tk-icon, .local-header-title > a .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head .local-header-title > a button:before, .local-header-title > a .swiper .slide-cta:after, .swiper .local-header-title > a .slide-cta:after, .local-header-title > a .heading-more:after, .local-header-title > a
+    .local-header-title > a .tk-icon, .local-header-title > a .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head .local-header-title > a button:before, .ekko-lightbox-nav-overlay .local-header-title > a span, .local-header-title > a .ekko-lightbox .modal-header .close:after, .ekko-lightbox .modal-header .local-header-title > a .close:after, .local-header-title > a .swiper .slide-cta:after, .swiper .local-header-title > a .slide-cta:after, .local-header-title > a .heading-more:after, .local-header-title > a
     .heading-link-more:after, .local-header-title > a .heading-more-sm:after, .local-header-title > a
     .heading-link-more-sm:after, .local-header-title > a .more:after, .local-header-title > a .divider-header-action:after, .local-header-title > a
     .more-dark:after, .local-header-title > a .more-light:after, .local-header-title > a .tk-tabs-more:after, .local-header-title > a .filter:after, .local-header-title > a .masthead-link-quicklinks:after, .local-header-title > a .site-search-btn:before, .local-header-title > a .sidebar-button:before, .local-header-title > a .sidebar-button:after, .local-header-title > a .sidebar-nav .dropdown > a:after, .sidebar-nav .local-header-title > a .dropdown > a:after, .local-header-title > a .sidebar-university a:before, .sidebar-university .local-header-title > a a:before, .local-header-title > a
@@ -5422,6 +5772,101 @@ input.site-search-submit {
     .footer-social > a:hover {
       color: #4a4a4a;
       text-decoration: none; }
+  .site-footer-upper-social .tk-icon, .site-footer-upper-social .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head .site-footer-upper-social button:before, .site-footer-upper-social .ekko-lightbox-nav-overlay a span, .ekko-lightbox-nav-overlay a .site-footer-upper-social span, .site-footer-upper-social .ekko-lightbox .modal-header .close:after, .ekko-lightbox .modal-header .site-footer-upper-social .close:after, .site-footer-upper-social .swiper .slide-cta:after, .swiper .site-footer-upper-social .slide-cta:after, .site-footer-upper-social .heading-more:after, .site-footer-upper-social
+  .heading-link-more:after, .site-footer-upper-social .heading-more-sm:after, .site-footer-upper-social
+  .heading-link-more-sm:after, .site-footer-upper-social .more:after, .site-footer-upper-social .divider-header-action:after, .site-footer-upper-social
+  .more-dark:after, .site-footer-upper-social .more-light:after, .site-footer-upper-social .tk-tabs-more:after, .site-footer-upper-social .filter:after, .site-footer-upper-social .masthead-link-quicklinks:after, .site-footer-upper-social .site-search-btn:before, .site-footer-upper-social .sidebar-button:before, .site-footer-upper-social .sidebar-button:after, .site-footer-upper-social .sidebar-nav .dropdown > a:after, .sidebar-nav .site-footer-upper-social .dropdown > a:after, .site-footer-upper-social .sidebar-university a:before, .sidebar-university .site-footer-upper-social a:before, .site-footer-upper-social
+  .sidebar-contact a:before,
+  .sidebar-contact .site-footer-upper-social a:before, .site-footer-upper-social
+  .sidebar-cta-list a:before,
+  .sidebar-cta-list .site-footer-upper-social a:before, .site-footer-upper-social .sidebar-cta a:before, .sidebar-cta .site-footer-upper-social a:before, .site-footer-upper-social
+  .sidebar-cta-btn a:before,
+  .sidebar-cta-btn .site-footer-upper-social a:before, .site-footer-upper-social .navicon button:before, .navicon .site-footer-upper-social button:before, .site-footer-upper-social .tk-nav .tk-nav-header button:before, .tk-nav .tk-nav-header .site-footer-upper-social button:before, .site-footer-upper-social .tk-nav .tk-nav-list .tk-nav-dropdown > a:after, .tk-nav .tk-nav-list .site-footer-upper-social .tk-nav-dropdown > a:after, .site-footer-upper-social .tk-nav .tk-nav-list-cta > li > a:after, .tk-nav .site-footer-upper-social .tk-nav-list-cta > li > a:after, .site-footer-upper-social .expander-trigger:after, .site-footer-upper-social .filter-box ul li a:after, .filter-box ul li .site-footer-upper-social a:after, .site-footer-upper-social .event-card h3:after, .event-card .site-footer-upper-social h3:after, .site-footer-upper-social .multi-page-btn:before, .site-footer-upper-social
+  .page-contents-btn:before, .site-footer-upper-social .multi-page-footer ul a:after, .multi-page-footer ul .site-footer-upper-social a:after, .site-footer-upper-social
+  .page-footer ul a:after,
+  .page-footer ul .site-footer-upper-social a:after, .site-footer-upper-social .accordion-trigger:after, .site-footer-upper-social .social-toggle:before, .site-footer-upper-social .tile-inner ul a:after, .tile-inner ul .site-footer-upper-social a:after, .site-footer-upper-social .content h3:after, .content .site-footer-upper-social h3:after, .site-footer-upper-social
+  .tile-content h3:after,
+  .tile-content .site-footer-upper-social h3:after, .site-footer-upper-social .course-cta ul li a:after, .course-cta ul li .site-footer-upper-social a:after, .site-footer-upper-social .scroll-up:after,
+  .footer-social .tk-icon,
+  .footer-social .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head
+  .footer-social button:before,
+  .footer-social .ekko-lightbox-nav-overlay a span, .ekko-lightbox-nav-overlay a
+  .footer-social span,
+  .footer-social .ekko-lightbox .modal-header .close:after, .ekko-lightbox .modal-header
+  .footer-social .close:after,
+  .footer-social .swiper .slide-cta:after, .swiper
+  .footer-social .slide-cta:after,
+  .footer-social .heading-more:after,
+  .footer-social
+  .heading-link-more:after,
+  .footer-social .heading-more-sm:after,
+  .footer-social
+  .heading-link-more-sm:after,
+  .footer-social .more:after,
+  .footer-social .divider-header-action:after,
+  .footer-social
+  .more-dark:after,
+  .footer-social .more-light:after,
+  .footer-social .tk-tabs-more:after,
+  .footer-social .filter:after,
+  .footer-social .masthead-link-quicklinks:after,
+  .footer-social .site-search-btn:before,
+  .footer-social .sidebar-button:before,
+  .footer-social .sidebar-button:after,
+  .footer-social .sidebar-nav .dropdown > a:after, .sidebar-nav
+  .footer-social .dropdown > a:after,
+  .footer-social .sidebar-university a:before, .sidebar-university
+  .footer-social a:before,
+  .footer-social
+  .sidebar-contact a:before,
+  .sidebar-contact
+  .footer-social a:before,
+  .footer-social
+  .sidebar-cta-list a:before,
+  .sidebar-cta-list
+  .footer-social a:before,
+  .footer-social .sidebar-cta a:before, .sidebar-cta
+  .footer-social a:before,
+  .footer-social
+  .sidebar-cta-btn a:before,
+  .sidebar-cta-btn
+  .footer-social a:before,
+  .footer-social .navicon button:before, .navicon
+  .footer-social button:before,
+  .footer-social .tk-nav .tk-nav-header button:before, .tk-nav .tk-nav-header
+  .footer-social button:before,
+  .footer-social .tk-nav .tk-nav-list .tk-nav-dropdown > a:after, .tk-nav .tk-nav-list
+  .footer-social .tk-nav-dropdown > a:after,
+  .footer-social .tk-nav .tk-nav-list-cta > li > a:after, .tk-nav
+  .footer-social .tk-nav-list-cta > li > a:after,
+  .footer-social .expander-trigger:after,
+  .footer-social .filter-box ul li a:after, .filter-box ul li
+  .footer-social a:after,
+  .footer-social .event-card h3:after, .event-card
+  .footer-social h3:after,
+  .footer-social .multi-page-btn:before,
+  .footer-social
+  .page-contents-btn:before,
+  .footer-social .multi-page-footer ul a:after, .multi-page-footer ul
+  .footer-social a:after,
+  .footer-social
+  .page-footer ul a:after,
+  .page-footer ul
+  .footer-social a:after,
+  .footer-social .accordion-trigger:after,
+  .footer-social .social-toggle:before,
+  .footer-social .tile-inner ul a:after, .tile-inner ul
+  .footer-social a:after,
+  .footer-social .content h3:after, .content
+  .footer-social h3:after,
+  .footer-social
+  .tile-content h3:after,
+  .tile-content
+  .footer-social h3:after,
+  .footer-social .course-cta ul li a:after, .course-cta ul li
+  .footer-social a:after,
+  .footer-social .scroll-up:after {
+    font-size: 32px; }
 
 .site-footer-upper-logos,
 .footer-img {
@@ -7198,6 +7643,10 @@ hr {
   .list-nav .tk-icon,
   .list-nav .tablesaw-sortable th.tablesaw-sortable-head button:before, .tablesaw-sortable th.tablesaw-sortable-head
   .list-nav button:before,
+  .list-nav .ekko-lightbox-nav-overlay a span, .ekko-lightbox-nav-overlay a
+  .list-nav span,
+  .list-nav .ekko-lightbox .modal-header .close:after, .ekko-lightbox .modal-header
+  .list-nav .close:after,
   .list-nav .swiper .slide-cta:after, .swiper
   .list-nav .slide-cta:after,
   .list-nav .heading-more:after,
@@ -7442,7 +7891,7 @@ hr {
     line-height: 140%; }
 
 /**
- * iFrame Modal
+ * iFrame Modal - Used for login page of third party uni systems
  */
 /* iPhone iOS Fix */
 body.modal-open {
@@ -8181,6 +8630,17 @@ etc
       top: auto;
       left: auto; } }
 
+/*
+ * Select toggle
+ * Hide and shows elements on change os select 
+ */
+.select-toggle-content {
+  display: none; }
+  .select-toggle-content.active {
+    display: block; }
+  .no-js .select-toggle-content {
+    display: block; }
+
 /**
  * Social Links
  */
@@ -8247,6 +8707,9 @@ etc
   .tab-content > .active {
     display: block;
     opacity: 1; }
+
+.no-js .tab-content > .tab-pane {
+  opacity: 1; }
 
 /* Toolkit tabs 
 
@@ -8674,6 +9137,10 @@ etc
 
 .tile[min-width~="600px"] h3 {
   font-size: 28px; }
+
+@media (min-width: 768px) {
+  .tile h3 {
+    font-size: 22px; } }
 
 .content__inner,
 .tile-content-inner {

@@ -327,8 +327,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  padding-bottom: 55px;
-  height: 100%;
+  height: calc(100% - 55px);
   max-width: 100%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.17);
   min-width: 320px; }
@@ -352,6 +351,8 @@
   transition: opacity 0.25s ease; }
   .iframe-splitter:hover {
     opacity: 1; }
+  .desktop .iframe-splitter {
+    display: none; }
 
 .iframe-overlay {
   display: none;
@@ -375,8 +376,6 @@
   margin-left: -380px; }
 
 .tk-dashboard-navbar {
-  border-bottom: 5px solid #aa8f6f;
-  height: 56px;
   border-top: 1px solid #111111; }
   .tk-dashboard-navbar .navbar-header {
     float: left; }
@@ -417,6 +416,9 @@
     .tk-dashboard-sidebar-active .tk-dashboard-navbar .tk-dashboard-menu {
       background: #333333;
       color: white; }
+    .tk-dashboard-navbar .tk-dashboard-menu .tk-icon {
+      font-size: 24px;
+      line-height: 1; }
   .tk-dashboard-navbar .btn-active {
     opacity: 1; }
 
