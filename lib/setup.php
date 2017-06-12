@@ -307,14 +307,17 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function admin_scripts() 
         {
-            wp_register_script(
-                'tk-admin-js', 
-                get_template_directory_uri() . '/js/admin.js', 
-                array('jquery'), 
-                tk_admin::$version,
-                true
-            );
-            wp_enqueue_script('tk-admin-js');
+            global $post_type;
+            if( $post_type == 'post' || $post_type == 'page' ) {
+                wp_register_script(
+                    'tk-admin-js', 
+                    get_template_directory_uri() . '/js/admin.js', 
+                    array('jquery'), 
+                    tk_admin::$version,
+                    true
+                );
+                wp_enqueue_script('tk-admin-js');
+            }
         }
 
         /**
