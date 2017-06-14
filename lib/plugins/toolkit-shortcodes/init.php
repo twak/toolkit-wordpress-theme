@@ -258,13 +258,50 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
                 'toolkit-shortcode-css',
                 plugins_url( 'css/toolkit-shortcodes.css', __FILE__ )
             );
-            wp_enqueue_script( 
+            wp_enqueue_script(
                 'toolkit-shortcode-js',
                 plugins_url( 'js/toolkit-shortcodes.js', __FILE__ ),
                 array( 'jquery' ),
                 self::$version,
                 true
             );
+
+            // jquery.detch_syipe.js
+            wp_enqueue_script(
+                'jquery-detect-swipe-js',
+                plugins_url( 'js/vendor/jquery.detect_swipe.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+
+            // Featherlight.js
+
+            wp_enqueue_script(
+                'featherlight-js',
+                plugins_url( 'js/vendor/featherlight.min.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+            wp_enqueue_style(
+                'featherlight-css',
+                plugins_url( 'css/vendor/featherlight.min.css', __FILE__ )
+            );
+
+            wp_enqueue_script(
+                'featherlight-gallery-js',
+                plugins_url( 'js/vendor/featherlight.gallery.min.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+
+            wp_enqueue_style(
+                'featherlight-gallery-css',
+                plugins_url( 'css/vendor/featherlight.gallery.min.css', __FILE__ )
+            );
+
         }
     }
     tk_shortcodes::register();
