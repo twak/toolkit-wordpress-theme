@@ -29,7 +29,7 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	acf_add_local_field_group(array (
 	    'key' => 'group_tk_theme_options',
 	    'title' => 'Theme options',
-	    'fields' => array (
+	    'fields' => apply_filters('tk_theme_options_fields', array (
 			array (
 				'key' => 'field_tk_tab_general',
 				'label' => 'General Settings',
@@ -291,7 +291,7 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 					),
 				),
 			),
-	    ),
+	    )),
 	    'location' => array (
 	        array (
 	            array (

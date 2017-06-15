@@ -53,11 +53,8 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* Custom View Article link to Post */
             add_filter( 'excerpt_more', array( __CLASS__, 'excerpt_more' ) );
 
-            /* drop caps on posts - controlled by theme option */
-            if ( get_field( 'tk_content_settings_dropcap', 'option' ) ) {
-                add_filter( 'the_content', array( __CLASS__, 'add_drop_caps' ), 30 );
-                add_filter( 'the_excerpt', array( __CLASS__, 'add_drop_caps' ), 30 );
-            }
+            /* Drop caps setting */
+            add_action( 'plugins_loaded', array( __CLASS__, 'drop_cap_settings' ) );
 
             /* Allow shortcodes in Dynamic Sidebar */
             add_filter( 'widget_text', 'do_shortcode' );
@@ -310,14 +307,17 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function admin_scripts() 
         {
-            wp_register_script(
-                'tk-admin-js', 
-                get_template_directory_uri() . '/js/admin.js', 
-                array('jquery'), 
-                tk_admin::$version,
-                true
-            );
-            wp_enqueue_script('tk-admin-js');
+            global $post_type;
+            if( $post_type == 'post' || $post_type == 'page' ) {
+                wp_register_script(
+                    'tk-admin-js', 
+                    get_template_directory_uri() . '/js/admin.js', 
+                    array('jquery'), 
+                    tk_admin::$version,
+                    true
+                );
+                wp_enqueue_script('tk-admin-js');
+            }
         }
 
         /**
@@ -399,6 +399,15 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function excerpt_more($more)
         {
             return '...';
+        }
+
+        public static function drop_cap_settings()
+        {
+            /* drop caps on posts - controlled by theme option */
+            if ( function_exists('get_field') && get_field( 'tk_content_settings_dropcap', 'option' ) ) {
+                add_filter( 'the_content', array( __CLASS__, 'add_drop_caps' ), 30 );
+                add_filter( 'the_excerpt', array( __CLASS__, 'add_drop_caps' ), 30 );
+            }
         }
 
         /**

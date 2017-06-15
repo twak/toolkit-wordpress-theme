@@ -24,6 +24,9 @@ require_once get_template_directory() . '/lib/cleanup.php';
 /* Pluggable functions */
 require_once get_template_directory() . '/lib/pluggable.php';
 
+/* TinyMCE Viewable controls */
+require_once get_template_directory() . '/lib/tinymce.php';
+
 
 
 /* *
@@ -72,10 +75,20 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
 /**
  * Remove the additional CSS section from the Customizer.
  */
-function prefix_remove_css_section( $wp_customize ) {
+function prefix_remove_customizer_sections( $wp_customize ) {
     $wp_customize->remove_section( 'custom_css' );
+    $wp_customize->remove_section( 'colors' );
+    $wp_customize->remove_section( 'header_image' );
+    $wp_customize->remove_section( 'background_image' );
 }
-add_action( 'customize_register', 'prefix_remove_css_section', 15 );
+add_action( 'customize_register', 'prefix_remove_customizer_sections', 15 );
+
+// Adds instruction text after the post title input
+function emersonthis_edit_form_after_title() {
+    $tip = '<strong>TIP:</strong> To create a single line break use SHIFT+RETURN. By default, RETURN creates a new paragraph.';
+    echo '<p style="margin-bottom:0;">'.$tip.'</p>';
+}
+add_action( 'edit_form_after_title', 'emersonthis_edit_form_after_title' );
 
 
 // Custom Comments Callback

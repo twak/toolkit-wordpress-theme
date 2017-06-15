@@ -3830,7 +3830,7 @@
  *
  * License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
  */
-(function(){"use strict";var a,b;a=jQuery,b=function(b,c){var d,e,f;return this.options=a.extend({title:null,footer:null,remote:null},a.fn.ekkoLightbox.defaults,c||{}),this.$element=a(b),d="",this.modal_id=this.options.modal_id?this.options.modal_id:"ekkoLightbox-"+Math.floor(1e3*Math.random()+1),f='<div class="modal-header"'+(this.options.title||this.options.always_show_close?"":' style="display:none"')+'><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">'+(this.options.title||"&nbsp;")+"</h4></div>",e='<div class="modal-footer"'+(this.options.footer?"":' style="display:none"')+">"+this.options.footer+"</div>",a(document.body).append('<div id="'+this.modal_id+'" class="ekko-lightbox modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content">'+f+'<div class="modal-body"><div class="ekko-lightbox-container"><div></div></div></div>'+e+"</div></div></div>"),this.modal=a("#"+this.modal_id),this.modal_dialog=this.modal.find(".modal-dialog").first(),this.modal_content=this.modal.find(".modal-content").first(),this.modal_body=this.modal.find(".modal-body").first(),this.modal_header=this.modal.find(".modal-header").first(),this.modal_footer=this.modal.find(".modal-footer").first(),this.lightbox_container=this.modal_body.find(".ekko-lightbox-container").first(),this.lightbox_body=this.lightbox_container.find("> div:first-child").first(),this.showLoading(),this.modal_arrows=null,this.border={top:parseFloat(this.modal_dialog.css("border-top-width"))+parseFloat(this.modal_content.css("border-top-width"))+parseFloat(this.modal_body.css("border-top-width")),right:parseFloat(this.modal_dialog.css("border-right-width"))+parseFloat(this.modal_content.css("border-right-width"))+parseFloat(this.modal_body.css("border-right-width")),bottom:parseFloat(this.modal_dialog.css("border-bottom-width"))+parseFloat(this.modal_content.css("border-bottom-width"))+parseFloat(this.modal_body.css("border-bottom-width")),left:parseFloat(this.modal_dialog.css("border-left-width"))+parseFloat(this.modal_content.css("border-left-width"))+parseFloat(this.modal_body.css("border-left-width"))},this.padding={top:parseFloat(this.modal_dialog.css("padding-top"))+parseFloat(this.modal_content.css("padding-top"))+parseFloat(this.modal_body.css("padding-top")),right:parseFloat(this.modal_dialog.css("padding-right"))+parseFloat(this.modal_content.css("padding-right"))+parseFloat(this.modal_body.css("padding-right")),bottom:parseFloat(this.modal_dialog.css("padding-bottom"))+parseFloat(this.modal_content.css("padding-bottom"))+parseFloat(this.modal_body.css("padding-bottom")),left:parseFloat(this.modal_dialog.css("padding-left"))+parseFloat(this.modal_content.css("padding-left"))+parseFloat(this.modal_body.css("padding-left"))},this.modal.on("show.bs.modal",this.options.onShow.bind(this)).on("shown.bs.modal",function(a){return function(){return a.modal_shown(),a.options.onShown.call(a)}}(this)).on("hide.bs.modal",this.options.onHide.bind(this)).on("hidden.bs.modal",function(b){return function(){return b.gallery&&a(document).off("keydown.ekkoLightbox"),b.modal.remove(),b.options.onHidden.call(b)}}(this)).modal("show",c),this.modal},b.prototype={modal_shown:function(){var b;return this.options.remote?(this.gallery=this.$element.data("gallery"),this.gallery&&("document.body"===this.options.gallery_parent_selector||""===this.options.gallery_parent_selector?this.gallery_items=a(document.body).find('*[data-gallery="'+this.gallery+'"]'):this.gallery_items=this.$element.parents(this.options.gallery_parent_selector).first().find('*[data-gallery="'+this.gallery+'"]'),this.gallery_index=this.gallery_items.index(this.$element),a(document).on("keydown.ekkoLightbox",this.navigate.bind(this)),this.options.directional_arrows&&this.gallery_items.length>1&&(this.lightbox_container.append('<div class="ekko-lightbox-nav-overlay"><a href="#" class="'+this.strip_stops(this.options.left_arrow_class)+'"></a><a href="#" class="'+this.strip_stops(this.options.right_arrow_class)+'"></a></div>'),this.modal_arrows=this.lightbox_container.find("div.ekko-lightbox-nav-overlay").first(),this.lightbox_container.find("a"+this.strip_spaces(this.options.left_arrow_class)).on("click",function(a){return function(b){return b.preventDefault(),a.navigate_left()}}(this)),this.lightbox_container.find("a"+this.strip_spaces(this.options.right_arrow_class)).on("click",function(a){return function(b){return b.preventDefault(),a.navigate_right()}}(this)))),this.options.type?"image"===this.options.type?this.preloadImage(this.options.remote,!0):"youtube"===this.options.type&&(b=this.getYoutubeId(this.options.remote))?this.showYoutubeVideo(b):"vimeo"===this.options.type?this.showVimeoVideo(this.options.remote):"instagram"===this.options.type?this.showInstagramVideo(this.options.remote):"url"===this.options.type?this.loadRemoteContent(this.options.remote):"video"===this.options.type?this.showVideoIframe(this.options.remote):this.error('Could not detect remote target type. Force the type using data-type="image|youtube|vimeo|instagram|url|video"'):this.detectRemoteType(this.options.remote)):this.error("No remote target given")},strip_stops:function(a){return a.replace(/\./g,"")},strip_spaces:function(a){return a.replace(/\s/g,"")},isImage:function(a){return a.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)},isSwf:function(a){return a.match(/\.(swf)((\?|#).*)?$/i)},getYoutubeId:function(a){var b;return b=a.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/),b&&11===b[2].length?b[2]:!1},getVimeoId:function(a){return a.indexOf("vimeo")>0?a:!1},getInstagramId:function(a){return a.indexOf("instagram")>0?a:!1},navigate:function(a){if(a=a||window.event,39===a.keyCode||37===a.keyCode){if(39===a.keyCode)return this.navigate_right();if(37===a.keyCode)return this.navigate_left()}},navigateTo:function(b){var c,d;return 0>b||b>this.gallery_items.length-1?this:(this.showLoading(),this.gallery_index=b,this.$element=a(this.gallery_items.get(this.gallery_index)),this.updateTitleAndFooter(),d=this.$element.attr("data-remote")||this.$element.attr("href"),this.detectRemoteType(d,this.$element.attr("data-type")||!1),this.gallery_index+1<this.gallery_items.length&&(c=a(this.gallery_items.get(this.gallery_index+1),!1),d=c.attr("data-remote")||c.attr("href"),"image"===c.attr("data-type")||this.isImage(d))?this.preloadImage(d,!1):void 0)},navigate_left:function(){return 1!==this.gallery_items.length?(0===this.gallery_index?this.gallery_index=this.gallery_items.length-1:this.gallery_index--,this.options.onNavigate.call(this,"left",this.gallery_index),this.navigateTo(this.gallery_index)):void 0},navigate_right:function(){return 1!==this.gallery_items.length?(this.gallery_index===this.gallery_items.length-1?this.gallery_index=0:this.gallery_index++,this.options.onNavigate.call(this,"right",this.gallery_index),this.navigateTo(this.gallery_index)):void 0},detectRemoteType:function(a,b){var c;return b=b||!1,"image"===b||this.isImage(a)?(this.options.type="image",this.preloadImage(a,!0)):"youtube"===b||(c=this.getYoutubeId(a))?(this.options.type="youtube",this.showYoutubeVideo(c)):"vimeo"===b||(c=this.getVimeoId(a))?(this.options.type="vimeo",this.showVimeoVideo(c)):"instagram"===b||(c=this.getInstagramId(a))?(this.options.type="instagram",this.showInstagramVideo(c)):"video"===b?(this.options.type="video",this.showVideoIframe(a)):(this.options.type="url",this.loadRemoteContent(a))},updateTitleAndFooter:function(){var a,b,c,d;return c=this.modal_content.find(".modal-header"),b=this.modal_content.find(".modal-footer"),d=this.$element.data("title")||"",a=this.$element.data("footer")||"",d||this.options.always_show_close?c.css("display","").find(".modal-title").html(d||"&nbsp;"):c.css("display","none"),a?b.css("display","").html(a):b.css("display","none"),this},showLoading:function(){return this.lightbox_body.html('<div class="modal-loading">'+this.options.loadingMessage+"</div>"),this},showYoutubeVideo:function(a){var b,c,d;return c=null!=this.$element.attr("data-norelated")||this.options.no_related?"&rel=0":"",d=this.checkDimensions(this.$element.data("width")||560),b=d/(560/315),this.showVideoIframe("//www.youtube.com/embed/"+a+"?badge=0&autoplay=1&html5=1"+c,d,b)},showVimeoVideo:function(a){var b,c;return c=this.checkDimensions(this.$element.data("width")||560),b=c/(500/281),this.showVideoIframe(a+"?autoplay=1",c,b)},showInstagramVideo:function(a){var b,c;return c=this.checkDimensions(this.$element.data("width")||612),this.resize(c),b=c+80,this.lightbox_body.html('<iframe width="'+c+'" height="'+b+'" src="'+this.addTrailingSlash(a)+'embed/" frameborder="0" allowfullscreen></iframe>'),this.options.onContentLoaded.call(this),this.modal_arrows?this.modal_arrows.css("display","none"):void 0},showVideoIframe:function(a,b,c){return c=c||b,this.resize(b),this.lightbox_body.html('<div class="embed-responsive embed-responsive-16by9"><iframe width="'+b+'" height="'+c+'" src="'+a+'" frameborder="0" allowfullscreen class="embed-responsive-item"></iframe></div>'),this.options.onContentLoaded.call(this),this.modal_arrows&&this.modal_arrows.css("display","none"),this},loadRemoteContent:function(b){var c,d;return d=this.$element.data("width")||560,this.resize(d),c=this.$element.data("disableExternalCheck")||!1,c||this.isExternal(b)?(this.lightbox_body.html('<iframe width="'+d+'" height="'+d+'" src="'+b+'" frameborder="0" allowfullscreen></iframe>'),this.options.onContentLoaded.call(this)):this.lightbox_body.load(b,a.proxy(function(a){return function(){return a.$element.trigger("loaded.bs.modal")}}(this))),this.modal_arrows&&this.modal_arrows.css("display","none"),this},isExternal:function(a){var b;return b=a.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/),"string"==typeof b[1]&&b[1].length>0&&b[1].toLowerCase()!==location.protocol?!0:"string"==typeof b[2]&&b[2].length>0&&b[2].replace(new RegExp(":("+{"http:":80,"https:":443}[location.protocol]+")?$"),"")!==location.host},error:function(a){return this.lightbox_body.html(a),this},preloadImage:function(b,c){var d;return d=new Image,null!=c&&c!==!0||(d.onload=function(b){return function(){var c;return c=a("<img />"),c.attr("src",d.src),c.addClass("img-responsive"),b.lightbox_body.html(c),b.modal_arrows&&b.modal_arrows.css("display","block"),c.load(function(){return b.options.scale_height?b.scaleHeight(d.height,d.width):b.resize(d.width),b.options.onContentLoaded.call(b)})}}(this),d.onerror=function(a){return function(){return a.error("Failed to load image: "+b)}}(this)),d.src=b,d},scaleHeight:function(b,c){var d,e,f,g,h,i;return g=this.modal_header.outerHeight(!0)||0,f=this.modal_footer.outerHeight(!0)||0,this.modal_footer.is(":visible")||(f=0),this.modal_header.is(":visible")||(g=0),d=this.border.top+this.border.bottom+this.padding.top+this.padding.bottom,h=parseFloat(this.modal_dialog.css("margin-top"))+parseFloat(this.modal_dialog.css("margin-bottom")),i=a(window).height()-d-h-g-f,e=Math.min(i/b,1),this.modal_dialog.css("height","auto").css("max-height",i),this.resize(e*c)},resize:function(b){var c;return c=b+this.border.left+this.padding.left+this.padding.right+this.border.right,this.modal_dialog.css("width","auto").css("max-width",c),this.lightbox_container.find("a").css("line-height",function(){return a(this).parent().height()+"px"}),this},checkDimensions:function(a){var b,c;return c=a+this.border.left+this.padding.left+this.padding.right+this.border.right,b=document.body.clientWidth,c>b&&(a=this.modal_body.width()),a},close:function(){return this.modal.modal("hide")},addTrailingSlash:function(a){return"/"!==a.substr(-1)&&(a+="/"),a}},a.fn.ekkoLightbox=function(c){return this.each(function(){var d;return d=a(this),c=a.extend({remote:d.attr("data-remote")||d.attr("href"),gallery_parent_selector:d.attr("data-parent"),type:d.attr("data-type")},c,d.data()),new b(this,c),this})},a.fn.ekkoLightbox.defaults={gallery_parent_selector:"document.body",left_arrow_class:".glyphicon .glyphicon-chevron-left",right_arrow_class:".glyphicon .glyphicon-chevron-right",directional_arrows:!0,type:null,always_show_close:!0,no_related:!1,scale_height:!0,loadingMessage:"Loading...",onShow:function(){},onShown:function(){},onHide:function(){},onHidden:function(){},onNavigate:function(){},onContentLoaded:function(){}}}).call(this);
+//(function(){"use strict";var a,b;a=jQuery,b=function(b,c){var d,e,f;return this.options=a.extend({title:null,footer:null,remote:null},a.fn.ekkoLightbox.defaults,c||{}),this.$element=a(b),d="",this.modal_id=this.options.modal_id?this.options.modal_id:"ekkoLightbox-"+Math.floor(1e3*Math.random()+1),f='<div class="modal-header"'+(this.options.title||this.options.always_show_close?"":' style="display:none"')+'><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">'+(this.options.title||"&nbsp;")+"</h4></div>",e='<div class="modal-footer"'+(this.options.footer?"":' style="display:none"')+">"+this.options.footer+"</div>",a(document.body).append('<div id="'+this.modal_id+'" class="ekko-lightbox modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content">'+f+'<div class="modal-body"><div class="ekko-lightbox-container"><div></div></div></div>'+e+"</div></div></div>"),this.modal=a("#"+this.modal_id),this.modal_dialog=this.modal.find(".modal-dialog").first(),this.modal_content=this.modal.find(".modal-content").first(),this.modal_body=this.modal.find(".modal-body").first(),this.modal_header=this.modal.find(".modal-header").first(),this.modal_footer=this.modal.find(".modal-footer").first(),this.lightbox_container=this.modal_body.find(".ekko-lightbox-container").first(),this.lightbox_body=this.lightbox_container.find("> div:first-child").first(),this.showLoading(),this.modal_arrows=null,this.border={top:parseFloat(this.modal_dialog.css("border-top-width"))+parseFloat(this.modal_content.css("border-top-width"))+parseFloat(this.modal_body.css("border-top-width")),right:parseFloat(this.modal_dialog.css("border-right-width"))+parseFloat(this.modal_content.css("border-right-width"))+parseFloat(this.modal_body.css("border-right-width")),bottom:parseFloat(this.modal_dialog.css("border-bottom-width"))+parseFloat(this.modal_content.css("border-bottom-width"))+parseFloat(this.modal_body.css("border-bottom-width")),left:parseFloat(this.modal_dialog.css("border-left-width"))+parseFloat(this.modal_content.css("border-left-width"))+parseFloat(this.modal_body.css("border-left-width"))},this.padding={top:parseFloat(this.modal_dialog.css("padding-top"))+parseFloat(this.modal_content.css("padding-top"))+parseFloat(this.modal_body.css("padding-top")),right:parseFloat(this.modal_dialog.css("padding-right"))+parseFloat(this.modal_content.css("padding-right"))+parseFloat(this.modal_body.css("padding-right")),bottom:parseFloat(this.modal_dialog.css("padding-bottom"))+parseFloat(this.modal_content.css("padding-bottom"))+parseFloat(this.modal_body.css("padding-bottom")),left:parseFloat(this.modal_dialog.css("padding-left"))+parseFloat(this.modal_content.css("padding-left"))+parseFloat(this.modal_body.css("padding-left"))},this.modal.on("show.bs.modal",this.options.onShow.bind(this)).on("shown.bs.modal",function(a){return function(){return a.modal_shown(),a.options.onShown.call(a)}}(this)).on("hide.bs.modal",this.options.onHide.bind(this)).on("hidden.bs.modal",function(b){return function(){return b.gallery&&a(document).off("keydown.ekkoLightbox"),b.modal.remove(),b.options.onHidden.call(b)}}(this)).modal("show",c),this.modal},b.prototype={modal_shown:function(){var b;return this.options.remote?(this.gallery=this.$element.data("gallery"),this.gallery&&("document.body"===this.options.gallery_parent_selector||""===this.options.gallery_parent_selector?this.gallery_items=a(document.body).find('*[data-gallery="'+this.gallery+'"]'):this.gallery_items=this.$element.parents(this.options.gallery_parent_selector).first().find('*[data-gallery="'+this.gallery+'"]'),this.gallery_index=this.gallery_items.index(this.$element),a(document).on("keydown.ekkoLightbox",this.navigate.bind(this)),this.options.directional_arrows&&this.gallery_items.length>1&&(this.lightbox_container.append('<div class="ekko-lightbox-nav-overlay"><a href="#" class="'+this.strip_stops(this.options.left_arrow_class)+'"></a><a href="#" class="'+this.strip_stops(this.options.right_arrow_class)+'"></a></div>'),this.modal_arrows=this.lightbox_container.find("div.ekko-lightbox-nav-overlay").first(),this.lightbox_container.find("a"+this.strip_spaces(this.options.left_arrow_class)).on("click",function(a){return function(b){return b.preventDefault(),a.navigate_left()}}(this)),this.lightbox_container.find("a"+this.strip_spaces(this.options.right_arrow_class)).on("click",function(a){return function(b){return b.preventDefault(),a.navigate_right()}}(this)))),this.options.type?"image"===this.options.type?this.preloadImage(this.options.remote,!0):"youtube"===this.options.type&&(b=this.getYoutubeId(this.options.remote))?this.showYoutubeVideo(b):"vimeo"===this.options.type?this.showVimeoVideo(this.options.remote):"instagram"===this.options.type?this.showInstagramVideo(this.options.remote):"url"===this.options.type?this.loadRemoteContent(this.options.remote):"video"===this.options.type?this.showVideoIframe(this.options.remote):this.error('Could not detect remote target type. Force the type using data-type="image|youtube|vimeo|instagram|url|video"'):this.detectRemoteType(this.options.remote)):this.error("No remote target given")},strip_stops:function(a){return a.replace(/\./g,"")},strip_spaces:function(a){return a.replace(/\s/g,"")},isImage:function(a){return a.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i)},isSwf:function(a){return a.match(/\.(swf)((\?|#).*)?$/i)},getYoutubeId:function(a){var b;return b=a.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/),b&&11===b[2].length?b[2]:!1},getVimeoId:function(a){return a.indexOf("vimeo")>0?a:!1},getInstagramId:function(a){return a.indexOf("instagram")>0?a:!1},navigate:function(a){if(a=a||window.event,39===a.keyCode||37===a.keyCode){if(39===a.keyCode)return this.navigate_right();if(37===a.keyCode)return this.navigate_left()}},navigateTo:function(b){var c,d;return 0>b||b>this.gallery_items.length-1?this:(this.showLoading(),this.gallery_index=b,this.$element=a(this.gallery_items.get(this.gallery_index)),this.updateTitleAndFooter(),d=this.$element.attr("data-remote")||this.$element.attr("href"),this.detectRemoteType(d,this.$element.attr("data-type")||!1),this.gallery_index+1<this.gallery_items.length&&(c=a(this.gallery_items.get(this.gallery_index+1),!1),d=c.attr("data-remote")||c.attr("href"),"image"===c.attr("data-type")||this.isImage(d))?this.preloadImage(d,!1):void 0)},navigate_left:function(){return 1!==this.gallery_items.length?(0===this.gallery_index?this.gallery_index=this.gallery_items.length-1:this.gallery_index--,this.options.onNavigate.call(this,"left",this.gallery_index),this.navigateTo(this.gallery_index)):void 0},navigate_right:function(){return 1!==this.gallery_items.length?(this.gallery_index===this.gallery_items.length-1?this.gallery_index=0:this.gallery_index++,this.options.onNavigate.call(this,"right",this.gallery_index),this.navigateTo(this.gallery_index)):void 0},detectRemoteType:function(a,b){var c;return b=b||!1,"image"===b||this.isImage(a)?(this.options.type="image",this.preloadImage(a,!0)):"youtube"===b||(c=this.getYoutubeId(a))?(this.options.type="youtube",this.showYoutubeVideo(c)):"vimeo"===b||(c=this.getVimeoId(a))?(this.options.type="vimeo",this.showVimeoVideo(c)):"instagram"===b||(c=this.getInstagramId(a))?(this.options.type="instagram",this.showInstagramVideo(c)):"video"===b?(this.options.type="video",this.showVideoIframe(a)):(this.options.type="url",this.loadRemoteContent(a))},updateTitleAndFooter:function(){var a,b,c,d;return c=this.modal_content.find(".modal-header"),b=this.modal_content.find(".modal-footer"),d=this.$element.data("title")||"",a=this.$element.data("footer")||"",d||this.options.always_show_close?c.css("display","").find(".modal-title").html(d||"&nbsp;"):c.css("display","none"),a?b.css("display","").html(a):b.css("display","none"),this},showLoading:function(){return this.lightbox_body.html('<div class="modal-loading">'+this.options.loadingMessage+"</div>"),this},showYoutubeVideo:function(a){var b,c,d;return c=null!=this.$element.attr("data-norelated")||this.options.no_related?"&rel=0":"",d=this.checkDimensions(this.$element.data("width")||560),b=d/(560/315),this.showVideoIframe("//www.youtube.com/embed/"+a+"?badge=0&autoplay=1&html5=1"+c,d,b)},showVimeoVideo:function(a){var b,c;return c=this.checkDimensions(this.$element.data("width")||560),b=c/(500/281),this.showVideoIframe(a+"?autoplay=1",c,b)},showInstagramVideo:function(a){var b,c;return c=this.checkDimensions(this.$element.data("width")||612),this.resize(c),b=c+80,this.lightbox_body.html('<iframe width="'+c+'" height="'+b+'" src="'+this.addTrailingSlash(a)+'embed/" frameborder="0" allowfullscreen></iframe>'),this.options.onContentLoaded.call(this),this.modal_arrows?this.modal_arrows.css("display","none"):void 0},showVideoIframe:function(a,b,c){return c=c||b,this.resize(b),this.lightbox_body.html('<div class="embed-responsive embed-responsive-16by9"><iframe width="'+b+'" height="'+c+'" src="'+a+'" frameborder="0" allowfullscreen class="embed-responsive-item"></iframe></div>'),this.options.onContentLoaded.call(this),this.modal_arrows&&this.modal_arrows.css("display","none"),this},loadRemoteContent:function(b){var c,d;return d=this.$element.data("width")||560,this.resize(d),c=this.$element.data("disableExternalCheck")||!1,c||this.isExternal(b)?(this.lightbox_body.html('<iframe width="'+d+'" height="'+d+'" src="'+b+'" frameborder="0" allowfullscreen></iframe>'),this.options.onContentLoaded.call(this)):this.lightbox_body.load(b,a.proxy(function(a){return function(){return a.$element.trigger("loaded.bs.modal")}}(this))),this.modal_arrows&&this.modal_arrows.css("display","none"),this},isExternal:function(a){var b;return b=a.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/),"string"==typeof b[1]&&b[1].length>0&&b[1].toLowerCase()!==location.protocol?!0:"string"==typeof b[2]&&b[2].length>0&&b[2].replace(new RegExp(":("+{"http:":80,"https:":443}[location.protocol]+")?$"),"")!==location.host},error:function(a){return this.lightbox_body.html(a),this},preloadImage:function(b,c){var d;return d=new Image,null!=c&&c!==!0||(d.onload=function(b){return function(){var c;return c=a("<img />"),c.attr("src",d.src),c.addClass("img-responsive"),b.lightbox_body.html(c),b.modal_arrows&&b.modal_arrows.css("display","block"),c.load(function(){return b.options.scale_height?b.scaleHeight(d.height,d.width):b.resize(d.width),b.options.onContentLoaded.call(b)})}}(this),d.onerror=function(a){return function(){return a.error("Failed to load image: "+b)}}(this)),d.src=b,d},scaleHeight:function(b,c){var d,e,f,g,h,i;return g=this.modal_header.outerHeight(!0)||0,f=this.modal_footer.outerHeight(!0)||0,this.modal_footer.is(":visible")||(f=0),this.modal_header.is(":visible")||(g=0),d=this.border.top+this.border.bottom+this.padding.top+this.padding.bottom,h=parseFloat(this.modal_dialog.css("margin-top"))+parseFloat(this.modal_dialog.css("margin-bottom")),i=a(window).height()-d-h-g-f,e=Math.min(i/b,1),this.modal_dialog.css("height","auto").css("max-height",i),this.resize(e*c)},resize:function(b){var c;return c=b+this.border.left+this.padding.left+this.padding.right+this.border.right,this.modal_dialog.css("width","auto").css("max-width",c),this.lightbox_container.find("a").css("line-height",function(){return a(this).parent().height()+"px"}),this},checkDimensions:function(a){var b,c;return c=a+this.border.left+this.padding.left+this.padding.right+this.border.right,b=document.body.clientWidth,c>b&&(a=this.modal_body.width()),a},close:function(){return this.modal.modal("hide")},addTrailingSlash:function(a){return"/"!==a.substr(-1)&&(a+="/"),a}},a.fn.ekkoLightbox=function(c){return this.each(function(){var d;return d=a(this),c=a.extend({remote:d.attr("data-remote")||d.attr("href"),gallery_parent_selector:d.attr("data-parent"),type:d.attr("data-type")},c,d.data()),new b(this,c),this})},a.fn.ekkoLightbox.defaults={gallery_parent_selector:"document.body",left_arrow_class:".glyphicon .glyphicon-chevron-left",right_arrow_class:".glyphicon .glyphicon-chevron-right",directional_arrows:!0,type:null,always_show_close:!0,no_related:!1,scale_height:!0,loadingMessage:"Loading...",onShow:function(){},onShown:function(){},onHide:function(){},onHidden:function(){},onNavigate:function(){},onContentLoaded:function(){}}}).call(this);
 //ResizeSensor.js and ElementQueries.js - https://github.com/marcj/css-element-queries
 
 /**
@@ -8488,3383 +8488,6 @@
         }
     }, Pa
 });
-
-+ function ($) {
-    'use strict';
-
-	if ($('.googlemap').length) {
-	    (function() {
-	        var d = "prototype";
-
-	        function e(a) {
-	            this.set("fontFamily", "sans-serif");
-	            this.set("fontSize", 12);
-	            this.set("fontColor", "#000000");
-	            this.set("strokeWeight", 4);
-	            this.set("strokeColor", "#ffffff");
-	            this.set("align", "center");
-	            this.set("zIndex", 1E3);
-	            this.setValues(a)
-	        }
-	        e.prototype = new google.maps.OverlayView;
-	        window.MapLabel = e;
-	        e[d].changed = function(a) {
-	            switch (a) {
-	                case "fontFamily":
-	                case "fontSize":
-	                case "fontColor":
-	                case "strokeWeight":
-	                case "strokeColor":
-	                case "align":
-	                case "text":
-	                    return h(this);
-	                case "maxZoom":
-	                case "minZoom":
-	                case "position":
-	                    return this.draw()
-	            }
-	        };
-
-	        function h(a) {
-	            var b = a.a;
-	            if (b) {
-	                var f = b.style;
-	                f.zIndex = a.get("zIndex");
-	                var c = b.getContext("2d");
-	                c.clearRect(0, 0, b.width, b.height);
-	                c.strokeStyle = a.get("strokeColor");
-	                c.fillStyle = a.get("fontColor");
-	                c.font = a.get("fontSize") + "px " + a.get("fontFamily");
-	                var b = Number(a.get("strokeWeight")),
-	                    g = a.get("text");
-	                if (g) {
-	                    if (b) c.lineWidth = b, c.strokeText(g, b, b);
-	                    c.fillText(g, b, b);
-	                    a: {
-	                        c = c.measureText(g).width + b;
-	                        switch (a.get("align")) {
-	                            case "left":
-	                                a = 0;
-	                                break a;
-	                            case "right":
-	                                a = -c;
-	                                break a
-	                        }
-	                        a = c / -2
-	                    }
-	                    f.marginLeft = a + "px";
-	                    f.marginTop =
-	                        "-0.4em"
-	                }
-	            }
-	        }
-	        e[d].onAdd = function() {
-	            var a = this.a = document.createElement("canvas");
-	            a.style.position = "absolute";
-	            var b = a.getContext("2d");
-	            b.lineJoin = "round";
-	            b.textBaseline = "top";
-	            h(this);
-	            (b = this.getPanes()) && b.mapPane.appendChild(a)
-	        };
-	        e[d].onAdd = e[d].onAdd;
-	        e[d].draw = function() {
-	            var a = this.getProjection();
-	            if (a && this.a) {
-	                var b = this.get("position");
-	                if (b) {
-	                    b = a.fromLatLngToDivPixel(b);
-	                    a = this.a.style;
-	                    a.top = b.y + "px";
-	                    a.left = b.x + "px";
-	                    var b = this.get("minZoom"),
-	                        f = this.get("maxZoom");
-	                    if (b === void 0 && f === void 0) b = "";
-	                    else {
-	                        var c = this.getMap();
-	                        c ? (c = c.getZoom(), b = c < b || c > f ? "hidden" : "") : b = ""
-	                    }
-	                    a.visibility = b
-	                }
-	            }
-	        };
-	        e[d].draw = e[d].draw;
-	        e[d].onRemove = function() {
-	            var a = this.a;
-	            a && a.parentNode && a.parentNode.removeChild(a)
-	        };
-	        e[d].onRemove = e[d].onRemove;
-	    })();
-	    (function() {
-	        var b = true,
-	            f = false;
-
-	        function g(a) {
-	            var c = a || {};
-	            this.d = this.c = f;
-	            if (a.visible == undefined) a.visible = b;
-	            if (a.shadow == undefined) a.shadow = "7px -3px 5px rgba(88,88,88,0.7)";
-	            if (a.anchor == undefined) a.anchor = i.BOTTOM;
-	            this.setValues(c)
-	        }
-	        g.prototype = new google.maps.OverlayView;
-	        window.mapMarker = g;
-	        g.prototype.getVisible = function() {
-	            return this.get("visible")
-	        };
-	        g.prototype.getVisible = g.prototype.getVisible;
-	        g.prototype.setVisible = function(a) {
-	            this.set("visible", a)
-	        };
-	        g.prototype.setVisible = g.prototype.setVisible;
-	        g.prototype.s = function() {
-	            if (this.c) {
-	                this.a.style.display = this.getVisible() ? "" : "none";
-	                this.draw()
-	            }
-	        };
-	        g.prototype.visible_changed = g.prototype.s;
-	        g.prototype.setFlat = function(a) {
-	            this.set("flat", !!a)
-	        };
-	        g.prototype.setFlat = g.prototype.setFlat;
-	        g.prototype.getFlat = function() {
-	            return this.get("flat")
-	        };
-	        g.prototype.getFlat = g.prototype.getFlat;
-	        g.prototype.p = function() {
-	            return this.get("width")
-	        };
-	        g.prototype.getWidth = g.prototype.p;
-	        g.prototype.o = function() {
-	            return this.get("height")
-	        };
-	        g.prototype.getHeight = g.prototype.o;
-	        g.prototype.setShadow = function(a) {
-	            this.set("shadow", a);
-	            this.g()
-	        };
-	        g.prototype.setShadow = g.prototype.setShadow;
-	        g.prototype.getShadow = function() {
-	            return this.get("shadow")
-	        };
-	        g.prototype.getShadow = g.prototype.getShadow;
-	        g.prototype.g = function() {
-	            if (this.c) this.a.style.boxShadow = this.a.style.webkitBoxShadow = this.a.style.MozBoxShadow = this.getFlat() ? "" : this.getShadow()
-	        };
-	        g.prototype.flat_changed = g.prototype.g;
-	        g.prototype.setZIndex = function(a) {
-	            this.set("zIndex", a)
-	        };
-	        g.prototype.setZIndex = g.prototype.setZIndex;
-	        g.prototype.getZIndex = function() {
-	            return this.get("zIndex")
-	        };
-	        g.prototype.getZIndex = g.prototype.getZIndex;
-	        g.prototype.t = function() {
-	            if (this.getZIndex() && this.c) this.a.style.zIndex = this.getZIndex()
-	        };
-	        g.prototype.zIndex_changed = g.prototype.t;
-	        g.prototype.getDraggable = function() {
-	            return this.get("draggable")
-	        };
-	        g.prototype.getDraggable = g.prototype.getDraggable;
-	        g.prototype.setDraggable = function(a) {
-	            this.set("draggable", !!a)
-	        };
-	        g.prototype.setDraggable = g.prototype.setDraggable;
-	        g.prototype.k = function() {
-	            if (this.c) this.getDraggable() ? j(this, this.a) : k(this)
-	        };
-	        g.prototype.draggable_changed = g.prototype.k;
-	        g.prototype.getPosition = function() {
-	            return this.get("position")
-	        };
-	        g.prototype.getPosition = g.prototype.getPosition;
-	        g.prototype.setPosition = function(a) {
-	            this.set("position", a)
-	        };
-	        g.prototype.setPosition = g.prototype.setPosition;
-	        g.prototype.q = function() {
-	            this.draw()
-	        };
-	        g.prototype.position_changed = g.prototype.q;
-	        g.prototype.l = function() {
-	            return this.get("anchor")
-	        };
-	        g.prototype.getAnchor = g.prototype.l;
-	        g.prototype.r = function(a) {
-	            this.set("anchor", a)
-	        };
-	        g.prototype.setAnchor = g.prototype.r;
-	        g.prototype.n = function() {
-	            this.draw()
-	        };
-	        g.prototype.anchor_changed = g.prototype.n;
-
-	        function l(a, c) {
-	            var d = document.createElement("DIV");
-	            d.innerHTML = c;
-	            if (d.childNodes.length == 1) return d.removeChild(d.firstChild);
-	            else {
-	                for (var e = document.createDocumentFragment(); d.firstChild;) e.appendChild(d.firstChild);
-	                return e
-	            }
-	        }
-
-	        function m(a, c) {
-	            if (c)
-	                for (var d; d = c.firstChild;) c.removeChild(d)
-	        }
-	        g.prototype.setContent = function(a) {
-	            this.set("content", a)
-	        };
-	        g.prototype.setContent = g.prototype.setContent;
-	        g.prototype.getContent = function() {
-	            return this.get("content")
-	        };
-	        g.prototype.getContent = g.prototype.getContent;
-	        g.prototype.j = function() {
-	            if (this.b) {
-	                m(this, this.b);
-	                var a = this.getContent();
-	                if (a) {
-	                    if (typeof a == "string") {
-	                        a = a.replace(/^\s*([\S\s]*)\b\s*$/, "$1");
-	                        a = l(this, a)
-	                    }
-	                    this.b.appendChild(a);
-	                    var c = this;
-	                    a = this.b.getElementsByTagName("IMG");
-	                    for (var d = 0, e; e = a[d]; d++) {
-	                        google.maps.event.addDomListener(e, "mousedown", function(h) {
-	                            if (c.getDraggable()) {
-	                                h.preventDefault && h.preventDefault();
-	                                h.returnValue = f
-	                            }
-	                        });
-	                        google.maps.event.addDomListener(e, "load", function() {
-	                            c.draw()
-	                        })
-	                    }
-	                    google.maps.event.trigger(this, "domready")
-	                }
-	                this.c &&
-	                    this.draw()
-	            }
-	        };
-	        g.prototype.content_changed = g.prototype.j;
-
-	        function n(a, c) {
-	            if (a.c) {
-	                var d = "";
-	                if (navigator.userAgent.indexOf("Gecko/") !== -1) {
-	                    if (c == "dragging") d = "-moz-grabbing";
-	                    if (c == "dragready") d = "-moz-grab"
-	                } else if (c == "dragging" || c == "dragready") d = "move";
-	                if (c == "draggable") d = "pointer";
-	                if (a.a.style.cursor != d) a.a.style.cursor = d
-	            }
-	        }
-
-	        function o(a, c) {
-	            if (a.getDraggable())
-	                if (!a.d) {
-	                    a.d = b;
-	                    var d = a.getMap();
-	                    a.m = d.get("draggable");
-	                    d.set("draggable", f);
-	                    a.h = c.clientX;
-	                    a.i = c.clientY;
-	                    n(a, "dragready");
-	                    a.a.style.MozUserSelect = "none";
-	                    a.a.style.KhtmlUserSelect = "none";
-	                    a.a.style.WebkitUserSelect = "none";
-	                    a.a.unselectable = "on";
-	                    a.a.onselectstart = function() {
-	                        return f
-	                    };
-	                    p(a);
-	                    google.maps.event.trigger(a, "dragstart")
-	                }
-	        }
-
-	        function q(a) {
-	            if (a.getDraggable())
-	                if (a.d) {
-	                    a.d = f;
-	                    a.getMap().set("draggable", a.m);
-	                    a.h = a.i = a.m = null;
-	                    a.a.style.MozUserSelect = "";
-	                    a.a.style.KhtmlUserSelect = "";
-	                    a.a.style.WebkitUserSelect = "";
-	                    a.a.unselectable = "off";
-	                    a.a.onselectstart = function() {};
-	                    r(a);
-	                    n(a, "draggable");
-	                    google.maps.event.trigger(a, "dragend");
-	                    a.draw()
-	                }
-	        }
-
-	        function s(a, c) {
-	            if (!a.getDraggable() || !a.d) q(a);
-	            else {
-	                var d = a.h - c.clientX,
-	                    e = a.i - c.clientY;
-	                a.h = c.clientX;
-	                a.i = c.clientY;
-	                d = parseInt(a.a.style.left, 10) - d;
-	                e = parseInt(a.a.style.top, 10) - e;
-	                a.a.style.left = d + "px";
-	                a.a.style.top = e + "px";
-	                var h = t(a);
-	                a.setPosition(a.getProjection().fromDivPixelToLatLng(new google.maps.Point(d - h.width, e - h.height)));
-	                n(a, "dragging");
-	                google.maps.event.trigger(a, "drag")
-	            }
-	        }
-
-	        function k(a) {
-	            if (a.f) {
-	                google.maps.event.removeListener(a.f);
-	                delete a.f
-	            }
-	            n(a, "")
-	        }
-
-	        function j(a, c) {
-	            if (c) {
-	                a.f = google.maps.event.addDomListener(c, "mousedown", function(d) {
-	                    o(a, d)
-	                });
-	                n(a, "draggable")
-	            }
-	        }
-
-	        function p(a) {
-	            if (a.a.setCapture) {
-	                a.a.setCapture(b);
-	                a.e = [google.maps.event.addDomListener(a.a, "mousemove", function(c) {
-	                    s(a, c)
-	                }, b), google.maps.event.addDomListener(a.a, "mouseup", function() {
-	                    q(a);
-	                    a.a.releaseCapture()
-	                }, b)]
-	            } else a.e = [google.maps.event.addDomListener(window, "mousemove", function(c) {
-	                s(a, c)
-	            }, b), google.maps.event.addDomListener(window, "mouseup", function() {
-	                q(a)
-	            }, b)]
-	        }
-
-	        function r(a) {
-	            if (a.e) {
-	                for (var c = 0, d; d = a.e[c]; c++) google.maps.event.removeListener(d);
-	                a.e.length = 0
-	            }
-	        }
-
-	        function t(a) {
-	            var c = a.l();
-	            if (typeof c == "object") return c;
-	            var d = new google.maps.Size(0, 0);
-	            if (!a.b) return d;
-	            var e = a.b.offsetWidth;
-	            a = a.b.offsetHeight;
-	            switch (c) {
-	                case i.TOP:
-	                    d.width = -e / 2;
-	                    break;
-	                case i.TOP_RIGHT:
-	                    d.width = -e;
-	                    break;
-	                case i.LEFT:
-	                    d.height = -a / 2;
-	                    break;
-	                case i.MIDDLE:
-	                    d.width = -e / 2;
-	                    d.height = -a / 2;
-	                    break;
-	                case i.RIGHT:
-	                    d.width = -e;
-	                    d.height = -a / 2;
-	                    break;
-	                case i.BOTTOM_LEFT:
-	                    d.height = -a;
-	                    break;
-	                case i.BOTTOM:
-	                    d.width = -e / 2;
-	                    d.height = -a;
-	                    break;
-	                case i.BOTTOM_RIGHT:
-	                    d.width = -e;
-	                    d.height = -a
-	            }
-	            return d
-	        }
-	        g.prototype.onAdd = function() {
-	            if (!this.a) {
-	                this.a = document.createElement("DIV");
-	                this.a.style.position = "absolute"
-	            }
-	            if (this.getZIndex()) this.a.style.zIndex = this.getZIndex();
-	            this.a.style.display = this.getVisible() ? "" : "none";
-	            if (!this.b) {
-	                this.b = document.createElement("DIV");
-	                this.a.appendChild(this.b);
-	                var a = this;
-	                google.maps.event.addDomListener(this.b, "click", function() {
-	                    google.maps.event.trigger(a, "click")
-	                });
-	                google.maps.event.addDomListener(this.b, "mouseover", function() {
-	                    google.maps.event.trigger(a, "mouseover")
-	                });
-	                google.maps.event.addDomListener(this.b, "mouseout", function() {
-	                    google.maps.event.trigger(a, "mouseout")
-	                })
-	            }
-	            this.c = b;
-	            this.j();
-	            this.g();
-	            this.k();
-	            var c = this.getPanes();
-	            c && c.overlayImage.appendChild(this.a);
-	            google.maps.event.trigger(this, "ready")
-	        };
-	        g.prototype.onAdd = g.prototype.onAdd;
-	        g.prototype.draw = function() {
-	            if (!(!this.c || this.d)) {
-	                var a = this.getProjection();
-	                if (a) {
-	                    var c = this.get("position");
-	                    a = a.fromLatLngToDivPixel(c);
-	                    c = t(this);
-	                    this.a.style.top = a.y + c.height + "px";
-	                    this.a.style.left = a.x + c.width + "px";
-	                    a = this.b.offsetHeight;
-	                    c = this.b.offsetWidth;
-	                    c != this.get("width") && this.set("width", c);
-	                    a != this.get("height") && this.set("height", a)
-	                }
-	            }
-	        };
-	        g.prototype.draw = g.prototype.draw;
-	        g.prototype.onRemove = function() {
-	            this.a && this.a.parentNode && this.a.parentNode.removeChild(this.a);
-	            k(this)
-	        };
-	        g.prototype.onRemove = g.prototype.onRemove;
-	        var i = {
-	            TOP_LEFT: 1,
-	            TOP: 2,
-	            TOP_RIGHT: 3,
-	            LEFT: 4,
-	            MIDDLE: 5,
-	            RIGHT: 6,
-	            BOTTOM_LEFT: 7,
-	            BOTTOM: 8,
-	            BOTTOM_RIGHT: 9
-	        };
-	        window.mapMarkerPosition = i;
-	    })();
-};
-
-}(jQuery);
-// /*
-//  * Swiper 2.7.6
-//  * Mobile touch slider and framework with hardware accelerated transitions
-//  *
-//  * http://www.idangero.us/sliders/swiper/
-//  *
-//  * Copyright 2010-2015, Vladimir Kharlampidi
-//  * The iDangero.us
-//  * http://www.idangero.us/
-//  *
-//  * Licensed under GPL & MIT
-//  *
-//  * Released on: February 11, 2015
-// */
-// var Swiper = function (selector, params) {
-//     'use strict';
-
-//     /*=========================
-//       A little bit dirty but required part for IE8 and old FF support
-//       ===========================*/
-//     if (!document.body.outerHTML && document.body.__defineGetter__) {
-//         if (HTMLElement) {
-//             var element = HTMLElement.prototype;
-//             if (element.__defineGetter__) {
-//                 element.__defineGetter__('outerHTML', function () { return new XMLSerializer().serializeToString(this); });
-//             }
-//         }
-//     }
-
-//     if (!window.getComputedStyle) {
-//         window.getComputedStyle = function (el, pseudo) {
-//             this.el = el;
-//             this.getPropertyValue = function (prop) {
-//                 var re = /(\-([a-z]){1})/g;
-//                 if (prop === 'float') prop = 'styleFloat';
-//                 if (re.test(prop)) {
-//                     prop = prop.replace(re, function () {
-//                         return arguments[2].toUpperCase();
-//                     });
-//                 }
-//                 return el.currentStyle[prop] ? el.currentStyle[prop] : null;
-//             };
-//             return this;
-//         };
-//     }
-//     if (!Array.prototype.indexOf) {
-//         Array.prototype.indexOf = function (obj, start) {
-//             for (var i = (start || 0), j = this.length; i < j; i++) {
-//                 if (this[i] === obj) { return i; }
-//             }
-//             return -1;
-//         };
-//     }
-//     if (!document.querySelectorAll) {
-//         if (!window.jQuery) return;
-//     }
-//     function $$(selector, context) {
-//         if (document.querySelectorAll)
-//             return (context || document).querySelectorAll(selector);
-//         else
-//             return jQuery(selector, context);
-//     }
-
-//     /*=========================
-//       Check for correct selector
-//       ===========================*/
-//     if (typeof selector === 'undefined') return;
-
-//     if (!(selector.nodeType)) {
-//         if ($$(selector).length === 0) return;
-//     }
-
-//      /*=========================
-//       _this
-//       ===========================*/
-//     var _this = this;
-
-//      /*=========================
-//       Default Flags and vars
-//       ===========================*/
-//     _this.touches = {
-//         start: 0,
-//         startX: 0,
-//         startY: 0,
-//         current: 0,
-//         currentX: 0,
-//         currentY: 0,
-//         diff: 0,
-//         abs: 0
-//     };
-//     _this.positions = {
-//         start: 0,
-//         abs: 0,
-//         diff: 0,
-//         current: 0
-//     };
-//     _this.times = {
-//         start: 0,
-//         end: 0
-//     };
-
-//     _this.id = (new Date()).getTime();
-//     _this.container = (selector.nodeType) ? selector : $$(selector)[0];
-//     _this.isTouched = false;
-//     _this.isMoved = false;
-//     _this.activeIndex = 0;
-//     _this.centerIndex = 0;
-//     _this.activeLoaderIndex = 0;
-//     _this.activeLoopIndex = 0;
-//     _this.previousIndex = null;
-//     _this.velocity = 0;
-//     _this.snapGrid = [];
-//     _this.slidesGrid = [];
-//     _this.imagesToLoad = [];
-//     _this.imagesLoaded = 0;
-//     _this.wrapperLeft = 0;
-//     _this.wrapperRight = 0;
-//     _this.wrapperTop = 0;
-//     _this.wrapperBottom = 0;
-//     _this.isAndroid = navigator.userAgent.toLowerCase().indexOf('android') >= 0;
-//     var wrapper, slideSize, wrapperSize, direction, isScrolling, containerSize;
-
-//     /*=========================
-//       Default Parameters
-//       ===========================*/
-//     var defaults = {
-//         eventTarget: 'wrapper', // or 'container'
-//         mode : 'horizontal', // or 'vertical'
-//         touchRatio : 1,
-//         speed : 300,
-//         freeMode : false,
-//         freeModeFluid : false,
-//         momentumRatio: 1,
-//         momentumBounce: true,
-//         momentumBounceRatio: 1,
-//         slidesPerView : 1,
-//         slidesPerGroup : 1,
-//         slidesPerViewFit: true, //Fit to slide when spv "auto" and slides larger than container
-//         simulateTouch : true,
-//         followFinger : true,
-//         shortSwipes : true,
-//         longSwipesRatio: 0.5,
-//         moveStartThreshold: false,
-//         onlyExternal : false,
-//         createPagination : true,
-//         pagination : false,
-//         paginationElement: 'span',
-//         paginationClickable: false,
-//         paginationAsRange: true,
-//         resistance : true, // or false or 100%
-//         scrollContainer : false,
-//         preventLinks : true,
-//         preventLinksPropagation: false,
-//         noSwiping : false, // or class
-//         noSwipingClass : 'swiper-no-swiping', //:)
-//         initialSlide: 0,
-//         keyboardControl: false,
-//         mousewheelControl : false,
-//         mousewheelControlForceToAxis : false,
-//         useCSS3Transforms : true,
-//         // Autoplay
-//         autoplay: false,
-//         autoplayDisableOnInteraction: true,
-//         autoplayStopOnLast: false,
-//         //Loop mode
-//         loop: false,
-//         loopAdditionalSlides: 0,
-//         // Round length values
-//         roundLengths: false,
-//         //Auto Height
-//         calculateHeight: false,
-//         //Apply CSS for width and/or height
-//         cssWidthAndHeight: false, // or true or 'width' or 'height'
-//         //Images Preloader
-//         updateOnImagesReady : true,
-//         //Form elements
-//         releaseFormElements : true,
-//         //Watch for active slide, useful when use effects on different slide states
-//         watchActiveIndex: false,
-//         //Slides Visibility Fit
-//         visibilityFullFit : false,
-//         //Slides Offset
-//         offsetPxBefore : 0,
-//         offsetPxAfter : 0,
-//         offsetSlidesBefore : 0,
-//         offsetSlidesAfter : 0,
-//         centeredSlides: false,
-//         //Queue callbacks
-//         queueStartCallbacks : false,
-//         queueEndCallbacks : false,
-//         //Auto Resize
-//         autoResize : true,
-//         resizeReInit : false,
-//         //DOMAnimation
-//         DOMAnimation : true,
-//         //Slides Loader
-//         loader: {
-//             slides: [], //array with slides
-//             slidesHTMLType: 'inner', // or 'outer'
-//             surroundGroups: 1, //keep preloaded slides groups around view
-//             logic: 'reload', //or 'change'
-//             loadAllSlides: false
-//         },
-//         // One way swipes
-//         swipeToPrev: true,
-//         swipeToNext: true,
-//         //Namespace
-//         slideElement: 'div',
-//         slideClass: 'swiper-slide',
-//         slideActiveClass: 'swiper-slide-active',
-//         slideVisibleClass: 'swiper-slide-visible',
-//         slideDuplicateClass: 'swiper-slide-duplicate',
-//         wrapperClass: 'swiper-wrapper',
-//         paginationElementClass: 'swiper-pagination-switch',
-//         paginationActiveClass: 'swiper-active-switch',
-//         paginationVisibleClass: 'swiper-visible-switch'
-//     };
-//     params = params || {};
-//     for (var prop in defaults) {
-//         if (prop in params && typeof params[prop] === 'object') {
-//             for (var subProp in defaults[prop]) {
-//                 if (! (subProp in params[prop])) {
-//                     params[prop][subProp] = defaults[prop][subProp];
-//                 }
-//             }
-//         }
-//         else if (! (prop in params)) {
-//             params[prop] = defaults[prop];
-//         }
-//     }
-//     _this.params = params;
-//     if (params.scrollContainer) {
-//         params.freeMode = true;
-//         params.freeModeFluid = true;
-//     }
-//     if (params.loop) {
-//         params.resistance = '100%';
-//     }
-//     var isH = params.mode === 'horizontal';
-
-//     /*=========================
-//       Define Touch Events
-//       ===========================*/
-//     var desktopEvents = ['mousedown', 'mousemove', 'mouseup'];
-//     if (_this.browser.ie10) desktopEvents = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
-//     if (_this.browser.ie11) desktopEvents = ['pointerdown', 'pointermove', 'pointerup'];
-
-//     _this.touchEvents = {
-//         touchStart : _this.support.touch || !params.simulateTouch  ? 'touchstart' : desktopEvents[0],
-//         touchMove : _this.support.touch || !params.simulateTouch ? 'touchmove' : desktopEvents[1],
-//         touchEnd : _this.support.touch || !params.simulateTouch ? 'touchend' : desktopEvents[2]
-//     };
-
-//     /*=========================
-//       Wrapper
-//       ===========================*/
-//     for (var i = _this.container.childNodes.length - 1; i >= 0; i--) {
-//         if (_this.container.childNodes[i].className) {
-//             var _wrapperClasses = _this.container.childNodes[i].className.split(/\s+/);
-//             for (var j = 0; j < _wrapperClasses.length; j++) {
-//                 if (_wrapperClasses[j] === params.wrapperClass) {
-//                     wrapper = _this.container.childNodes[i];
-//                 }
-//             }
-//         }
-//     }
-
-//     _this.wrapper = wrapper;
-//     /*=========================
-//       Slide API
-//       ===========================*/
-//     _this._extendSwiperSlide = function  (el) {
-//         el.append = function () {
-//             if (params.loop) {
-//                 el.insertAfter(_this.slides.length - _this.loopedSlides);
-//             }
-//             else {
-//                 _this.wrapper.appendChild(el);
-//                 _this.reInit();
-//             }
-
-//             return el;
-//         };
-//         el.prepend = function () {
-//             if (params.loop) {
-//                 _this.wrapper.insertBefore(el, _this.slides[_this.loopedSlides]);
-//                 _this.removeLoopedSlides();
-//                 _this.calcSlides();
-//                 _this.createLoop();
-//             }
-//             else {
-//                 _this.wrapper.insertBefore(el, _this.wrapper.firstChild);
-//             }
-//             _this.reInit();
-//             return el;
-//         };
-//         el.insertAfter = function (index) {
-//             if (typeof index === 'undefined') return false;
-//             var beforeSlide;
-
-//             if (params.loop) {
-//                 beforeSlide = _this.slides[index + 1 + _this.loopedSlides];
-//                 if (beforeSlide) {
-//                     _this.wrapper.insertBefore(el, beforeSlide);
-//                 }
-//                 else {
-//                     _this.wrapper.appendChild(el);
-//                 }
-//                 _this.removeLoopedSlides();
-//                 _this.calcSlides();
-//                 _this.createLoop();
-//             }
-//             else {
-//                 beforeSlide = _this.slides[index + 1];
-//                 _this.wrapper.insertBefore(el, beforeSlide);
-//             }
-//             _this.reInit();
-//             return el;
-//         };
-//         el.clone = function () {
-//             return _this._extendSwiperSlide(el.cloneNode(true));
-//         };
-//         el.remove = function () {
-//             _this.wrapper.removeChild(el);
-//             _this.reInit();
-//         };
-//         el.html = function (html) {
-//             if (typeof html === 'undefined') {
-//                 return el.innerHTML;
-//             }
-//             else {
-//                 el.innerHTML = html;
-//                 return el;
-//             }
-//         };
-//         el.index = function () {
-//             var index;
-//             for (var i = _this.slides.length - 1; i >= 0; i--) {
-//                 if (el === _this.slides[i]) index = i;
-//             }
-//             return index;
-//         };
-//         el.isActive = function () {
-//             if (el.index() === _this.activeIndex) return true;
-//             else return false;
-//         };
-//         if (!el.swiperSlideDataStorage) el.swiperSlideDataStorage = {};
-//         el.getData = function (name) {
-//             return el.swiperSlideDataStorage[name];
-//         };
-//         el.setData = function (name, value) {
-//             el.swiperSlideDataStorage[name] = value;
-//             return el;
-//         };
-//         el.data = function (name, value) {
-//             if (typeof value === 'undefined') {
-//                 return el.getAttribute('data-' + name);
-//             }
-//             else {
-//                 el.setAttribute('data-' + name, value);
-//                 return el;
-//             }
-//         };
-//         el.getWidth = function (outer, round) {
-//             return _this.h.getWidth(el, outer, round);
-//         };
-//         el.getHeight = function (outer, round) {
-//             return _this.h.getHeight(el, outer, round);
-//         };
-//         el.getOffset = function () {
-//             return _this.h.getOffset(el);
-//         };
-//         return el;
-//     };
-
-//     //Calculate information about number of slides
-//     _this.calcSlides = function (forceCalcSlides) {
-//         var oldNumber = _this.slides ? _this.slides.length : false;
-//         _this.slides = [];
-//         _this.displaySlides = [];
-//         for (var i = 0; i < _this.wrapper.childNodes.length; i++) {
-//             if (_this.wrapper.childNodes[i].className) {
-//                 var _className = _this.wrapper.childNodes[i].className;
-//                 var _slideClasses = _className.split(/\s+/);
-//                 for (var j = 0; j < _slideClasses.length; j++) {
-//                     if (_slideClasses[j] === params.slideClass) {
-//                         _this.slides.push(_this.wrapper.childNodes[i]);
-//                     }
-//                 }
-//             }
-//         }
-//         for (i = _this.slides.length - 1; i >= 0; i--) {
-//             _this._extendSwiperSlide(_this.slides[i]);
-//         }
-//         if (oldNumber === false) return;
-//         if (oldNumber !== _this.slides.length || forceCalcSlides) {
-
-//             // Number of slides has been changed
-//             removeSlideEvents();
-//             addSlideEvents();
-//             _this.updateActiveSlide();
-//             if (_this.params.pagination) _this.createPagination();
-//             _this.callPlugins('numberOfSlidesChanged');
-//         }
-//     };
-
-//     //Create Slide
-//     _this.createSlide = function (html, slideClassList, el) {
-//         slideClassList = slideClassList || _this.params.slideClass;
-//         el = el || params.slideElement;
-//         var newSlide = document.createElement(el);
-//         newSlide.innerHTML = html || '';
-//         newSlide.className = slideClassList;
-//         return _this._extendSwiperSlide(newSlide);
-//     };
-
-//     //Append Slide
-//     _this.appendSlide = function (html, slideClassList, el) {
-//         if (!html) return;
-//         if (html.nodeType) {
-//             return _this._extendSwiperSlide(html).append();
-//         }
-//         else {
-//             return _this.createSlide(html, slideClassList, el).append();
-//         }
-//     };
-//     _this.prependSlide = function (html, slideClassList, el) {
-//         if (!html) return;
-//         if (html.nodeType) {
-//             return _this._extendSwiperSlide(html).prepend();
-//         }
-//         else {
-//             return _this.createSlide(html, slideClassList, el).prepend();
-//         }
-//     };
-//     _this.insertSlideAfter = function (index, html, slideClassList, el) {
-//         if (typeof index === 'undefined') return false;
-//         if (html.nodeType) {
-//             return _this._extendSwiperSlide(html).insertAfter(index);
-//         }
-//         else {
-//             return _this.createSlide(html, slideClassList, el).insertAfter(index);
-//         }
-//     };
-//     _this.removeSlide = function (index) {
-//         if (_this.slides[index]) {
-//             if (params.loop) {
-//                 if (!_this.slides[index + _this.loopedSlides]) return false;
-//                 _this.slides[index + _this.loopedSlides].remove();
-//                 _this.removeLoopedSlides();
-//                 _this.calcSlides();
-//                 _this.createLoop();
-//             }
-//             else _this.slides[index].remove();
-//             return true;
-//         }
-//         else return false;
-//     };
-//     _this.removeLastSlide = function () {
-//         if (_this.slides.length > 0) {
-//             if (params.loop) {
-//                 _this.slides[_this.slides.length - 1 - _this.loopedSlides].remove();
-//                 _this.removeLoopedSlides();
-//                 _this.calcSlides();
-//                 _this.createLoop();
-//             }
-//             else _this.slides[_this.slides.length - 1].remove();
-//             return true;
-//         }
-//         else {
-//             return false;
-//         }
-//     };
-//     _this.removeAllSlides = function () {
-//         var num = _this.slides.length;
-//         for (var i = _this.slides.length - 1; i >= 0; i--) {
-//             _this.slides[i].remove();
-//             if (i === num - 1) {
-//                 _this.setWrapperTranslate(0);
-//             }
-//         }
-//     };
-//     _this.getSlide = function (index) {
-//         return _this.slides[index];
-//     };
-//     _this.getLastSlide = function () {
-//         return _this.slides[_this.slides.length - 1];
-//     };
-//     _this.getFirstSlide = function () {
-//         return _this.slides[0];
-//     };
-
-//     //Currently Active Slide
-//     _this.activeSlide = function () {
-//         return _this.slides[_this.activeIndex];
-//     };
-
-//     /*=========================
-//      Wrapper for Callbacks : Allows additive callbacks via function arrays
-//      ===========================*/
-//     _this.fireCallback = function () {
-//         var callback = arguments[0];
-//         if (Object.prototype.toString.call(callback) === '[object Array]') {
-//             for (var i = 0; i < callback.length; i++) {
-//                 if (typeof callback[i] === 'function') {
-//                     callback[i](arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-//                 }
-//             }
-//         } else if (Object.prototype.toString.call(callback) === '[object String]') {
-//             if (params['on' + callback]) _this.fireCallback(params['on' + callback], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-//         } else {
-//             callback(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
-//         }
-//     };
-//     function isArray(obj) {
-//         if (Object.prototype.toString.apply(obj) === '[object Array]') return true;
-//         return false;
-//     }
-
-//     /**
-//      * Allows user to add callbacks, rather than replace them
-//      * @param callback
-//      * @param func
-//      * @return {*}
-//      */
-//     _this.addCallback = function (callback, func) {
-//         var _this = this, tempFunc;
-//         if (_this.params['on' + callback]) {
-//             if (isArray(this.params['on' + callback])) {
-//                 return this.params['on' + callback].push(func);
-//             } else if (typeof this.params['on' + callback] === 'function') {
-//                 tempFunc = this.params['on' + callback];
-//                 this.params['on' + callback] = [];
-//                 this.params['on' + callback].push(tempFunc);
-//                 return this.params['on' + callback].push(func);
-//             }
-//         } else {
-//             this.params['on' + callback] = [];
-//             return this.params['on' + callback].push(func);
-//         }
-//     };
-//     _this.removeCallbacks = function (callback) {
-//         if (_this.params['on' + callback]) {
-//             _this.params['on' + callback] = null;
-//         }
-//     };
-
-//     /*=========================
-//       Plugins API
-//       ===========================*/
-//     var _plugins = [];
-//     for (var plugin in _this.plugins) {
-//         if (params[plugin]) {
-//             var p = _this.plugins[plugin](_this, params[plugin]);
-//             if (p) _plugins.push(p);
-//         }
-//     }
-//     _this.callPlugins = function (method, args) {
-//         if (!args) args = {};
-//         for (var i = 0; i < _plugins.length; i++) {
-//             if (method in _plugins[i]) {
-//                 _plugins[i][method](args);
-//             }
-//         }
-//     };
-
-//     /*=========================
-//       Windows Phone 8 Fix
-//       ===========================*/
-//     if ((_this.browser.ie10 || _this.browser.ie11) && !params.onlyExternal) {
-//         _this.wrapper.classList.add('swiper-wp8-' + (isH ? 'horizontal' : 'vertical'));
-//     }
-
-//     /*=========================
-//       Free Mode Class
-//       ===========================*/
-//     if (params.freeMode) {
-//         _this.container.className += ' swiper-free-mode';
-//     }
-
-//     /*==================================================
-//         Init/Re-init/Resize Fix
-//     ====================================================*/
-//     _this.initialized = false;
-//     _this.init = function (force, forceCalcSlides) {
-//         var _width = _this.h.getWidth(_this.container, false, params.roundLengths);
-//         var _height = _this.h.getHeight(_this.container, false, params.roundLengths);
-//         if (_width === _this.width && _height === _this.height && !force) return;
-
-//         _this.width = _width;
-//         _this.height = _height;
-
-//         var slideWidth, slideHeight, slideMaxHeight, wrapperWidth, wrapperHeight, slideLeft;
-//         var i; // loop index variable to avoid JSHint W004 / W038
-//         containerSize = isH ? _width : _height;
-//         var wrapper = _this.wrapper;
-
-//         if (force) {
-//             _this.calcSlides(forceCalcSlides);
-//         }
-
-//         if (params.slidesPerView === 'auto') {
-//             //Auto mode
-//             var slidesWidth = 0;
-//             var slidesHeight = 0;
-
-//             //Unset Styles
-//             if (params.slidesOffset > 0) {
-//                 wrapper.style.paddingLeft = '';
-//                 wrapper.style.paddingRight = '';
-//                 wrapper.style.paddingTop = '';
-//                 wrapper.style.paddingBottom = '';
-//             }
-//             wrapper.style.width = '';
-//             wrapper.style.height = '';
-//             if (params.offsetPxBefore > 0) {
-//                 if (isH) _this.wrapperLeft = params.offsetPxBefore;
-//                 else _this.wrapperTop = params.offsetPxBefore;
-//             }
-//             if (params.offsetPxAfter > 0) {
-//                 if (isH) _this.wrapperRight = params.offsetPxAfter;
-//                 else _this.wrapperBottom = params.offsetPxAfter;
-//             }
-
-//             if (params.centeredSlides) {
-//                 if (isH) {
-//                     _this.wrapperLeft = (containerSize - this.slides[0].getWidth(true, params.roundLengths)) / 2;
-//                     _this.wrapperRight = (containerSize - _this.slides[_this.slides.length - 1].getWidth(true, params.roundLengths)) / 2;
-//                 }
-//                 else {
-//                     _this.wrapperTop = (containerSize - _this.slides[0].getHeight(true, params.roundLengths)) / 2;
-//                     _this.wrapperBottom = (containerSize - _this.slides[_this.slides.length - 1].getHeight(true, params.roundLengths)) / 2;
-//                 }
-//             }
-
-//             if (isH) {
-//                 if (_this.wrapperLeft >= 0) wrapper.style.paddingLeft = _this.wrapperLeft + 'px';
-//                 if (_this.wrapperRight >= 0) wrapper.style.paddingRight = _this.wrapperRight + 'px';
-//             }
-//             else {
-//                 if (_this.wrapperTop >= 0) wrapper.style.paddingTop = _this.wrapperTop + 'px';
-//                 if (_this.wrapperBottom >= 0) wrapper.style.paddingBottom = _this.wrapperBottom + 'px';
-//             }
-//             slideLeft = 0;
-//             var centeredSlideLeft = 0;
-//             _this.snapGrid = [];
-//             _this.slidesGrid = [];
-
-//             slideMaxHeight = 0;
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 slideWidth = _this.slides[i].getWidth(true, params.roundLengths);
-//                 slideHeight = _this.slides[i].getHeight(true, params.roundLengths);
-//                 if (params.calculateHeight) {
-//                     slideMaxHeight = Math.max(slideMaxHeight, slideHeight);
-//                 }
-//                 var _slideSize = isH ? slideWidth : slideHeight;
-//                 if (params.centeredSlides) {
-//                     var nextSlideWidth = i === _this.slides.length - 1 ? 0 : _this.slides[i + 1].getWidth(true, params.roundLengths);
-//                     var nextSlideHeight = i === _this.slides.length - 1 ? 0 : _this.slides[i + 1].getHeight(true, params.roundLengths);
-//                     var nextSlideSize = isH ? nextSlideWidth : nextSlideHeight;
-//                     if (_slideSize > containerSize) {
-//                         if (params.slidesPerViewFit) {
-//                             _this.snapGrid.push(slideLeft + _this.wrapperLeft);
-//                             _this.snapGrid.push(slideLeft + _slideSize - containerSize + _this.wrapperLeft);
-//                         }
-//                         else {
-//                             for (var j = 0; j <= Math.floor(_slideSize / (containerSize + _this.wrapperLeft)); j++) {
-//                                 if (j === 0) _this.snapGrid.push(slideLeft + _this.wrapperLeft);
-//                                 else _this.snapGrid.push(slideLeft + _this.wrapperLeft + containerSize * j);
-//                             }
-//                         }
-//                         _this.slidesGrid.push(slideLeft + _this.wrapperLeft);
-//                     }
-//                     else {
-//                         _this.snapGrid.push(centeredSlideLeft);
-//                         _this.slidesGrid.push(centeredSlideLeft);
-//                     }
-//                     centeredSlideLeft += _slideSize / 2 + nextSlideSize / 2;
-//                 }
-//                 else {
-//                     if (_slideSize > containerSize) {
-//                         if (params.slidesPerViewFit) {
-//                             _this.snapGrid.push(slideLeft);
-//                             _this.snapGrid.push(slideLeft + _slideSize - containerSize);
-//                         }
-//                         else {
-//                             if (containerSize !== 0) {
-//                                 for (var k = 0; k <= Math.floor(_slideSize / containerSize); k++) {
-//                                     _this.snapGrid.push(slideLeft + containerSize * k);
-//                                 }
-//                             }
-//                             else {
-//                                 _this.snapGrid.push(slideLeft);
-//                             }
-//                         }
-
-//                     }
-//                     else {
-//                         _this.snapGrid.push(slideLeft);
-//                     }
-//                     _this.slidesGrid.push(slideLeft);
-//                 }
-
-//                 slideLeft += _slideSize;
-
-//                 slidesWidth += slideWidth;
-//                 slidesHeight += slideHeight;
-//             }
-//             if (params.calculateHeight) _this.height = slideMaxHeight;
-//             if (isH) {
-//                 wrapperSize = slidesWidth + _this.wrapperRight + _this.wrapperLeft;
-//                 if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
-//                     wrapper.style.width = (slidesWidth) + 'px';
-//                 }
-//                 if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
-//                     wrapper.style.height = (_this.height) + 'px';
-//                 }
-//             }
-//             else {
-//                 if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height') {
-//                     wrapper.style.width = (_this.width) + 'px';
-//                 }
-//                 if (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width') {
-//                     wrapper.style.height = (slidesHeight) + 'px';
-//                 }
-//                 wrapperSize = slidesHeight + _this.wrapperTop + _this.wrapperBottom;
-//             }
-
-//         }
-//         else if (params.scrollContainer) {
-//             //Scroll Container
-//             wrapper.style.width = '';
-//             wrapper.style.height = '';
-//             wrapperWidth = _this.slides[0].getWidth(true, params.roundLengths);
-//             wrapperHeight = _this.slides[0].getHeight(true, params.roundLengths);
-//             wrapperSize = isH ? wrapperWidth : wrapperHeight;
-//             wrapper.style.width = wrapperWidth + 'px';
-//             wrapper.style.height = wrapperHeight + 'px';
-//             slideSize = isH ? wrapperWidth : wrapperHeight;
-
-//         }
-//         else {
-//             //For usual slides
-//             if (params.calculateHeight) {
-//                 slideMaxHeight = 0;
-//                 wrapperHeight = 0;
-//                 //ResetWrapperSize
-//                 if (!isH) _this.container.style.height = '';
-//                 wrapper.style.height = '';
-
-//                 for (i = 0; i < _this.slides.length; i++) {
-//                     //ResetSlideSize
-//                     _this.slides[i].style.height = '';
-//                     slideMaxHeight = Math.max(_this.slides[i].getHeight(true), slideMaxHeight);
-//                     if (!isH) wrapperHeight += _this.slides[i].getHeight(true);
-//                 }
-//                 slideHeight = slideMaxHeight;
-//                 _this.height = slideHeight;
-
-//                 if (isH) wrapperHeight = slideHeight;
-//                 else {
-//                     containerSize = slideHeight;
-//                     _this.container.style.height = containerSize + 'px';
-//                 }
-//             }
-//             else {
-//                 slideHeight = isH ? _this.height : _this.height / params.slidesPerView;
-//                 if (params.roundLengths) slideHeight = Math.ceil(slideHeight);
-//                 wrapperHeight = isH ? _this.height : _this.slides.length * slideHeight;
-//             }
-//             slideWidth = isH ? _this.width / params.slidesPerView : _this.width;
-//             if (params.roundLengths) slideWidth = Math.ceil(slideWidth);
-//             wrapperWidth = isH ? _this.slides.length * slideWidth : _this.width;
-//             slideSize = isH ? slideWidth : slideHeight;
-
-//             if (params.offsetSlidesBefore > 0) {
-//                 if (isH) _this.wrapperLeft = slideSize * params.offsetSlidesBefore;
-//                 else _this.wrapperTop = slideSize * params.offsetSlidesBefore;
-//             }
-//             if (params.offsetSlidesAfter > 0) {
-//                 if (isH) _this.wrapperRight = slideSize * params.offsetSlidesAfter;
-//                 else _this.wrapperBottom = slideSize * params.offsetSlidesAfter;
-//             }
-//             if (params.offsetPxBefore > 0) {
-//                 if (isH) _this.wrapperLeft = params.offsetPxBefore;
-//                 else _this.wrapperTop = params.offsetPxBefore;
-//             }
-//             if (params.offsetPxAfter > 0) {
-//                 if (isH) _this.wrapperRight = params.offsetPxAfter;
-//                 else _this.wrapperBottom = params.offsetPxAfter;
-//             }
-//             if (params.centeredSlides) {
-//                 if (isH) {
-//                     _this.wrapperLeft = (containerSize - slideSize) / 2;
-//                     _this.wrapperRight = (containerSize - slideSize) / 2;
-//                 }
-//                 else {
-//                     _this.wrapperTop = (containerSize - slideSize) / 2;
-//                     _this.wrapperBottom = (containerSize - slideSize) / 2;
-//                 }
-//             }
-//             if (isH) {
-//                 if (_this.wrapperLeft > 0) wrapper.style.paddingLeft = _this.wrapperLeft + 'px';
-//                 if (_this.wrapperRight > 0) wrapper.style.paddingRight = _this.wrapperRight + 'px';
-//             }
-//             else {
-//                 if (_this.wrapperTop > 0) wrapper.style.paddingTop = _this.wrapperTop + 'px';
-//                 if (_this.wrapperBottom > 0) wrapper.style.paddingBottom = _this.wrapperBottom + 'px';
-//             }
-
-//             wrapperSize = isH ? wrapperWidth + _this.wrapperRight + _this.wrapperLeft : wrapperHeight + _this.wrapperTop + _this.wrapperBottom;
-//             if (parseFloat(wrapperWidth) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height')) {
-//                 wrapper.style.width = wrapperWidth + 'px';
-//             }
-//             if (parseFloat(wrapperHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
-//                 wrapper.style.height = wrapperHeight + 'px';
-//             }
-//             slideLeft = 0;
-//             _this.snapGrid = [];
-//             _this.slidesGrid = [];
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 _this.snapGrid.push(slideLeft);
-//                 _this.slidesGrid.push(slideLeft);
-//                 slideLeft += slideSize;
-//                 if (parseFloat(slideWidth) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'height')) {
-//                     _this.slides[i].style.width = slideWidth + 'px';
-//                 }
-//                 if (parseFloat(slideHeight) > 0 && (!params.cssWidthAndHeight || params.cssWidthAndHeight === 'width')) {
-//                     _this.slides[i].style.height = slideHeight + 'px';
-//                 }
-//             }
-
-//         }
-
-//         if (!_this.initialized) {
-//             _this.callPlugins('onFirstInit');
-//             if (params.onFirstInit) _this.fireCallback(params.onFirstInit, _this);
-//         }
-//         else {
-//             _this.callPlugins('onInit');
-//             if (params.onInit) _this.fireCallback(params.onInit, _this);
-//         }
-//         _this.initialized = true;
-//     };
-
-//     _this.reInit = function (forceCalcSlides) {
-//         _this.init(true, forceCalcSlides);
-//     };
-
-//     _this.resizeFix = function (reInit) {
-//         _this.callPlugins('beforeResizeFix');
-
-//         _this.init(params.resizeReInit || reInit);
-
-//         // swipe to active slide in fixed mode
-//         if (!params.freeMode) {
-//             _this.swipeTo((params.loop ? _this.activeLoopIndex : _this.activeIndex), 0, false);
-//             // Fix autoplay
-//             if (params.autoplay) {
-//                 if (_this.support.transitions && typeof autoplayTimeoutId !== 'undefined') {
-//                     if (typeof autoplayTimeoutId !== 'undefined') {
-//                         clearTimeout(autoplayTimeoutId);
-//                         autoplayTimeoutId = undefined;
-//                         _this.startAutoplay();
-//                     }
-//                 }
-//                 else {
-//                     if (typeof autoplayIntervalId !== 'undefined') {
-//                         clearInterval(autoplayIntervalId);
-//                         autoplayIntervalId = undefined;
-//                         _this.startAutoplay();
-//                     }
-//                 }
-//             }
-//         }
-//         // move wrapper to the beginning in free mode
-//         else if (_this.getWrapperTranslate() < -maxWrapperPosition()) {
-//             _this.setWrapperTransition(0);
-//             _this.setWrapperTranslate(-maxWrapperPosition());
-//         }
-
-//         _this.callPlugins('afterResizeFix');
-//     };
-
-//     /*==========================================
-//         Max and Min Positions
-//     ============================================*/
-//     function maxWrapperPosition() {
-//         var a = (wrapperSize - containerSize);
-//         if (params.freeMode) {
-//             a = wrapperSize - containerSize;
-//         }
-//         // if (params.loop) a -= containerSize;
-//         if (params.slidesPerView > _this.slides.length && !params.centeredSlides) {
-//             a = 0;
-//         }
-//         if (a < 0) a = 0;
-//         return a;
-//     }
-
-//     /*==========================================
-//         Event Listeners
-//     ============================================*/
-//     function initEvents() {
-//         var bind = _this.h.addEventListener;
-//         var eventTarget = params.eventTarget === 'wrapper' ? _this.wrapper : _this.container;
-//         //Touch Events
-//         if (! (_this.browser.ie10 || _this.browser.ie11)) {
-//             if (_this.support.touch) {
-//                 bind(eventTarget, 'touchstart', onTouchStart);
-//                 bind(eventTarget, 'touchmove', onTouchMove);
-//                 bind(eventTarget, 'touchend', onTouchEnd);
-//             }
-//             if (params.simulateTouch) {
-//                 bind(eventTarget, 'mousedown', onTouchStart);
-//                 bind(document, 'mousemove', onTouchMove);
-//                 bind(document, 'mouseup', onTouchEnd);
-//             }
-//         }
-//         else {
-//             bind(eventTarget, _this.touchEvents.touchStart, onTouchStart);
-//             bind(document, _this.touchEvents.touchMove, onTouchMove);
-//             bind(document, _this.touchEvents.touchEnd, onTouchEnd);
-//         }
-
-//         //Resize Event
-//         if (params.autoResize) {
-//             bind(window, 'resize', _this.resizeFix);
-//         }
-//         //Slide Events
-//         addSlideEvents();
-//         //Mousewheel
-//         _this._wheelEvent = false;
-//         if (params.mousewheelControl) {
-//             if (document.onmousewheel !== undefined) {
-//                 _this._wheelEvent = 'mousewheel';
-//             }
-//             if (!_this._wheelEvent) {
-//                 try {
-//                     new WheelEvent('wheel');
-//                     _this._wheelEvent = 'wheel';
-//                 } catch (e) {}
-//             }
-//             if (!_this._wheelEvent) {
-//                 _this._wheelEvent = 'DOMMouseScroll';
-//             }
-//             if (_this._wheelEvent) {
-//                 bind(_this.container, _this._wheelEvent, handleMousewheel);
-//             }
-//         }
-
-//         //Keyboard
-// 		function _loadImage(img) {
-// 			var image, src;
-// 			var onReady = function () {
-// 				if (typeof _this === 'undefined' || _this === null) return;
-// 				if (_this.imagesLoaded !== undefined) _this.imagesLoaded++;
-// 				if (_this.imagesLoaded === _this.imagesToLoad.length) {
-// 					_this.reInit();
-// 					if (params.onImagesReady) _this.fireCallback(params.onImagesReady, _this);
-// 				}
-// 			};
-
-// 			if (!img.complete) {
-// 				src = (img.currentSrc || img.getAttribute('src'));
-// 				if (src) {
-// 					image = new Image();
-// 					image.onload = onReady;
-// 					image.onerror = onReady;
-// 					image.src = src;
-// 				} else {
-// 					onReady();
-// 				}
-
-// 			} else {//image already loaded...
-// 				onReady();
-// 			}
-// 		}
-
-// 		if (params.keyboardControl) {
-// 			bind(document, 'keydown', handleKeyboardKeys);
-// 		}
-// 		if (params.updateOnImagesReady) {
-// 			_this.imagesToLoad = $$('img', _this.container);
-
-// 			for (var i = 0; i < _this.imagesToLoad.length; i++) {
-// 				_loadImage(_this.imagesToLoad[i]);
-// 			}
-// 		}
-//     }
-
-//     //Remove Event Listeners
-//     _this.destroy = function (removeStyles) {
-//         var unbind = _this.h.removeEventListener;
-//         var eventTarget = params.eventTarget === 'wrapper' ? _this.wrapper : _this.container;
-//         //Touch Events
-//         if (! (_this.browser.ie10 || _this.browser.ie11)) {
-//             if (_this.support.touch) {
-//                 unbind(eventTarget, 'touchstart', onTouchStart);
-//                 unbind(eventTarget, 'touchmove', onTouchMove);
-//                 unbind(eventTarget, 'touchend', onTouchEnd);
-//             }
-//             if (params.simulateTouch) {
-//                 unbind(eventTarget, 'mousedown', onTouchStart);
-//                 unbind(document, 'mousemove', onTouchMove);
-//                 unbind(document, 'mouseup', onTouchEnd);
-//             }
-//         }
-//         else {
-//             unbind(eventTarget, _this.touchEvents.touchStart, onTouchStart);
-//             unbind(document, _this.touchEvents.touchMove, onTouchMove);
-//             unbind(document, _this.touchEvents.touchEnd, onTouchEnd);
-//         }
-
-//         //Resize Event
-//         if (params.autoResize) {
-//             unbind(window, 'resize', _this.resizeFix);
-//         }
-
-//         //Init Slide Events
-//         removeSlideEvents();
-
-//         //Pagination
-//         if (params.paginationClickable) {
-//             removePaginationEvents();
-//         }
-
-//         //Mousewheel
-//         if (params.mousewheelControl && _this._wheelEvent) {
-//             unbind(_this.container, _this._wheelEvent, handleMousewheel);
-//         }
-
-//         //Keyboard
-//         if (params.keyboardControl) {
-//             unbind(document, 'keydown', handleKeyboardKeys);
-//         }
-
-//         //Stop autoplay
-//         if (params.autoplay) {
-//             _this.stopAutoplay();
-//         }
-//         // Remove styles
-//         if (removeStyles) {
-//             _this.wrapper.removeAttribute('style');
-//             for (var i = 0; i < _this.slides.length; i++) {
-//                 _this.slides[i].removeAttribute('style');
-//             }
-//         }
-//         // Plugins
-//         _this.callPlugins('onDestroy');
-
-//         // Check jQuery/Zepto data
-//         if (window.jQuery && window.jQuery(_this.container).data('swiper')) {
-//             window.jQuery(_this.container).removeData('swiper');
-//         }
-//         if (window.Zepto && window.Zepto(_this.container).data('swiper')) {
-//             window.Zepto(_this.container).removeData('swiper');
-//         }
-
-//         //Destroy variable
-//         _this = null;
-//     };
-
-//     function addSlideEvents() {
-//         var bind = _this.h.addEventListener,
-//             i;
-
-//         //Prevent Links Events
-//         if (params.preventLinks) {
-//             var links = $$('a', _this.container);
-//             for (i = 0; i < links.length; i++) {
-//                 bind(links[i], 'click', preventClick);
-//             }
-//         }
-//         //Release Form Elements
-//         if (params.releaseFormElements) {
-//             var formElements = $$('input, textarea, select', _this.container);
-//             for (i = 0; i < formElements.length; i++) {
-//                 bind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
-//                 if (_this.support.touch && params.simulateTouch) {
-//                     bind(formElements[i], 'mousedown', releaseForms, true);
-//                 }
-//             }
-//         }
-
-//         //Slide Clicks & Touches
-//         if (params.onSlideClick) {
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 bind(_this.slides[i], 'click', slideClick);
-//             }
-//         }
-//         if (params.onSlideTouch) {
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 bind(_this.slides[i], _this.touchEvents.touchStart, slideTouch);
-//             }
-//         }
-//     }
-//     function removeSlideEvents() {
-//         var unbind = _this.h.removeEventListener,
-//             i;
-
-//         //Slide Clicks & Touches
-//         if (params.onSlideClick) {
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 unbind(_this.slides[i], 'click', slideClick);
-//             }
-//         }
-//         if (params.onSlideTouch) {
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 unbind(_this.slides[i], _this.touchEvents.touchStart, slideTouch);
-//             }
-//         }
-//         //Release Form Elements
-//         if (params.releaseFormElements) {
-//             var formElements = $$('input, textarea, select', _this.container);
-//             for (i = 0; i < formElements.length; i++) {
-//                 unbind(formElements[i], _this.touchEvents.touchStart, releaseForms, true);
-//                 if (_this.support.touch && params.simulateTouch) {
-//                     unbind(formElements[i], 'mousedown', releaseForms, true);
-//                 }
-//             }
-//         }
-//         //Prevent Links Events
-//         if (params.preventLinks) {
-//             var links = $$('a', _this.container);
-//             for (i = 0; i < links.length; i++) {
-//                 unbind(links[i], 'click', preventClick);
-//             }
-//         }
-//     }
-//     /*==========================================
-//         Keyboard Control
-//     ============================================*/
-//     function handleKeyboardKeys(e) {
-//         var kc = e.keyCode || e.charCode;
-//         if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
-//         if (kc === 37 || kc === 39 || kc === 38 || kc === 40) {
-//             var inView = false;
-//             //Check that swiper should be inside of visible area of window
-//             var swiperOffset = _this.h.getOffset(_this.container);
-//             var scrollLeft = _this.h.windowScroll().left;
-//             var scrollTop = _this.h.windowScroll().top;
-//             var windowWidth = _this.h.windowWidth();
-//             var windowHeight = _this.h.windowHeight();
-//             var swiperCoord = [
-//                 [swiperOffset.left, swiperOffset.top],
-//                 [swiperOffset.left + _this.width, swiperOffset.top],
-//                 [swiperOffset.left, swiperOffset.top + _this.height],
-//                 [swiperOffset.left + _this.width, swiperOffset.top + _this.height]
-//             ];
-//             for (var i = 0; i < swiperCoord.length; i++) {
-//                 var point = swiperCoord[i];
-//                 if (
-//                     point[0] >= scrollLeft && point[0] <= scrollLeft + windowWidth &&
-//                     point[1] >= scrollTop && point[1] <= scrollTop + windowHeight
-//                 ) {
-//                     inView = true;
-//                 }
-
-//             }
-//             if (!inView) return;
-//         }
-//         if (isH) {
-//             if (kc === 37 || kc === 39) {
-//                 if (e.preventDefault) e.preventDefault();
-//                 else e.returnValue = false;
-//             }
-//             if (kc === 39) _this.swipeNext();
-//             if (kc === 37) _this.swipePrev();
-//         }
-//         else {
-//             if (kc === 38 || kc === 40) {
-//                 if (e.preventDefault) e.preventDefault();
-//                 else e.returnValue = false;
-//             }
-//             if (kc === 40) _this.swipeNext();
-//             if (kc === 38) _this.swipePrev();
-//         }
-//     }
-
-//     _this.disableKeyboardControl = function () {
-//         params.keyboardControl = false;
-//         _this.h.removeEventListener(document, 'keydown', handleKeyboardKeys);
-//     };
-
-//     _this.enableKeyboardControl = function () {
-//         params.keyboardControl = true;
-//         _this.h.addEventListener(document, 'keydown', handleKeyboardKeys);
-//     };
-
-//     /*==========================================
-//         Mousewheel Control
-//     ============================================*/
-//     var lastScrollTime = (new Date()).getTime();
-//     function handleMousewheel(e) {
-//         var we = _this._wheelEvent;
-//         var delta = 0;
-
-//         //Opera & IE
-//         if (e.detail) delta = -e.detail;
-//         //WebKits
-//         else if (we === 'mousewheel') {
-//             if (params.mousewheelControlForceToAxis) {
-//                 if (isH) {
-//                     if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) delta = e.wheelDeltaX;
-//                     else return;
-//                 }
-//                 else {
-//                     if (Math.abs(e.wheelDeltaY) > Math.abs(e.wheelDeltaX)) delta = e.wheelDeltaY;
-//                     else return;
-//                 }
-//             }
-//             else {
-//                 delta = e.wheelDelta;
-//             }
-//         }
-//         //Old FireFox
-//         else if (we === 'DOMMouseScroll') delta = -e.detail;
-//         //New FireFox
-//         else if (we === 'wheel') {
-//             if (params.mousewheelControlForceToAxis) {
-//                 if (isH) {
-//                     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) delta = -e.deltaX;
-//                     else return;
-//                 }
-//                 else {
-//                     if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) delta = -e.deltaY;
-//                     else return;
-//                 }
-//             }
-//             else {
-//                 delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? - e.deltaX : - e.deltaY;
-//             }
-//         }
-
-//         if (!params.freeMode) {
-//             if ((new Date()).getTime() - lastScrollTime > 60) {
-//                 if (delta < 0) _this.swipeNext();
-//                 else _this.swipePrev();
-//             }
-//             lastScrollTime = (new Date()).getTime();
-
-//         }
-//         else {
-//             //Freemode or scrollContainer:
-//             var position = _this.getWrapperTranslate() + delta;
-
-//             if (position > 0) position = 0;
-//             if (position < -maxWrapperPosition()) position = -maxWrapperPosition();
-
-//             _this.setWrapperTransition(0);
-//             _this.setWrapperTranslate(position);
-//             _this.updateActiveSlide(position);
-
-//             // Return page scroll on edge positions
-//             if (position === 0 || position === -maxWrapperPosition()) return;
-//         }
-//         if (params.autoplay) _this.stopAutoplay(true);
-
-//         if (e.preventDefault) e.preventDefault();
-//         else e.returnValue = false;
-//         return false;
-//     }
-//     _this.disableMousewheelControl = function () {
-//         if (!_this._wheelEvent) return false;
-//         params.mousewheelControl = false;
-//         _this.h.removeEventListener(_this.container, _this._wheelEvent, handleMousewheel);
-//         return true;
-//     };
-
-//     _this.enableMousewheelControl = function () {
-//         if (!_this._wheelEvent) return false;
-//         params.mousewheelControl = true;
-//         _this.h.addEventListener(_this.container, _this._wheelEvent, handleMousewheel);
-//         return true;
-//     };
-
-//     /*=========================
-//       Grab Cursor
-//       ===========================*/
-//     if (params.grabCursor) {
-//         var containerStyle = _this.container.style;
-//         containerStyle.cursor = 'move';
-//         containerStyle.cursor = 'grab';
-//         containerStyle.cursor = '-moz-grab';
-//         containerStyle.cursor = '-webkit-grab';
-//     }
-
-//     /*=========================
-//       Slides Events Handlers
-//       ===========================*/
-
-//     _this.allowSlideClick = true;
-//     function slideClick(event) {
-//         if (_this.allowSlideClick) {
-//             setClickedSlide(event);
-//             _this.fireCallback(params.onSlideClick, _this, event);
-//         }
-//     }
-
-//     function slideTouch(event) {
-//         setClickedSlide(event);
-//         _this.fireCallback(params.onSlideTouch, _this, event);
-//     }
-
-//     function setClickedSlide(event) {
-
-//         // IE 6-8 support
-//         if (!event.currentTarget) {
-//             var element = event.srcElement;
-//             do {
-//                 if (element.className.indexOf(params.slideClass) > -1) {
-//                     break;
-//                 }
-//                 element = element.parentNode;
-//             } while (element);
-//             _this.clickedSlide = element;
-//         }
-//         else {
-//             _this.clickedSlide = event.currentTarget;
-//         }
-
-//         _this.clickedSlideIndex     = _this.slides.indexOf(_this.clickedSlide);
-//         _this.clickedSlideLoopIndex = _this.clickedSlideIndex - (_this.loopedSlides || 0);
-//     }
-
-//     _this.allowLinks = true;
-//     function preventClick(e) {
-//         if (!_this.allowLinks) {
-//             if (e.preventDefault) e.preventDefault();
-//             else e.returnValue = false;
-//             if (params.preventLinksPropagation && 'stopPropagation' in e) {
-//                 e.stopPropagation();
-//             }
-//             return false;
-//         }
-//     }
-//     function releaseForms(e) {
-//         if (e.stopPropagation) e.stopPropagation();
-//         else e.returnValue = false;
-//         return false;
-
-//     }
-
-//     /*==================================================
-//         Event Handlers
-//     ====================================================*/
-//     var isTouchEvent = false;
-//     var allowThresholdMove;
-//     var allowMomentumBounce = true;
-//     function onTouchStart(event) {
-//         if (params.preventLinks) _this.allowLinks = true;
-//         //Exit if slider is already was touched
-//         if (_this.isTouched || params.onlyExternal) {
-//             return false;
-//         }
-
-//         // Blur active elements
-//         var eventTarget = event.target || event.srcElement;
-//         if (document.activeElement && document.activeElement !== document.body) {
-//             if (document.activeElement !== eventTarget) document.activeElement.blur();
-//         }
-
-//         // Form tag names
-//         var formTagNames = ('input select textarea').split(' ');
-
-//         // Check for no swiping
-//         if (params.noSwiping && (eventTarget) && noSwipingSlide(eventTarget)) return false;
-//         allowMomentumBounce = false;
-//         //Check For Nested Swipers
-//         _this.isTouched = true;
-//         isTouchEvent = event.type === 'touchstart';
-
-//         // prevent user enter with right and the swiper move (needs isTouchEvent)
-//         if (!isTouchEvent && 'which' in event && event.which === 3) {
-//             _this.isTouched = false;
-//             return false;
-//         }
-
-//         if (!isTouchEvent || event.targetTouches.length === 1) {
-//             _this.callPlugins('onTouchStartBegin');
-//             if (!isTouchEvent && !_this.isAndroid && formTagNames.indexOf(eventTarget.tagName.toLowerCase()) < 0) {
-
-//                 if (event.preventDefault) event.preventDefault();
-//                 else event.returnValue = false;
-//             }
-
-//             var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
-//             var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
-
-//             //Start Touches to check the scrolling
-//             _this.touches.startX = _this.touches.currentX = pageX;
-//             _this.touches.startY = _this.touches.currentY = pageY;
-
-//             _this.touches.start = _this.touches.current = isH ? pageX : pageY;
-
-//             //Set Transition Time to 0
-//             _this.setWrapperTransition(0);
-
-//             //Get Start Translate Position
-//             _this.positions.start = _this.positions.current = _this.getWrapperTranslate();
-
-//             //Set Transform
-//             _this.setWrapperTranslate(_this.positions.start);
-
-//             //TouchStartTime
-//             _this.times.start = (new Date()).getTime();
-
-//             //Unset Scrolling
-//             isScrolling = undefined;
-
-//             //Set Treshold
-//             if (params.moveStartThreshold > 0) {
-//                 allowThresholdMove = false;
-//             }
-
-//             //CallBack
-//             if (params.onTouchStart) _this.fireCallback(params.onTouchStart, _this, event);
-//             _this.callPlugins('onTouchStartEnd');
-
-//         }
-//     }
-//     var velocityPrevPosition, velocityPrevTime;
-//     function onTouchMove(event) {
-//         // If slider is not touched - exit
-//         if (!_this.isTouched || params.onlyExternal) return;
-//         if (isTouchEvent && event.type === 'mousemove') return;
-
-//         var pageX = isTouchEvent ? event.targetTouches[0].pageX : (event.pageX || event.clientX);
-//         var pageY = isTouchEvent ? event.targetTouches[0].pageY : (event.pageY || event.clientY);
-
-//         //check for scrolling
-//         if (typeof isScrolling === 'undefined' && isH) {
-//             isScrolling = !!(isScrolling || Math.abs(pageY - _this.touches.startY) > Math.abs(pageX - _this.touches.startX));
-//         }
-//         if (typeof isScrolling === 'undefined' && !isH) {
-//             isScrolling = !!(isScrolling || Math.abs(pageY - _this.touches.startY) < Math.abs(pageX - _this.touches.startX));
-//         }
-//         if (isScrolling) {
-//             _this.isTouched = false;
-//             return;
-//         }
-
-//         // One way swipes
-//         if (isH) {
-//             if ((!params.swipeToNext && pageX < _this.touches.startX) || ((!params.swipeToPrev && pageX > _this.touches.startX))) {
-//                 return;
-//             }
-//         }
-//         else {
-//             if ((!params.swipeToNext && pageY < _this.touches.startY) || ((!params.swipeToPrev && pageY > _this.touches.startY))) {
-//                 return;
-//             }
-//         }
-
-//         //Check For Nested Swipers
-//         if (event.assignedToSwiper) {
-//             _this.isTouched = false;
-//             return;
-//         }
-//         event.assignedToSwiper = true;
-
-//         //Block inner links
-//         if (params.preventLinks) {
-//             _this.allowLinks = false;
-//         }
-//         if (params.onSlideClick) {
-//             _this.allowSlideClick = false;
-//         }
-
-//         //Stop AutoPlay if exist
-//         if (params.autoplay) {
-//             _this.stopAutoplay(true);
-//         }
-//         if (!isTouchEvent || event.touches.length === 1) {
-
-//             //Moved Flag
-//             if (!_this.isMoved) {
-//                 _this.callPlugins('onTouchMoveStart');
-
-//                 if (params.loop) {
-//                     _this.fixLoop();
-//                     _this.positions.start = _this.getWrapperTranslate();
-//                 }
-//                 if (params.onTouchMoveStart) _this.fireCallback(params.onTouchMoveStart, _this);
-//             }
-//             _this.isMoved = true;
-
-//             // cancel event
-//             if (event.preventDefault) event.preventDefault();
-//             else event.returnValue = false;
-
-//             _this.touches.current = isH ? pageX : pageY;
-
-//             _this.positions.current = (_this.touches.current - _this.touches.start) * params.touchRatio + _this.positions.start;
-
-//             //Resistance Callbacks
-//             if (_this.positions.current > 0 && params.onResistanceBefore) {
-//                 _this.fireCallback(params.onResistanceBefore, _this, _this.positions.current);
-//             }
-//             if (_this.positions.current < -maxWrapperPosition() && params.onResistanceAfter) {
-//                 _this.fireCallback(params.onResistanceAfter, _this, Math.abs(_this.positions.current + maxWrapperPosition()));
-//             }
-//             //Resistance
-//             if (params.resistance && params.resistance !== '100%') {
-//                 var resistance;
-//                 //Resistance for Negative-Back sliding
-//                 if (_this.positions.current > 0) {
-//                     resistance = 1 - _this.positions.current / containerSize / 2;
-//                     if (resistance < 0.5)
-//                         _this.positions.current = (containerSize / 2);
-//                     else
-//                         _this.positions.current = _this.positions.current * resistance;
-//                 }
-//                 //Resistance for After-End Sliding
-//                 if (_this.positions.current < -maxWrapperPosition()) {
-
-//                     var diff = (_this.touches.current - _this.touches.start) * params.touchRatio + (maxWrapperPosition() + _this.positions.start);
-//                     resistance = (containerSize + diff) / (containerSize);
-//                     var newPos = _this.positions.current - diff * (1 - resistance) / 2;
-//                     var stopPos = -maxWrapperPosition() - containerSize / 2;
-
-//                     if (newPos < stopPos || resistance <= 0)
-//                         _this.positions.current = stopPos;
-//                     else
-//                         _this.positions.current = newPos;
-//                 }
-//             }
-//             if (params.resistance && params.resistance === '100%') {
-//                 //Resistance for Negative-Back sliding
-//                 if (_this.positions.current > 0 && !(params.freeMode && !params.freeModeFluid)) {
-//                     _this.positions.current = 0;
-//                 }
-//                 //Resistance for After-End Sliding
-//                 if (_this.positions.current < -maxWrapperPosition() && !(params.freeMode && !params.freeModeFluid)) {
-//                     _this.positions.current = -maxWrapperPosition();
-//                 }
-//             }
-//             //Move Slides
-//             if (!params.followFinger) return;
-
-//             if (!params.moveStartThreshold) {
-//                 _this.setWrapperTranslate(_this.positions.current);
-//             }
-//             else {
-//                 if (Math.abs(_this.touches.current - _this.touches.start) > params.moveStartThreshold || allowThresholdMove) {
-//                     if (!allowThresholdMove) {
-//                         allowThresholdMove = true;
-//                         _this.touches.start = _this.touches.current;
-//                         return;
-//                     }
-//                     _this.setWrapperTranslate(_this.positions.current);
-//                 }
-//                 else {
-//                     _this.positions.current = _this.positions.start;
-//                 }
-//             }
-
-//             if (params.freeMode || params.watchActiveIndex) {
-//                 _this.updateActiveSlide(_this.positions.current);
-//             }
-
-//             //Grab Cursor
-//             if (params.grabCursor) {
-//                 _this.container.style.cursor = 'move';
-//                 _this.container.style.cursor = 'grabbing';
-//                 _this.container.style.cursor = '-moz-grabbin';
-//                 _this.container.style.cursor = '-webkit-grabbing';
-//             }
-//             //Velocity
-//             if (!velocityPrevPosition) velocityPrevPosition = _this.touches.current;
-//             if (!velocityPrevTime) velocityPrevTime = (new Date()).getTime();
-//             _this.velocity = (_this.touches.current - velocityPrevPosition) / ((new Date()).getTime() - velocityPrevTime) / 2;
-//             if (Math.abs(_this.touches.current - velocityPrevPosition) < 2) _this.velocity = 0;
-//             velocityPrevPosition = _this.touches.current;
-//             velocityPrevTime = (new Date()).getTime();
-//             //Callbacks
-//             _this.callPlugins('onTouchMoveEnd');
-//             if (params.onTouchMove) _this.fireCallback(params.onTouchMove, _this, event);
-
-//             return false;
-//         }
-//     }
-//     function onTouchEnd(event) {
-//         //Check For scrolling
-//         if (isScrolling) {
-//             _this.swipeReset();
-//         }
-//         // If slider is not touched exit
-//         if (params.onlyExternal || !_this.isTouched) return;
-//         _this.isTouched = false;
-
-//         //Return Grab Cursor
-//         if (params.grabCursor) {
-//             _this.container.style.cursor = 'move';
-//             _this.container.style.cursor = 'grab';
-//             _this.container.style.cursor = '-moz-grab';
-//             _this.container.style.cursor = '-webkit-grab';
-//         }
-
-//         //Check for Current Position
-//         if (!_this.positions.current && _this.positions.current !== 0) {
-//             _this.positions.current = _this.positions.start;
-//         }
-
-//         //For case if slider touched but not moved
-//         if (params.followFinger) {
-//             _this.setWrapperTranslate(_this.positions.current);
-//         }
-
-//         // TouchEndTime
-//         _this.times.end = (new Date()).getTime();
-
-//         //Difference
-//         _this.touches.diff = _this.touches.current - _this.touches.start;
-//         _this.touches.abs = Math.abs(_this.touches.diff);
-
-//         _this.positions.diff = _this.positions.current - _this.positions.start;
-//         _this.positions.abs = Math.abs(_this.positions.diff);
-
-//         var diff = _this.positions.diff;
-//         var diffAbs = _this.positions.abs;
-//         var timeDiff = _this.times.end - _this.times.start;
-
-//         if (diffAbs < 5 && (timeDiff) < 300 && _this.allowLinks === false) {
-//             if (!params.freeMode && diffAbs !== 0) _this.swipeReset();
-//             //Release inner links
-//             if (params.preventLinks) {
-//                 _this.allowLinks = true;
-//             }
-//             if (params.onSlideClick) {
-//                 _this.allowSlideClick = true;
-//             }
-//         }
-
-//         setTimeout(function () {
-//             //Release inner links
-//             if (typeof _this === 'undefined' || _this === null) return;
-//             if (params.preventLinks) {
-//                 _this.allowLinks = true;
-//             }
-//             if (params.onSlideClick) {
-//                 _this.allowSlideClick = true;
-//             }
-//         }, 100);
-
-//         var maxPosition = maxWrapperPosition();
-
-//         //Not moved or Prevent Negative Back Sliding/After-End Sliding
-//         if (!_this.isMoved && params.freeMode) {
-//             _this.isMoved = false;
-//             if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
-//             _this.callPlugins('onTouchEnd');
-//             return;
-//         }
-//         if (!_this.isMoved || _this.positions.current > 0 || _this.positions.current < -maxPosition) {
-//             _this.swipeReset();
-//             if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
-//             _this.callPlugins('onTouchEnd');
-//             return;
-//         }
-
-//         _this.isMoved = false;
-
-//         //Free Mode
-//         if (params.freeMode) {
-//             if (params.freeModeFluid) {
-//                 var momentumDuration = 1000 * params.momentumRatio;
-//                 var momentumDistance = _this.velocity * momentumDuration;
-//                 var newPosition = _this.positions.current + momentumDistance;
-//                 var doBounce = false;
-//                 var afterBouncePosition;
-//                 var bounceAmount = Math.abs(_this.velocity) * 20 * params.momentumBounceRatio;
-//                 if (newPosition < -maxPosition) {
-//                     if (params.momentumBounce && _this.support.transitions) {
-//                         if (newPosition + maxPosition < -bounceAmount) newPosition = -maxPosition - bounceAmount;
-//                         afterBouncePosition = -maxPosition;
-//                         doBounce = true;
-//                         allowMomentumBounce = true;
-//                     }
-//                     else newPosition = -maxPosition;
-//                 }
-//                 if (newPosition > 0) {
-//                     if (params.momentumBounce && _this.support.transitions) {
-//                         if (newPosition > bounceAmount) newPosition = bounceAmount;
-//                         afterBouncePosition = 0;
-//                         doBounce = true;
-//                         allowMomentumBounce = true;
-//                     }
-//                     else newPosition = 0;
-//                 }
-//                 //Fix duration
-//                 if (_this.velocity !== 0) momentumDuration = Math.abs((newPosition - _this.positions.current) / _this.velocity);
-
-//                 _this.setWrapperTranslate(newPosition);
-
-//                 _this.setWrapperTransition(momentumDuration);
-
-//                 if (params.momentumBounce && doBounce) {
-//                     _this.wrapperTransitionEnd(function () {
-//                         if (!allowMomentumBounce) return;
-//                         if (params.onMomentumBounce) _this.fireCallback(params.onMomentumBounce, _this);
-//                         _this.callPlugins('onMomentumBounce');
-
-//                         _this.setWrapperTranslate(afterBouncePosition);
-//                         _this.setWrapperTransition(300);
-//                     });
-//                 }
-
-//                 _this.updateActiveSlide(newPosition);
-//             }
-//             if (!params.freeModeFluid || timeDiff >= 300) _this.updateActiveSlide(_this.positions.current);
-
-//             if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
-//             _this.callPlugins('onTouchEnd');
-//             return;
-//         }
-
-//         //Direction
-//         direction = diff < 0 ? 'toNext' : 'toPrev';
-
-//         //Short Touches
-//         if (direction === 'toNext' && (timeDiff <= 300)) {
-//             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-//             else _this.swipeNext(true, true);
-//         }
-
-//         if (direction === 'toPrev' && (timeDiff <= 300)) {
-//             if (diffAbs < 30 || !params.shortSwipes) _this.swipeReset();
-//             else _this.swipePrev(true, true);
-//         }
-
-//         //Long Touches
-//         var targetSlideSize = 0;
-//         if (params.slidesPerView === 'auto') {
-//             //Define current slide's width
-//             var currentPosition = Math.abs(_this.getWrapperTranslate());
-//             var slidesOffset = 0;
-//             var _slideSize;
-//             for (var i = 0; i < _this.slides.length; i++) {
-//                 _slideSize = isH ? _this.slides[i].getWidth(true, params.roundLengths) : _this.slides[i].getHeight(true, params.roundLengths);
-//                 slidesOffset += _slideSize;
-//                 if (slidesOffset > currentPosition) {
-//                     targetSlideSize = _slideSize;
-//                     break;
-//                 }
-//             }
-//             if (targetSlideSize > containerSize) targetSlideSize = containerSize;
-//         }
-//         else {
-//             targetSlideSize = slideSize * params.slidesPerView;
-//         }
-//         if (direction === 'toNext' && (timeDiff > 300)) {
-//             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-//                 _this.swipeNext(true, true);
-//             }
-//             else {
-//                 _this.swipeReset();
-//             }
-//         }
-//         if (direction === 'toPrev' && (timeDiff > 300)) {
-//             if (diffAbs >= targetSlideSize * params.longSwipesRatio) {
-//                 _this.swipePrev(true, true);
-//             }
-//             else {
-//                 _this.swipeReset();
-//             }
-//         }
-//         if (params.onTouchEnd) _this.fireCallback(params.onTouchEnd, _this, event);
-//         _this.callPlugins('onTouchEnd');
-//     }
-
-
-//     /*==================================================
-//         noSwiping Bubble Check by Isaac Strack
-//     ====================================================*/
-//     function hasClass(el, classname) {
-//         return el && el.getAttribute('class') && el.getAttribute('class').indexOf(classname) > -1;
-//     }
-//     function noSwipingSlide(el) {
-//         /*This function is specifically designed to check the parent elements for the noSwiping class, up to the wrapper.
-//         We need to check parents because while onTouchStart bubbles, _this.isTouched is checked in onTouchStart, which stops the bubbling.
-//         So, if a text box, for example, is the initial target, and the parent slide container has the noSwiping class, the _this.isTouched
-//         check will never find it, and what was supposed to be noSwiping is able to be swiped.
-//         This function will iterate up and check for the noSwiping class in parents, up through the wrapperClass.*/
-
-//         // First we create a truthy variable, which is that swiping is allowd (noSwiping = false)
-//         var noSwiping = false;
-
-//         // Now we iterate up (parentElements) until we reach the node with the wrapperClass.
-//         do {
-
-//             // Each time, we check to see if there's a 'swiper-no-swiping' class (noSwipingClass).
-//             if (hasClass(el, params.noSwipingClass))
-//             {
-//                 noSwiping = true; // If there is, we set noSwiping = true;
-//             }
-
-//             el = el.parentElement;  // now we iterate up (parent node)
-
-//         } while (!noSwiping && el.parentElement && !hasClass(el, params.wrapperClass)); // also include el.parentElement truthy, just in case.
-
-//         // because we didn't check the wrapper itself, we do so now, if noSwiping is false:
-//         if (!noSwiping && hasClass(el, params.wrapperClass) && hasClass(el, params.noSwipingClass))
-//             noSwiping = true; // if the wrapper has the noSwipingClass, we set noSwiping = true;
-
-//         return noSwiping;
-//     }
-
-//     function addClassToHtmlString(klass, outerHtml) {
-//         var par = document.createElement('div');
-//         var child;
-
-//         par.innerHTML = outerHtml;
-//         child = par.firstChild;
-//         child.className += ' ' + klass;
-
-//         return child.outerHTML;
-//     }
-
-
-//     /*==================================================
-//         Swipe Functions
-//     ====================================================*/
-//     _this.swipeNext = function (runCallbacks, internal) {
-//         if (typeof runCallbacks === 'undefined') runCallbacks = true;
-//         if (!internal && params.loop) _this.fixLoop();
-//         if (!internal && params.autoplay) _this.stopAutoplay(true);
-//         _this.callPlugins('onSwipeNext');
-//         var currentPosition = _this.getWrapperTranslate().toFixed(2);
-//         var newPosition = currentPosition;
-//         if (params.slidesPerView === 'auto') {
-//             for (var i = 0; i < _this.snapGrid.length; i++) {
-//                 if (-currentPosition >= _this.snapGrid[i].toFixed(2) && -currentPosition < _this.snapGrid[i + 1].toFixed(2)) {
-//                     newPosition = -_this.snapGrid[i + 1];
-//                     break;
-//                 }
-//             }
-//         }
-//         else {
-//             var groupSize = slideSize * params.slidesPerGroup;
-//             newPosition = -(Math.floor(Math.abs(currentPosition) / Math.floor(groupSize)) * groupSize + groupSize);
-//         }
-//         if (newPosition < -maxWrapperPosition()) {
-//             newPosition = -maxWrapperPosition();
-//         }
-//         if (newPosition === currentPosition) return false;
-//         swipeToPosition(newPosition, 'next', {runCallbacks: runCallbacks});
-//         return true;
-//     };
-//     _this.swipePrev = function (runCallbacks, internal) {
-//         if (typeof runCallbacks === 'undefined') runCallbacks = true;
-//         if (!internal && params.loop) _this.fixLoop();
-//         if (!internal && params.autoplay) _this.stopAutoplay(true);
-//         _this.callPlugins('onSwipePrev');
-
-//         var currentPosition = Math.ceil(_this.getWrapperTranslate());
-//         var newPosition;
-//         if (params.slidesPerView === 'auto') {
-//             newPosition = 0;
-//             for (var i = 1; i < _this.snapGrid.length; i++) {
-//                 if (-currentPosition === _this.snapGrid[i]) {
-//                     newPosition = -_this.snapGrid[i - 1];
-//                     break;
-//                 }
-//                 if (-currentPosition > _this.snapGrid[i] && -currentPosition < _this.snapGrid[i + 1]) {
-//                     newPosition = -_this.snapGrid[i];
-//                     break;
-//                 }
-//             }
-//         }
-//         else {
-//             var groupSize = slideSize * params.slidesPerGroup;
-//             newPosition = -(Math.ceil(-currentPosition / groupSize) - 1) * groupSize;
-//         }
-
-//         if (newPosition > 0) newPosition = 0;
-
-//         if (newPosition === currentPosition) return false;
-//         swipeToPosition(newPosition, 'prev', {runCallbacks: runCallbacks});
-//         return true;
-
-//     };
-//     _this.swipeReset = function (runCallbacks) {
-//         if (typeof runCallbacks === 'undefined') runCallbacks = true;
-//         _this.callPlugins('onSwipeReset');
-//         var currentPosition = _this.getWrapperTranslate();
-//         var groupSize = slideSize * params.slidesPerGroup;
-//         var newPosition;
-//         var maxPosition = -maxWrapperPosition();
-//         if (params.slidesPerView === 'auto') {
-//             newPosition = 0;
-//             for (var i = 0; i < _this.snapGrid.length; i++) {
-//                 if (-currentPosition === _this.snapGrid[i]) return;
-//                 if (-currentPosition >= _this.snapGrid[i] && -currentPosition < _this.snapGrid[i + 1]) {
-//                     if (_this.positions.diff > 0) newPosition = -_this.snapGrid[i + 1];
-//                     else newPosition = -_this.snapGrid[i];
-//                     break;
-//                 }
-//             }
-//             if (-currentPosition >= _this.snapGrid[_this.snapGrid.length - 1]) newPosition = -_this.snapGrid[_this.snapGrid.length - 1];
-//             if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
-//         }
-//         else {
-//             newPosition = currentPosition < 0 ? Math.round(currentPosition / groupSize) * groupSize : 0;
-//             if (currentPosition <= -maxWrapperPosition()) newPosition = -maxWrapperPosition();
-//         }
-//         if (params.scrollContainer)  {
-//             newPosition = currentPosition < 0 ? currentPosition : 0;
-//         }
-//         if (newPosition < -maxWrapperPosition()) {
-//             newPosition = -maxWrapperPosition();
-//         }
-//         if (params.scrollContainer && (containerSize > slideSize)) {
-//             newPosition = 0;
-//         }
-
-//         if (newPosition === currentPosition) return false;
-
-//         swipeToPosition(newPosition, 'reset', {runCallbacks: runCallbacks});
-//         return true;
-//     };
-
-//     _this.swipeTo = function (index, speed, runCallbacks) {
-//         index = parseInt(index, 10);
-//         _this.callPlugins('onSwipeTo', {index: index, speed: speed});
-//         if (params.loop) index = index + _this.loopedSlides;
-//         var currentPosition = _this.getWrapperTranslate();
-//         if (!isFinite(index) || index > (_this.slides.length - 1) || index < 0) return;
-//         var newPosition;
-//         if (params.slidesPerView === 'auto') {
-//             newPosition = -_this.slidesGrid[index];
-//         }
-//         else {
-//             newPosition = -index * slideSize;
-//         }
-//         if (newPosition < - maxWrapperPosition()) {
-//             newPosition = - maxWrapperPosition();
-//         }
-
-//         if (newPosition === currentPosition) return false;
-
-//         if (typeof runCallbacks === 'undefined') runCallbacks = true;
-//         swipeToPosition(newPosition, 'to', {index: index, speed: speed, runCallbacks: runCallbacks});
-//         return true;
-//     };
-
-//     function swipeToPosition(newPosition, action, toOptions) {
-//         var speed = (action === 'to' && toOptions.speed >= 0) ? toOptions.speed : params.speed;
-//         var timeOld = + new Date();
-
-//         function anim() {
-//             var timeNew = + new Date();
-//             var time = timeNew - timeOld;
-//             currentPosition += animationStep * time / (1000 / 60);
-//             condition = direction === 'toNext' ? currentPosition > newPosition : currentPosition < newPosition;
-//             if (condition) {
-//                 _this.setWrapperTranslate(Math.ceil(currentPosition));
-//                 _this._DOMAnimating = true;
-//                 window.setTimeout(function () {
-//                     anim();
-//                 }, 1000 / 60);
-//             }
-//             else {
-//                 if (params.onSlideChangeEnd) {
-//                     if (action === 'to') {
-//                         if (toOptions.runCallbacks === true) _this.fireCallback(params.onSlideChangeEnd, _this, direction);
-//                     }
-//                     else {
-//                         _this.fireCallback(params.onSlideChangeEnd, _this, direction);
-//                     }
-
-//                 }
-//                 _this.setWrapperTranslate(newPosition);
-//                 _this._DOMAnimating = false;
-//             }
-//         }
-
-//         if (_this.support.transitions || !params.DOMAnimation) {
-//             _this.setWrapperTranslate(newPosition);
-//             _this.setWrapperTransition(speed);
-//         }
-//         else {
-//             //Try the DOM animation
-//             var currentPosition = _this.getWrapperTranslate();
-//             var animationStep = Math.ceil((newPosition - currentPosition) / speed * (1000 / 60));
-//             var direction = currentPosition > newPosition ? 'toNext' : 'toPrev';
-//             var condition = direction === 'toNext' ? currentPosition > newPosition : currentPosition < newPosition;
-//             if (_this._DOMAnimating) return;
-
-//             anim();
-//         }
-
-//         //Update Active Slide Index
-//         _this.updateActiveSlide(newPosition);
-
-//         //Callbacks
-//         if (params.onSlideNext && action === 'next' && toOptions.runCallbacks === true) {
-//             _this.fireCallback(params.onSlideNext, _this, newPosition);
-//         }
-//         if (params.onSlidePrev && action === 'prev' && toOptions.runCallbacks === true) {
-//             _this.fireCallback(params.onSlidePrev, _this, newPosition);
-//         }
-//         //'Reset' Callback
-//         if (params.onSlideReset && action === 'reset' && toOptions.runCallbacks === true) {
-//             _this.fireCallback(params.onSlideReset, _this, newPosition);
-//         }
-
-//         //'Next', 'Prev' and 'To' Callbacks
-//         if ((action === 'next' || action === 'prev' || action === 'to') && toOptions.runCallbacks === true)
-//             slideChangeCallbacks(action);
-//     }
-//     /*==================================================
-//         Transition Callbacks
-//     ====================================================*/
-//     //Prevent Multiple Callbacks
-//     _this._queueStartCallbacks = false;
-//     _this._queueEndCallbacks = false;
-//     function slideChangeCallbacks(direction) {
-//         //Transition Start Callback
-//         _this.callPlugins('onSlideChangeStart');
-//         if (params.onSlideChangeStart) {
-//             if (params.queueStartCallbacks && _this.support.transitions) {
-//                 if (_this._queueStartCallbacks) return;
-//                 _this._queueStartCallbacks = true;
-//                 _this.fireCallback(params.onSlideChangeStart, _this, direction);
-//                 _this.wrapperTransitionEnd(function () {
-//                     _this._queueStartCallbacks = false;
-//                 });
-//             }
-//             else _this.fireCallback(params.onSlideChangeStart, _this, direction);
-//         }
-//         //Transition End Callback
-//         if (params.onSlideChangeEnd) {
-//             if (_this.support.transitions) {
-//                 if (params.queueEndCallbacks) {
-//                     if (_this._queueEndCallbacks) return;
-//                     _this._queueEndCallbacks = true;
-//                     _this.wrapperTransitionEnd(function (swiper) {
-//                         _this.fireCallback(params.onSlideChangeEnd, swiper, direction);
-//                     });
-//                 }
-//                 else {
-//                     _this.wrapperTransitionEnd(function (swiper) {
-//                         _this.fireCallback(params.onSlideChangeEnd, swiper, direction);
-//                     });
-//                 }
-//             }
-//             else {
-//                 if (!params.DOMAnimation) {
-//                     setTimeout(function () {
-//                         _this.fireCallback(params.onSlideChangeEnd, _this, direction);
-//                     }, 10);
-//                 }
-//             }
-//         }
-//     }
-
-//     /*==================================================
-//         Update Active Slide Index
-//     ====================================================*/
-//     _this.updateActiveSlide = function (position) {
-//         if (!_this.initialized) return;
-//         if (_this.slides.length === 0) return;
-//         _this.previousIndex = _this.activeIndex;
-//         if (typeof position === 'undefined') position = _this.getWrapperTranslate();
-//         if (position > 0) position = 0;
-//         var i;
-//         if (params.slidesPerView === 'auto') {
-//             var slidesOffset = 0;
-//             _this.activeIndex = _this.slidesGrid.indexOf(-position);
-//             if (_this.activeIndex < 0) {
-//                 for (i = 0; i < _this.slidesGrid.length - 1; i++) {
-//                     if (-position > _this.slidesGrid[i] && -position < _this.slidesGrid[i + 1]) {
-//                         break;
-//                     }
-//                 }
-//                 var leftDistance = Math.abs(_this.slidesGrid[i] + position);
-//                 var rightDistance = Math.abs(_this.slidesGrid[i + 1] + position);
-//                 if (leftDistance <= rightDistance) _this.activeIndex = i;
-//                 else _this.activeIndex = i + 1;
-//             }
-//         }
-//         else {
-//             _this.activeIndex = Math[params.visibilityFullFit ? 'ceil' : 'round'](-position / slideSize);
-//         }
-
-//         if (_this.activeIndex === _this.slides.length) _this.activeIndex = _this.slides.length - 1;
-//         if (_this.activeIndex < 0) _this.activeIndex = 0;
-
-//         // Check for slide
-//         if (!_this.slides[_this.activeIndex]) return;
-
-//         // Calc Visible slides
-//         _this.calcVisibleSlides(position);
-
-//         // Mark visible and active slides with additonal classes
-//         if (_this.support.classList) {
-//             var slide;
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 slide = _this.slides[i];
-//                 slide.classList.remove(params.slideActiveClass);
-//                 if (_this.visibleSlides.indexOf(slide) >= 0) {
-//                     slide.classList.add(params.slideVisibleClass);
-//                 } else {
-//                     slide.classList.remove(params.slideVisibleClass);
-//                 }
-//             }
-//             _this.slides[_this.activeIndex].classList.add(params.slideActiveClass);
-//         } else {
-//             var activeClassRegexp = new RegExp('\\s*' + params.slideActiveClass);
-//             var inViewClassRegexp = new RegExp('\\s*' + params.slideVisibleClass);
-
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 _this.slides[i].className = _this.slides[i].className.replace(activeClassRegexp, '').replace(inViewClassRegexp, '');
-//                 if (_this.visibleSlides.indexOf(_this.slides[i]) >= 0) {
-//                     _this.slides[i].className += ' ' + params.slideVisibleClass;
-//                 }
-//             }
-//             _this.slides[_this.activeIndex].className += ' ' + params.slideActiveClass;
-//         }
-
-//         //Update loop index
-//         if (params.loop) {
-//             var ls = _this.loopedSlides;
-//             _this.activeLoopIndex = _this.activeIndex - ls;
-//             if (_this.activeLoopIndex >= _this.slides.length - ls * 2) {
-//                 _this.activeLoopIndex = _this.slides.length - ls * 2 - _this.activeLoopIndex;
-//             }
-//             if (_this.activeLoopIndex < 0) {
-//                 _this.activeLoopIndex = _this.slides.length - ls * 2 + _this.activeLoopIndex;
-//             }
-//             if (_this.activeLoopIndex < 0) _this.activeLoopIndex = 0;
-//         }
-//         else {
-//             _this.activeLoopIndex = _this.activeIndex;
-//         }
-//         //Update Pagination
-//         if (params.pagination) {
-//             _this.updatePagination(position);
-//         }
-//     };
-//     /*==================================================
-//         Pagination
-//     ====================================================*/
-//     _this.createPagination = function (firstInit) {
-//         if (params.paginationClickable && _this.paginationButtons) {
-//             removePaginationEvents();
-//         }
-//         _this.paginationContainer = params.pagination.nodeType ? params.pagination : $$(params.pagination)[0];
-//         if (params.createPagination) {
-//             var paginationHTML = '';
-//             var numOfSlides = _this.slides.length;
-//             var numOfButtons = numOfSlides;
-//             if (params.loop) numOfButtons -= _this.loopedSlides * 2;
-//             for (var i = 0; i < numOfButtons; i++) {
-//                 paginationHTML += '<' + params.paginationElement + ' class="' + params.paginationElementClass + '"></' + params.paginationElement + '>';
-//             }
-//             _this.paginationContainer.innerHTML = paginationHTML;
-//         }
-//         _this.paginationButtons = $$('.' + params.paginationElementClass, _this.paginationContainer);
-//         if (!firstInit) _this.updatePagination();
-//         _this.callPlugins('onCreatePagination');
-//         if (params.paginationClickable) {
-//             addPaginationEvents();
-//         }
-//     };
-//     function removePaginationEvents() {
-//         var pagers = _this.paginationButtons;
-//         if (pagers) {
-//             for (var i = 0; i < pagers.length; i++) {
-//                 _this.h.removeEventListener(pagers[i], 'click', paginationClick);
-//             }
-//         }
-//     }
-//     function addPaginationEvents() {
-//         var pagers = _this.paginationButtons;
-//         if (pagers) {
-//             for (var i = 0; i < pagers.length; i++) {
-//                 _this.h.addEventListener(pagers[i], 'click', paginationClick);
-//             }
-//         }
-//     }
-//     function paginationClick(e) {
-//         var index;
-//         var target = e.target || e.srcElement;
-//         var pagers = _this.paginationButtons;
-//         for (var i = 0; i < pagers.length; i++) {
-//             if (target === pagers[i]) index = i;
-//         }
-//         if (params.autoplay) _this.stopAutoplay(true);
-//         _this.swipeTo(index);
-//     }
-//     _this.updatePagination = function (position) {
-//         if (!params.pagination) return;
-//         if (_this.slides.length < 1) return;
-//         var activePagers = $$('.' + params.paginationActiveClass, _this.paginationContainer);
-//         if (!activePagers) return;
-
-//         //Reset all Buttons' class to not active
-//         var pagers = _this.paginationButtons;
-//         if (pagers.length === 0) return;
-//         for (var i = 0; i < pagers.length; i++) {
-//             pagers[i].className = params.paginationElementClass;
-//         }
-
-//         var indexOffset = params.loop ? _this.loopedSlides : 0;
-//         if (params.paginationAsRange) {
-//             if (!_this.visibleSlides) _this.calcVisibleSlides(position);
-//             //Get Visible Indexes
-//             var visibleIndexes = [];
-//             var j; // lopp index - avoid JSHint W004 / W038
-//             for (j = 0; j < _this.visibleSlides.length; j++) {
-//                 var visIndex = _this.slides.indexOf(_this.visibleSlides[j]) - indexOffset;
-
-//                 if (params.loop && visIndex < 0) {
-//                     visIndex = _this.slides.length - _this.loopedSlides * 2 + visIndex;
-//                 }
-//                 if (params.loop && visIndex >= _this.slides.length - _this.loopedSlides * 2) {
-//                     visIndex = _this.slides.length - _this.loopedSlides * 2 - visIndex;
-//                     visIndex = Math.abs(visIndex);
-//                 }
-//                 visibleIndexes.push(visIndex);
-//             }
-
-//             for (j = 0; j < visibleIndexes.length; j++) {
-//                 if (pagers[visibleIndexes[j]]) pagers[visibleIndexes[j]].className += ' ' + params.paginationVisibleClass;
-//             }
-
-//             if (params.loop) {
-//                 if (pagers[_this.activeLoopIndex] !== undefined) {
-//                     pagers[_this.activeLoopIndex].className += ' ' + params.paginationActiveClass;
-//                 }
-//             }
-//             else {
-//                 if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass;
-//             }
-//         }
-//         else {
-//             if (params.loop) {
-//                 if (pagers[_this.activeLoopIndex]) pagers[_this.activeLoopIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
-//             }
-//             else {
-//                 if (pagers[_this.activeIndex]) pagers[_this.activeIndex].className += ' ' + params.paginationActiveClass + ' ' + params.paginationVisibleClass;
-//             }
-//         }
-//     };
-//     _this.calcVisibleSlides = function (position) {
-//         var visibleSlides = [];
-//         var _slideLeft = 0, _slideSize = 0, _slideRight = 0;
-//         if (isH && _this.wrapperLeft > 0) position = position + _this.wrapperLeft;
-//         if (!isH && _this.wrapperTop > 0) position = position + _this.wrapperTop;
-
-//         for (var i = 0; i < _this.slides.length; i++) {
-//             _slideLeft += _slideSize;
-//             if (params.slidesPerView === 'auto')
-//                 _slideSize  = isH ? _this.h.getWidth(_this.slides[i], true, params.roundLengths) : _this.h.getHeight(_this.slides[i], true, params.roundLengths);
-//             else _slideSize = slideSize;
-
-//             _slideRight = _slideLeft + _slideSize;
-//             var isVisibile = false;
-//             if (params.visibilityFullFit) {
-//                 if (_slideLeft >= -position && _slideRight <= -position + containerSize) isVisibile = true;
-//                 if (_slideLeft <= -position && _slideRight >= -position + containerSize) isVisibile = true;
-//             }
-//             else {
-//                 if (_slideRight > -position && _slideRight <= ((-position + containerSize))) isVisibile = true;
-//                 if (_slideLeft >= -position && _slideLeft < ((-position + containerSize))) isVisibile = true;
-//                 if (_slideLeft < -position && _slideRight > ((-position + containerSize))) isVisibile = true;
-//             }
-
-//             if (isVisibile) visibleSlides.push(_this.slides[i]);
-
-//         }
-//         if (visibleSlides.length === 0) visibleSlides = [_this.slides[_this.activeIndex]];
-
-//         _this.visibleSlides = visibleSlides;
-//     };
-
-//     /*==========================================
-//         Autoplay
-//     ============================================*/
-//     var autoplayTimeoutId, autoplayIntervalId;
-//     _this.startAutoplay = function () {
-//         if (_this.support.transitions) {
-//             if (typeof autoplayTimeoutId !== 'undefined') return false;
-//             if (!params.autoplay) return;
-//             _this.callPlugins('onAutoplayStart');
-//             if (params.onAutoplayStart) _this.fireCallback(params.onAutoplayStart, _this);
-//             autoplay();
-//         }
-//         else {
-//             if (typeof autoplayIntervalId !== 'undefined') return false;
-//             if (!params.autoplay) return;
-//             _this.callPlugins('onAutoplayStart');
-//             if (params.onAutoplayStart) _this.fireCallback(params.onAutoplayStart, _this);
-//             autoplayIntervalId = setInterval(function () {
-//                 if (params.loop) {
-//                     _this.fixLoop();
-//                     _this.swipeNext(true, true);
-//                 }
-//                 else if (!_this.swipeNext(true, true)) {
-//                     if (!params.autoplayStopOnLast) _this.swipeTo(0);
-//                     else {
-//                         clearInterval(autoplayIntervalId);
-//                         autoplayIntervalId = undefined;
-//                     }
-//                 }
-//             }, params.autoplay);
-//         }
-//     };
-//     _this.stopAutoplay = function (internal) {
-//         if (_this.support.transitions) {
-//             if (!autoplayTimeoutId) return;
-//             if (autoplayTimeoutId) clearTimeout(autoplayTimeoutId);
-//             autoplayTimeoutId = undefined;
-//             if (internal && !params.autoplayDisableOnInteraction) {
-//                 _this.wrapperTransitionEnd(function () {
-//                     autoplay();
-//                 });
-//             }
-//             _this.callPlugins('onAutoplayStop');
-//             if (params.onAutoplayStop) _this.fireCallback(params.onAutoplayStop, _this);
-//         }
-//         else {
-//             if (autoplayIntervalId) clearInterval(autoplayIntervalId);
-//             autoplayIntervalId = undefined;
-//             _this.callPlugins('onAutoplayStop');
-//             if (params.onAutoplayStop) _this.fireCallback(params.onAutoplayStop, _this);
-//         }
-//     };
-//     function autoplay() {
-//         autoplayTimeoutId = setTimeout(function () {
-//             if (params.loop) {
-//                 _this.fixLoop();
-//                 _this.swipeNext(true, true);
-//             }
-//             else if (!_this.swipeNext(true, true)) {
-//                 if (!params.autoplayStopOnLast) _this.swipeTo(0);
-//                 else {
-//                     clearTimeout(autoplayTimeoutId);
-//                     autoplayTimeoutId = undefined;
-//                 }
-//             }
-//             _this.wrapperTransitionEnd(function () {
-//                 if (typeof autoplayTimeoutId !== 'undefined') autoplay();
-//             });
-//         }, params.autoplay);
-//     }
-//     /*==================================================
-//         Loop
-//     ====================================================*/
-//     _this.loopCreated = false;
-//     _this.removeLoopedSlides = function () {
-//         if (_this.loopCreated) {
-//             for (var i = 0; i < _this.slides.length; i++) {
-//                 if (_this.slides[i].getData('looped') === true) _this.wrapper.removeChild(_this.slides[i]);
-//             }
-//         }
-//     };
-
-//     _this.createLoop = function () {
-//         if (_this.slides.length === 0) return;
-//         if (params.slidesPerView === 'auto') {
-//             _this.loopedSlides = params.loopedSlides || 1;
-//         }
-//         else {
-//             _this.loopedSlides = Math.floor(params.slidesPerView) + params.loopAdditionalSlides;
-//         }
-
-//         if (_this.loopedSlides > _this.slides.length) {
-//             _this.loopedSlides = _this.slides.length;
-//         }
-
-//         var slideFirstHTML = '',
-//             slideLastHTML = '',
-//             i;
-//         var slidesSetFullHTML = '';
-//         /**
-//                 loopedSlides is too large if loopAdditionalSlides are set.
-//                 Need to divide the slides by maximum number of slides existing.
-
-//                 @author        Tomaz Lovrec <tomaz.lovrec@blanc-noir.at>
-//         */
-//         var numSlides = _this.slides.length;
-//         var fullSlideSets = Math.floor(_this.loopedSlides / numSlides);
-//         var remainderSlides = _this.loopedSlides % numSlides;
-//         // assemble full sets of slides
-//         for (i = 0; i < (fullSlideSets * numSlides); i++) {
-//             var j = i;
-//             if (i >= numSlides) {
-//                 var over = Math.floor(i / numSlides);
-//                 j = i - (numSlides * over);
-//             }
-//             slidesSetFullHTML += _this.slides[j].outerHTML;
-//         }
-//         // assemble remainder slides
-//         // assemble remainder appended to existing slides
-//         for (i = 0; i < remainderSlides;i++) {
-//             slideLastHTML += addClassToHtmlString(params.slideDuplicateClass, _this.slides[i].outerHTML);
-//         }
-//         // assemble slides that get preppended to existing slides
-//         for (i = numSlides - remainderSlides; i < numSlides;i++) {
-//             slideFirstHTML += addClassToHtmlString(params.slideDuplicateClass, _this.slides[i].outerHTML);
-//         }
-//         // assemble all slides
-//         var slides = slideFirstHTML + slidesSetFullHTML + wrapper.innerHTML + slidesSetFullHTML + slideLastHTML;
-//         // set the slides
-//         wrapper.innerHTML = slides;
-
-//         _this.loopCreated = true;
-//         _this.calcSlides();
-
-//         //Update Looped Slides with special class
-//         for (i = 0; i < _this.slides.length; i++) {
-//             if (i < _this.loopedSlides || i >= _this.slides.length - _this.loopedSlides) _this.slides[i].setData('looped', true);
-//         }
-//         _this.callPlugins('onCreateLoop');
-
-//     };
-
-//     _this.fixLoop = function () {
-//         var newIndex;
-//         //Fix For Negative Oversliding
-//         if (_this.activeIndex < _this.loopedSlides) {
-//             newIndex = _this.slides.length - _this.loopedSlides * 3 + _this.activeIndex;
-//             _this.swipeTo(newIndex, 0, false);
-//         }
-//         //Fix For Positive Oversliding
-//         else if ((params.slidesPerView === 'auto' && _this.activeIndex >= _this.loopedSlides * 2) || (_this.activeIndex > _this.slides.length - params.slidesPerView * 2)) {
-//             newIndex = -_this.slides.length + _this.activeIndex + _this.loopedSlides;
-//             _this.swipeTo(newIndex, 0, false);
-//         }
-//     };
-
-//     /*==================================================
-//         Slides Loader
-//     ====================================================*/
-//     _this.loadSlides = function () {
-//         var slidesHTML = '';
-//         _this.activeLoaderIndex = 0;
-//         var slides = params.loader.slides;
-//         var slidesToLoad = params.loader.loadAllSlides ? slides.length : params.slidesPerView * (1 + params.loader.surroundGroups);
-//         for (var i = 0; i < slidesToLoad; i++) {
-//             if (params.loader.slidesHTMLType === 'outer') slidesHTML += slides[i];
-//             else {
-//                 slidesHTML += '<' + params.slideElement + ' class="' + params.slideClass + '" data-swiperindex="' + i + '">' + slides[i] + '</' + params.slideElement + '>';
-//             }
-//         }
-//         _this.wrapper.innerHTML = slidesHTML;
-//         _this.calcSlides(true);
-//         //Add permanent transitionEnd callback
-//         if (!params.loader.loadAllSlides) {
-//             _this.wrapperTransitionEnd(_this.reloadSlides, true);
-//         }
-//     };
-
-//     _this.reloadSlides = function () {
-//         var slides = params.loader.slides;
-//         var newActiveIndex = parseInt(_this.activeSlide().data('swiperindex'), 10);
-//         if (newActiveIndex < 0 || newActiveIndex > slides.length - 1) return; //<-- Exit
-//         _this.activeLoaderIndex = newActiveIndex;
-//         var firstIndex = Math.max(0, newActiveIndex - params.slidesPerView * params.loader.surroundGroups);
-//         var lastIndex = Math.min(newActiveIndex + params.slidesPerView * (1 + params.loader.surroundGroups) - 1, slides.length - 1);
-//         //Update Transforms
-//         if (newActiveIndex > 0) {
-//             var newTransform = -slideSize * (newActiveIndex - firstIndex);
-//             _this.setWrapperTranslate(newTransform);
-//             _this.setWrapperTransition(0);
-//         }
-//         var i; // loop index
-//         //New Slides
-//         if (params.loader.logic === 'reload') {
-//             _this.wrapper.innerHTML = '';
-//             var slidesHTML = '';
-//             for (i = firstIndex; i <= lastIndex; i++) {
-//                 slidesHTML += params.loader.slidesHTMLType === 'outer' ? slides[i] : '<' + params.slideElement + ' class="' + params.slideClass + '" data-swiperindex="' + i + '">' + slides[i] + '</' + params.slideElement + '>';
-//             }
-//             _this.wrapper.innerHTML = slidesHTML;
-//         }
-//         else {
-//             var minExistIndex = 1000;
-//             var maxExistIndex = 0;
-
-//             for (i = 0; i < _this.slides.length; i++) {
-//                 var index = _this.slides[i].data('swiperindex');
-//                 if (index < firstIndex || index > lastIndex) {
-//                     _this.wrapper.removeChild(_this.slides[i]);
-//                 }
-//                 else {
-//                     minExistIndex = Math.min(index, minExistIndex);
-//                     maxExistIndex = Math.max(index, maxExistIndex);
-//                 }
-//             }
-//             for (i = firstIndex; i <= lastIndex; i++) {
-//                 var newSlide;
-//                 if (i < minExistIndex) {
-//                     newSlide = document.createElement(params.slideElement);
-//                     newSlide.className = params.slideClass;
-//                     newSlide.setAttribute('data-swiperindex', i);
-//                     newSlide.innerHTML = slides[i];
-//                     _this.wrapper.insertBefore(newSlide, _this.wrapper.firstChild);
-//                 }
-//                 if (i > maxExistIndex) {
-//                     newSlide = document.createElement(params.slideElement);
-//                     newSlide.className = params.slideClass;
-//                     newSlide.setAttribute('data-swiperindex', i);
-//                     newSlide.innerHTML = slides[i];
-//                     _this.wrapper.appendChild(newSlide);
-//                 }
-//             }
-//         }
-//         //reInit
-//         _this.reInit(true);
-//     };
-
-//     /*==================================================
-//         Make Swiper
-//     ====================================================*/
-//     function makeSwiper() {
-//         _this.calcSlides();
-//         if (params.loader.slides.length > 0 && _this.slides.length === 0) {
-//             _this.loadSlides();
-//         }
-//         if (params.loop) {
-//             _this.createLoop();
-//         }
-//         _this.init();
-//         initEvents();
-//         if (params.pagination) {
-//             _this.createPagination(true);
-//         }
-
-//         if (params.loop || params.initialSlide > 0) {
-//             _this.swipeTo(params.initialSlide, 0, false);
-//         }
-//         else {
-//             _this.updateActiveSlide(0);
-//         }
-//         if (params.autoplay) {
-//             _this.startAutoplay();
-//         }
-//         /**
-//          * Set center slide index.
-//          *
-//          * @author        Tomaz Lovrec <tomaz.lovrec@gmail.com>
-//          */
-//         _this.centerIndex = _this.activeIndex;
-
-//         // Callbacks
-//         if (params.onSwiperCreated) _this.fireCallback(params.onSwiperCreated, _this);
-//         _this.callPlugins('onSwiperCreated');
-//     }
-
-//     makeSwiper();
-// };
-
-// Swiper.prototype = {
-//     plugins : {},
-
-//     /*==================================================
-//         Wrapper Operations
-//     ====================================================*/
-//     wrapperTransitionEnd : function (callback, permanent) {
-//         'use strict';
-//         var a = this,
-//             el = a.wrapper,
-//             events = ['webkitTransitionEnd', 'transitionend', 'oTransitionEnd', 'MSTransitionEnd', 'msTransitionEnd'],
-//             i;
-
-//         function fireCallBack(e) {
-//             if (e.target !== el) return;
-//             callback(a);
-//             if (a.params.queueEndCallbacks) a._queueEndCallbacks = false;
-//             if (!permanent) {
-//                 for (i = 0; i < events.length; i++) {
-//                     a.h.removeEventListener(el, events[i], fireCallBack);
-//                 }
-//             }
-//         }
-
-//         if (callback) {
-//             for (i = 0; i < events.length; i++) {
-//                 a.h.addEventListener(el, events[i], fireCallBack);
-//             }
-//         }
-//     },
-
-//     getWrapperTranslate : function (axis) {
-//         'use strict';
-//         var el = this.wrapper,
-//             matrix, curTransform, curStyle, transformMatrix;
-
-//         // automatic axis detection
-//         if (typeof axis === 'undefined') {
-//             axis = this.params.mode === 'horizontal' ? 'x' : 'y';
-//         }
-
-//         if (this.support.transforms && this.params.useCSS3Transforms) {
-//             curStyle = window.getComputedStyle(el, null);
-//             if (window.WebKitCSSMatrix) {
-//                 // Some old versions of Webkit choke when 'none' is passed; pass
-//                 // empty string instead in this case
-//                 transformMatrix = new WebKitCSSMatrix(curStyle.webkitTransform === 'none' ? '' : curStyle.webkitTransform);
-//             }
-//             else {
-//                 transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform  || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
-//                 matrix = transformMatrix.toString().split(',');
-//             }
-
-//             if (axis === 'x') {
-//                 //Latest Chrome and webkits Fix
-//                 if (window.WebKitCSSMatrix)
-//                     curTransform = transformMatrix.m41;
-//                 //Crazy IE10 Matrix
-//                 else if (matrix.length === 16)
-//                     curTransform = parseFloat(matrix[12]);
-//                 //Normal Browsers
-//                 else
-//                     curTransform = parseFloat(matrix[4]);
-//             }
-//             if (axis === 'y') {
-//                 //Latest Chrome and webkits Fix
-//                 if (window.WebKitCSSMatrix)
-//                     curTransform = transformMatrix.m42;
-//                 //Crazy IE10 Matrix
-//                 else if (matrix.length === 16)
-//                     curTransform = parseFloat(matrix[13]);
-//                 //Normal Browsers
-//                 else
-//                     curTransform = parseFloat(matrix[5]);
-//             }
-//         }
-//         else {
-//             if (axis === 'x') curTransform = parseFloat(el.style.left, 10) || 0;
-//             if (axis === 'y') curTransform = parseFloat(el.style.top, 10) || 0;
-//         }
-//         return curTransform || 0;
-//     },
-
-//     setWrapperTranslate : function (x, y, z) {
-//         'use strict';
-//         var es = this.wrapper.style,
-//             coords = {x: 0, y: 0, z: 0},
-//             translate;
-
-//         // passed all coordinates
-//         if (arguments.length === 3) {
-//             coords.x = x;
-//             coords.y = y;
-//             coords.z = z;
-//         }
-
-//         // passed one coordinate and optional axis
-//         else {
-//             if (typeof y === 'undefined') {
-//                 y = this.params.mode === 'horizontal' ? 'x' : 'y';
-//             }
-//             coords[y] = x;
-//         }
-
-//         if (this.support.transforms && this.params.useCSS3Transforms) {
-//             translate = this.support.transforms3d ? 'translate3d(' + coords.x + 'px, ' + coords.y + 'px, ' + coords.z + 'px)' : 'translate(' + coords.x + 'px, ' + coords.y + 'px)';
-//             es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = translate;
-//         }
-//         else {
-//             es.left = coords.x + 'px';
-//             es.top  = coords.y + 'px';
-//         }
-//         this.callPlugins('onSetWrapperTransform', coords);
-//         if (this.params.onSetWrapperTransform) this.fireCallback(this.params.onSetWrapperTransform, this, coords);
-//     },
-
-//     setWrapperTransition : function (duration) {
-//         'use strict';
-//         var es = this.wrapper.style;
-//         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = (duration / 1000) + 's';
-//         this.callPlugins('onSetWrapperTransition', {duration: duration});
-//         if (this.params.onSetWrapperTransition) this.fireCallback(this.params.onSetWrapperTransition, this, duration);
-
-//     },
-
-//     /*==================================================
-//         Helpers
-//     ====================================================*/
-//     h : {
-//         getWidth: function (el, outer, round) {
-//             'use strict';
-//             var width = window.getComputedStyle(el, null).getPropertyValue('width');
-//             var returnWidth = parseFloat(width);
-//             //IE Fixes
-//             if (isNaN(returnWidth) || width.indexOf('%') > 0 || returnWidth < 0) {
-//                 returnWidth = el.offsetWidth - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
-//             }
-//             if (outer) returnWidth += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-left')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-right'));
-//             if (round) return Math.ceil(returnWidth);
-//             else return returnWidth;
-//         },
-//         getHeight: function (el, outer, round) {
-//             'use strict';
-//             if (outer) return el.offsetHeight;
-
-//             var height = window.getComputedStyle(el, null).getPropertyValue('height');
-//             var returnHeight = parseFloat(height);
-//             //IE Fixes
-//             if (isNaN(returnHeight) || height.indexOf('%') > 0 || returnHeight < 0) {
-//                 returnHeight = el.offsetHeight - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) - parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
-//             }
-//             if (outer) returnHeight += parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-top')) + parseFloat(window.getComputedStyle(el, null).getPropertyValue('padding-bottom'));
-//             if (round) return Math.ceil(returnHeight);
-//             else return returnHeight;
-//         },
-//         getOffset: function (el) {
-//             'use strict';
-//             var box = el.getBoundingClientRect();
-//             var body = document.body;
-//             var clientTop  = el.clientTop  || body.clientTop  || 0;
-//             var clientLeft = el.clientLeft || body.clientLeft || 0;
-//             var scrollTop  = window.pageYOffset || el.scrollTop;
-//             var scrollLeft = window.pageXOffset || el.scrollLeft;
-//             if (document.documentElement && !window.pageYOffset) {
-//                 //IE7-8
-//                 scrollTop  = document.documentElement.scrollTop;
-//                 scrollLeft = document.documentElement.scrollLeft;
-//             }
-//             return {
-//                 top: box.top  + scrollTop  - clientTop,
-//                 left: box.left + scrollLeft - clientLeft
-//             };
-//         },
-//         windowWidth : function () {
-//             'use strict';
-//             if (window.innerWidth) return window.innerWidth;
-//             else if (document.documentElement && document.documentElement.clientWidth) return document.documentElement.clientWidth;
-//         },
-//         windowHeight : function () {
-//             'use strict';
-//             if (window.innerHeight) return window.innerHeight;
-//             else if (document.documentElement && document.documentElement.clientHeight) return document.documentElement.clientHeight;
-//         },
-//         windowScroll : function () {
-//             'use strict';
-//             if (typeof pageYOffset !== 'undefined') {
-//                 return {
-//                     left: window.pageXOffset,
-//                     top: window.pageYOffset
-//                 };
-//             }
-//             else if (document.documentElement) {
-//                 return {
-//                     left: document.documentElement.scrollLeft,
-//                     top: document.documentElement.scrollTop
-//                 };
-//             }
-//         },
-
-//         addEventListener : function (el, event, listener, useCapture) {
-//             'use strict';
-//             if (typeof useCapture === 'undefined') {
-//                 useCapture = false;
-//             }
-
-//             if (el.addEventListener) {
-//                 el.addEventListener(event, listener, useCapture);
-//             }
-//             else if (el.attachEvent) {
-//                 el.attachEvent('on' + event, listener);
-//             }
-//         },
-
-//         removeEventListener : function (el, event, listener, useCapture) {
-//             'use strict';
-//             if (typeof useCapture === 'undefined') {
-//                 useCapture = false;
-//             }
-
-//             if (el.removeEventListener) {
-//                 el.removeEventListener(event, listener, useCapture);
-//             }
-//             else if (el.detachEvent) {
-//                 el.detachEvent('on' + event, listener);
-//             }
-//         }
-//     },
-//     setTransform : function (el, transform) {
-//         'use strict';
-//         var es = el.style;
-//         es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = transform;
-//     },
-//     setTranslate : function (el, translate) {
-//         'use strict';
-//         var es = el.style;
-//         var pos = {
-//             x : translate.x || 0,
-//             y : translate.y || 0,
-//             z : translate.z || 0
-//         };
-//         var transformString = this.support.transforms3d ? 'translate3d(' + (pos.x) + 'px,' + (pos.y) + 'px,' + (pos.z) + 'px)' : 'translate(' + (pos.x) + 'px,' + (pos.y) + 'px)';
-//         es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = transformString;
-//         if (!this.support.transforms) {
-//             es.left = pos.x + 'px';
-//             es.top = pos.y + 'px';
-//         }
-//     },
-//     setTransition : function (el, duration) {
-//         'use strict';
-//         var es = el.style;
-//         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = duration + 'ms';
-//     },
-//     /*==================================================
-//         Feature Detection
-//     ====================================================*/
-//     support: {
-
-//         touch : (window.Modernizr && Modernizr.touch === true) || (function () {
-//             'use strict';
-//             return !!(('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
-//         })(),
-
-//         transforms3d : (window.Modernizr && Modernizr.csstransforms3d === true) || (function () {
-//             'use strict';
-//             var div = document.createElement('div').style;
-//             return ('webkitPerspective' in div || 'MozPerspective' in div || 'OPerspective' in div || 'MsPerspective' in div || 'perspective' in div);
-//         })(),
-
-//         transforms : (window.Modernizr && Modernizr.csstransforms === true) || (function () {
-//             'use strict';
-//             var div = document.createElement('div').style;
-//             return ('transform' in div || 'WebkitTransform' in div || 'MozTransform' in div || 'msTransform' in div || 'MsTransform' in div || 'OTransform' in div);
-//         })(),
-
-//         transitions : (window.Modernizr && Modernizr.csstransitions === true) || (function () {
-//             'use strict';
-//             var div = document.createElement('div').style;
-//             return ('transition' in div || 'WebkitTransition' in div || 'MozTransition' in div || 'msTransition' in div || 'MsTransition' in div || 'OTransition' in div);
-//         })(),
-
-//         classList : (function () {
-//             'use strict';
-//             var div = document.createElement('div');
-//             return 'classList' in div;
-//         })()
-//     },
-
-//     browser : {
-
-//         ie8 : (function () {
-//             'use strict';
-//             var rv = -1; // Return value assumes failure.
-//             if (navigator.appName === 'Microsoft Internet Explorer') {
-//                 var ua = navigator.userAgent;
-//                 var re = new RegExp(/MSIE ([0-9]{1,}[\.0-9]{0,})/);
-//                 if (re.exec(ua) !== null)
-//                     rv = parseFloat(RegExp.$1);
-//             }
-//             return rv !== -1 && rv < 9;
-//         })(),
-
-//         ie10 : window.navigator.msPointerEnabled,
-//         ie11 : window.navigator.pointerEnabled
-//     }
-// };
-
-// /*=========================
-//   jQuery & Zepto Plugins
-//   ===========================*/
-// if (window.jQuery || window.Zepto) {
-//     (function ($) {
-//         'use strict';
-//         $.fn.swiper = function (params) {
-//             var firstInstance;
-//             this.each(function (i) {
-//                 var that = $(this);
-//                 var s = new Swiper(that[0], params);
-//                 if (!i) firstInstance = s;
-//                 that.data('swiper', s);
-//             });
-//             return firstInstance;
-//         };
-//     })(window.jQuery || window.Zepto);
-// }
-
-// // CommonJS support
-// if (typeof(module) !== 'undefined') {
-//     module.exports = Swiper;
-
-// // requirejs support
-// } else if (typeof define === 'function' && define.amd) {
-//     define([], function () {
-//         'use strict';
-//         return Swiper;
-//     });
-// }
-
 /*!
  * JavaScript Cookie v2.1.2 (used for themes selector in docs and on accomodation residence filter)
  * https://github.com/js-cookie/js-cookie
@@ -15987,963 +12610,620 @@ if( Tablesaw.mustard ) {
 	});
 
 })( this, jQuery );
-/**
- * acc-card-filter.js  
- * ------------------
- * Card filter - Filter user options and save as a cookie for when they return to the page
- * this currently utilises a cookie plugin to save the user filter options to retain
- * the state of the filters. The plugin used is: JavaScript Cookie v2.1.2 (https://github.com/js-cookie/js-cookie)
- * If this is not required, simply set useCookies to false;
- */
-
-+ function ($) {
-    'use strict';
-
-    var useCookies = true; //change to false if you want to deactivate cookies. PLEASE NOTE: if deactivated the page won't hold the filter state
-
-    var contains = function (needle) {
-        // Per spec, the way to identify NaN is that it is not equal to itself
-        var findNaN = needle !== needle;
-        var indexOf;
-        if (!findNaN && typeof Array.prototype.indexOf === 'function') {
-            indexOf = Array.prototype.indexOf;
-        } else {
-            indexOf = function (needle) {
-                var i = -1
-                    , index = -1;
-                for (i = 0; i < this.length; i++) {
-                    var item = this[i];
-                    if ((findNaN && item !== item) || item === needle) {
-                        index = i;
-                        break;
-                    }
-                }
-                return index;
-            };
-        }
-        return indexOf.call(this, needle) > -1;
-    };
-
-    function check() {
-        var selectedOptions = {};
-        //get value of the selects combination and store it in an object
-        $('.card-filter select').each(function () {
-            var thisKey = $(this).attr('id');
-            var thisOption = $(this).val();
-            selectedOptions[thisKey] = thisOption; //add the selected option to obj
-            if (useCookies) {
-                //set the cookie to save the serach filter
-                Cookies.set('searchFilters', selectedOptions);
-            }
-        });
-
-        $.fn._hasData = function () {
-            return [].some.call(this[0].attributes, function (v, k) {
-                return /^data-/.test(v["name"])
-            })
-        };
-
-        $('.filter-list div').each(function () {
-            if ($(this)._hasData()) {
-                var listData = $(this).data(); //get object of data attr
-                var keyList = Object.keys(listData); //get array of keys
-                var keySuccess = []; //monitor the result of each comparison
-                //loop through each of the keys in
-                //the list to see if it matches the selected options
-                for (var k in keyList) { //each key
-                    var key = keyList[k];
-                    var value = listData[key];
-                    if (contains.call(value, ',')) { //if list data contain comma
-                        var valueArray = value.split(',');
-                        if (contains.call(valueArray, selectedOptions[key])) {
-                            keySuccess.push(1);
-                        } else if ("all" == selectedOptions[key]) {
-                            keySuccess.push(1);
-                        } else {
-                            keySuccess.push(0);
-                        }
-                    } else {
-                        if (value == selectedOptions[key]) { //if not match add zero
-                            keySuccess.push(1);
-                        } else if ("all" == selectedOptions[key]) {
-                            keySuccess.push(1);
-                        } else {
-                            keySuccess.push(0);
-                        }
-                    }
-                }
-                var index = contains.call(keySuccess, 0); // if containes 0 retun true
-                //pseudo hide the elements, so they are not visible/tabbable
-                //but need to retain their display propert to allow the equalize to work
-                if (!index) {
-                    $(this).css({position:"relative",left:'0'});
-                    $(this).find('a').removeAttr('tabindex');
-                } else {
-                    $(this).css({position:"absolute",left:'-10000px'});
-                    $(this).find('a').attr('tabindex','-1');
-                }
-                keySuccess = [];
-            }
-        });
-
-        $(window).trigger("resize"); //this is needed to re-equalize the columns
-    }
-
-    $(document).ready(function () {
-        if (useCookies) {
-            //check if the cookies exists if so set the filters accordingly
-            if (Cookies.get('searchFilters') != undefined) {
-                var filterObj = JSON.parse("[" + Cookies.get('searchFilters') + "]");
-                for (var key in filterObj[0]) {
-                    var value = filterObj[0][key];
-                    $("#" + key).val(value);
-                }
-            }
-        }
-        check();
-    });
-
-    $('.card-filter select').change(function () {
-        check();
-    });
-
-}(jQuery);
-
-/**
- * acc-googlemaps.js  
- */
-
-+ function($) {
-    'use strict';
-
-    //put coordinates into Array and loop through
-    function addCampusOutline(map) {
-        var campusOutlineCoordinates = [
-            new google.maps.LatLng(53.81048220253582, -1.556990146636963),
-            new google.maps.LatLng(53.81034758511345, -1.5572825074195862),
-            new google.maps.LatLng(53.81002450153584, -1.55781090259552),
-            new google.maps.LatLng(53.80969824794529, -1.5581220388412476),
-            new google.maps.LatLng(53.809253208613505, -1.5583822131156921),
-            new google.maps.LatLng(53.8090869115652, -1.5584546327590942),
-            new google.maps.LatLng(53.808784407623946, -1.5586477518081665),
-            new google.maps.LatLng(53.80847081484642, -1.5589454770088196),
-            new google.maps.LatLng(53.80816355500127, -1.5592968463897705),
-            new google.maps.LatLng(53.8079814153701, -1.559557020664215),
-            new google.maps.LatLng(53.80804793602279, -1.560082733631134),
-            new google.maps.LatLng(53.808382121514086, -1.5613031387329102),
-            new google.maps.LatLng(53.80859593547831, -1.561954915523529),
-            new google.maps.LatLng(53.808733726121844, -1.562408208847046),
-            new google.maps.LatLng(53.80775017608957, -1.5631404519081116),
-            new google.maps.LatLng(53.80775017608957, -1.5631404519081116),
-            new google.maps.LatLng(53.80722433955302, -1.563604474067688),
-            new google.maps.LatLng(53.8071308920084, -1.5631887316703796),
-            new google.maps.LatLng(53.80696617040567, -1.5625423192977905),
-            new google.maps.LatLng(53.80653852476192, -1.5610000491142273),
-            new google.maps.LatLng(53.80646566618031, -1.5606620907783508),
-            new google.maps.LatLng(53.80644824345725, -1.5604743361473083),
-            new google.maps.LatLng(53.806088700192234, -1.5603777766227722),
-            new google.maps.LatLng(53.80587487344032, -1.559760868549347),
-            new google.maps.LatLng(53.80579884588794, -1.5595194697380066),
-            new google.maps.LatLng(53.805716482550594, -1.5592029690742493),
-            new google.maps.LatLng(53.805445632742696, -1.5583688020706177),
-            new google.maps.LatLng(53.80497045341343, -1.5570250153541565),
-            new google.maps.LatLng(53.80485799351738, -1.5567675232887268),
-            new google.maps.LatLng(53.80427984985376, -1.5560030937194824),
-            new google.maps.LatLng(53.804162636193816, -1.5558958053588867),
-            new google.maps.LatLng(53.80399790292865, -1.5559253096580505),
-            new google.maps.LatLng(53.80386801662864, -1.5559548139572144),
-            new google.maps.LatLng(53.80383792096512, -1.5559253096580505),
-            new google.maps.LatLng(53.80361457878714, -1.5559306740760803),
-            new google.maps.LatLng(53.80359953086711, -1.5548215806484222),
-            new google.maps.LatLng(53.80359953086711, -1.5548215806484222),
-            new google.maps.LatLng(53.803592402903114, -1.5527576208114624),
-            new google.maps.LatLng(53.80377297761759, -1.5524156391620636),
-            new google.maps.LatLng(53.80393454380818, -1.5520991384983063),
-            new google.maps.LatLng(53.80426163423893, -1.551392376422882),
-            new google.maps.LatLng(53.8045356596088, -1.5506963431835175),
-            new google.maps.LatLng(53.80467425557342, -1.550280600786209),
-            new google.maps.LatLng(53.80503777081252, -1.5487383306026459),
-            new google.maps.LatLng(53.80515814989201, -1.5488161146640778),
-            new google.maps.LatLng(53.80523853441378, -1.548871099948883),
-            new google.maps.LatLng(53.80553076847028, -1.5490923821926117),
-            new google.maps.LatLng(53.80561946783516, -1.549174189567566),
-            new google.maps.LatLng(53.80577112747516, -1.549336463212967),
-            new google.maps.LatLng(53.805946941097055, -1.5495724976062775),
-            new google.maps.LatLng(53.806023760331044, -1.5496831387281418),
-            new google.maps.LatLng(53.80623402256602, -1.549350544810295),
-            new google.maps.LatLng(53.80646764603473, -1.5490400791168213),
-            new google.maps.LatLng(53.80671235532296, -1.5488308668136597),
-            new google.maps.LatLng(53.80686123923953, -1.5486833453178406),
-            new google.maps.LatLng(53.80706397393536, -1.5489978343248367),
-            new google.maps.LatLng(53.80725364085883, -1.5493277460336685),
-            new google.maps.LatLng(53.80746983634724, -1.5497086197137833),
-            new google.maps.LatLng(53.80779848303097, -1.5502779185771942),
-            new google.maps.LatLng(53.808025762483624, -1.5506547689437866),
-            new google.maps.LatLng(53.80820592214986, -1.5509598702192307),
-            new google.maps.LatLng(53.80831837306555, -1.5511590242385864),
-            new google.maps.LatLng(53.80851357763601, -1.5516659617424011),
-            new google.maps.LatLng(53.80859791523213, -1.551874503493309),
-            new google.maps.LatLng(53.808737289666986, -1.5522070974111557),
-            new google.maps.LatLng(53.808819647069754, -1.5525028109550476),
-            new google.maps.LatLng(53.808887354236425, -1.5527066588401794),
-            new google.maps.LatLng(53.80895426939896, -1.5527763962745667),
-            new google.maps.LatLng(53.808974462711035, -1.552799865603447),
-            new google.maps.LatLng(53.8090671142536, -1.5529480576515198),
-            new google.maps.LatLng(53.80919817228245, -1.553187444806099),
-            new google.maps.LatLng(53.809306661096066, -1.5533966571092606),
-            new google.maps.LatLng(53.809454743914046, -1.5537245571613312),
-            new google.maps.LatLng(53.80955016598751, -1.5539585798978806),
-            new google.maps.LatLng(53.80963014614733, -1.5541979670524597),
-            new google.maps.LatLng(53.809729527222416, -1.5544936805963516),
-            new google.maps.LatLng(53.80979446134341, -1.5546881407499313),
-            new google.maps.LatLng(53.80987087758865, -1.5549422800540924),
-            new google.maps.LatLng(53.80994531400451, -1.555195078253746),
-            new google.maps.LatLng(53.81006251149775, -1.55550017952919),
-            new google.maps.LatLng(53.810136947573305, -1.5556497126817703),
-            new google.maps.LatLng(53.81025770794665, -1.5558233857154846),
-            new google.maps.LatLng(53.81039747279686, -1.5559836477041245),
-            new google.maps.LatLng(53.81053169412654, -1.5561351925134659),
-            new google.maps.LatLng(53.81062632188536, -1.5562444925308228),
-            new google.maps.LatLng(53.8106983813743, -1.556425541639328),
-            new google.maps.LatLng(53.81059623107308, -1.5566857159137726),
-            new google.maps.LatLng(53.810513085295305, -1.5569043159484863),
-            new google.maps.LatLng(53.81069758951244, -1.5564268827438354),
-            new google.maps.LatLng(53.810577226338424, -1.5567366778850555),
-            new google.maps.LatLng(53.81048220253582, -1.556990146636963)
-        ];
-
-        var line = new google.maps.Polyline({
-            path: campusOutlineCoordinates,
-            strokeOpacity: 0.8,
-            strokeColor: '#a97e4f',
-            map: map
-        });
-
-        var pathCampus = new google.maps.Polyline({
-            path: campusOutlineCoordinates,
-            geodesic: false,
-            strokeColor: '#c4a480',
-            strokeOpacity: 0.6,
-            strokeWeight: 10,
-            visible: true
-        });
-
-        pathCampus.setMap(map);
-
-
-    }
-
-
-
-
-
-
-    var style1 = [{
-        "elementType": "geometry",
-        "stylers": [{
-            "hue": "#ff4400"
-        }, {
-            "saturation": -68
-        }, {
-            "lightness": -4
-        }, {
-            "gamma": 0.72
-        }]
-    }, {
-        "featureType": "road",
-        "elementType": "labels.icon"
-    }, {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry",
-        "stylers": [{
-            "hue": "#0077ff"
-        }, {
-            "gamma": 3.1
-        }]
-    }, {
-        "featureType": "water",
-        "stylers": [{
-            "hue": "#00ccff"
-        }, {
-            "gamma": 0.44
-        }, {
-            "saturation": -33
-        }]
-    }, {
-        "featureType": "poi.park",
-        "stylers": [{
-            "hue": "#44ff00"
-        }, {
-            "saturation": -23
-        }]
-    }, {
-        "featureType": "water",
-        "elementType": "labels.text.fill",
-        "stylers": [{
-            "hue": "#007fff"
-        }, {
-            "gamma": 0.77
-        }, {
-            "saturation": 65
-        }, {
-            "lightness": 99
-        }]
-    }, {
-        "featureType": "water",
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-            "gamma": 0.11
-        }, {
-            "weight": 5.6
-        }, {
-            "saturation": 99
-        }, {
-            "hue": "#0091ff"
-        }, {
-            "lightness": -86
-        }]
-    }, {
-        "featureType": "transit.line",
-        "elementType": "geometry",
-        "stylers": [{
-            "lightness": -48
-        }, {
-            "hue": "#ff5e00"
-        }, {
-            "gamma": 1.2
-        }, {
-            "saturation": -23
-        }]
-    }, {
-        "featureType": "transit",
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-            "saturation": -64
-        }, {
-            "hue": "#ff9100"
-        }, {
-            "lightness": 16
-        }, {
-            "gamma": 0.47
-        }, {
-            "weight": 2.7
-        }]
-    }];
-    var style2 = [{
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#e9e9e9"
-        }, {
-            "lightness": 17
-        }]
-    }, {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#f5f5f5"
-        }, {
-            "lightness": 20
-        }]
-    }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [{
-            "color": "#ffffff"
-        }, {
-            "lightness": 17
-        }]
-    }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-            "color": "#ffffff"
-        }, {
-            "lightness": 29
-        }, {
-            "weight": 0.2
-        }]
-    }, {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#ffffff"
-        }, {
-            "lightness": 18
-        }]
-    }, {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#ffffff"
-        }, {
-            "lightness": 16
-        }]
-    }, {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#f5f5f5"
-        }, {
-            "lightness": 21
-        }]
-    }, {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#9CBA7F",
-            "visibility": "on"
-        }, {
-            "lightness": 40
-        }]
-    }, {
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-            "visibility": "on"
-        }, {
-            "color": "#000"
-        }, {
-            "lightness": 1
-        }]
-    }, {
-        "elementType": "labels.text.fill",
-        "stylers": [{
-            "saturation": 36
-        }, {
-            "color": "#333333"
-        }, {
-            "lightness": 12
-        }]
-    }, {
-        "elementType": "labels.icon",
-        "stylers": [{
-            "visibility": "off"
-        }]
-    }, {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [{
-            "color": "#f2f2f2"
-        }, {
-            "lightness": 1
-        }]
-    }, {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [{
-            "color": "#fefefe"
-        }, {
-            "lightness": 20
-        }]
-    }, {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-            "color": "#fefefe"
-        }, {
-            "lightness": 17
-        }, {
-            "weight": 1.2
-        }]
-    }];
-
-
-    //
-    //=============================================================
-    //
-    // Set private defaults.
-    var Defaults = {
-        zoom: 16,
-        center: [53.81048220253582, -1.556990146636963],
-        campusOutline: false,
-        stylers: '',
-        scrollwheel: false //so when scrolling down the page the scroll doesn't get hi-jacked by the map
-            ,
-        markers: [],
-        markerArray: [],
-        routeOrigin: '',
-        multiInfoWindow : false,
-        onSuccess: function() {
-            //console.log(this.markerArray);
-        }
-    };
-    // Define the public api and its public methods.
-    var PluginApi = {
-        extend: function(name, method) {
-            PluginApi[name] = method;
-            return this;
-        },
-        init: function(PublicOptions) {
-            // Do a deep copy of the options.
-            var Options = $.extend(true, {}, Defaults, PublicOptions);
-            var mapOptions = {
-                // How zoomed in you want the map to start at (always required)
-                zoom: Options.zoom, // The latitude and longitude to center the map (always required)
-                center: new google.maps.LatLng(Options.center[0], Options.center[1]), // New York
-                // How you would like to style the map.
-                // This is where you would paste any style found on Snazzy Maps.
-                styles: Options.stylers,
-                scrollwheel: Options.scrollwheel
-            };
-            return this.each(function() {
-                // Get the HTML DOM element that will contain your map
-                // We are using a div with id="map" seen below in the <body>
-                var mapElement = this;
-                // Create the Google Map using our element and options defined above
-                var map = new google.maps.Map(mapElement, mapOptions);
-                var infowindow = new google.maps.InfoWindow({
-                    content: ' ',
-                    pixelOffset: new google.maps.Size(0, -20) //offset the infowindow
-                });
-
-                //if campusoutline is true
-                if (Options.campusOutline) {
-                    addCampusOutline(map);
-                }
-
-                //custom close infowindow functionality
-                $(document).on("click", ".close-infowindow", function() {
-                    infowindow.close();
-                });
-
-                //PluginApi.initialMarker(map); //replace for a single marker
-                PluginApi.streetViews(map);
-                //add the markers to the map
-                PluginApi.multiInfoWindow = Options.multiInfoWindow;
-                PluginApi.processMarkers(map, Options.markers, Options.markerArray, infowindow);
-                if (Options.routeOrigin != '') { //if route origin is not empty, set up ther routes
-                    PluginApi.mapRoutes(map, Options.routeOrigin);
-                }
-
-                /* Set center add reset */
-                PluginApi.resetMap(map,Options.center[0], Options.center[1],Options.zoom);
-
-            });
-        },
-
-        resetMap : function(map,lat,lng,zoomLevel){
-          $(document).on("click", ".reset-map", function() {
-              var latLng = new google.maps.LatLng(lat, lng);
-              map.panTo(latLng);
-              map.setZoom(zoomLevel);
-          });
-        },
-
-        streetViews: function(map) {
-            //get the location, heading, pitch, zoom
-            var panorama = map.getStreetView();
-            $('[data-location]').click(function() {
-                var dest = $(this).data("location").split(',');
-                var latLng = new google.maps.LatLng(dest[0], dest[1])
-                panorama.setPosition(latLng);
-                panorama.setPov({
-                    heading: 45,
-                    pitch: -10,
-                    zoom: -10
-                });
-                panorama.setVisible(true);
-                return false;
-            });
-        },
-        //allow user to view routes
-        mapRoutes: function(map, routeStart) {
-            this.routeStart = routeStart;
-            //set the polyline style
-            var polylineOptionsActual = new google.maps.Polyline({
-                strokeColor: 'blue',
-                strokeOpacity: .5,
-                strokeWeight: 5
-            });
-
-            var directionsDisplay = new google.maps.DirectionsRenderer({
-                suppressMarkers: false,
-                polylineOptions: polylineOptionsActual
-            });
-            var directionsService = new google.maps.DirectionsService;
-            directionsDisplay.setMap(map);
-            directionsDisplay.setMap(null); //hide the initial path by default
-
-            //If you need an event to be fired on directions changed, use this listener/handler
-            // google.maps.event.addListener(directionsDisplay, 'directions_changed', function() {
-            //
-            // });
-
-            //show/hide route via toggle
-            function showPath() {
-                if (!directionsDisplay.getMap()) {
-                    directionsDisplay.setMap(map);
-                }
-                //If you need to toggle the visiblity use:
-                // if (directionsDisplay.getMap()) {
-                //     directionsDisplay.setMap(null);
-                // } else {
-                //     directionsDisplay.setMap(map);
-                // }
-            }
-
-            function closeInfoWinow(){
-              //get the active marker
-              for(var i = 0; i < PluginApi.getMarkerArray.length; i++){
-                if(PluginApi.getMarkerArray[i].visible){
-                  PluginApi.getMarkerArray[i].infowindow.close();
-                }
-              }
-            }
-
-            function getRoute() {
-                var dest = $('#dest').find(":selected").val().split(',');
-                if (dest != 0) {
-                    PluginApi.calculateAndDisplayRoute(directionsService, directionsDisplay, dest[0], dest[1]);
-                }
-            }
-            getRoute(); //call on load
-
-            //on route select change calculate the route
-            document.getElementById('mode').addEventListener('change', function() {
-                closeInfoWinow();
-                if($('#mode').find(":selected").val() != 0){
-                  //if dest is set to 0, set it to the first destination
-                  if ($('#dest').find(":selected").val() == 0) {
-                      $("#dest").prop("selectedIndex", 1);
-                  }
-                  showPath();
-                  getRoute();
-                }
-            });
-            document.getElementById('dest').addEventListener('change', function() {
-              closeInfoWinow();
-              //if mode is set to 0, set it to the first mode of transport to prevent error
-              if($('#mode').find(":selected").val() == 0){
-                $("#mode").prop("selectedIndex", 1);
-              }
-                showPath();
-                getRoute();
-            });
-        },
-        calculateAndDisplayRoute: function(directionsService, directionsDisplay, lat, lng) {
-            var selectedMode = document.getElementById('mode').value;
-            directionsService.route({
-                origin: {
-                    lat: this.routeStart[0],
-                    lng: this.routeStart[1]
-                },
-                destination: {
-                    lat: parseFloat(lat),
-                    lng: parseFloat(lng)
-                },
-                travelMode: google.maps.TravelMode[selectedMode]
-            }, function(response, status) {
-                if (status == 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        },
-        processMarkers: function(map, markers, markerArray, infowindow) {
-            for (var i = 0; i < markers["locations"].length; i++) {
-                PluginApi.addMarker(map, markerArray, infowindow, markers["locations"][i]["lat"], markers["locations"][i]["lng"], markers["locations"][i]["icon"], markers["locations"][i]["label"], markers["locations"][i]["text"], markers["locations"][i]["groupType"], markers["locations"][i]["id"], markers["locations"][i]["infoWindowOpen"]);
-            }
-            //make the processed array available
-            PluginApi.getMarkerArray = markerArray;
-        },
-        getMarkerArray: function() {},
-        toggleMarkerGroup: function(thisType) {
-            var markerArray = PluginApi.getMarkerArray;
-            for (var i = 0; i < markerArray.length; i++) {
-                if (markerArray[i].type == thisType) {
-                    if (markerArray[i].getVisible()) {
-                        markerArray[i].setVisible(false)
-                    } else {
-                        markerArray[i].setVisible(true)
-                    }
-                }
-            }
-        },
-        addMarker: function(map, markerArray, infowindow, lat, lng, iconURL, markerTitle, markerText, markerType, markerID, infoWindowOpen) {
-
-            var pinImage = {
-                url: './assets/img/accomodation/'+iconURL+'.png?v=1',
-                size: new google.maps.Size(60, 83), // the orignal size
-                scaledSize: new google.maps.Size(30, 42), // the new size you want to use
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(0, 32) // position in the sprite
-            };
-
-            var marker = new mapMarker({
-                position: new google.maps.LatLng(lat, lng),
-                map: map,
-                draggable: false,
-                icon: pinImage,
-                content: '<div class="marker" data-mapid="' + markerID + '"><img src="./assets/img/accomodation/' + iconURL + '.png?v=1" width="30" height="30"/><i class="map-icon grow"><span class="title"></span></i></div>',
-            });
-
-            //if multinfowindows are required
-            if(PluginApi.multiInfoWindow && infoWindowOpen){
-               infowindow = new google.maps.InfoWindow({
-                  content: ' ',
-                  //disableAutoPan : false, //prevents the initial pan around
-                  pixelOffset: new google.maps.Size(0, -20) //offset the infowindow
-              });
-            }
-
-            marker.set('type', markerType);
-            marker.set('id', markerID);
-            marker.set('infoWindowOpen', infoWindowOpen);
-            marker.text = "<div class='close-infowindow'>x</div><div class='marker-text'><h3 class='all-caps'>" + markerTitle + "</h3><p>" + markerText + "</p></div>";
-
-            google.maps.event.addListener(marker, 'click', function(markerType) {
-                infowindow.setContent(marker.text)
-                infowindow.open(map, marker);
-            });
-
-            marker.set('infowindow', infowindow); //so can access the info window outside of plugin via the marker
-            markerArray.push(marker);
-
-            if(PluginApi.multiInfoWindow && infoWindowOpen){
-              infowindow.setContent(marker.text)
-              infowindow.open(map, marker);
-            }
-        },
-        initialMarker: function(thisMap) {
-          //if you need to set an initial marker
-            //var marker = new google.maps.Marker({
-            //  position: new google.maps.LatLng(53.81048220253582, -1.556990146636963)
-            //  , map: thisMap
-            //  , title: ''
-            //  });
-            return this;
-        },
-    };
-
-    // Create the plugin name and defaults once
-    var pluginName = 'GoogleMap';
-    // Attach the plugin to jQuery namespace.
-    $.fn[pluginName] = function(method) {
-        if (PluginApi[method]) {
-            return PluginApi[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof method === 'object' || !method) {
-            //init()
-            return PluginApi.init.apply(this, arguments);
-        } else {
-            $.error('Method ' + method + 'does not exist');
-        }
-    };
-    //call the plugin
-    if ($('#map').length) {
-        console.log("map ready");
-        var createMap = $('#map').GoogleMap({
-            stylers: style2,
-            zoom: 16,
-            campusOutline: true,
-            markers: maplocations,
-            multiInfoWindow : true,
-            center : [53.805568, -1.554319]
-            // routeOrigin: [53.817549, -1.566720] //uncommment this line if you are using route calculations
-        });
-    }
-
-    /*
-        ACCOMODATION SPECIFIC PLUGIN EXTEND:
-    */
-    //If is the main residence location center and open the infowindow
-    $('#map').GoogleMap('extend', 'setMarkerVisibility', function() {
-        var markerArray = PluginApi.getMarkerArray;
-        for (var i = 0; i < markerArray.length; i++) {
-          /*
-            set the visibility of the icon
-          */
-            if (markerArray[i].type != 'residence') {
-                markerArray[i].setVisible(false);
-                if(markerArray[i].infoWindowOpen === true){
-                  markerArray[i].setVisible(true);
-                }
-            } else {
-                //markerArray[i].map.setCenter(new google.maps.LatLng(markerArray[i].position.lat(), markerArray[i].position.lng()));
-                //if is the residence marker
-                markerArray[i].infowindow.setContent(markerArray[i].text)
-                markerArray[i].infowindow.open(markerArray[i].map, markerArray[i]);
-            }
-        }
-    }).GoogleMap('setMarkerVisibility');
-
-    //OVERWRITE the toggleMarkerGroup functionality for accommodation specific requirements
-    $('#map').GoogleMap('extend', 'toggleMarkerGroup', function(groupName) {
-        var markerArray = PluginApi.getMarkerArray;
-        for (var i = 0; i < markerArray.length; i++) {
-            if (groupName !== 'residence') {
-                if (markerArray[i].type == groupName) {
-                    if (markerArray[i].getVisible()) {
-                        markerArray[i].setVisible(false);
-                        //if the currently open info window belongs to a marker to be hidden, close the infowindow
-                        if(markerArray[i].infowindow.position != undefined){
-                          if (markerArray[i].infowindow.position.lat() == markerArray[i].position.lat()) {
-                              markerArray[i].infowindow.close();
-                          }
-                        }
-
-                    } else {
-                        markerArray[i].setVisible(true);
-                    }
-                }
-            } else {
-                if (groupName == 'residence' && markerArray[i].type == 'residence') {
-                    //If it is the residence marker do not hide it, but trigger the info window
-                    var thisMarker = markerArray[i];
-                    setTimeout(function() {
-                        google.maps.event.trigger(thisMarker, 'click');
-                    }, 10);
-                }
-            }
-        }
-    }).GoogleMap('toggleMarkerGroup');
-
-    //bind class to toggle groups on/off to the .togglegroup class
-    $('.toggleMarkergroup').click(function() {
-        var groupType = $(this).data('group');
-        PluginApi.toggleMarkerGroup(groupType);
-        //If it is not the main residence, toggle the button active class
-        if (groupType != 'residence') {
-            $(this).toggleClass('active');
-        }
-
-        // var groupTitle = $(this).data('title');
-        // var groupText = $(this).data('text');
-        //$(window).trigger('resize');
-    });
-
-
-
-}(jQuery);
-
-// /**
-//  * acc-responsive-tabs.js  
-//  */
-
-// + function ($) {
-//     'use strict';
-
-//     //TEUXDEUX FIX THIS RESPONSIVE TABS
-
-//     /**
-//      * Responsive tabs - Compares the width of the tabs to the width of the screen and switches to a drop down depending on the available space
-//      get the initial max width? won't work if font re-sizes then the max on larger screens won't be calcultaed on initial load
-//      */
-
-//     function createDropDown() {
-//         //dynamically create dropdown from responsive-tabs
-//         var i = 0;
-//         var dropDown = '<div class="select_wrapper hide p-l p-r"><select class="select-dark">';
-//         $(".nav-tabs-responsive").children('li').each(function (index, value) {
-//             var thisTitle = $(this).find('a').html();
-//             var thisLink = $(this).find('a').attr('href');
-//             $(this).attr('tabindex', i + 1);
-//             dropDown += '<option value="' + thisLink + '">' + thisTitle + '</option>';
-//         });
-//         dropDown += '</select></div>';
-//         $('.tabs-header').append(dropDown);
-//     }
-
-//     if ($('.nav-tabs-responsive').length) {
-//         createDropDown();
-//         switchNavigation();
-//     };
-
-//     $('.select_wrapper select').on('change', function () {
-//         var selected = $(this).val();
-//         $('a[href$="' + selected + '"]').trigger("click");
-//     });
-
-//     //Check when it is the end of user resizing
-//     var rtime;
-//     var timeout = false;
-//     var delta = 200;
-//     $(window).resize(function () {
-//         rtime = new Date();
-//         if (timeout === false) {
-//             timeout = true;
-//             setTimeout(resizeend, delta);
-//         }
-//     });
-
-//     function resizeend() {
-//         if (new Date() - rtime < delta) {
-//             setTimeout(resizeend, delta);
-//         } else {
-//             //Done resizing
-//             timeout = false;
-//             switchNavigation();
-//         }
-//     }
-
-//     //if the tabs exceed the screen width, convert to select list
-//     function switchNavigation() {
-//         var listWidth = $('.nav-tabs-responsive').innerWidth();
-//         if (!$('.nav-tabs-responsive').hasClass('hide') && listWidth >= window.innerWidth) {
-//             $('.select_wrapper').removeClass('hide');
-//             //hide visually only so the size can be calculated
-//             $('.nav-tabs-responsive').css('display','none');
-//         } else {
-//             $('.select_wrapper').addClass('hide');
-//             $('.nav-tabs-responsive').css('display','block');
-//         }
-//     }
-
-// }(jQuery);
-
-/**
- * acc-select-change.js  
- */
-
-+function ($) {
-    'use strict';
-    /*
-    A simple way to create a select/change/load content.
-    The default (non-JS version) will show all content by default
-    USAGE: Use the following HTML structure, by adding the class .selectedTexts, the content will be converted to the select/change list
-
-        <div class="selectedTexts">
-            <div>
-                <h3>Title</h3>
-                //content here
-            </div>
-            <div>
-                <h3>Title</h3>
-                //content here
-            </div>
-        </div>
-    */
-
-    $(document).on("change", ".select-change-load", function () {
-        //get the selected option and the associated text
-        var selectedSection = $(this).children('option:selected').val(),
-            selectedText = $('#' + selectedSection).html();
-        //output the selected text
-        $(this).parent('div').next('.select-text').html(selectedText + "<hr />");
-    });
-
-    function createSelectText() {
-        var options = '';
-        $('.select-texts').each(function () {
-            $(this).children('div').each(function () {
-                var title = $(this).find('h3:first').html(),
-                    id = title.replace(/ /g, '');
-                $(this).find('h3:first').remove();
-                $(this).attr('id', id);
-                $(this).css("display", "none");
-                options += '<option value=' + id + ">" + title + "</option>";
-            });
-            $(this).before("<div class='select-wrapper flag flag-featured island skin-box-module bd-l'><p class='all-caps'>select your residence for your postal adress and how to collect mail and parcels</p><select name='' class='select-change-load'>" + options + "</select></div><div class='select-text'></div>");
-            options = ''; //clear the options for the next iteration to prevent being added to the next dynamic select
-            $('.select-change-load').trigger('change');
-        });
-    }
-    //get selected text on load
-    window.addEventListener('load', function () {
-        createSelectText();
-    });
-}(jQuery);
-
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Lightbox = function ($) {
+
+	var NAME = 'ekkoLightbox';
+	var JQUERY_NO_CONFLICT = $.fn[NAME];
+
+	var Default = {
+		title: '',
+		footer: '',
+		showArrows: true, //display the left / right arrows or not
+		type: null, //force the lightbox into image / youtube mode. if null, or not image|youtube|vimeo; detect it
+		alwaysShowClose: false, //always show the close button, even if there is no title
+		loadingMessage: '<div class="ekko-lightbox-loader"><div><div></div><div></div></div></div>', // http://tobiasahlin.com/spinkit/
+		leftArrow: '<span>&#10094;</span>',
+		rightArrow: '<span>&#10095;</span>',
+		strings: {
+			close: 'Close',
+			fail: 'Failed to load image:',
+			type: 'Could not detect remote target type. Force the type using data-type'
+		},
+		doc: document, // if in an iframe can specify top.document
+		onShow: function onShow() {},
+		onShown: function onShown() {},
+		onHide: function onHide() {},
+		onHidden: function onHidden() {},
+		onNavigate: function onNavigate() {},
+		onContentLoaded: function onContentLoaded() {}
+	};
+
+	var Lightbox = function () {
+		_createClass(Lightbox, null, [{
+			key: 'Default',
+
+
+			/**
+    
+      Class properties:
+    
+    _$element: null -> the <a> element currently being displayed
+    _$modal: The bootstrap modal generated
+       _$modalDialog: The .modal-dialog
+       _$modalContent: The .modal-content
+       _$modalBody: The .modal-body
+       _$modalHeader: The .modal-header
+       _$modalFooter: The .modal-footer
+    _$lightboxContainerOne: Container of the first lightbox element
+    _$lightboxContainerTwo: Container of the second lightbox element
+    _$lightboxBody: First element in the container
+    _$modalArrows: The overlayed arrows container
+   	 _$galleryItems: Other <a>'s available for this gallery
+    _galleryName: Name of the current data('gallery') showing
+    _galleryIndex: The current index of the _$galleryItems being shown
+   	 _config: {} the options for the modal
+    _modalId: unique id for the current lightbox
+    _padding / _border: CSS properties for the modal container; these are used to calculate the available space for the content
+   	 */
+
+			get: function get() {
+				return Default;
+			}
+		}]);
+
+		function Lightbox($element, config) {
+			var _this = this;
+
+			_classCallCheck(this, Lightbox);
+
+			this._config = $.extend({}, Default, config);
+			this._$modalArrows = null;
+			this._galleryIndex = 0;
+			this._galleryName = null;
+			this._padding = null;
+			this._border = null;
+			this._titleIsShown = false;
+			this._footerIsShown = false;
+			this._wantedWidth = 0;
+			this._wantedHeight = 0;
+			this._modalId = 'ekkoLightbox-' + Math.floor(Math.random() * 1000 + 1);
+			this._$element = $element instanceof jQuery ? $element : $($element);
+
+			this._isBootstrap3 = $.fn.modal.Constructor.VERSION[0] == 3;
+
+			var h4 = '<h4 class="modal-title">' + (this._config.title || "&nbsp;") + '</h4>';
+			var btn = '<button type="button" class="close" data-dismiss="modal" aria-label="' + this._config.strings.close + '"><span aria-hidden="true">&times;</span></button>';
+
+			var header = '<div class="modal-header"' + (this._config.title || this._config.alwaysShowClose ? '' : ' style="display:none"') + '>' + (this._isBootstrap3 ? btn + h4 : h4 + btn) + '</div>';
+			var footer = '<div class="modal-footer"' + (this._config.footer ? '' : ' style="display:none"') + '>' + (this._config.footer || "&nbsp;") + '</div>';
+			var body = '<div class="modal-body"><div class="ekko-lightbox-container"><div class="ekko-lightbox-item fade in show"></div><div class="ekko-lightbox-item fade"></div></div></div>';
+			var dialog = '<div class="modal-dialog" role="document"><div class="modal-content">' + header + body + footer + '</div></div>';
+			$(this._config.doc.body).append('<div id="' + this._modalId + '" class="ekko-lightbox modal fade" tabindex="-1" tabindex="-1" role="dialog" aria-hidden="true">' + dialog + '</div>');
+
+			this._$modal = $('#' + this._modalId, this._config.doc);
+			this._$modalDialog = this._$modal.find('.modal-dialog').first();
+			this._$modalContent = this._$modal.find('.modal-content').first();
+			this._$modalBody = this._$modal.find('.modal-body').first();
+			this._$modalHeader = this._$modal.find('.modal-header').first();
+			this._$modalFooter = this._$modal.find('.modal-footer').first();
+
+			this._$lightboxContainer = this._$modalBody.find('.ekko-lightbox-container').first();
+			this._$lightboxBodyOne = this._$lightboxContainer.find('> div:first-child').first();
+			this._$lightboxBodyTwo = this._$lightboxContainer.find('> div:last-child').first();
+
+			this._border = this._calculateBorders();
+			this._padding = this._calculatePadding();
+
+			this._galleryName = this._$element.data('gallery');
+			if (this._galleryName) {
+				this._$galleryItems = $(document.body).find('*[data-gallery="' + this._galleryName + '"]');
+				this._galleryIndex = this._$galleryItems.index(this._$element);
+				$(document).on('keydown.ekkoLightbox', this._navigationalBinder.bind(this)
+
+				// add the directional arrows to the modal
+				);if (this._config.showArrows && this._$galleryItems.length > 1) {
+					this._$lightboxContainer.append('<div class="ekko-lightbox-nav-overlay"><a href="#">' + this._config.leftArrow + '</a><a href="#">' + this._config.rightArrow + '</a></div>');
+					this._$modalArrows = this._$lightboxContainer.find('div.ekko-lightbox-nav-overlay').first();
+					this._$lightboxContainer.on('click', 'a:first-child', function (event) {
+						event.preventDefault();
+						return _this.navigateLeft();
+					});
+					this._$lightboxContainer.on('click', 'a:last-child', function (event) {
+						event.preventDefault();
+						return _this.navigateRight();
+					});
+				}
+			}
+
+			this._$modal.on('show.bs.modal', this._config.onShow.bind(this)).on('shown.bs.modal', function () {
+				_this._toggleLoading(true);
+				_this._handle();
+				return _this._config.onShown.call(_this);
+			}).on('hide.bs.modal', this._config.onHide.bind(this)).on('hidden.bs.modal', function () {
+				if (_this._galleryName) {
+					$(document).off('keydown.ekkoLightbox');
+					$(window).off('resize.ekkoLightbox');
+				}
+				_this._$modal.remove();
+				return _this._config.onHidden.call(_this);
+			}).modal(this._config);
+
+			$(window).on('resize.ekkoLightbox', function () {
+				_this._resize(_this._wantedWidth, _this._wantedHeight);
+			});
+		}
+
+		_createClass(Lightbox, [{
+			key: 'element',
+			value: function element() {
+				return this._$element;
+			}
+		}, {
+			key: 'modal',
+			value: function modal() {
+				return this._$modal;
+			}
+		}, {
+			key: 'navigateTo',
+			value: function navigateTo(index) {
+
+				if (index < 0 || index > this._$galleryItems.length - 1) return this;
+
+				this._galleryIndex = index;
+
+				this._$element = $(this._$galleryItems.get(this._galleryIndex));
+				this._handle();
+			}
+		}, {
+			key: 'navigateLeft',
+			value: function navigateLeft() {
+
+				if (this._$galleryItems.length === 1) return;
+
+				if (this._galleryIndex === 0) this._galleryIndex = this._$galleryItems.length - 1;else //circular
+					this._galleryIndex--;
+
+				this._config.onNavigate.call(this, 'left', this._galleryIndex);
+				return this.navigateTo(this._galleryIndex);
+			}
+		}, {
+			key: 'navigateRight',
+			value: function navigateRight() {
+
+				if (this._$galleryItems.length === 1) return;
+
+				if (this._galleryIndex === this._$galleryItems.length - 1) this._galleryIndex = 0;else //circular
+					this._galleryIndex++;
+
+				this._config.onNavigate.call(this, 'right', this._galleryIndex);
+				return this.navigateTo(this._galleryIndex);
+			}
+		}, {
+			key: 'close',
+			value: function close() {
+				return this._$modal.modal('hide');
+			}
+
+			// helper private methods
+
+		}, {
+			key: '_navigationalBinder',
+			value: function _navigationalBinder(event) {
+				event = event || window.event;
+				if (event.keyCode === 39) return this.navigateRight();
+				if (event.keyCode === 37) return this.navigateLeft();
+			}
+
+			// type detection private methods
+
+		}, {
+			key: '_detectRemoteType',
+			value: function _detectRemoteType(src, type) {
+
+				type = type || false;
+
+				if (!type && this._isImage(src)) type = 'image';
+				if (!type && this._getYoutubeId(src)) type = 'youtube';
+				if (!type && this._getVimeoId(src)) type = 'vimeo';
+				if (!type && this._getInstagramId(src)) type = 'instagram';
+
+				if (!type || ['image', 'youtube', 'vimeo', 'instagram', 'video', 'url'].indexOf(type) < 0) type = 'url';
+
+				return type;
+			}
+		}, {
+			key: '_isImage',
+			value: function _isImage(string) {
+				return string && string.match(/(^data:image\/.*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg)((\?|#).*)?$)/i);
+			}
+		}, {
+			key: '_containerToUse',
+			value: function _containerToUse() {
+				var _this2 = this;
+
+				// if currently showing an image, fade it out and remove
+				var $toUse = this._$lightboxBodyTwo;
+				var $current = this._$lightboxBodyOne;
+
+				if (this._$lightboxBodyTwo.hasClass('in')) {
+					$toUse = this._$lightboxBodyOne;
+					$current = this._$lightboxBodyTwo;
+				}
+
+				$current.removeClass('in show');
+				setTimeout(function () {
+					if (!_this2._$lightboxBodyTwo.hasClass('in')) _this2._$lightboxBodyTwo.empty();
+					if (!_this2._$lightboxBodyOne.hasClass('in')) _this2._$lightboxBodyOne.empty();
+				}, 500);
+
+				$toUse.addClass('in show');
+				return $toUse;
+			}
+		}, {
+			key: '_handle',
+			value: function _handle() {
+
+				var $toUse = this._containerToUse();
+				this._updateTitleAndFooter();
+
+				var currentRemote = this._$element.attr('data-remote') || this._$element.attr('href');
+				var currentType = this._detectRemoteType(currentRemote, this._$element.attr('data-type') || false);
+
+				if (['image', 'youtube', 'vimeo', 'instagram', 'video', 'url'].indexOf(currentType) < 0) return this._error(this._config.strings.type);
+
+				switch (currentType) {
+					case 'image':
+						this._preloadImage(currentRemote, $toUse);
+						this._preloadImageByIndex(this._galleryIndex, 3);
+						break;
+					case 'youtube':
+						this._showYoutubeVideo(currentRemote, $toUse);
+						break;
+					case 'vimeo':
+						this._showVimeoVideo(this._getVimeoId(currentRemote), $toUse);
+						break;
+					case 'instagram':
+						this._showInstagramVideo(this._getInstagramId(currentRemote), $toUse);
+						break;
+					case 'video':
+						this._showHtml5Video(currentRemote, $toUse);
+						break;
+					default:
+						// url
+						this._loadRemoteContent(currentRemote, $toUse);
+						break;
+				}
+
+				return this;
+			}
+		}, {
+			key: '_getYoutubeId',
+			value: function _getYoutubeId(string) {
+				if (!string) return false;
+				var matches = string.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+				return matches && matches[2].length === 11 ? matches[2] : false;
+			}
+		}, {
+			key: '_getVimeoId',
+			value: function _getVimeoId(string) {
+				return string && string.indexOf('vimeo') > 0 ? string : false;
+			}
+		}, {
+			key: '_getInstagramId',
+			value: function _getInstagramId(string) {
+				return string && string.indexOf('instagram') > 0 ? string : false;
+			}
+
+			// layout private methods
+
+		}, {
+			key: '_toggleLoading',
+			value: function _toggleLoading(show) {
+				show = show || false;
+				if (show) {
+					this._$modalDialog.css('display', 'none');
+					this._$modal.removeClass('in show');
+					$('.modal-backdrop').append(this._config.loadingMessage);
+				} else {
+					this._$modalDialog.css('display', 'block');
+					this._$modal.addClass('in show');
+					$('.modal-backdrop').find('.ekko-lightbox-loader').remove();
+				}
+				return this;
+			}
+		}, {
+			key: '_calculateBorders',
+			value: function _calculateBorders() {
+				return {
+					top: this._totalCssByAttribute('border-top-width'),
+					right: this._totalCssByAttribute('border-right-width'),
+					bottom: this._totalCssByAttribute('border-bottom-width'),
+					left: this._totalCssByAttribute('border-left-width')
+				};
+			}
+		}, {
+			key: '_calculatePadding',
+			value: function _calculatePadding() {
+				return {
+					top: this._totalCssByAttribute('padding-top'),
+					right: this._totalCssByAttribute('padding-right'),
+					bottom: this._totalCssByAttribute('padding-bottom'),
+					left: this._totalCssByAttribute('padding-left')
+				};
+			}
+		}, {
+			key: '_totalCssByAttribute',
+			value: function _totalCssByAttribute(attribute) {
+				return parseInt(this._$modalDialog.css(attribute), 10) + parseInt(this._$modalContent.css(attribute), 10) + parseInt(this._$modalBody.css(attribute), 10);
+			}
+		}, {
+			key: '_updateTitleAndFooter',
+			value: function _updateTitleAndFooter() {
+				var title = this._$element.data('title') || "";
+				var caption = this._$element.data('footer') || "";
+
+				this._titleIsShown = false;
+				if (title || this._config.alwaysShowClose) {
+					this._titleIsShown = true;
+					this._$modalHeader.css('display', '').find('.modal-title').html(title || "&nbsp;");
+				} else this._$modalHeader.css('display', 'none');
+
+				this._footerIsShown = false;
+				if (caption) {
+					this._footerIsShown = true;
+					this._$modalFooter.css('display', '').html(caption);
+				} else this._$modalFooter.css('display', 'none');
+
+				return this;
+			}
+		}, {
+			key: '_showYoutubeVideo',
+			value: function _showYoutubeVideo(remote, $containerForElement) {
+				var id = this._getYoutubeId(remote);
+				var query = remote.indexOf('&') > 0 ? remote.substr(remote.indexOf('&')) : '';
+				var width = this._$element.data('width') || 560;
+				var height = this._$element.data('height') || width / (560 / 315);
+				return this._showVideoIframe('//www.youtube.com/embed/' + id + '?badge=0&autoplay=1&html5=1' + query, width, height, $containerForElement);
+			}
+		}, {
+			key: '_showVimeoVideo',
+			value: function _showVimeoVideo(id, $containerForElement) {
+				var width = this._$element.data('width') || 500;
+				var height = this._$element.data('height') || width / (560 / 315);
+				return this._showVideoIframe(id + '?autoplay=1', width, height, $containerForElement);
+			}
+		}, {
+			key: '_showInstagramVideo',
+			value: function _showInstagramVideo(id, $containerForElement) {
+				// instagram load their content into iframe's so this can be put straight into the element
+				var width = this._$element.data('width') || 612;
+				var height = width + 80;
+				id = id.substr(-1) !== '/' ? id + '/' : id; // ensure id has trailing slash
+				$containerForElement.html('<iframe width="' + width + '" height="' + height + '" src="' + id + 'embed/" frameborder="0" allowfullscreen></iframe>');
+				this._resize(width, height);
+				this._config.onContentLoaded.call(this);
+				//if (this._$modalArrows) //hide the arrows when showing video
+				//this._$modalArrows.css('display', 'none');
+				this._toggleLoading(false);
+				return this;
+			}
+		}, {
+			key: '_showVideoIframe',
+			value: function _showVideoIframe(url, width, height, $containerForElement) {
+				// should be used for videos only. for remote content use loadRemoteContent (data-type=url)
+				height = height || width; // default to square
+				$containerForElement.html('<div class="embed-responsive embed-responsive-16by9"><iframe width="' + width + '" height="' + height + '" src="' + url + '" frameborder="0" allowfullscreen class="embed-responsive-item"></iframe></div>');
+				this._resize(width, height);
+				this._config.onContentLoaded.call(this);
+				//if (this._$modalArrows)
+				//this._$modalArrows.css('display', 'none'); //hide the arrows when showing video
+				this._toggleLoading(false);
+				return this;
+			}
+		}, {
+			key: '_showHtml5Video',
+			value: function _showHtml5Video(url, $containerForElement) {
+				// should be used for videos only. for remote content use loadRemoteContent (data-type=url)
+				var width = this._$element.data('width') || 560;
+				var height = this._$element.data('height') || width / (560 / 315);
+				$containerForElement.html('<div class="embed-responsive embed-responsive-16by9"><video width="' + width + '" height="' + height + '" src="' + url + '" preload="auto" autoplay controls class="embed-responsive-item"></video></div>');
+				this._resize(width, height);
+				this._config.onContentLoaded.call(this);
+				//if (this._$modalArrows)
+				//this._$modalArrows.css('display', 'none'); //hide the arrows when showing video
+				this._toggleLoading(false);
+				return this;
+			}
+		}, {
+			key: '_loadRemoteContent',
+			value: function _loadRemoteContent(url, $containerForElement) {
+				var _this3 = this;
+
+				var width = this._$element.data('width') || 560;
+				var height = this._$element.data('height') || 560;
+
+				var disableExternalCheck = this._$element.data('disableExternalCheck') || false;
+				this._toggleLoading(false);
+
+				// external urls are loading into an iframe
+				// local ajax can be loaded into the container itself
+				if (!disableExternalCheck && !this._isExternal(url)) {
+					$containerForElement.load(url, $.proxy(function () {
+						return _this3._$element.trigger('loaded.bs.modal');l;
+					}));
+				} else {
+					$containerForElement.html('<iframe src="' + url + '" frameborder="0" allowfullscreen></iframe>');
+					this._config.onContentLoaded.call(this);
+				}
+
+				//if (this._$modalArrows) //hide the arrows when remote content
+				//this._$modalArrows.css('display', 'none')
+
+				this._resize(width, height);
+				return this;
+			}
+		}, {
+			key: '_isExternal',
+			value: function _isExternal(url) {
+				var match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+				if (typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+
+				if (typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(':(' + {
+					"http:": 80,
+					"https:": 443
+				}[location.protocol] + ')?$'), "") !== location.host) return true;
+
+				return false;
+			}
+		}, {
+			key: '_error',
+			value: function _error(message) {
+				console.error(message);
+				this._containerToUse().html(message);
+				this._resize(300, 300);
+				return this;
+			}
+		}, {
+			key: '_preloadImageByIndex',
+			value: function _preloadImageByIndex(startIndex, numberOfTimes) {
+
+				if (!this._$galleryItems) return;
+
+				var next = $(this._$galleryItems.get(startIndex), false);
+				if (typeof next == 'undefined') return;
+
+				var src = next.attr('data-remote') || next.attr('href');
+				if (next.attr('data-type') === 'image' || this._isImage(src)) this._preloadImage(src, false);
+
+				if (numberOfTimes > 0) return this._preloadImageByIndex(startIndex + 1, numberOfTimes - 1);
+			}
+		}, {
+			key: '_preloadImage',
+			value: function _preloadImage(src, $containerForImage) {
+				var _this4 = this;
+
+				$containerForImage = $containerForImage || false;
+
+				var img = new Image();
+				if ($containerForImage) {
+
+					// if loading takes > 200ms show a loader
+					var loadingTimeout = setTimeout(function () {
+						$containerForImage.append(_this4._config.loadingMessage);
+					}, 200);
+
+					img.onload = function () {
+						if (loadingTimeout) clearTimeout(loadingTimeout);
+						loadingTimeout = null;
+						var image = $('<img />');
+						image.attr('src', img.src);
+						image.addClass('img-fluid');
+
+						// backward compatibility for bootstrap v3
+						image.css('width', '100%');
+
+						$containerForImage.html(image);
+						if (_this4._$modalArrows) _this4._$modalArrows.css('display', '' // remove display to default to css property
+
+						);_this4._resize(img.width, img.height);
+						_this4._toggleLoading(false);
+						return _this4._config.onContentLoaded.call(_this4);
+					};
+					img.onerror = function () {
+						_this4._toggleLoading(false);
+						return _this4._error(_this4._config.strings.fail + ('  ' + src));
+					};
+				}
+
+				img.src = src;
+				return img;
+			}
+		}, {
+			key: '_resize',
+			value: function _resize(width, height) {
+
+				height = height || width;
+				this._wantedWidth = width;
+				this._wantedHeight = height;
+
+				// if width > the available space, scale down the expected width and height
+				var widthBorderAndPadding = this._padding.left + this._padding.right + this._border.left + this._border.right;
+				var maxWidth = Math.min(width + widthBorderAndPadding, this._config.doc.body.clientWidth);
+				if (width + widthBorderAndPadding > maxWidth) {
+					height = (maxWidth - widthBorderAndPadding) / width * height;
+					width = maxWidth;
+				} else width = width + widthBorderAndPadding;
+
+				var headerHeight = 0,
+				    footerHeight = 0;
+
+				// as the resize is performed the modal is show, the calculate might fail
+				// if so, default to the default sizes
+				if (this._footerIsShown) footerHeight = this._$modalFooter.outerHeight(true) || 55;
+
+				if (this._titleIsShown) headerHeight = this._$modalHeader.outerHeight(true) || 67;
+
+				var borderPadding = this._padding.top + this._padding.bottom + this._border.bottom + this._border.top;
+
+				//calculated each time as resizing the window can cause them to change due to Bootstraps fluid margins
+				var margins = parseFloat(this._$modalDialog.css('margin-top')) + parseFloat(this._$modalDialog.css('margin-bottom'));
+
+				var maxHeight = Math.min(height, $(window).height() - borderPadding - margins - headerHeight - footerHeight);
+				if (height > maxHeight) {
+					// if height > the available height, scale down the width
+					var factor = Math.min(maxHeight / height, 1);
+					width = Math.ceil(factor * width);
+				}
+
+				this._$lightboxContainer.css('height', maxHeight);
+				this._$modalDialog.css('width', 'auto').css('maxWidth', width);
+
+				if (!this._isBootstrap3) {
+					// v4 method is mistakenly protected
+					var modal = this._$modal.data('bs.modal');
+					if (modal) modal._handleUpdate();
+				} else {
+					var _modal = this._$modal.data('bs.modal');
+					if (_modal) _modal.handleUpdate();
+				}
+				return this;
+			}
+		}], [{
+			key: '_jQueryInterface',
+			value: function _jQueryInterface(config) {
+				var _this5 = this;
+
+				config = config || {};
+				return this.each(function () {
+					var $this = $(_this5);
+					var _config = $.extend({}, Lightbox.Default, $this.data(), (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' && config);
+
+					new Lightbox(_this5, _config);
+				});
+			}
+		}]);
+
+		return Lightbox;
+	}();
+
+	$.fn[NAME] = Lightbox._jQueryInterface;
+	$.fn[NAME].Constructor = Lightbox;
+	$.fn[NAME].noConflict = function () {
+		$.fn[NAME] = JQUERY_NO_CONFLICT;
+		return Lightbox._jQueryInterface;
+	};
+
+	return Lightbox;
+}(jQuery
+
+//export default Lightbox
+);
 /**
  * acessible-outlines.js
  * ---------------------
@@ -17078,8 +13358,6 @@ if( Tablesaw.mustard ) {
 
 + function ($) {
     'use strict';
-
-
 
     function checkSize() {
         if ($(".col-right").css("position") == "relative") {
@@ -17257,6 +13535,25 @@ if( Tablesaw.mustard ) {
 
 }(jQuery);
 /**
+ * lightbox-.js
+ */
+
++ function ($) {
+    'use strict';
+
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+            alwaysShowClose: true,
+            width: 1000,
+            leftArrow: '<span class="left-arrow"></span>',
+            rightArrow: '<span class="right-arrow"></span>'
+            
+        });
+    });
+    
+}(jQuery);
+/**
  * init-multi-select.js
  * --------------------
  * MULTI-SELECT - Form element
@@ -17332,27 +13629,15 @@ if( Tablesaw.mustard ) {
 	    };
 	});
 
+	//Trigger table saw on table inside in .table-saw-init
+	$(function(){
+	    $( ".table-saw-init table" ).addClass('table table-saw').trigger( "enhance.tablesaw" );
+	    $( ".table-saw-init table" ).table( "refresh" );
+	});
+
 
 
 })( jQuery );
-/**
- * lightbox-.js
- */
-
-+ function ($) {
-    'use strict';
-
-    //show large is when wanting to force the accordion to show on the large screen, see course page
-    $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-        	// left_arrow_class: 'glyphicon glyphicon-chevron-left tk-icon tk-icon-chevron-left',
-        	// right_arrow_class: 'glyphicon glyphicon-chevron-right tk-icon tk-icon-chevron-right'
-        });
-
-    });
-    
-}(jQuery);
 /** 
  * modal-iframe.js
  * ---------------
@@ -17720,7 +14005,7 @@ $('body').click(function(e){
 	//var items = [];
 
 	function createQuickSearch(title, url, cats, type, desc){		
-		var quicksearch = '<div id="quicksearch" class="wrapper-lg wrapper-pd wrapper-relative"><div class="quick-search"><ul></ul></div></div>';
+		var quicksearch = '<div id="quicksearch" class="wrapper-pd wrapper-relative"><div class="quick-search"><ul></ul></div></div>';
 		var listItem = '<li><a href="'+url+'"><span class="title">'+title+'</span><span class="excerpt">'+desc+'</span><!--<span class="type">'+type+'</span><span class="category">'+cats+'</span>--></a></li>';
 		
 		if(!$('#quicksearch').length){
@@ -18001,6 +14286,23 @@ $('body').click(function(e){
 
 }(jQuery);
 /**
+ * Select Toggle 
+ * Used on accom contact and post
+ * Hide and show sectio  on select change
+ */
+
++function ($) {
+    'use strict';
+
+    $(document).on('change', '*[data-toggle="select-toggle"]', function () {
+        var target = $('option:selected',this).data('target')
+        $('.select-toggle-content').removeClass('active');
+        $(target).addClass('active');           
+    });
+
+}(jQuery);
+
+/**
  * Shame JS
  */
 
@@ -18041,6 +14343,7 @@ $('body').click(function(e){
 
 
 // });
+
 
 }(jQuery);
 
@@ -18154,74 +14457,6 @@ $('body').click(function(e){
 + function ($) {
     'use strict';
 
-    /* Idangerous swiper plugin, remove when possible */
-
-    // $('.swiper-container').each(function (index, element) {
-
-    //     $(this).parent('.js-slider').addClass('s' + index);
-
-    //     var mySwiper = new Swiper('.s' + index + ' .swiper-container', {
-    //         loop: false
-    //         , grabCursor: true
-    //         , slidesPerView: 1
-    //         , onSlideChangeStart: function () {
-
-    //             var activeSlide = mySwiper.activeIndex
-    //                 , slideCount = $('.s' + index + ' .swiper-slide').length - 1;
-
-    //             $('.s' + index + ' .swiper-tabs li').removeClass('active');
-    //             $('.s' + index + ' .swiper-tabs li a[data-slide*=' + (mySwiper.activeIndex) + ']').parent().addClass('active');
-
-    //             //console.log(activeSlide);
-
-    //             if (activeSlide === 0) {
-    //                 $('.s' + index + ' .swiper-button-prev').addClass('disabled');
-    //             } else {
-    //                 $('.s' + index + ' .swiper-button-prev').removeClass('disabled');
-    //             }
-
-    //             if (activeSlide === slideCount) {
-    //                 $('.s' + index + ' .swiper-button-next').addClass('disabled');
-    //             } else {
-    //                 $('.s' + index + ' .swiper-button-next').removeClass('disabled');
-    //             }
-
-    //         }
-    //     });
-
-    //     var activeSlide = mySwiper.activeIndex
-    //         , slideNum = $('.s' + index + ' .swiper-slide').length - 1;
-
-    //     function goToSlide(num) {
-    //         mySwiper.swipeTo(num);
-    //         $('.s' + index + ' .swiper-tabs li').removeClass('active');
-    //         $('.s' + index + ' .swiper-tabs li a[data-slide*=' + num + ']').parent().addClass('active');
-    //         //window.location = '#slide'+(num+1);
-    //     }
-
-    //     //LEFT & RIGHT ARROWS
-
-    //     $('.s' + index + ' .swiper-button').on('click', function (e) {
-    //         var activeIndex = mySwiper.activeIndex;
-
-    //         if ($(this).hasClass('swiper-button-next') && activeIndex < slideNum) {
-    //             goToSlide(activeIndex + 1);
-
-    //         } else if ($(this).hasClass('swiper-button-prev') && activeIndex > 0) {
-    //             goToSlide(activeIndex - 1);
-    //         }
-
-    //         return false;
-    //     });
-
-    //     //SET UP SWIPER TABS
-    //     $('.s' + index + ' .swiper-tabs li a').click(function (swiper) {
-    //         goToSlide($(this).data('slide'));
-    //         return false;
-    //     });
-
-    // });
-
     $(document).ready(function () {
 
         /* Owl carousel */
@@ -18232,8 +14467,6 @@ $('body').click(function(e){
             var x = $(this).scrollTop();
             $('.swiper-2.swiper-full-width .slide-img').css('background-position', '0px ' + (-20 + parseInt(x / 10)) + 'px');
         });
-
-        
 
         $('.js-swiper-scroll').click(function () {
             var $this = $(this);

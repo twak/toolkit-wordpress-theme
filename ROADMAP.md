@@ -1,20 +1,25 @@
 Roadmap
 =======
 
-## Next release
+## High Priority
 
- * Implement page widgets as ACF code (rather than linked JSON).
- * Add options to theme settings for:
-    1. Show Twitter avatar (checkbox, default: false)
-    2. Show/hide ACF UI in admin (checkbox, default false, admins only)
-    3. Add option for more colours
- * Create custom taxonomies for News and Events
- * Add columns to News and Events admin pages
- * Add hooks to templates
- * Add some options for Events display, and rationalise the order on the main events archive page
- * Make templates in plugins overridable by the theme and child themes
+~~- Restrict Tiny MCE and HTML Input controls for users~~
+~~- Change the restrictions on titles to be more like Twitter~~
+- Page password protection
+- Create Trello board for WP development
 
-## Future developments
+## Low Priority
 
- * Implement more design patterns from toolkit as page widgets
- * Implement image galleries using wordpress Gallery tied to design pattern (with additional options for gallery insertion for different patterns)
+- Image Gallery
+- Contact Forms (governance / change to Gravity Forms?)
+- Look at templates with / without sidebar. Maybe change into separate templates?
+
+## Nice to Have's
+
+- Multiple authors on events
+
+## Requires Investigation
+
+- Built-in WordPress Customiser options instead of ACF theme settings
+- WordPress sidebar navigation
+- Links appearance on mobile
