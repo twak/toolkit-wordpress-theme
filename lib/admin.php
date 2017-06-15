@@ -10,7 +10,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
         /**
          * theme version
          */
-        public static $version = "0.2.9";
+        public static $version = "0.2.10";
 
         public static function register()
         {
