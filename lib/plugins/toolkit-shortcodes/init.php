@@ -229,9 +229,10 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
             foreach ($attachments as $id => $attachment) {
                 $image_src_url = wp_get_attachment_image_src($id, "thumbnail");//$gallery_atts["size"]);
                 $image_link_url = wp_get_attachment_image_src($id, "large");
+                $image_caption = get_the_excerpt($id);
                 // this was to target clicks with the modal window
                 //$output .= sprintf( '<div class="%s"><button data-toggle="modal" data-target="#tk_lightbox%d" data-imgsrc="%s" data-alt="%s" data-caption="%s"><img src="%s" alt="%s"></button></div>', $class, $instance, esc_attr($image_link_url[0]), esc_attr($attachment->post_title), esc_attr($attachment->post_excerpt), $image_src_url[0], esc_attr($attachment->post_title) );
-                $output .= sprintf( '<div class="%s"><a href="%s"><img src="%s" alt="%s"></a></div>', $class, esc_attr($image_link_url[0]), $image_src_url[0], esc_attr($attachment->post_title) );
+                $output .= sprintf( '<div class="gallery-item %s"><a href="%s"><img src="%s" alt="%s"><p class="gallery-item-caption">%s</p></a></div>', $class, esc_attr($image_link_url[0]), $image_src_url[0], esc_attr($attachment->post_title), $image_caption ) ;
             }
 
             $output .= '</div>';
@@ -257,13 +258,50 @@ if ( ! class_exists( 'tk_shortcodes' ) ) {
                 'toolkit-shortcode-css',
                 plugins_url( 'css/toolkit-shortcodes.css', __FILE__ )
             );
-            wp_enqueue_script( 
+            wp_enqueue_script(
                 'toolkit-shortcode-js',
                 plugins_url( 'js/toolkit-shortcodes.js', __FILE__ ),
                 array( 'jquery' ),
                 self::$version,
                 true
             );
+
+            // jquery.detch_syipe.js
+            wp_enqueue_script(
+                'jquery-detect-swipe-js',
+                plugins_url( 'js/vendor/jquery.detect_swipe.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+
+            // Featherlight.js
+
+            wp_enqueue_script(
+                'featherlight-js',
+                plugins_url( 'js/vendor/featherlight.min.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+            wp_enqueue_style(
+                'featherlight-css',
+                plugins_url( 'css/vendor/featherlight.min.css', __FILE__ )
+            );
+
+            wp_enqueue_script(
+                'featherlight-gallery-js',
+                plugins_url( 'js/vendor/featherlight.gallery.min.js', __FILE__ ),
+                array( 'jquery' ),
+                self::$version,
+                true
+            );
+
+            wp_enqueue_style(
+                'featherlight-gallery-css',
+                plugins_url( 'css/vendor/featherlight.gallery.min.css', __FILE__ )
+            );
+
         }
     }
     tk_shortcodes::register();
