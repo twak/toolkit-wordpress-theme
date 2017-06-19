@@ -3,8 +3,8 @@ Roadmap
 
 ## High Priority
 
-~~- Restrict Tiny MCE and HTML Input controls for users~~
-~~- Change the restrictions on titles to be more like Twitter~~
+- ~~Restrict Tiny MCE and HTML Input controls for users~~
+- ~~Change the restrictions on titles to be more like Twitter~~
 - Page password protection
 - Create Trello board for WP development
 
