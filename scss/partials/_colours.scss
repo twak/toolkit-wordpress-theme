@@ -1,0 +1,50 @@
+$primary-colour: #c41230;
+$secondary-colour: #a81029;
+$tertiary-colour: #e31537;
+.pagination > li > a:hover, .pagination > li > a:focus,
+.pagination > li > span:hover,
+.pagination > li > span:focus,
+h1 a, .h1 a,  h2 a, .h2 a,  h3 a, .h3 a,  h4 a, .h4 a,  h5 a, .h5 a,  h6 a, .h6 a,
+.heading-related a.active,
+.profile-info a.active,
+.twitter-user a.active,
+.sidebar-widget h3 a.active,
+.more, .divider-header-action,
+.filter,
+.twitter-user a {
+    color: $primary-colour;
+}
+.local-header,
+.sk-bg-brand-1,
+.color-brand-1,
+.btn-primary {
+	background-color: $primary-colour;
+}
+.divider--highlight,
+.tk-docs pre,
+.btn-primary {
+    border-color:$primary-colour;
+}
+.sk-bg-brand-1-dark,
+.main input[type="submit"], 
+.main input[type="button"],
+.main input[type="reset"],
+select.select-dark,
+.svg select.select-dark,
+.sm-toggle-search:hover,
+.btn-primary:hover {
+    background-color: $secondary-colour;
+}
+.list-nav a:hover,
+ul.sidebar-nav a,
+.color-link,
+.col-right aside.keyfacts li span,
+a {
+	color: $secondary-colour;
+}
+.main input[type="submit"], 
+.main input[type="button"],
+.main input[type="reset"],
+select.select-dark {
+    border-color:$tertiary-colour;
+}

@@ -1,7 +1,7 @@
 {
   "name": "toolkit-wordpress-theme",
   "themename": "Toolkit Wordpress Theme",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Wordpress theme for the University of Leeds toolkit",
   "main": "style.css",
   "repository": {
@@ -18,9 +18,13 @@
     "gulp-banner": "^0.1.3",
     "gulp-bower": "0.0.13",
     "gulp-clean-css": "^2.0.13",
+    "gulp-git": "^2.4.0",
     "gulp-header": "^1.8.8",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
-    "gulp-zip": "^3.2.0"
+    "gulp-zip": "^3.2.0",
+    "inquirer": "^3.1.1",
+    "run-sequence": "^1.2.2",
+    "semver": "^5.3.0"
   }
 }
