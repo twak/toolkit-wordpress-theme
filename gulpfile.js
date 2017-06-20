@@ -15,21 +15,8 @@ var replace = require('gulp-replace');
 var semver = require('semver');
 var inquirer = require('inquirer');
 var git = require('gulp-git');
+var runSequence = require('run-sequence');
 
-// read package.json
-var pkg = JSON.parse(fs.readFileSync('./package.json'));
-var cssbanner = ['/*',
-  'Theme Name:          '+pkg.themename,
-  'Description:         '+pkg.description,
-  'Author:              '+pkg.author,
-  'Author URI:          '+pkg.authoruri,
-  'Version:             '+pkg.version,
-  'Theme URI:           '+pkg.homepage,
-  'Bitbucket Theme URI: '+pkg.homepage,
-  'License:             '+pkg.license,
-  'License URI:         '+pkg.licenseuri,
-  '*/',
-  ''].join('\n');
 
  
 gulp.task('bower', function() {
@@ -63,6 +50,20 @@ gulp.task('package-plugins', ['bower'], function() {
 
 // Compile Sass
 gulp.task('sass', function() {
+  var pkg = JSON.parse(fs.readFileSync('./package.json'));
+  var cssbanner = ['/*',
+    'Theme Name:          '+pkg.themename,
+    'Description:         '+pkg.description,
+    'Author:              '+pkg.author,
+    'Author URI:          '+pkg.authoruri,
+    'Version:             '+pkg.version,
+    'Theme URI:           '+pkg.homepage,
+    'Bitbucket Theme URI: '+pkg.homepage,
+    'License:             '+pkg.license,
+    'License URI:         '+pkg.licenseuri,
+    '*/',
+    ''].join('\n');
+
   return gulp.src('scss/style.scss')
     .pipe(sass({
       includePaths: ['./scss'],
@@ -141,20 +142,23 @@ gulp.task('bump-version', function() {
 gulp.task('commit-changes', function () {
   var version = getPackageJsonVersion();
   return gulp.src('.')
-    .pipe(git.commit('Tagging new release: '+version, {args: '-a'}));
+    .pipe(git.commit('Tagging new release: '+version));
 });
 
 gulp.task('push-changes', function (cb) {
   git.push('origin', 'develop', cb);
+  cb();
 });
 
 gulp.task('merge-to-master', function(cb){
   git.checkout('master');
   git.merge('develop')
+  cb();
 });
 
 gulp.task('checkout-develop', function(cb){
   git.checkout('develop');
+  cb();
 });
 
 // creates a new tag
@@ -166,6 +170,7 @@ gulp.task('create-new-tag', function (cb) {
     }
     git.push('origin', 'master', {args: '--tags'}, cb);
   });
+  cb();
 });
 
 function getPackageJsonVersion() {
@@ -176,7 +181,6 @@ function getPackageJsonVersion() {
 
 gulp.task('release', function (callback) {
   runSequence(
-    'checkout-develop',
     'bump-version',
     'commit-changes',
     'push-changes',
