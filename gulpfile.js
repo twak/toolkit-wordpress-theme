@@ -146,31 +146,27 @@ gulp.task('commit-changes', function () {
 });
 
 gulp.task('push-changes', function (cb) {
-  git.push('origin', 'develop', cb);
-  cb();
-});
-
-gulp.task('merge-to-master', function(cb){
-  git.checkout('master');
-  git.merge('develop')
-  cb();
-});
-
-gulp.task('checkout-develop', function(cb){
-  git.checkout('develop');
-  cb();
-});
-
-// creates a new tag
-gulp.task('create-new-tag', function (cb) {
   var version = getPackageJsonVersion();
-  git.tag(version, 'Created Tag for version: ' + version, function (error) {
-    if (error) {
-      return cb(error);
-    }
-    git.push('origin', 'master', {args: '--tags'}, cb);
+  console.log('Pushing develop branch');
+  git.push('origin', 'develop', function(){
+    console.log('Checking out master branch');
+    git.checkout('master', function(){
+      console.log('Merging develop with master');
+      git.merge('develop', function(){
+        console.log('Tagging with new version');
+        git.tag(version, 'Created Tag for version: ' + version, function (error) {
+          if (error) {
+            return cb(error);
+          }
+          git.push('origin', 'master', {args: '--tags'}, function(){
+            console.log('Returning to develop branch');
+            git.checkout('develop');
+            return cb();
+          });
+        });
+      })  
+    });
   });
-  cb();
 });
 
 function getPackageJsonVersion() {
@@ -184,9 +180,6 @@ gulp.task('release', function (callback) {
     'bump-version',
     'commit-changes',
     'push-changes',
-    'merge-to-master',
-    'create-new-tag',
-    'checkout-develop',
     function (error) {
       if (error) {
         console.log(error.message);
