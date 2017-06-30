@@ -52,7 +52,7 @@ $GLOBALS['colour'] = tk_colour();
 
 		<?php wp_head(); ?>
 	</head>
-	<body <?php //body_class(); ?>>
+	<body <?php body_class(); ?>>
 	<?php if ( get_field('tk_google_tagmanager', 'option') ) : ?>
 		<!-- Google Tag Manager -->
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WT437X"
