@@ -27,8 +27,8 @@ get_header(); ?>
 			<div id="post-<?php the_ID(); ?>" <?php post_class('wrapper-sm wrapper-pd'); ?>>
 
 				<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
-				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url('large'); ?>');">					
-					<?php the_post_thumbnail('large'); // Declare pixel size you need inside the array ?>					
+				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url( 'featured-size' ); ?>');">					
+					<?php the_post_thumbnail( 'featured-size' ); // Declare pixel size you need inside the array ?>					
 				</div>
 				<?php endif; ?>		
 
