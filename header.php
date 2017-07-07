@@ -52,7 +52,7 @@ $GLOBALS['colour'] = tk_colour();
 
 		<?php wp_head(); ?>
 	</head>
-	<body <?php //body_class(); ?>>
+	<body <?php body_class(); ?>>
 	<?php if ( get_field('tk_google_tagmanager', 'option') ) : ?>
 		<!-- Google Tag Manager -->
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WT437X"
@@ -169,7 +169,7 @@ $GLOBALS['colour'] = tk_colour();
 			    <div class="wrapper-pd-xs <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 			        <div class="local-header-inner">
 			            <div class="local-header-title">
-			                <h1><a href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+			                <a href="<?php bloginfo('url'); ?>"><?php bloginfo( 'name' ); ?></a>
 			            </div>
 			            <div class="local-header-search">
 			                <button class="icon-font sm-toggle-search btn-icon js-site-search-toggle" data-toggle="collapse" data-target="#sitesearch">
