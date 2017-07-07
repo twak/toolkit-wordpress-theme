@@ -32,70 +32,27 @@
 		var maxTitleLength = 75;
 
 		// Add span to the input displaying the characters remaining
-		$( '<span class="title-counter" style="position: absolute; right: 0; padding: 11px; color: #777; text-rendering: optimizeLegibility;"></span>' ).insertAfter( '#title' );
+		$( '<span class="title-counter" style="position: absolute; right: 1px;top:1px; padding:.645em; width:1.5em; color: #777; background:#eee; text-rendering: optimizeLegibility;"></span>' ).insertAfter( '#title' );
 
-		// Give the counter a value
-		$( '.title-counter' ).html( maxTitleLength - $('#title').val().length );
-
-		// If title length is more than 75 characters, disable button and add colours
-		if( $('#title').val().length > maxTitleLength ) {
-
-			// disable the publish button
-    		$( '#publish' ).prop( 'disabled', true );
-
-            // And prevent form submit
-            $( 'form' ).on( 'submit', function( event ) {
-                event.preventDefault();
-            });
-
-            // Prevent submit on pressing Enter key
-            $( 'form' ).keypress( function ( event ) {
-                var key = event.which;
-
-                if( key === 13 ) {
-                    event.preventDefault();
-                }
-            });
-
-    		// Add the colours
-    		$('#title').css({
-    			'border': '1px solid red',
-    			'boxShadow': '0 0 2px red'
-    		});
-
-    		$( '.title-counter' ).css({
-    			'color': 'red'
-    		});
-		}
-
-		// colours the title input red when the maximum number of characters is reached
+        $('#titlewrap').after($('<div/>', {'id':'titleTooLongWarning','style':'color:#f33;border-left:4px solid #f33;background:#fff;padding:0 10px;'}).html('<p>Your title is <span class="title-counter"></span> characters long. Please consider using a shorter title.</p>'));
+		
+        // colours the title input red and advises user when the maximum number of characters is reached
 		function titleWarning(){
 
-			// Give the counter a value
-			$( '.title-counter' ).html( maxTitleLength - $('#title').val().length );
+            var getLength = $('#title').val().length;
 
-			if ( $('#title').val().length >= 0 ) {
-                var getLength = $('#title').val().length;
+			// Give the counter a value
+            var remaining = (getLength > maxTitleLength)? getLength: (maxTitleLength - getLength);
+			
+            $( '.title-counter' ).text( remaining );
+
+			if ( getLength >= 0 ) {
+                
 
     			// If length is maxTitleLength characters or more, add highlight
-    			if( getLength > maxTitleLength) {
+    			if( getLength > maxTitleLength ) {
 
-    				// disable the publish button
-    				$( '#publish' ).prop( 'disabled', true );
-
-                    // And prevent form submit
-                    $( 'form' ).on( 'submit', function( event ) {
-                        event.preventDefault();
-                    });
-
-                    // Prevent submit on pressing Enter key
-                    $( 'form' ).keypress( function ( event ) {
-                        var key = event.which;
-
-                        if( key === 13 ) {
-                            event.preventDefault();
-                        }
-                    });
+                    $('#titleTooLongWarning').show();
 
     				// Add the colours
     				$('#title').css({
@@ -109,9 +66,7 @@
 
     			// Otherwise remove inline styles
     			} else {
-
-    				// Enable the publish button
-    				$( '#publish' ).prop( 'disabled', false );
+                    $('#titleTooLongWarning').hide();
 
     				$('#title').css({
     					'border': '',
@@ -119,7 +74,7 @@
     				});
 
     				$( '.title-counter' ).css({
-    					'color': '#777'
+    					'color': 'inherit'
     				});
     			}
             }

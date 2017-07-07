@@ -245,19 +245,25 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function add_image_sizes()
         {
             // Large Thumbnail
-            add_image_size('large', 700, '', true);
+            add_image_size( 'large', 700, '', true );
+
             // Medium Thumbnail
-            add_image_size('medium', 250, '', true);
+            add_image_size( 'medium', 250, '', true );
+
             // Small Thumbnail
-            add_image_size('small', 120, '', true);
+            add_image_size( 'small', 120, '', true );
+
             // Profile image
-            add_image_size('profile-size', 400, '', true);
+            add_image_size( 'profile-size', 400, '', true );
+
             // Featured image
-            add_image_size('featured-size', 800, '', true);
+            add_image_size( 'featured-size', 800, 400, true );
+
             // Banner swiper size small 
-            add_image_size('banner-size-small', 1000, '', true);
+            add_image_size( 'banner-size-small', 1000, 500, true );
+
             // Banner swiper size large
-            add_image_size('banner-size-large', 1400, '', true); 
+            add_image_size( 'banner-size-large', 1400, 700, true );
         }
 
         /**
