@@ -1,6 +1,6 @@
 <?php
 
-if( !is_network_admin() ) {
+if( ! current_user_can( 'manage_options' ) ) {
 
 	// Remove 'Standard' TinyMCE Buttons
 	function standard_tinymce_buttons( $buttons ) {
@@ -47,7 +47,7 @@ if( !is_network_admin() ) {
 	<?php
 
 	}
-	add_action( 'admin_head', 'hide_editor_tabs' );
+	//add_action( 'admin_head', 'hide_editor_tabs' );
 
 	// Force TinyMCE to be the default editor
 	function force_default_editor() {
