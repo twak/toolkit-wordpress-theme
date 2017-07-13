@@ -178,6 +178,7 @@ function getPackageJsonVersion() {
 gulp.task('release', function (callback) {
   runSequence(
     'bump-version',
+    'sass',
     'commit-changes',
     'push-changes',
     function (error) {
