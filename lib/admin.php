@@ -28,7 +28,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
                 switch ($current_version) {
                     case false:
                         // theme before versioning was added to database
-                    case "0.2.2":
+                    case "0.2.14":
                         // upgrade from 0.2.2
                 }
             }
