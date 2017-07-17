@@ -72,16 +72,7 @@ function html5wp_excerpt($length_callback = '', $more_callback = '')
     echo $output;
 }
 
-/**
- * Remove the additional CSS section from the Customizer.
- */
-function prefix_remove_customizer_sections( $wp_customize ) {
-    $wp_customize->remove_section( 'custom_css' );
-    $wp_customize->remove_section( 'colors' );
-    $wp_customize->remove_section( 'header_image' );
-    $wp_customize->remove_section( 'background_image' );
-}
-add_action( 'customize_register', 'prefix_remove_customizer_sections', 15 );
+
 
 // Adds instruction text after the post title input
 function emersonthis_edit_form_after_title() {
