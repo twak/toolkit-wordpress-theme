@@ -7,7 +7,9 @@
 
 			<footer class="site-footer" role="contentinfo">	
 					
-				<?php get_template_part( 'templates/footer-links'); ?>
+				<?php get_template_part( 'templates/footer-links' ); ?>
+
+				<?php get_template_part( 'templates/footer-middle' ); ?>
 
 			    <div class="site-footer-lower">
 			        <div class="wrapper-pd <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
