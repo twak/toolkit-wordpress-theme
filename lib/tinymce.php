@@ -56,4 +56,49 @@ if( ! current_user_can( 'manage_options' ) ) {
 	add_filter( 'wp_default_editor', 'force_default_editor' );
 
 }
-?>
+
+/**
+ * Add TinyMCE Formats
+ **/
+
+function tk_custom_editor_formats($buttons) {
+	array_unshift($buttons, 'styleselect');
+	return $buttons;
+}
+add_filter('mce_buttons', 'tk_custom_editor_formats');
+
+function tk_custom_editor_styles( $init_array ) {
+
+	$style_formats = array(
+		array(
+			'title' => 'Summary',
+			'block' => 'span',
+			'classes' => 'summary',
+			'wrapper' => true,
+		),
+		array(
+			'title' => 'Drop caps',
+			'inline' => 'span',
+			'classes' => 'dropcaps',
+			'wrapper' => true,
+		),
+		array(
+			'title' => 'Leading paragraph',
+			'block' => 'span',
+			'classes' => 'lead',
+			'wrapper' => true,
+		),
+//		array(
+//			'title' => 'Call to action (CTA) link',
+//			'inline' => 'a',
+//			'classes' => 'btn btn-primary',
+//		),
+	);
+	$init_array['style_formats'] = json_encode( $style_formats );
+
+	return $init_array;
+
+}
+add_filter( 'tiny_mce_before_init', 'tk_custom_editor_styles' );
+
+add_editor_style( get_template_directory_uri() . '/css/editor-style.css' );
