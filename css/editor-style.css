@@ -1,3 +1,41 @@
+
+p {
+    line-height: 180%;
+    margin-bottom: 24px;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.summary {
+    display: block;
+    line-height: 150%;
+    font-size: 24px;
+    font-family: "freight-text-pro",serif;
+}
+
+.summary::first-letter {
+    font-size: 60px;
+    float: left;
+    font-family: "freight-big-pro",sans-serif;
+    line-height: 80%;
+    color: #aa8f6f;
+    padding: 8px 12px 0px 0px;
+}
+
+.dropcaps {
+    font-size: 60px;
+    float: left;
+    font-family: "freight-big-pro",sans-serif;
+    line-height: 80%;
+    color: #aa8f6f;
+    padding: 8px 12px 0px 0px;
+}
+
+.lead {
+    line-height: 160%;
+    font-size: 20px;
+}
+
 /*
 .cta {
     background-color: #33bdef;
