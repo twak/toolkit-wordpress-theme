@@ -39,6 +39,9 @@ require_once get_template_directory() . '/lib/navigation.php';
 // Sidebar
 require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php';
 
+// Footer menu
+require_once get_template_directory() . '/lib/custom-walkers/footer-nav.php';
+
 
 /* Not sure if/where these are used... */
 
