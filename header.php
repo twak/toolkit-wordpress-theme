@@ -46,10 +46,6 @@ $GLOBALS['colour'] = tk_colour();
                 })();
         </script>
 
-        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/bootstrap.min.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/toolkit.min.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri();  ?>/dist/theme-<?php echo $GLOBALS['colour']; ?>/print.min.css"  media="print">
-
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>

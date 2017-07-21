@@ -10,6 +10,9 @@ require_once get_template_directory() . '/lib/admin.php';
 /* plugin activation */
 require_once get_template_directory() . '/lib/plugins.php';
 
+/* theme styles */
+require_once get_template_directory() . '/lib/styles.php';
+
 /* ACF fields */
 require_once get_template_directory() . '/lib/acf/theme-options.php';
 require_once get_template_directory() . '/lib/acf/pages.php';
