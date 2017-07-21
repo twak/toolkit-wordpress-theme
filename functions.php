@@ -10,6 +10,9 @@ require_once get_template_directory() . '/lib/admin.php';
 /* plugin activation */
 require_once get_template_directory() . '/lib/plugins.php';
 
+/* theme scripts */
+require_once get_template_directory() . '/lib/scripts.php';
+
 /* theme styles */
 require_once get_template_directory() . '/lib/styles.php';
 
