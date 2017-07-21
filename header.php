@@ -62,7 +62,7 @@ $GLOBALS['colour'] = tk_colour();
 	<?php endif; ?>
 		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
-			<?php include 'templates/global-quicklinks.php'?>
+			<?php get_template_part('templates/global-quicklinks'); ?>
 
 			<header class="masthead" role="banner">
 			    <div class="<?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
