@@ -8630,6 +8630,19 @@ etc
       top: auto;
       left: auto; } }
 
+/* Image caption used inside of responsive images */
+[class*="rs-img"] .img-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #212121;
+  background: rgba(33, 33, 33, 0.75);
+  margin: 0;
+  padding: 5px 10px;
+  color: white;
+  font-size: 15px; }
+
 /*
  * Select toggle
  * Hide and shows elements on change os select 

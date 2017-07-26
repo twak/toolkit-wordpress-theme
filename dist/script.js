@@ -12724,10 +12724,10 @@ var Lightbox = function ($) {
 			if (this._galleryName) {
 				this._$galleryItems = $(document.body).find('*[data-gallery="' + this._galleryName + '"]');
 				this._galleryIndex = this._$galleryItems.index(this._$element);
-				$(document).on('keydown.ekkoLightbox', this._navigationalBinder.bind(this)
+				$(document).on('keydown.ekkoLightbox', this._navigationalBinder.bind(this));
 
 				// add the directional arrows to the modal
-				);if (this._config.showArrows && this._$galleryItems.length > 1) {
+				if (this._config.showArrows && this._$galleryItems.length > 1) {
 					this._$lightboxContainer.append('<div class="ekko-lightbox-nav-overlay"><a href="#">' + this._config.leftArrow + '</a><a href="#">' + this._config.rightArrow + '</a></div>');
 					this._$modalArrows = this._$lightboxContainer.find('div.ekko-lightbox-nav-overlay').first();
 					this._$lightboxContainer.on('click', 'a:first-child', function (event) {
@@ -13129,9 +13129,9 @@ var Lightbox = function ($) {
 						image.css('width', '100%');
 
 						$containerForImage.html(image);
-						if (_this4._$modalArrows) _this4._$modalArrows.css('display', '' // remove display to default to css property
+						if (_this4._$modalArrows) _this4._$modalArrows.css('display', ''); // remove display to default to css property
 
-						);_this4._resize(img.width, img.height);
+						_this4._resize(img.width, img.height);
 						_this4._toggleLoading(false);
 						return _this4._config.onContentLoaded.call(_this4);
 					};
@@ -13220,10 +13220,9 @@ var Lightbox = function ($) {
 	};
 
 	return Lightbox;
-}(jQuery
+}(jQuery);
 
 //export default Lightbox
-);
 /**
  * acessible-outlines.js
  * ---------------------
