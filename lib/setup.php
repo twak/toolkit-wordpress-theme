@@ -11,9 +11,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function register()
         {
-            /* ensure content width variable is set */
-            add_action( 'template_redirect', array( __CLASS__, 'set_content_width' ) );
-
             /* add favicons */
             add_action( 'wp_head', array( __CLASS__, 'add_favicons' ) );
 
@@ -62,18 +59,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* adds support for excerpts on pages */
             add_action( 'init', array( __CLASS__, 'add_excerpts_to_pages' ) );
 
-        }
-
-        /**
-         * sets the content_width global variable
-         * @see https://codex.wordpress.org/Content_Width
-         * @see https://core.trac.wordpress.org/ticket/21256 
-         * TRAC ticket which gives example of setting it dynamically
-         */
-        public static function set_content_width()
-        {
-            global $content_width;
-            $content_width = 900;
         }
 
         /**

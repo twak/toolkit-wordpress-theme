@@ -10,12 +10,27 @@ if ( ! class_exists( "tk_media" ) ) {
 
         public static function register()
         {
+            /* ensure content width variable is set */
+            add_action( 'template_redirect', array( __CLASS__, 'set_content_width' ) );
+
             /* add custom image sizes */
             add_action( 'after_setup_theme', array( __CLASS__, 'add_image_sizes' ) );
             
             /* Remove thumbnail width and height dimensions */
             add_filter( 'post_thumbnail_html', array( __CLASS__, 'remove_thumbnail_dimensions' ), 10 );
 
+        }
+
+        /**
+         * sets the content_width global variable
+         * @see https://codex.wordpress.org/Content_Width
+         * @see https://core.trac.wordpress.org/ticket/21256 
+         * TRAC ticket which gives example of setting it dynamically
+         */
+        public static function set_content_width()
+        {
+            global $content_width;
+            $content_width = 900;
         }
 
         /**
