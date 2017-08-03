@@ -19,6 +19,10 @@ if ( ! class_exists( "tk_media" ) ) {
             /* Remove thumbnail width and height dimensions */
             add_filter( 'post_thumbnail_html', array( __CLASS__, 'remove_thumbnail_dimensions' ), 10 );
 
+            /* setting to determine whether featured iamge is included at the top of single templates */
+            add_filter( 'admin_post_thumbnail_html', array( __CLASS__, 'add_featured_image_display_settings' ), 10, 2 );
+            add_action( 'save_post', array( __CLASS__, 'save_featured_image_display_settings' ), 10, 3 );
+
         }
 
         /**
@@ -69,6 +73,52 @@ if ( ! class_exists( "tk_media" ) ) {
             return $html;
         }
 
+        /**
+         * adds a checkbox to featured image metabox for an extra bit of post meta
+         * which is used in tempaltes to determine whether the featured image is 
+         * displayed in single templates
+         * called by admin_post_thumbnail_html filter
+         * @uses checked() - see https://codex.wordpress.org/Function_Reference/checked
+         * @param string content for metabox (to be filtered)
+         * @param integer post ID
+         * @return string filtered content
+         */
+        public static function add_featured_image_display_settings( $content, $post_id )
+        {
+            $field_id    = 'tk_show_featured_image';
+            $field_value = self::show_featured_image( $post_id );
+            $field_text  = 'Show image at top of page';
+            $field_state = checked( $field_value, 1, false);
+            $field_label = sprintf( '<p><label for="%1$s"><input type="checkbox" name="%1$s" id="%1$s" value="%2$s" %3$s> %4$s</label></p>', $field_id, $field_value, $field_state, $field_text );
+            return $content .= $field_label;
+        }
+
+        /**
+         * saves the featured image display setting in post meta
+         * called by save_post action
+         * @param integer post ID
+         * @param object post object
+         * @param boolean whether this is an update of an existing post
+         */
+        public static function save_featured_image_display_settings( $post_ID, $post, $update )
+        {
+            $field_value = isset( $_REQUEST['tk_show_featured_image'] ) ? 1 : 0;
+            update_post_meta( $post_ID, 'tk_show_featured_image', $field_value );
+        }
+
+        /**
+         * determines whether the tk_show_featured_image postmeta is set/checked for a given post
+         */
+        public static function show_featured_image( $post_id = false )
+        {
+            if ( false === $post_id ) {
+                $post_id = get_queried_object_id();
+            }
+            $field_value = get_post_meta( $post_id, 'tk_show_featured_image', true );
+            // make sure the return value is numeric rather than boolean
+            return ($field_value)? 1: 0;
+        }
+       
     }
     tk_media::register();
 }

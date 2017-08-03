@@ -16,6 +16,9 @@ require_once get_template_directory() . '/lib/scripts.php';
 /* theme styles */
 require_once get_template_directory() . '/lib/styles.php';
 
+/* theme media */
+require_once get_template_directory() . '/lib/media.php';
+
 /* ACF fields */
 require_once get_template_directory() . '/lib/acf/theme-options.php';
 require_once get_template_directory() . '/lib/acf/pages.php';

@@ -93,7 +93,7 @@ if ( ! function_exists( 'tk_social_links' ) ) {
  * $POST CATEGORIES - Spits out lists of categories of post (used in the loop)
  */
 
-if ( !function_exists( 'tk_post_categories();' ) ) {
+if ( !function_exists( 'tk_post_categories' ) ) {
 
     function tk_post_categories() {
 
@@ -112,6 +112,26 @@ if ( !function_exists( 'tk_post_categories();' ) ) {
                 $count_cat++;
                 echo ' <a href="' . get_category_link( $category->term_id ) . '">' . $category->name.'</a> ';
             }
+        }
+    }
+}
+
+/**
+ * whether or not to display featured images on the single post template
+ */
+if ( !function_exists( 'tk_display_featured_image' ) ) {
+
+    function tk_display_featured_image( $post_id = false )
+    {
+        if ( class_exists( 'tk_media' ) && method_exists('tk_media', 'show_featured_image' ) ) {
+            return tk_media::show_featured_image( $post_id );
+        } else {
+            if ( false === $post_id ) {
+                $post_id = get_queried_object_id();
+            }
+            $field_value = get_post_meta( $post_id, 'tk_show_featured_image', true );
+            // make sure the return value is numeric rather than boolean
+            return ($field_value)? 1: 0;
         }
     }
 }
