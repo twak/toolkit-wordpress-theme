@@ -10,7 +10,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
         /**
          * theme version
          */
-        public static $version = "0.2.16";
+        public static $version = "0.2.17";
 
         public static function register()
         {
@@ -28,7 +28,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
                 switch ($current_version) {
                     case false:
                         // theme before versioning was added to database
-                    case "0.2.16":
+                    case "0.2.17":
                         // upgrade from 0.2.2
                 }
             }
