@@ -4,7 +4,7 @@
 
 			<?php get_template_part( 'templates/tweets' ); ?>
 
-
+            <?php do_action('tk_footer_before') ?>
 			<footer class="site-footer" role="contentinfo">	
 					
 				<?php get_template_part( 'templates/footer-links' ); ?>
@@ -23,6 +23,7 @@
 			        </div>
 			    </div>
 			</footer>
+			<?php do_action('tk_footer_after') ?>
 
 		</div>
 		<!-- /site-container -->
