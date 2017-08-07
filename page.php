@@ -38,6 +38,8 @@ get_header(); ?>
 
 				<?php edit_post_link(); ?>
 
+                <?php get_template_part('templates/page-related-items'); ?>
+
 			</div>					
 
 		<?php endwhile; ?>		
