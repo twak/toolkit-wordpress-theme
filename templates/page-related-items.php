@@ -16,6 +16,8 @@ if( have_rows('related_items') ):
             $cardContainerClass = 'col-sm-4';
     }
 
+
+
 ?>
 	<div class="skin-bg-module">
 		<div class="wrapper-lg wrapper-pd p-t">
@@ -23,16 +25,20 @@ if( have_rows('related_items') ):
 			<div class="row">
 				<div class="equalize">
 					<?php while ( have_rows('related_items') ) : the_row(); ?>
-						<?php $relatedId = get_sub_field('related_item'); ?>
+						<?php
+                        $relatedId = get_sub_field('related_item');
+                        $relatedTitle = get_the_title($relatedId);
+						$relatedLink = get_permalink($relatedId);
+						?>
 						<div class="<?= $cardContainerClass ?>">
 							<div class="card-flat card-stacked-sm skin-bg-white skin-bd-b">
 								<div class="equalize-inner">
-									<div class="card-img">
+									<a class="card-img" href="<?= $relatedLink ?>" title="<?= $relatedTitle ?>">
 										<div class="rs-img rs-img-2-1" style="background-image: url('<?= get_the_post_thumbnail_url( $relatedId, 'thumbnail' ); ?>');"></div>
-									</div>
+									</a>
 									<div class="card-content">
-										<h3 class="heading-link-alt"><a href="#"><?= get_the_title($relatedId) ?></a></h3>
-										<a class="more" href="<?= get_permalink($relatedId) ?>">Read more</a>
+										<h3 class="heading-link-alt"><a href="<?= $relatedLink ?>" title="<?= $relatedTitle ?>"><?= $relatedTitle ?></a></h3>
+										<a class="more" href="<?= $relatedLink ?>" title="<?= $relatedTitle ?>">Read more</a>
 									</div>
 								</div>
 							</div>
