@@ -1,4 +1,22 @@
-<?php if( have_rows('related_items') ): ?>
+<?php
+if( have_rows('related_items') ):
+
+    switch (count(get_field('related_items'))) {
+        case 1:
+            $cardContainerClass = 'col-sm-12';
+            break;
+        case 2:
+        case 4:
+            $cardContainerClass = 'col-sm-6';
+            break;
+        case 3:
+            $cardContainerClass = 'col-sm-4';
+            break;
+        default:
+            $cardContainerClass = 'col-sm-4';
+    }
+
+?>
 	<div class="skin-bg-module">
 		<div class="wrapper-lg wrapper-pd p-t">
 			<h3 class="h2-lg heading-underline">Related</h3>
@@ -6,7 +24,7 @@
 				<div class="equalize">
 					<?php while ( have_rows('related_items') ) : the_row(); ?>
 						<?php $relatedId = get_sub_field('related_item'); ?>
-						<div class="col-sm-4">
+						<div class="<?= $cardContainerClass ?>">
 							<div class="card-flat card-stacked-sm skin-bg-white skin-bd-b">
 								<div class="equalize-inner">
 									<div class="card-img">
