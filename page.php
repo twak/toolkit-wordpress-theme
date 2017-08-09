@@ -18,8 +18,10 @@ get_header(); ?>
 
 		<?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
 
-		<header class="wrapper-pd wrapper-sm">	
+		<header class="wrapper-pd wrapper-sm">
+            <?php do_action('tk_title_before'); ?>
 			<h1 class="heading-underline"><?php the_title(); ?></h1>
+			<?php do_action('tk_title_after'); ?>
 		</header>				
 
 		<?php if (have_posts()): while (have_posts()) : the_post(); ?>
@@ -30,11 +32,13 @@ get_header(); ?>
 				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url( 'featured-size' ); ?>');">					
 					<?php the_post_thumbnail( 'featured-size' ); // Declare pixel size you need inside the array ?>					
 				</div>
-				<?php endif; ?>		
+				<?php endif; ?>
 
+				<?php do_action('tk_content_before'); ?>
 				<div class="jadu-cms">
 					<?php the_content(); ?>					
 				</div>
+				<?php do_action('tk_content_after'); ?>
 
 				<?php edit_post_link(); ?>
 

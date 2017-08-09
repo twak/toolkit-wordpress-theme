@@ -239,6 +239,8 @@ function the_breadcrumb() {
        
     // Do not display on the homepage
     if ( !is_front_page() ) {
+
+	    do_action('tk_breadcrumb_before');
        
         // Build the breadcrums
         echo '<div class="wrapper-pd-xs"><ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
@@ -429,6 +431,8 @@ function the_breadcrumb() {
         }
        
         echo '</ul></div>';
+
+	    do_action('tk_breadcrumb_after');
            
     } else { // leave space
         echo "";
