@@ -14,7 +14,6 @@ var zip = require('gulp-zip');
 var replace = require('gulp-replace');
 var semver = require('semver');
 var inquirer = require('inquirer');
-var git = require('gulp-git');
 var runSequence = require('run-sequence');
 
 
@@ -138,58 +137,11 @@ gulp.task('bump-version', function() {
     });
 });
 
-
-gulp.task('commit-changes', function () {
-  var version = getPackageJsonVersion();
-  return gulp.src('.')
-    .pipe(git.commit('Tagging new release: '+version));
-});
-
-gulp.task('push-changes', function (cb) {
-  var version = getPackageJsonVersion();
-  console.log('Pushing develop branch');
-  git.push('origin', 'develop', function(){
-    console.log('Checking out master branch');
-    git.checkout('master', function(){
-      console.log('Merging develop with master');
-      git.merge('develop', function(){
-        console.log('Tagging with new version');
-        git.tag(version, 'Created Tag for version: ' + version, function (error) {
-          if (error) {
-            return cb(error);
-          }
-          git.push('origin', 'master', {args: '--tags'}, function(){
-            console.log('Returning to develop branch');
-            git.checkout('develop');
-            return cb();
-          });
-        });
-      })  
-    });
-  });
-});
-
 function getPackageJsonVersion() {
     // We parse the json file instead of using require because require caches
     // multiple calls so the version number won't be updated
     return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 };
-
-gulp.task('release', function (callback) {
-  runSequence(
-    'bump-version',
-    'sass',
-    'commit-changes',
-    'push-changes',
-    function (error) {
-      if (error) {
-        console.log(error.message);
-      } else {
-        console.log('RELEASE FINISHED SUCCESSFULLY');
-      }
-      callback(error);
-    });
-});
 
 // Watch Files For Changes
 gulp.task('watch', function() {
@@ -200,4 +152,16 @@ gulp.task('watch', function() {
 gulp.task('default', ['copydeps', 'sass', 'watch']);
 
 // Bump version
-gulp.task('bump', ['sass', 'bumpversion']);
+gulp.task('bump', function(callback){
+    runSequence(
+        'bump-version',
+        'sass',
+        function (error) {
+            if (error) {
+                console.log(error.message);
+            } else {
+                console.log('Files modified successfully, version bumped to '+getPackageJsonVersion());
+            }
+            callback(error);
+        });
+});
