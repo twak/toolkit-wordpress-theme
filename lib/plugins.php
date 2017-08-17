@@ -102,6 +102,17 @@ function tk_register_required_plugins() {
             'external_url'       => '',
             'is_callable'        => '', 
         ),
+        array(
+            'name'               => 'Github Updater',
+            'slug'               => 'github-updater',
+            'source'             => get_template_directory() . '/lib/plugins/github-updater.zip',
+            'required'           => true,
+            'version'            => '7.1.0',
+            'force_activation'   => true,
+            'force_deactivation' => false,
+            'external_url'       => '',
+            'is_callable'        => '', 
+        ),
     );
 
     /*
