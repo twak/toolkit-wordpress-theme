@@ -8,9 +8,10 @@
 
 // only run if ACF plugin is loaded
 
-if( function_exists('acf_add_local_field_group') && function_exists('acf_add_options_page') ):
+add_action( 'acf/init', 'tk_add_acf_theme_options', 10 );
 
-
+function tk_add_acf_theme_options()
+{
 	/**
 	 * Theme Options Page
 	 */
@@ -310,6 +311,4 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	    'active' => 1,
 	    'description' => '',
 	));
-
-
-endif;
+}

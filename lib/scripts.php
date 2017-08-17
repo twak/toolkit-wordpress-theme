@@ -18,29 +18,32 @@ function tk_site_scripts_output_head(){
 
 		$scriptEntries = get_field('tk_theme_scripts', 'option');
 
-		foreach ($scriptEntries as $scriptEntry) {
+		if ( $scriptEntries ) {
+            foreach ($scriptEntries as $scriptEntry) {
 
-			if ($scriptEntry['tk_theme_script_placement'] == 'wp_head'){
-				echo $scriptEntry['tk_theme_script'];
-			}
-		}
+    			if ($scriptEntry['tk_theme_script_placement'] == 'wp_head'){
+    				echo $scriptEntry['tk_theme_script'];
+    			}
+    		}
+        }
 
 	endif;
 };
-add_action('wp_footer', 'tk_site_scripts_output_head');
+add_action('wp_head', 'tk_site_scripts_output_head');
 
 function tk_site_scripts_output_footer(){
 	if( class_exists('acf') ):
 
 		$scriptEntries = get_field('tk_theme_scripts', 'option');
 
-		foreach ($scriptEntries as $scriptEntry) {
+        if ( $scriptEntries ) {
+    		foreach ($scriptEntries as $scriptEntry) {
 
-			if ($scriptEntry['tk_theme_script_placement'] == 'wp_footer'){
-				echo $scriptEntry['tk_theme_script'];
-			}
-		}
-
+    			if ($scriptEntry['tk_theme_script_placement'] == 'wp_footer'){
+    				echo $scriptEntry['tk_theme_script'];
+    			}
+    		}
+        }
 	endif;
 };
 add_action('wp_footer', 'tk_site_scripts_output_footer');
