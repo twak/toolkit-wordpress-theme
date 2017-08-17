@@ -1,0 +1,107 @@
+/**
+ * Images
+ */
+
+
+img {
+	max-width: 100%; // never bigger than the container
+}
+
+//see courses for .round-img
+
+.img-profile-round, //deprecated
+.img-avatar { //used specifically for profiles
+	border-radius: 1000px;
+	width: 80px;
+	height: 80px;	
+	overflow: hidden;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+	padding: 0 !important; //when used in combination with rs-img
+
+ 	@media(min-width: $screen-sm-min){
+		width: 100px;
+		height: 100px;
+ 	}	
+}
+
+.img-avatar-lg {
+	width: 120px;
+	height: 120px;
+	overflow: hidden;
+ 	@media(min-width: $screen-sm-min){
+		width: 140px;
+		height: 140px;
+ 	}
+}
+
+.img-avatar-sm {
+	width: 60px;
+	height: 60px; 	
+	overflow: hidden;
+}
+
+.featured-img, //deprecated
+.img-featured {	
+	margin-bottom: $space;	
+	width: 100%;
+}
+
+// Images within the CMS WYSIWYG wrapper
+
+.jadu-cms,
+.cms {
+
+ 	img {
+        max-width: 100%;               
+        margin: 0 auto $space-half auto;
+        display: block;
+        height: auto;
+    }
+
+    img[src$=".svg"] {
+		width: 100%;
+	}
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		img[src$=".svg"] {
+	    		width: 100%; 
+	  	}
+	}
+
+    img.float_right,
+    img.alignright,
+    img.align-right {
+		width: auto;
+		float: right;
+		margin: 0 0 $space-half $space-half;
+    }
+
+    img.float_left,
+    img.alignleft,
+    img.align-left  {
+		width: auto;
+		float: left;
+		margin: 0 $space-half $space-half 0;
+    }   
+
+    //used on courses
+
+    .img-accreditation {
+	    max-width: 100%;
+	    width: 100%;
+	    margin-bottom: $space;
+	    border: 1px solid $color-border;
+	    padding: $space-half;
+	    margin: 0;
+	    display: block;
+	    height: auto;
+	    max-width: 40%;
+	}
+
+}
+
+//Used for video
+
+.embed-responsive {
+	max-width: 100%;
+}
+

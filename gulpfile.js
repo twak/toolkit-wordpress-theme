@@ -9,6 +9,7 @@ var header = require('gulp-header');
 // Utilities
 var bower = require('gulp-bower');
 var fs = require('fs');
+var fsPath = require('fs-path');
 var exec = require('child_process').execSync;
 var zip = require('gulp-zip');
 var replace = require('gulp-replace');
@@ -164,4 +165,23 @@ gulp.task('bump', function(callback){
             }
             callback(error);
         });
+});
+gulp.task('decompile', function(callback){
+    var mapfiles = [
+        './dist/theme-default/bootstrap.min.css.map',
+        './dist/theme-default/toolkit.min.css.map',
+        './dist/theme-default/jadu.min.css.map',
+        './dist/theme-default/accommodation.min.css.map',
+        './dist/theme-default/print.min.css.map',
+        './dist/theme-default/google-map.min.css.map',
+        './dist/theme-default/docs.min.css.map'
+    ];
+    for(var i = 0; i < mapfiles.length; i++ ) {
+        var scss = JSON.parse(fs.readFileSync(mapfiles[i], 'utf8'));
+        if(scss.sources.length){
+            for(var j = 0; j < scss.sources.length; j++) {
+                fsPath.writeFileSync('./scss/toolkit/'+scss.sources[j], scss.sourcesContent[j]);
+            }
+        }
+    }
 });

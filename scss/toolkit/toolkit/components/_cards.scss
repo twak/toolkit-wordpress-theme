@@ -1,0 +1,192 @@
+/**
+ * Responsive Cards
+ */
+
+@mixin card-setup($namespace: ""){
+
+    //Flat card
+
+    .card-flat#{$namespace} {
+        overflow: hidden;
+        margin: 0 0 $space 0;
+        padding: $space;
+        @include tk-clearfix();
+    }
+
+        //Header
+
+        .card-flat#{$namespace} .card-header {      
+            margin: 0;                  
+            padding: 0;            
+            background: none;
+            @include tk-clearfix();
+            border: 0;
+        }
+
+        //Images
+
+        .card-flat#{$namespace} .card-img {    
+                
+            padding: 0 $space 0 0;    
+            margin: 0;
+            width: 50%; //issues with default width
+            float: left;   
+            @include tk-clearfix();                 
+
+            img {
+                width: 100%;
+                max-width: 100%;
+            }                 
+        }
+
+        // Flat images of different widths  
+        // Width must be defined within and up from the break point of the parent
+
+        /*
+
+        <div class="card-stacked card-flat-xs card-stacked-md">
+            <div class="card-img card-img-1-4-xs card-img-1-2-sm"> // img width defined between  xs and sm
+
+        */
+
+        [class*='card-flat'] .card-img-1-4#{$namespace} { 
+            width: 25%;            
+        }
+
+        [class*='card-flat'] .card-img-1-3#{$namespace} { 
+            width: 33.33%;            
+        }
+
+        [class*='card-flat'] .card-img-1-2#{$namespace} { 
+            width: 50%;            
+        }
+
+        .card-flat#{$namespace} .card-img-right {            
+            padding: 0 0 0 $space;    
+            margin: 0;
+            width: 50%;
+            float: right;     
+            @include tk-clearfix();          
+        }
+
+        //Content
+
+        .card-flat#{$namespace} .card-content {            
+            padding: 0;
+            margin: 0;
+            width: 100%;            
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+        }
+
+        [class*='card-flat'] .card-content-no-wrap#{$namespace} { //prevent text wrapping
+            overflow: hidden;
+            display: block;
+            width: auto;            
+        }               
+
+        .card-flat#{$namespace} .card-content-featured {            
+            padding:  $space-half;
+            margin: 0 0 $space-half 0;            
+            float: left;
+            width: 50%;    
+            background: $color-brand-1;        
+            & * {
+                color: white;
+            }    
+        }
+
+        //Footer
+
+        .card-flat#{$namespace} .card-footer {                    
+            @include tk-clearfix();
+            background: none;
+            border-top: 1px solid $color-border; 
+            margin: $space 0 0 0;        
+            padding: $space 0 0 0;
+        }
+
+    //Stacked card
+
+    .card-stacked#{$namespace} {        
+        overflow: hidden;
+        margin: 0 0 $space 0;
+        padding: 0;
+        @include tk-clearfix();
+    }
+
+        .card-stacked#{$namespace} .card-header {                        
+            padding: $space $space 0 $space;
+            margin: 0;
+            border: 0;
+            @include tk-clearfix();
+            background: none;
+        } 
+
+        .card-stacked#{$namespace} .card-img {
+            padding: 0;
+            margin: 0;    
+            width: 100%;
+            float: none;
+            @include tk-clearfix();
+            img {
+                width: 100%;
+                max-width: 100%;
+            }                 
+        }
+
+        .card-stacked#{$namespace} .card-content {          
+            padding: $space;  
+            margin: 0;
+            width: 100%;            
+        }    
+
+        .card-stacked#{$namespace} .card-content-featured {
+            background: $color-brand-1;
+            padding: $space-half;       
+            float: none;
+            width: auto;
+            margin: 0;
+            & * {
+                color: white;
+            }
+        }
+
+        .card-stacked#{$namespace} .card-footer {      
+            background: none;      
+            border-top: 1px solid $color-border;        
+            margin: 0;        
+            padding: $space;
+            @include tk-clearfix();
+        }   
+
+}
+
+@include card-setup();
+
+@media (min-width: 360px) {
+    @include card-setup("-xxs");
+}
+
+@media (min-width: $screen-xs-min) {
+    @include card-setup("-xs");
+}
+
+@media (min-width: $screen-sm-min) {
+    @include card-setup("-sm");
+}
+
+@media (min-width: $screen-md-min) {
+    @include card-setup("-md");
+}
+
+@media (min-width: $screen-lg-min) {
+    @include card-setup("-lg");
+}
+
+
+
+

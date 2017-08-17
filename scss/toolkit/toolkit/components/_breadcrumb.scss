@@ -1,0 +1,33 @@
+
+/* Breadcrumb decoration */
+
+.breadcrumb {
+	    
+    font-size: 13px;        
+    line-height: 120%;
+    margin-bottom: 0;
+    overflow-y: scroll;
+    white-space: nowrap;
+    letter-spacing: 0.05em;      
+    text-transform: uppercase;      
+
+    @media(min-width: $screen-xs-min){
+        line-height: 140%;                
+    }
+
+    @media(min-width: $screen-sm-min){
+        overflow: visible;
+        white-space: normal;
+    }
+
+    @media (min-width: $screen-md-min) {
+        margin-bottom: $space-half;        
+    }
+}
+
+.breadcrumb>li+li:before {
+    padding: 0 1px;
+    @media(min-width: $screen-xs-min){
+        padding: 0 5px;
+    }   
+}

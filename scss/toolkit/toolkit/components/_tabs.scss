@@ -1,0 +1,282 @@
+/**
+ * Custom toolkit tabs - Using the BS tabs.js TEUXDEUX Make better mobile version
+ */
+
+ /*
+ * Change default bootstrap styles
+ */
+
+.nav-tabs > li > a,
+.nav-pills > li > a {
+    color: $color-font;    
+    @extend .all-caps;
+    
+}
+
+/* Accessible Tabs: change default not diplay: none*/
+
+.tab-content {
+    position: relative;    
+
+    > .tab-pane {
+        @extend .hide-accessible;
+        opacity: 0;
+        display: block;     
+    }    
+
+    > .active {
+        @extend .show-accessible;
+        display: block;
+        opacity: 1;
+    }
+}
+
+.no-js .tab-content {
+    > .tab-pane {
+        opacity: 1;
+        @extend .show-accessible;
+    }
+}
+
+/* Toolkit tabs 
+
+<div class="tk-tabs">
+    <div class="tk-tabs-header">
+        <ul class="nav nav-tabs tk-nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">...</a></li>
+            <li><a href="#tab2" data-toggle="tab">...</a></li>
+            ...
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="tab1">...</div>
+        <div class="tab-pane fade" id="tab2">...</div>
+        ...
+    </div>
+</div>
+
+*/
+
+
+//Tabs container
+.tk-tabs {
+    @media (min-width: $screen-sm-min) {
+        padding: $space;
+    }
+}
+
+// Tabs Header
+.tk-tabs-header { // tabs header with underline
+    @extend .clearfix;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $space-half;    
+    a,
+    button {
+        @extend %all-caps;
+        color: $color-font;
+        padding: 10px 0;
+    }
+}
+
+.tk-tabs-header-lg { // tabs header with underline
+    @extend .clearfix;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $space-half;    
+    a,
+    button {
+        @extend %all-caps;
+        color: $color-font;
+        padding: 10px 0;
+    }
+}
+
+//Tabs
+
+.tk-nav-tabs {
+   
+    float: left;
+    border: 0;    
+
+    > li {
+        margin-right: 10px;
+        padding-right: 10px;
+        margin-bottom: 0;
+        float: left;
+    }
+
+    > li > a,
+    > li > a:hover,
+    > li > a:focus {
+        border: 0;
+        padding: 10px 0;
+        background: none;
+        margin-bottom: -4px;
+    }
+
+    > li.active > a, 
+    > li.active > a:hover,
+    > li.active > a:focus {
+        border: 0;
+        padding: 10px 0;
+        border-bottom: 4px solid $color-brand-2;        
+        background: none;
+    }
+    
+}
+
+/**
+ * Blocky Tabs thats looks like the original BS with grey and gold
+ */
+
+.tk-nav-tabs-lg {
+    border: 0;          
+
+    > li {        
+        margin: 0;
+    }
+
+    > li > a,
+    > li > a:hover,
+    > li > a:focus {      
+        border: 0;                
+        margin: 0;
+        padding: 10px;
+        background: none;      
+        text-align: center;        
+        text-transform: uppercase;
+        transition: background 0.25s ease; 
+        border-top: 3px solid transparent; 
+        position: relative;
+        top: 1px;         
+        border-right: 1px solid transparent;
+        border-left: 1px solid transparent;     
+    }
+
+    > li.active > a, 
+    > li.active > a:hover,
+    > li.active > a:focus {                       
+        border-right: 1px solid $color-border;
+        border-left: 1px solid $color-border;
+        border-top: 3px solid $color-brand-2;        
+        border-bottom: 1px solid $color-white;
+        background: transparent;        
+        color: $color-font;    
+        // &:after { //used for when its display table in responsive tabs
+        //     content: "";
+        //     width: 100%;
+        //     position: absolute;
+        //     bottom: -4px;
+        //     left: 0;
+        //     height: 10px;
+        //     background: red;
+        // }
+    }  
+    
+}
+
+/**
+ * Blocky Dark Tabs thats looks like the original BS with dark grey
+ */
+
+.tk-nav-tabs-dark-lg {
+    border: 0;    
+
+    &:after {     
+        background: linear-gradient(to right, rgba($color-white,0) 0%,rgba($color-white,1) 100%) !important; 
+    }      
+
+    > li {        
+        margin: 0;
+    }
+
+    > li > a,
+    > li > a:hover,
+    > li > a:focus {      
+        border: 0;
+        border-right: 2px solid $color-white;         
+        margin: 0;
+        padding: 10px;
+        background: none;      
+        text-align: center;
+        background: $color-masthead;
+        text-transform: uppercase;
+        transition: background 0.25s ease;     
+        color: $color-white;   
+    }
+
+    > li.active > a, 
+    > li.active > a:hover,
+    > li.active > a:focus {   
+        border: 0;     
+        border-right: 2px solid $color-white;                
+        background: $color-masthead-light;        
+        color: white;    
+    }  
+
+    > li:last-child > a,
+    > li:last-child > a:hover,
+    > li:last-child > a:focus { 
+        border: 0;
+    }
+}
+
+// Call to actions inside tab header or content
+
+.tk-tabs-cta { 
+    @extend .clearfix;
+    margin-bottom: $space-half;    
+}
+
+.tk-tabs-more {        
+    @extend %more;        
+    float: right;
+    margin-bottom: -4px;
+}
+
+/* Tabs content */
+
+.tk-tabs .tab-pane {
+    padding: $space 0;
+}
+
+.tk-tabs-header-resp {
+    width: 100%;        
+    position: relative;
+    display: inline-block;
+
+    &.overflowing {        
+        overflow-y: scroll;       
+        -webkit-overflow-scrolling: touch;
+    }
+        
+    > ul {                      
+        display: table;   
+        &:after {
+            content: "";
+            display: none;
+            position: absolute;
+            top: 0;
+            right: -0px;
+            width: 25px;
+            height: 100%;
+            text-indent: -9999px;
+            background: linear-gradient(to right, rgba($color-white,0) 0%,rgba($color-masthead,.25) 100%); 
+        }         
+    }
+
+    &.overflowing ul:after {
+        display: block;
+    }
+
+    &.scrolled ul:after {
+        display: none;
+    }
+
+    li {
+        display: table-cell;        
+        white-space: nowrap;   
+        float: none;         
+    }     
+
+   
+}

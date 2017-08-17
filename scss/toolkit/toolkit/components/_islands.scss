@@ -1,0 +1,61 @@
+/*------------------------------------*\
+    $island
+\*------------------------------------*/
+
+//$TEUXDEUX maybe reactor and use .well from boostrap
+
+/**
+ * island, boxed off content
+ *
+   <div class=island>
+       I am boxed off.
+   </div>
+
+ *
+ */
+
+[class*="island"] {        
+    padding: $space-sm;
+
+    @media(min-width: $screen-xs-min){
+        padding: $space;           
+    }
+}
+
+.island {
+    display: block;
+    @include tk-clearfix();
+}
+
+//Island size
+
+.island-lg {
+    padding: $space-sm;
+    @media(min-width: $screen-xs-min){
+        padding: $space-lg;
+    }
+}
+
+.island-sm {
+    padding: $space-half;
+}
+
+//Island margin - We dont use _skins.scss because we want more control at breakpoints
+
+.island-m-t-b {
+    margin: $space 0;
+}
+
+.island-m-t {
+    margin-top: $space;
+}
+
+.island-m-b {
+    margin-bottom: $space;   
+}
+
+.island-featured {
+    @extend .skin-box-module;
+    @extend .skin-bd-l;
+    margin-bottom: $space;
+}

@@ -1,0 +1,236 @@
+/**
+ * Docs Dashboard
+ */
+
+/////Dashboard
+
+#iframecontainer {    
+    position: absolute;    
+    top: 0;
+    left: 0;                   
+    height: calc(100% - 55px);
+    max-width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.17);      
+    min-width: 320px;
+}
+
+#iframetemplate {
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.iframe-splitter {   
+    //display: none; 
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    right: -10px;
+    background: $color-masthead-dark;
+    cursor: move;
+    opacity: 0.1;
+    transition: opacity 0.25s ease;
+    &:hover {
+        opacity: 1;
+    }
+
+    .desktop & {
+        display: none;
+    }
+}
+
+.iframe-overlay { //used so draggable doesnt break when curose goes over iframe
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;    
+}
+
+#iframecontainer.desktop {
+    width: 100%;                    
+}
+#iframecontainer.phone {
+    width: 326px;
+    left: 50%;
+    margin-left: -180px;                
+}
+#iframecontainer.tablet {
+    width: 768px;
+    left: 50%;
+    margin-left: -380px;                
+}
+
+.tk-dashboard-navbar {
+
+	//border-bottom: 5px solid $color-brand-2;
+	//height: 56px;	
+	border-top: 1px solid $color-masthead-dark;		
+
+	.navbar-header { //title
+		float: left;		
+	}
+
+		.navbar-header a {
+			border-right: 1px solid $color-masthead-dark;		
+		}
+
+	.navbar-right {
+		margin: 0;		
+		float: right;		
+	}
+
+	// Theme picker
+	
+		.dropdown-toggle {
+			position: relative;
+			padding-right: 30px;
+		}
+		
+			.dropdown > a {
+				border-right: 1px solid $color-masthead-dark !important;
+				border-left: 1px solid $color-masthead-dark !important;				
+			}
+
+			.caret {
+				position: absolute;
+				top: 50%;
+				right: 15px;
+			}
+
+	.navbar-btn {  //sidebar menu and device button
+		border-right: 1px solid $color-masthead-dark;
+    	max-width: 50px;
+    	min-width: 50px;
+    	height: 50px;
+    	color: white;    	
+    	opacity: 0.3;
+    	margin: 0;
+    	display: none;
+
+    	@media (min-width: 768px) {
+    		display: block;
+    	}
+
+    	&:hover {
+    		background: none;
+    		color: white;
+    		opacity: 1;
+    	}
+
+    	img {}
+    }
+
+    //Sidebar menu button
+
+    .tk-dashboard-menu { 
+    	max-width: none;
+    	color: #9d9d9d;   
+    	
+    	.tk-dashboard-sidebar-active & {
+	    	background: $color-masthead-light;
+	    	color: white;
+	    }
+
+        .tk-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+    }
+
+    .btn-active {
+    	opacity: 1;
+
+    }
+}
+
+.tk-dashboard-sidebar {
+	position: fixed;	
+	height: 100%;
+	position: absolute;
+    top: 0;
+    z-index: 1;
+    background: $color-masthead-light;   
+    transition: left 0.25s ease; 
+    display: none;
+
+    @media (min-width: $screen-sm-min) {
+    	display: block;
+    	width: 33.333%;
+    	left: -33.333%;
+    }
+
+    @media (min-width: $screen-md-min) {
+    	width: 20%;
+    	left: -20%;
+    }
+
+    .tk-dashboard-sidebar-active & {
+    	left: 0;
+    	box-shadow: 1px 0px 2px 0px rgba(0,0,0,0.5);
+    }
+
+    ul {
+	    counter-reset:yourCounter;
+	}
+	ul li:not(.title) {
+	    counter-increment:yourCounter;
+	    list-style:none;
+	}
+	ul li:not(.title):before {
+	    content:counter(yourCounter) ".";
+	    float: left;
+	    padding: $space-xs;
+	}
+	ul li.skip:before {
+	    content:"\a0\a0\a0"; /* some white-space... optional */	    
+	}
+
+    ul {
+    	padding: 0;
+    	margin: 0;    	
+    	margin-bottom: 56px;
+    }
+
+    li {
+    	list-style: decimal;
+    	color: $color-module-dark;
+    	font-size: 16px;
+    }
+
+    .title {
+    	border-bottom: 1px solid $color-masthead-dark;
+    	background: $color-masthead;
+    	display: block;
+    	color: $color-off-white;
+    	padding: $space-xs;
+    }
+
+    a {
+    	border-bottom: 1px solid $color-masthead-dark;
+    	display: block;
+    	color: $color-off-white;
+    	padding: $space-xs;
+    	&.active {
+    		color: $color-brand-2;
+    	}
+    	&:hover {
+    		text-decoration: none;
+    		background: $color-masthead-dark;
+    	}
+    }
+}
+
+.tk-dashboard-sidebar-inner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow-x: scroll;
+
+}

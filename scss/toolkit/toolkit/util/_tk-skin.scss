@@ -1,0 +1,150 @@
+/**
+ * Skins
+ */
+
+/*
+
+This file is a bit of a mess
+many depracted skin names as we havent 
+been constistent in their use
+
+the rule now is:
+
+.skin-"shorted proterty"-"value"-"modifier"
+
+e.g. for a light brand background we use: .skin-bg-brand-light
+
+when combining different styles create a unique name e.g.
+
+.skin-box-module {
+    background: $color-module;
+    @include tk-box-shadow-dark();
+}
+
+*/
+
+/**
+ * Classes
+ */
+
+.sk-bg-white, //deprecated
+.skin-bg-white {
+    background: $color-white !important;
+}
+
+.sk-bg-module, //deprecated
+.skin-bg-module {
+    background: $color-module;
+}
+
+.sk-bg-module-light, //deprecated
+.skin-bg-module-light, {
+    background: $color-module-light;    
+}
+
+.skin-bg-module-dark, {
+    background: $color-module-dark;    
+}
+
+.skin-bg-module-lighter, {
+    background: $color-module-lighter;    
+}
+
+.sk-bg-brand-1, //deprecated
+.skin-bg-brand-1 {
+    background: $color-brand-1;
+}
+
+.sk-bg-brand-1-dark, //deprecated
+.skin-bg-brand-1-dark {
+    background: $color-brand-1-dark;
+}
+
+.skin-bg-brand-2 { 
+    background: $color-brand-2;
+}
+
+//rows
+
+.sk-widget-block, //deprecated
+.skin-widget-block, //deprecated
+.skin-row-module {         
+    background: $color-module;
+}
+
+.skin-row-module-light {    
+    background: $color-module-light;
+}
+
+.skin-row-module-lighter {    
+    background: $color-module-lighter;
+}
+
+.skin-row-white-divider, //depracated
+.skin-row-divider{    
+    border-top: 1px solid $color-module-dark;    
+    border-bottom: 1px solid $color-module-dark;        
+}
+
+//divider
+
+.divider,
+.skin-divider {
+    border-bottom: 1px solid $color-border;
+}
+
+//Island Skin
+
+//borders
+
+.island-bd-t, //deprecated
+.bd-t, //deprecated
+.skin-bd-t {
+    @include border-top-brand-2();
+}
+
+.island-bd-r, //deprecated
+.bd-r, //deprecated
+.skin-bd-r, {
+    @include border-right-brand-2();
+}
+
+.island-bd-b, //deprecated
+.bd-b, //deprecated
+.skin-bd-b, {
+    @include border-bottom-brand-2();
+}
+
+.island-bd-l, //deprecated
+.bd-l, //deprecated
+.skin-bd-l {    
+    @include border-left-brand-2();
+}
+
+//boxes
+
+.island-bg-white, //deprecated
+.bg-white, //deprecated
+.skin-box-white {
+    background: $color-white;
+    @include tk-box-shadow-light();
+}
+
+.island-bg-module, //deprecated
+.bg-module, //deprecated
+.skin-box-module {
+    background: $color-module;
+    @include tk-box-shadow-dark();
+}
+
+.skin-box-dark {
+    background: $color-masthead;
+    @include tk-box-shadow-dark();
+}
+
+.skin-box-dark {
+    background: $color-masthead;
+    color: white;
+    @include tk-box-shadow-dark();
+}
+

@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    accommodation.CSS
+\*------------------------------------*/
+
+/**
+ * Import Variables
+ */
+
+@import "toolkit/vars"; //Custom vars that override bootstrap vars
+@import "toolkit/foundations/tk-icons"; //we need to extend icons for modal
+@import "accommodation/vr-aframe"; //Slightly different footer
+@import "accommodation/residence-map"; //Custom google maps
+@import "accommodation/lightbox"; //Image gallery lightbox
+@import "accommodation/icon-list"; // List of inline icons
+@import "accommodation/vertical-divider"; // List of inline icons
+
+
+//temporary style to invert the image icons to white on the single residence slider - DELETE this class after the images have been converted to white
+.inverted {
+    filter: invert(100%);
+    -webkit-filter: invert(1);
+}
+
+/* Accom iframe */
+
+.map-frame {
+    width: 100%;
+    height: 500px;
+    outline: 0;    
+}
+

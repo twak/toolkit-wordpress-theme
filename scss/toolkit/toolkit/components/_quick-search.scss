@@ -1,0 +1,59 @@
+/**
+ * Quick Search - MB TODO: finish is there's time
+ */
+
+.quick-search {
+	position: relative;	
+	display: none;
+
+	@media (min-width: $screen-xs-min) {
+		display: block;
+	}
+	
+	ul {	
+		width: 59%;
+		position: absolute;
+		z-index: $zindex-dropdown;
+		background: white;
+		top: 0;
+		left: 0;
+		padding: 0;
+		margin: 0;
+		box-shadow: 0 6px 12px rgba(0,0,0,.175);
+	}
+
+	li.selected {
+		border-left: 4px solid $color-brand-2;
+		background: $color-module;
+	}
+
+	li {
+		list-style: none;
+		border-bottom: 1px solid $color-border;
+		padding: 5px;
+		line-height: 100%;
+		border-left: 4px solid white;
+
+		a {
+			&:hover {
+				background: $color-module;
+				text-decoration: none;
+			}
+		}
+
+		.title {
+			display: block;
+			font-size: 14px;
+		}
+
+		.excerpt {
+			font-size: 13px;
+			display: block;
+		}
+
+		.type,
+		.category {
+			@extend %all-caps;
+		}
+	}
+}

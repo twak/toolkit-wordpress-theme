@@ -1,0 +1,75 @@
+/**
+ * Quicklinks (Header section)
+ */
+
+.quicklinks {	
+	background: $color-masthead-dark;	
+	border-bottom: 1px solid white;
+	color: white;
+}
+
+	.quicklinks-inner {
+		padding: 25px 10px 10px 10px;
+		color: white;	
+		@media (min-width: $screen-xs-min) {
+			padding-top: 35px;
+		}
+	}
+
+	.quicklinks-close {
+		position: absolute;
+		top: 5px;
+		right: 5px;		
+	}
+
+	.quicklinks-list {
+		padding: 0;
+		margin: 0;
+		margin-bottom: 15px;
+        line-height: 24px;
+
+		.title {
+			text-transform: uppercase;
+			margin-bottom: 15px;
+			font-size: 14px;
+            color: $color-white;
+            display: block;
+			&:before {
+				content: "";			
+			}
+		}
+
+		li {
+			list-style: none;
+			padding-left: 6px;
+			font-size: 14px;	
+
+			&:before {
+				position: relative;
+				content: "-";
+				left: -5px;
+                color: $color-brand-2;
+			}
+		}
+
+		a {
+			color: $color-off-white;			
+			&:hover { 
+				color: white;
+			}
+		}
+	}
+
+	.quicklinks-list-def { // definition list for address in the footer	    		
+		lh {
+			padding-left: 6px;
+		}
+		dt {
+			list-style: none;
+			padding-left: 6px;
+			font-size: 14px;
+			color: $color-off-white;	
+			font-weight: $font-weight-book;
+			line-height: 24px;
+		}		
+	}

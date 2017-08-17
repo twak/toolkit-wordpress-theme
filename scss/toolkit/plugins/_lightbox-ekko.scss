@@ -1,0 +1,196 @@
+/* Default ekkolightbox styles */
+
+.ekko-lightbox {
+
+    &-container {
+        position:relative;
+        > div.ekko-lightbox-item {
+            position:absolute;
+            top:0;
+            left:0;
+            bottom:0;
+            right:0;
+            width:100%;            
+            &.in {                
+                z-index: 10;
+            }
+        }
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-nav-overlay {
+
+        a {
+            display: block;
+            width: 50px;
+            height: 50px;            
+            background: $color-masthead; 
+            position: absolute;
+            z-index: 10;             
+            top: 50%;
+            margin-top: -25px;
+            color: white;
+
+            span {                           
+                color: white;
+                @extend .tk-icon; 
+                @extend .tk-icon-32;  
+                display: block;
+                padding: 8px 4px 6px 4px;
+                &:before {
+                    @extend .tk-icon-nav-chevron-right-large:before;    
+                }
+            }
+            
+
+            &:first-child {
+                left: 0px;
+                border-right: 5px solid $color-brand-2;
+                @media (min-width: $screen-lg-min) {                   
+                    left: -45px;
+                }
+                
+                span:before {
+                    @extend .tk-icon-nav-chevron-left-large:before;    
+                }               
+            }
+            
+            &:last-child {
+                right: 0px;
+                text-align: right;
+                border-left: 5px solid $color-brand-2;
+                @media (min-width: $screen-lg-min) {                   
+                    right: -45px;
+                }
+                span:before {
+                    @extend .tk-icon-nav-chevron-right-large:before;    
+                }
+            }
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                outline: none;
+            }            
+        }
+    }
+
+    a:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
+
+    &.modal {
+        padding: 0 $space-sm !important;        
+    }
+
+    & + .modal-backdrop.in {
+        opacity: 0.8;
+    }
+
+    .modal {
+        &-dialog {
+           
+        }
+        &-content {
+            background: none;
+            box-shadow: none;
+            border: 0;
+        }
+            &-header {
+                border: 0;
+                padding: 0 0 $space-sm $space-sm;
+                .close { //close button
+                    color: white;
+                    opacity: 1;
+                    box-shadow: none;
+                    span {
+                        display: none;
+                    }
+                    &:after {       
+                        @extend .tk-icon;   
+                        @extend .tk-icon-32;
+                        @extend .tk-icon-action-cancel:before;                          
+                        position: relative;
+                        top: 2px;
+                        left: 2px;
+
+                    }       
+                }
+            }
+            &-title {
+                color: white;
+            }
+            &-body {
+                padding: 0;                
+            }
+            &-footer {
+                
+            }
+        
+    }
+
+    // http://tobiasahlin.com/spinkit/
+    &-loader {
+        position:absolute;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        width:100%;
+
+        display: flex;           /* establish flex container */
+        flex-direction: column;  /* make main axis vertical */
+        justify-content: center; /* center items vertically, in this case */
+        align-items: center;
+
+        > div {
+            width: 40px;
+            height: 40px;
+
+            position: relative;
+            text-align: center;
+
+            > div {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: #fff;
+                opacity: 0.6;
+                position: absolute;
+                top: 0;
+                left: 0;
+
+                animation: sk-bounce 2.0s infinite ease-in-out;
+                &:last-child {
+                    animation-delay: -1.0s;
+                }
+            }
+        }
+    }
+
+    .modal-dialog &-loader {
+        > div > div {
+            background-color:#333;
+        }
+    }
+
+    @-webkit-keyframes sk-bounce {
+        0%, 100% { -webkit-transform: scale(0.0) }
+        50% { -webkit-transform: scale(1.0) }
+    }
+
+    @keyframes sk-bounce {
+        0%, 100% {
+            transform: scale(0.0);
+            -webkit-transform: scale(0.0);
+        } 50% {
+            transform: scale(1.0);
+            -webkit-transform: scale(1.0);
+        }
+    }
+}

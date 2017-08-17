@@ -1,0 +1,87 @@
+/**
+ * LAYOUT - Toolkit containers and wrapper
+ */
+
+html { // Hides internet explorer scroll bar
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+body { //gives the apperance of the page ending as the site container is white
+	background: $color-module; 
+}
+
+/**
+ * Site containers
+ */
+
+.site-container {
+	background: white;	
+	margin: 0 auto;
+}
+
+[class^="site-container"] {
+	margin: 0 auto;
+	background: white;
+	box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+}
+
+// Modifiers
+
+.site-container-fw,
+.site-container-lg { // full width container, used with the full width sidebar
+	max-width: $site-container-lg;	
+}
+
+.site-container-sm {
+	max-width: $site-container-sm;	
+}
+
+.site-container-md {
+	max-width: $site-container-md;	
+}
+
+.jadu-cms, //deprecated
+.cms { //used elsewhere throughtout the site, used to wrap WYSIWYG content if using a CMS
+    margin-bottom: $space-xl;
+}
+
+
+/* Container rows 
+
+Used when you want to create rows of spaced content e.g. widgets
+
++--------------------+
+|                    |
+|                    |
+|   Container rows   |
+|                    |
+|                    |
++--------------------+
+|                    |
+|                    |
+|      Content       |
+|                    |
+|                    |
++--------------------+
+
+*/
+
+.container-row {
+	padding: $space-sm 0;	
+	@media (min-width: $screen-xs-min) {
+		padding: $space-lg 0;
+	}
+}
+
+.container-row-lg {
+	padding: $space-sm 0;	
+	@media (min-width: $screen-xs-min) {
+		padding: $space-xl 0;
+	}
+}
+
+
+.container-header {
+	padding: 20px 0;
+}
+

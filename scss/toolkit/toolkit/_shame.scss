@@ -1,0 +1,181 @@
+//Shameful css
+
+/*
+
+$screen-xs:                  480px;
+$screen-phone:               $screen-xs-min;
+
+$screen-sm:                  768px;
+$screen-tablet:              $screen-sm-min;
+
+$screen-md:                  1024px;
+$screen-desktop:             $screen-md-min;
+
+$screen-lg:                  1260px;
+$screen-lg-desktop:          $screen-lg-min;
+
+// So media queries don't overlap when required, provide a maximum
+
+$screen-xs-max:              ($screen-sm-min - 1);
+$screen-sm-max:              ($screen-md-min - 1);
+$screen-md-max:              ($screen-lg-min - 1);
+
+*/
+
+// body {
+//     @media (min-width: $screen-xs-min) {
+//          border: 1px solid blue;
+//     }
+//      @media (min-width: $screen-sm-min) {
+//          border: 1px solid yellow;
+//      }
+//      @media (min-width: $screen-md-min) {
+//          border: 1px solid orange;
+//      }
+//      @media (min-width: $screen-lg-min) {
+//          border: 1px solid red;
+//      }
+// }
+
+.sidebar-widget {
+    h3 {
+        @extend %heading-related;
+    }
+}
+
+.ajax-loader {
+    width: auto !important;
+}
+
+/* Idea for general cookie compliance styles, no used with the actual js plugin */
+
+.cookie-compliance {
+    padding: 6px;
+    background: $color-masthead-light;
+    p {
+        font-size: 15px;
+        color: white;
+        display: inline;
+        margin-right: 6px;
+    }
+    a.btn {
+        padding: 6px;
+        line-height: 100%;
+        margin-right: 6px;
+        border-radius: 4px;
+    }
+}
+
+.collapsing {
+    //customises the bs collapse transition
+    @include tk-transition(height, $duration: 0.3s, $effect: zoom);
+}
+
+/* Used for concept water at leeds templates */
+
+.list-feed {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    @media(min-width: $screen-md) {
+        height: 744px;
+    }
+}
+
+.list-feed-item.active {
+    background: #44AFD7;
+    height: 50px;
+    h4 a {
+        color: white;
+    }
+}
+
+.list-feed-item-inner {
+    padding: 10px;
+    padding: 10px;
+}
+
+.list-feed-item {
+    display: table-row;
+    vertical-align: middle;
+    .media {
+        display: table-cell;
+        background: $color-module-light;
+        padding: 10px;
+        border-bottom: 1px solid $color-border-light;
+    }
+    img {
+        border: 1px solid $color-border-light;
+    }
+    h4 {
+        font-size: 22px;
+        a {
+            color: $color-font;
+        }
+    }
+    p {
+        font-size: 15px;
+        line-height: 140%;
+    }
+    &:last-child .media {
+        border-bottom: 0;
+    }
+}
+
+
+////////////// Used at the bottom of course page link with small icon
+
+
+.course-terms a {
+    font-size: 16px;
+    padding: 5px 5px 5px 20px;
+    display: inline-block;
+    position: relative;
+    &:before {
+        content:"";
+        top: 50%;
+        margin-top: -8px;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        display: block;
+        position: absolute;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyppVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyRjgzRTVGOUQwREExMUU2QTZFQkU5QTE3RTI1QkU2RiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyRjgzRTVGQUQwREExMUU2QTZFQkU5QTE3RTI1QkU2RiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJGODNFNUY3RDBEQTExRTZBNkVCRTlBMTdFMjVCRTZGIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJGODNFNUY4RDBEQTExRTZBNkVCRTlBMTdFMjVCRTZGIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+2zTLZgAAAUhJREFUeNqckiGrg1AUx/UOg8W6IBjkxS0oLAymwWQU1t3i8EtoFr+EFpN9waZNWJlBQcuwCGMYZ3B7ZxtP3PUNHu+Ey73/8/sfz/Ue8n6/Ez+RpmkQBIfD4XQ6wZHjOFEU1+v1bDbrGbI3WJbleR7xW2w2G9M03wy6rsdxTHwOSZJc14UNetXGaFmWwzC0bbtXoigC7GEoimLcyXw+53le07ShCBjAE4ZhjscjZkiSZL/fQw9N0wz1rusmNE1fLpdemk6nhmGsVqssy8qyxApdr1dU1/VQoiiKJMndbgdfYFkWMwCMMKmqKrjr7XaDfdu249+FoAdMUhQFIQTPdz6fsRTAaLFYYKqqqrD6vj8uDzDabreYKggCrF/PgPsMUwAjUOHlh6rjOHmeL5dLSGED8ijxn9F4vSJ4PtFQ+0W/Tesfx/tbgAEA+M+b91/S0fcAAAAASUVORK5CYII=");
+        background-repeat: no-repeat;        
+        background-size: 16px;
+        padding-left: 20px;
+    }
+}
+
+/* Pearsons sidebar */
+
+
+.column-container-reverse {
+    direction: rtl;
+}
+
+.column-container-reverse { 
+
+    .column-container-primary,
+    .column-container-secondary {       
+        direction: ltr; 
+    }
+
+    .column-container-secondary {
+        padding: 40px; 
+        @media (min-width: $screen-md-min) {
+            float: none;                                    
+            display: table-cell;
+            background: $color-module;               
+            width: 400px;        
+        }    
+
+        @media (min-width: $screen-lg-min) {
+            width: 400px;                       
+        }
+    }
+}
+
+
+
+/////////

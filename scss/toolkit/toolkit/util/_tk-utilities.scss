@@ -1,0 +1,277 @@
+/**
+ * TOOLKIT HELPERS
+ */
+
+.clearfix {
+    display: block;
+    clear: both;
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+/**
+ * Remove browser outlines
+ */
+
+.no-outline { //class apllied on mouse down to remove outline, removed when tabbing throught
+    a,
+    input,
+    button {
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
+/**
+* Remove background
+*/
+.background-none{
+  background: none !important;
+}
+/**
+ * Overflow
+ */
+
+.overflow-x-scroll {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-visible {
+    overflow: visible;
+}
+
+/**
+ * Floats - TEUX DEUX - possiblly redundant
+ */
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+/**
+ * Display
+ */
+
+.dsp-block {
+    display: block;
+}
+
+.dsp-inline-block {
+    display: inline-block;
+}
+
+.table, //depracted
+.dsp-table {
+    display: table;
+}
+
+.table-cell, //depracated
+.dsp-table-cell {
+    display: table-cell;
+}
+
+.inline-table{
+  display: inline-table;
+}
+
+//require modernizr
+
+.dsp-flex {
+    display: flex;
+
+    > * {
+        flex: 1;
+    }
+}
+
+/**
+ * Show and hide
+ */
+
+.hide-accessible {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    left: -9999px;
+}
+
+.show-accessible {
+    position: static !important;
+    clip: auto;
+    height: auto;
+    width: auto;
+    overflow: visible;
+    left: auto;
+}
+
+/**
+ * Hide - breakpoints
+ */
+
+//$TEUXDEUS refactor so its mobile first or maybe remove because of http://getbootstrap.com/css/#responsive-utilities
+
+.hide-xs {
+    @media (max-width: $screen-xs-min) {
+        @include hide-accessibly();
+    }
+}
+
+.hide-sm {
+    @media (max-width: $screen-xs-max) {
+        @include hide-accessibly();
+    }
+}
+
+.hide-md {
+    @media (max-width: $screen-sm-max) {
+        @include hide-accessibly();
+    }
+}
+
+/**
+ * Position
+ */
+
+.wrapper-relative { //$TEUXDEUX refactor
+    position: relative;
+}
+
+.pos-s { position: static !important; }
+.pst-rel,
+.pos-r { position: relative !important; }
+.pos-a { position: absolute !important; }
+.pos-f { position: fixed !important; }
+
+
+/**
+ * Width
+ */
+
+.w-sm, //depracated
+.w-1-4  { width: 25% !important; }
+.w-md, //depracated
+.w-1-2  { width: 50% !important; }
+.w-lg, //depracated
+.w-3-4 { width: 75% !important; }
+.w-full, //depracated
+.w-1-1 { width: 100% !important; }
+
+/**
+ * Margin and padding
+ */
+
+.m-a-0 { margin:        0 !important; }
+.m-t-0 { margin-top:    0 !important; }
+.m-r-0 { margin-right:  0 !important; }
+.m-b-0 { margin-bottom: 0 !important; }
+.m-l-0 { margin-left:   0 !important; }
+
+.m-a { margin:        $space !important; }
+.m-t { margin-top:    $space !important; }
+.m-r { margin-right:  $space !important; }
+.m-b { margin-bottom: $space !important; }
+.m-l { margin-left:   $space !important; }
+.m-x { margin-right:  $space !important; margin-left: $space !important; }
+.m-y { margin-top:    $space !important; margin-bottom: $space !important; }
+.m-x-auto { margin-right: auto !important; margin-left: auto !important; }
+
+.m-a-md { margin:        ($space * 1.5) !important; }
+.m-t-md { margin-top:    ($space * 1.5) !important; }
+.m-r-md { margin-right:  ($space * 1.5) !important; }
+.m-b-md { margin-bottom: ($space * 1.5) !important; }
+.m-l-md { margin-left:   ($space * 1.5) !important; }
+.m-x-md { margin-right:  ($space * 1.5) !important; margin-left:   ($space * 1.5) !important; }
+.m-y-md { margin-top:    ($space * 1.5) !important; margin-bottom: ($space * 1.5) !important; }
+
+.m-a-lg { margin:        ($space * 3) !important; }
+.m-t-lg { margin-top:    ($space * 3) !important; }
+.m-r-lg { margin-right:  ($space * 3) !important; }
+.m-b-lg { margin-bottom: ($space * 3) !important; }
+.m-l-lg { margin-left:   ($space * 3) !important; }
+.m-x-lg { margin-right:  ($space * 3) !important; margin-left:   ($space * 3) !important; }
+.m-y-lg { margin-top:    ($space * 3) !important; margin-bottom: ($space * 3) !important; }
+
+.p-a-0 { padding:        0 !important; }
+.p-t-0 { padding-top:    0 !important; }
+.p-r-0 { padding-right:  0 !important; }
+.p-b-0 { padding-bottom: 0 !important; }
+.p-l-0 { padding-left:   0 !important; }
+
+.p-a { padding:        $space !important; }
+.p-t { padding-top:    $space !important; }
+.p-r { padding-right:  $space !important; }
+.p-b { padding-bottom: $space !important; }
+.p-l { padding-left:   $space !important; }
+.p-x { padding-right:  $space !important; padding-left:   $space !important; }
+.p-y { padding-top:    $space !important; padding-bottom: $space !important; }
+
+.p-a-md { padding:        ($space * 1.5) !important; }
+.p-t-md { padding-top:    ($space * 1.5) !important; }
+.p-r-md { padding-right:  ($space * 1.5) !important; }
+.p-b-md { padding-bottom: ($space * 1.5) !important; }
+.p-l-md { padding-left:   ($space * 1.5) !important; }
+.p-x-md { padding-right:  ($space * 1.5) !important; padding-left:   ($space * 1.5) !important; }
+.p-y-md { padding-top:    ($space * 1.5) !important; padding-bottom: ($space * 1.5) !important; }
+
+.p-a-lg { padding:        ($space * 3) !important; }
+.p-t-lg { padding-top:    ($space * 3) !important; }
+.p-r-lg { padding-right:  ($space * 3) !important; }
+.p-b-lg { padding-bottom: ($space * 3) !important; }
+.p-l-lg { padding-left:   ($space * 3) !important; }
+.p-x-lg { padding-right:  ($space * 3) !important; padding-left:   ($space * 3) !important; }
+.p-y-lg { padding-top:    ($space * 3) !important; padding-bottom: ($space * 3) !important; }
+
+/**
+ * Responsive text alignment
+ */
+
+.text-indent {
+    text-indent: -9999px;
+    display: block;
+    height: 0;
+    width: 0;
+}
+
+.text-center{
+    text-align: center; //depracated
+}
+
+.text-xs-left   { text-align: left; }
+.text-xs-right  { text-align: right; }
+.text-xs-center { text-align: center; }
+
+@media (min-width: $screen-sm-min) {
+    .text-sm-left   { text-align: left; }
+    .text-sm-right  { text-align: right; }
+    .text-sm-center { text-align: center; }
+}
+
+@media (min-width: $screen-md-min) {
+    .text-md-left   { text-align: left; }
+    .text-md-right  { text-align: right; }
+    .text-md-center { text-align: center; }
+}
+
+@media (min-width: $screen-lg-min) {
+    .text-lg-left   { text-align: left; }
+    .text-lg-right  { text-align: right; }
+    .text-lg-center { text-align: center; }
+}

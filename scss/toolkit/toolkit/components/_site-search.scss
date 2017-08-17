@@ -1,0 +1,114 @@
+/**
+ * $SITESEARCH
+ */
+
+// See .state-site-search-active applied to _layout.scss
+
+.site-search {	
+	background: white;
+	@media (max-width: $screen-xs-min) {
+		//display: none !important; //overide .collapse
+	}	
+}
+
+	.site-search-inner {	
+		@extend .clearfix;			   
+		padding: 5px 0; 			
+	}
+
+		.site-search-input,
+		.site-search-select,
+		.site-search-submit {
+			float: left;
+		}		
+
+		input.site-search-input {
+			border: 1px solid $color-border;
+			padding: 5px;								
+			width: 54%;		
+			margin: 0 1% 0 0;
+			@media (max-width: $screen-xs-min){
+				width: 100%;
+				margin: 0 0 5px 0;
+			}
+		}
+
+		.lt-ie9 input.site-search-input {
+			height: 40px;			
+		}
+
+		select.site-search-select {						
+			padding: 5px 25px 5px 10px;			
+			width: 29%;	
+			margin: 0 1% 0 0;
+			min-height: 40px;
+			@media (max-width: $screen-xs-min){
+				width: 75%;				
+				margin-bottom: 0;
+			}
+		}
+
+		.lt-ie9 select.site-search-select {
+			min-height: 0;
+			padding: 0;
+			padding-bottom: 8px;
+		}
+
+		.no-js .site-search-select {
+			display: none;
+		}
+
+		input.site-search-submit {
+			border: 0;
+			padding: 5px 10px;	
+			margin: 0;
+			width: 15%;				
+			@media (max-width: $screen-xs-min){
+				width: 24%;		
+				margin-bottom: 0;		
+			}	
+		}		
+
+	/* Flexbox version */
+
+	// .flexbox {
+
+	// 	.site-search-input,
+	// 	.site-search-select,
+	// 	.site-search-submit {
+	// 		float: none;
+	// 		margin: 0;
+	// 		width: auto;
+	// 	}	
+
+	// 	.site-search-inner {				
+	// 		display: flex;       	
+	// 		flex-wrap: wrap;	
+	// 	}
+
+	// 		.site-search-input {							
+	// 			flex-grow: 1;
+	// 			@media (max-width: $screen-xs-min) {							
+	// 				margin-bottom: 5px;	
+	// 				flex-basis: 80%;
+	// 			}
+	// 		}
+
+	// 		.site-search-select {
+	// 			margin: 0 5px;		
+	// 			@media (max-width: $screen-xs-min) {
+	// 				margin: 0;	
+	// 				order: 3;	
+	// 				flex-basis: 100%;
+	// 			}									
+	// 		}
+
+	// 		.site-search-submit {
+	// 			@media (max-width: $screen-xs-min) {
+	// 				order: 2;
+	// 				margin: 0 0 0 5px;	
+	// 			}
+			
+	// 		}
+
+	// }
