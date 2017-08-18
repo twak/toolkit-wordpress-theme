@@ -28,8 +28,10 @@ if ( ! class_exists( 'tk_admin' ) ) {
                 switch ($current_version) {
                     case false:
                         // theme before versioning was added to database
-                    case "0.2.17":
-                        // upgrade from 0.2.2
+                    case "0.3.0":
+                        // upgrade from 0.2.x to 0.3.0
+                        include dirname(__FILE__) . '/upgrade/0.3.0.php';
+                        
                 }
             }
             /* update the version option */
