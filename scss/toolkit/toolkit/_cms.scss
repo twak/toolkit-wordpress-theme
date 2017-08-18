@@ -1,0 +1,13 @@
+//captions for images
+
+.imageCaption {
+	img {
+		margin-bottom: 0;
+	}
+	p {
+		border-bottom: 1px solid $color-border;
+		font-size: 14px;
+		padding: 5px 0;
+	}
+}
+

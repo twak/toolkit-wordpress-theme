@@ -1,0 +1,986 @@
+/**
+ * Typography
+ */
+
+
+/**
+ * $GENERAL
+ * $HEADINGS
+ * $PARAGRAPHS
+ * $LINKS
+ * $BLOCKQUOTES
+ * $LISTS
+ * $SPANS
+ * $MODIFIERS
+ */
+
+@if $use-freight-font == true { // if we're using freight (set in _vars.scss)
+
+	/*------------------------------------*\
+    	$GENERAL
+	\*------------------------------------*/
+
+	* { // Change number to alternative glyphs https://helpx.adobe.com/typekit/using/open-type-syntax.html#lnum
+		font-variant-numeric: lining-nums;    
+    	font-feature-settings: "lnum";
+	}
+
+	body {
+		color: $color-font;
+		font-weight: $font-weight-book;
+		font-size: 15px;
+		text-rendering: optimizeLegibility;	
+				
+		@media(min-width: $screen-sm-min){
+			font-size: 16px; // keep as 16px for bootstrap elements, set general typography elsewhere
+		}
+	}
+
+	.jadu-cms, //Content in the WYSIWYG
+	.cms {
+		@media(min-width: $screen-xs-min){
+			font-size: 18px;
+			line-height: 180%;	
+		}	
+	}	
+
+	//silent class used for all small uppercase text
+	//divider, page-contents, page-footer, expander, sidebar, tabs, lists
+
+	%all-caps { 
+		font-family: $font-family-sans-serif;
+		text-transform: uppercase;		
+		font-size: 14px;		
+		line-height: 110%;
+
+		@media(min-width: $screen-xs-min){
+			letter-spacing: 0.05em;
+			line-height: 140%;		
+			font-size: 15px;
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 15px;
+		}
+	}
+		
+	.all-caps { // Used to create all caps
+		@extend %all-caps;
+	}
+
+	/*------------------------------------*\
+    	$HEADINGS
+	\*------------------------------------*/
+
+	h1,.h1,
+	h2,.h2,
+	h3,.h3,
+	h4,.h4,
+	h5,.h5,
+	h6,.h6 {
+		
+		font-weight: $font-weight-book;
+		margin-top: 0;
+		margin-bottom: $space-sm;	
+
+		@media(min-width: $screen-sm-min){		
+			margin-bottom: $space;	
+		}
+
+		a {
+			color: $color-brand-1;
+
+			&:hover {
+				color: $color-brand-2;
+				text-decoration: underline;			
+			}
+		}
+
+		.no-touch & {
+        	a {
+            	text-decoration: none;
+        	}
+    	}
+	}
+
+	h1,.h1 {
+
+		font-size: 30px;
+		@media(min-width: $screen-xs-min){
+			font-size: 40px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 45px;
+		}
+		@media(min-width: $screen-md-min){
+			font-size: 48px;
+		}
+
+	}
+
+	h2,.h2 {
+		font-size: 22px;
+		@media(min-width: $screen-xs-min){
+			font-size: 26px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 28px;
+		}
+	}
+
+	h3,.h3 {
+		font-size: 20px;
+		@media(min-width: $screen-xs-min){
+			font-size: 22px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 24px;
+		}
+	}
+
+	h4,.h4 {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 20px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 22px;
+		}
+	}
+
+	h5,.h5, {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 19px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 20px;
+		}
+	}
+
+	h6,.h6 {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 19px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 20px;
+		}
+	}
+
+	/**
+	 * Size modifiers
+	 */
+
+	.jadu-cms,
+	.cms {		
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {				
+			line-height: 130%;		
+			@media(min-width: $screen-xs-min){
+				line-height: 125%;		
+			}	
+		}  
+	}  
+
+	/**
+	 * Size modifiers
+	 */
+
+	.h1-sm,
+	.h2-lg {
+		font-size: 26px;
+		@media(min-width: $screen-xs-min){
+			font-size: 32px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 35px;
+		}
+		@media(min-width: $screen-md-min){
+			font-size: 40px;
+		}
+	}
+
+	/**
+	 * Heading underline - Centred heading with underline
+	 */
+
+	.heading-underline { // use text-center on parent to center as inlineblock is preventing it
+		position: relative;
+		display: table;
+	 	text-align: center;
+	 	margin: 0 auto;
+	 	margin-top: $space-half;	
+		margin-bottom: $space;	
+		font-family: $font-family-big;
+
+		@media(min-width: $screen-xs-min){
+			margin-bottom: $space*2;
+		}
+		
+		&:before {
+			content: "";
+			position: absolute;
+			width: 70%;
+			height: 1px;
+			bottom: -8px;
+			left: 15%;
+			background-color: $color-brand-2;				
+		}
+	}
+
+	/**
+	 * Heading related - mostly used in cards for the date or the category
+	 */
+
+	%heading-related {
+		@extend %all-caps;
+		font-family: $font-family-sans-serif;	
+		margin: 0;
+		color: $color-font-light;
+		margin-bottom: $space-half;
+		line-height: 140%;
+
+		@media(min-width: $screen-xs-min){
+			line-height: 160%;
+		}
+
+		a {
+			color: $color-brand-2;
+			text-decoration: none;
+			border: 0;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		a.active {
+			color: $color-brand-1;
+			text-decoration: underline;
+		}		
+	}
+
+	.heading-related {
+		@extend %heading-related;
+	}
+
+	.heading-related-small {
+		@extend %heading-related;
+		font-size: 12px;
+
+		@media(min-width: $screen-xs-min){
+			font-size: 12px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 13px;		
+		}
+	}
+
+	/**
+	 * Heading Links - Used mostly in cards for headings with a link in them
+	 */
+
+	%heading-link {
+		font-size: 20px;
+	    margin: 0 0 $space-half 0;   
+	    font-family: $font-family-sans-serif;
+	    line-height: 120%; // look at flags text wrap
+		
+		@media(min-width: $screen-sm-min){
+			font-size: 22px;			
+		}
+
+		a {	     		      
+		    color: $color-font;
+		    @extend %hover-border;		   
+		}
+	}
+
+	.heading-link { // Sans heading for cards
+	    @extend %heading-link;
+	}
+
+	.heading-link-lg { // Sans heading for cards
+	    @extend %heading-link;
+	    font-size: 26px;
+	}
+
+	.heading-link-alt { // Big pro heading for cards
+
+		font-family: $font-family-big;
+		font-size: 18px;
+		line-height: 130%;
+		margin-top: 0;		
+
+		@media(min-width: $screen-xs-min){
+			font-size: 20px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 20px;			
+		}
+
+		@media(min-width: $screen-md-min){
+			font-size: 23px;			
+		}
+		
+		a {
+			@extend %hover-border;
+			color: $color-font;			
+		}
+	}
+
+	.heading-more,//depracated
+	.heading-link-more { //just like a heading link but with an arrow
+		@extend .heading-link;
+		display: inline-block;
+		&:after {
+			@extend .tk-icon;
+			@extend .tk-icon-chevron-right:before;		
+			margin-left: 5px;
+			position: relative;
+			top: 2px;			
+			color: $color-brand-2;
+		}
+	}
+
+	.heading-more-sm,//depracated
+	.heading-link-more-sm { //
+		@extend .heading-link;
+		font-size: 16px;
+	    margin: 0 0 $space-half 0;   
+	    font-family: $font-family-sans-serif;	    
+
+		@media(min-width: $screen-xs-min){
+			font-size: 16px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 17px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 18px;			
+		}
+
+		a {	     	    
+		    color: $color-font;
+		    border: 0;
+		    &:hover {
+		        text-decoration: underline;
+		    }
+		}
+
+		&:after {
+			@extend .tk-icon;
+			@extend .tk-icon-chevron-right:before;		
+			margin-left: 5px;
+			position: relative;
+			top: 2px;			
+			color: $color-brand-2;						
+		}
+	}
+
+	@media all and (-ms-high-contrast:none) { //dealing with ie arrow wrap
+    	/* IE10 */    		
+    	.heading-more:after,
+    	.heading-link-more:after,
+    	.heading-more-sm:after,
+    	.heading-link-more-sm:after {
+    		content:"❯"!important;
+    		font-size: 14px;
+    		margin-left: 7px;
+    		top: 0;
+    	}     	
+    }
+
+    /* Headind dependant on font */
+
+    .heading-serif {
+    	font-family: $font-family-serif;
+    }
+
+    /*------------------------------------*\
+    	$PARAGRAPHS
+	\*------------------------------------*/
+
+	p,.p {	
+		margin-bottom: $space-sm;
+		font-weight: $font-weight-book;
+		font-size: 15px;
+		line-height: 140%;	
+				
+		@media(min-width: $screen-xs-min){
+			font-size: 16px;	
+			line-height: 160%;			
+		}
+
+		@media(min-width: $screen-md-min){
+			margin-bottom: $space-half*3;
+			font-size: 18px;	
+			line-height: 160%;	
+		}
+	}
+
+	.article p {
+		font-family: $font-family-serif;
+	}
+
+	.lead { //Lead text
+		line-height: 140%;
+		font-size: 16px;	
+		margin-bottom: $space-sm;
+		font-weight: $font-weight-book;	
+
+		@media(min-width: $screen-xs-min){
+			font-size: 17px;
+			margin-bottom: $space;			
+		}
+		@media(min-width: $screen-sm-min){
+			line-height: 150%;
+			font-size: 18px;	
+		}
+		@media(min-width: $screen-md-min){
+			line-height: 150%;
+			font-size: 22px;	
+		}
+	}
+
+	.lead-alt {
+		@extend .lead;
+		font-family: $font-family-serif;
+	}
+
+	.lead-large { //Lead text
+		
+	}
+
+	.jadu-cms, //deprecated
+	.cms {
+		
+	}
+
+	.cms-lead {
+		p {}
+		> p:first-child {
+			@extend .lead;
+		}
+	}
+
+	.jadu-cms-no-lead,
+	.cms-no-lead {
+		> p:first-child {
+			margin-bottom: $space-half;
+			font-weight: $font-weight-book;
+			//font-family: $font-family-sans-serif;
+			font-size: 14px;
+			line-height: 150%;	
+					
+			@media(min-width: $screen-xs-min){
+				font-size: 16px;	
+				line-height: 170%;			
+			}
+
+			@media(min-width: $screen-md-min){
+				margin-bottom: $space;
+				font-size: 18px;	
+				line-height: 170%;	
+			}
+		}
+	}
+
+	.cms-serif {
+		font-family: $font-family-serif;
+		& > * {
+			font-family: $font-family-serif;
+		}
+	}
+
+	.summary { // Used as the first paragraph of a news item
+		line-height: 150%;
+		font-size: 16px;	
+		font-family: $font-family-serif;		
+		@media(min-width: $screen-xs-min){
+			font-size: 20px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 22px;		
+		}
+	}
+
+	.dropcaps,//depracated
+	.summary-drop-caps { //Dropcap of the summary
+		font-size: 40px;
+		float: left;
+		font-family: $font-family-big;
+		line-height: 80%;
+		color: $color-brand-2;
+	   	padding: 8px 12px 0px 0px;	
+
+	   	@media(min-width: $screen-xs-min){
+			font-size: 50px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 60px;		
+		}
+	}
+
+	/**
+	 * Excerpt & note - used mostly in cards and news & events archive
+	 */
+
+	.note,
+	.note p,
+	.excerpt, 
+	.excerpt p { //used in archive and list    
+	    color: $color-font-light;
+	    line-height: 150%;
+	    font-size: 14px;
+
+		@media(min-width: $screen-xs-min){
+			font-size: 15px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 16px;	
+			line-height: 180%;		
+		}
+
+	    strong {    	
+	    	padding: 0 4px;
+	    }
+	}
+
+	.excerpt, 
+	.excerpt p {
+	    margin-bottom: 0; 
+	}
+
+	
+
+	/**
+	 * URL's - forces a line break for a url (use with caution)
+	 */
+
+	.line-break,
+	.url {
+		-ms-word-break: break-all;	    
+	    word-break: break-all;
+	    /* Non standard for webkit */
+	    word-break: break-word;
+	    hyphens: auto;
+	    margin: 0 0 10px 0;
+
+	    font-size: 14px;
+
+		@media(min-width: $screen-xs-min){
+			font-size: 15px;			
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 16px;	
+			line-height: 180%;		
+		}
+
+	}
+
+	/*------------------------------------*\
+    	$LINKS
+	\*------------------------------------*/
+
+	a {
+		color: $color-link;
+
+		&:hover {
+			color: $color-brand-2;
+		}	
+	}  
+
+	%inline-link { // General inline link styles
+	    color: $color-link;		
+		text-decoration: none !important;
+		border-bottom: 1px solid $color-border;
+		line-height: 100%;
+
+		&:hover {
+			color: $color-brand-2;
+			border-bottom: 1px solid $color-brand-2;
+		}
+	}
+
+	%hover-border {
+		text-decoration: none;
+		border-bottom: 1px solid rgba($color-border,0);
+		transition: border-bottom .25s ease, color .25s ease;
+		&:hover {
+			text-decoration: none;
+			border-bottom: 1px solid $color-border;
+		}
+	}
+
+	.jadu-cms,
+	.cms {		
+
+		a {
+			@extend %inline-link;
+		}
+
+	    a > img {
+			border: 1px solid $color-module;
+			padding: $space-half/2;
+
+			&:hover {
+				border: 1px solid $color-border;
+			}
+		}
+	    
+	    hr {
+	         clear: both;   
+	    }
+	}
+
+	/**
+	 * More
+	 */
+
+	%more {
+		@extend %all-caps;
+		@extend %hover-border;
+		display: inline-block;
+		color: $color-font;				
+
+		&:after {
+			@extend .tk-icon;
+			@extend .tk-icon-chevron-right:before;		
+			margin-left: 5px;
+			position: relative;
+			top: 2px;			
+			color: $color-brand-2;
+		}	
+	}
+
+	.more { //All caps with black arrow
+		@extend %more;
+	}
+	
+	%more-dark,
+	.more-dark, { //All caps with black arrow
+		@extend %more;
+		color: $color-font;
+	}
+
+	.more-light { //white text white arrow
+		@extend %more;
+		color: $color-white;
+		&:after {
+			color: $color-white;
+		}
+	}
+
+	/**
+	 * Other
+	 */
+
+	.filter { //All caps with black arrow
+		@extend %all-caps;
+		display: inline-block;
+		color: $color-brand-1;
+		text-decoration: none;		
+		text-align: center;
+		background: none;
+		border: 0;
+		margin: 0;
+
+		&:hover {
+			text-decoration: none;
+		}
+
+		&:after {
+			@extend .tk-icon;
+			@extend .tk-icon-chevron-down:before;		
+			margin-left: 5px;
+			position: relative;
+			top: 2px;			
+			color: $color-brand-2;
+		}
+
+		&.active:after {
+			@extend .tk-icon;
+			@extend .tk-icon-close:before;		
+			margin-left: 5px;
+			position: relative;
+			top: 2px;			
+			color: $color-brand-2;
+		}
+	}
+
+	/**
+	 * Link wrap - Not a styled link, just used for 
+	 */
+
+	.link-wrap { // parent should be position: relative
+		font-size: 0;
+		text-indent: -9999px;
+		position: absolute;
+		top: 0;	
+		left: 0;	
+		width: 100%;
+		height: 100%;
+		z-index: 1;	
+	}
+
+	/*------------------------------------*\
+    	$BLOCKQUOTES
+	\*------------------------------------*/
+
+	blockquote {
+		
+		border-left: 4px solid $color-brand-2;		
+		font-size: 16px;			
+		color: $color-font-light;
+		line-height: 130%;	
+		padding: $space-sm;		
+
+		@media(min-width: $screen-xs-min){
+			font-family: $font-family-big;
+			font-size: 18px;			
+			padding: $space;
+			font-style: normal;
+		}
+
+		@media(min-width: $screen-sm-min){
+			font-size: 26px;			
+		}	
+
+		p {
+			quotes: "“" "”" "‘" "’";
+			display: inline;
+			font-size: inherit;	
+			line-height: 130%;
+			&:before {
+			    content: open-quote;		   	
+			}
+			&:after {
+			    content: close-quote;		    
+			}
+		}
+
+		footer {
+			@extend %heading-related;
+			display: block;
+			padding-top: $space-sm;
+			&:before {
+				content: "";
+			}
+		}
+	}
+
+	.blockquote-sm {		
+		@media(min-width: $screen-sm-min){
+			font-size: 22px;			
+		}	
+	}
+
+	.blockquote-no-style {
+		border: 0;
+		padding: 0;
+		margin: 0;
+	}
+
+	/*------------------------------------*\
+    	$LISTS - for more lists see '_lists.scss'
+	\*------------------------------------*/
+
+	.jadu-cms,
+	.cms {
+
+		ul, 
+		ol, 
+		dl {
+			margin: 0 0 20px 20px;
+		    padding: 0;     
+		}
+
+		li {
+			line-height: 120%;
+		    padding: 0;
+		    margin: 10px 0;
+		    font-size: 14px;
+						
+			@media(min-width: $screen-xs-min){
+				font-size: 16px;	
+				line-height: 150%;	
+				margin: 10px 0;		
+			}
+
+			@media(min-width: $screen-md-min){
+				margin-bottom: $space;
+				font-size: 1em;	
+				line-height: 170%;	
+				margin: 2px 0;		
+			}
+		}
+
+		dl {
+			dt,
+			dd {
+				margin-left: $space;
+			}
+		}
+
+		.list-no-style {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				list-style: none;
+			}
+		}
+	}
+
+	/*------------------------------------*\
+    	$SPANS
+	\*------------------------------------*/
+
+	.name-divider {		
+		position: relative;
+		&:after {
+			content: " /// ";
+		}
+	}
+
+	.hightlight { //used to highlight keyword in search results
+		background: #e6d4bf;
+	}
+
+
+	/*------------------------------------*\
+    	$MODIFIERS
+	\*------------------------------------*/
+
+
+	.font-family-big {
+		font-family: $font-family-big;
+	}	
+
+	.font-family-sans-serif {
+		font-family: $font-family-sans-serif;
+	}
+
+	.font-family-serif {
+		font-family: $font-family-serif;
+	}
+
+	.color-white {
+		color: white !important;
+		* {
+			color: white !important;
+		}
+	}
+
+	.color-brand-2 {
+		color: $color-brand-2 !important;
+		> * {
+			color: $color-brand-2 !important;
+		}
+	}
+
+} //freight conditional
+
+
+
+@if $use-google-font == true {
+
+	h1,.h1 {
+
+		font-size: 30px;
+		@media(min-width: $screen-xs-min){
+			font-size: 40px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 45px;
+		}
+		@media(min-width: $screen-md-min){
+			font-size: 48px;
+		}
+
+	}
+
+	h2,.h2 {
+		font-size: 22px;
+		@media(min-width: $screen-xs-min){
+			font-size: 26px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 32px;
+		}
+	}
+
+	h3,.h3 {
+		font-size: 20px;
+		@media(min-width: $screen-xs-min){
+			font-size: 22px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 24px;
+		}
+	}
+
+	h4,.h4 {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 20px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 22px;
+		}
+	}
+
+	h5,.h5, {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 19px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 20px;
+		}
+	}
+
+	h6,.h6 {
+		font-size: 19px;
+		@media(min-width: $screen-xs-min){
+			font-size: 19px;			
+		}
+		@media(min-width: $screen-sm-min){
+			font-size: 20px;
+		}
+	}
+
+	.lead { //Lead text
+		line-height: 140%;
+		font-size: 16px;	
+		margin-bottom: $space-sm;
+		font-weight: $font-weight-book;	
+
+		@media(min-width: $screen-xs-min){
+			font-size: 17px;
+			margin-bottom: $space;			
+		}
+		@media(min-width: $screen-sm-min){
+			line-height: 150%;
+			font-size: 18px;	
+		}
+		@media(min-width: $screen-md-min){
+			line-height: 150%;
+			font-size: 18px;	
+		}
+	}
+
+}	

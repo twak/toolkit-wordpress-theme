@@ -1,0 +1,302 @@
+/**
+ * Sidebar
+ */
+
+$side-pad-sm: 6px;
+$side-pad-md: 7px;
+$side-pad-lg: 8px;
+
+$side-size-sm: 15px;
+$side-size: 16px;
+$sidebar-breakpoint: $wrapper-lg;
+
+.sidebar-heading {				
+	padding: $side-pad-sm $side-pad-sm*2;
+	margin: 0;
+	margin-bottom: 0;
+	border-bottom: 1px solid $color-border;	
+	display: none;	
+
+	@media (min-width: $screen-md-min) {
+		margin-bottom: 0;			
+		display: block;
+		padding: $side-pad-md;	
+	}
+
+	@media (min-width: $sidebar-breakpoint) {    
+		padding: $side-pad-lg $side-pad-lg*2 $side-pad-lg 0;			
+	}		
+	
+}
+
+.sidebar-button {	
+	@extend %all-caps;
+	display: block;
+	width: 100%;
+	background: $color-module;
+	padding: 9px 30px 9px 30px;
+	border: 0;		
+	text-align: left;
+	position: relative;			
+
+	@media (min-width: $screen-xs - 1) {
+		font-size: $side-size-sm;
+		padding: 10px 5px 10px 40px;
+	}
+
+	@media (min-width: $screen-md-min) {
+		display: none;
+	}
+
+	&:before {
+		@extend .tk-icon;	
+		@extend .tk-icon-navicon:before;	
+		color: $color-brand-2;
+		position: absolute;
+		top: 50%;
+		left: 10px;
+		margin-top: -9px;
+		font-size: $side-size;
+		@media (min-width: $screen-xs-min) {
+			left: 15px;
+		}
+	}
+
+	&:after {
+		@extend .tk-icon;	
+		@extend .tk-icon-chevron-down:before;			
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		margin-top: -9px;
+		font-size: $side-size;
+		@media (min-width: $screen-xs-min) {
+			right: 15px;
+		}
+	}
+
+	.state-sidebar-active & {
+		background: $color-brand-2;
+		color: white;
+		&:before {			
+			@extend .tk-icon-close:before;				
+			color: white;
+		}
+		&:after {						
+			color: white;
+		}
+	}
+}
+
+.sidebar-body, //deprecated
+.sidebar-container {
+	display: none;	
+
+	@media (min-width: $screen-md-min) {
+		display: block;		
+	}
+	.state-sidebar-active & {
+		@media (max-width: $screen-md-max) {
+			display: block;	
+		}
+	}
+}
+
+.sidebar-body-fw, //deprecated
+.sidebar-container-fw { //full width sidebar body modifier
+	.sidebar-heading {
+		@extend %heading-related !optional;
+		margin: 0;		  
+		padding-left: $space-half;		
+	}
+}
+
+.sidebar-nav { //place on ul
+
+	margin: 0 0 $space 0;
+	padding: 0;			
+
+	ul {
+		display: none;
+		padding: 0;
+		margin: 0;			
+		border-left: 2px solid $color-brand-2;
+		background: rgba(#4d4843, 0.04);
+	}
+
+	li {
+		list-style: none;				
+	}
+
+	a {
+		font-size: $side-size;
+		padding: $side-pad-sm $side-pad-sm*2;
+		display: block;				
+		color: $color-font;
+		border-bottom: 1px $color-border solid;
+    	transition: all 0.25s ease;	
+
+		@media (min-width: $screen-md-min) {			
+			padding: $side-pad-md $side-pad-md;
+		}
+
+		@media (min-width: $screen-lg-min) {			
+			padding: $side-pad-lg;
+		}
+		
+		&:hover {
+			text-decoration: none;
+			background: $color-module;
+		}	
+
+		&:focus {
+			text-decoration: none;
+		}
+	}
+
+	> li > a { //top level			
+		@media (min-width: $sidebar-breakpoint) {    
+			padding: $side-pad-lg $side-pad-lg*2 $side-pad-lg 0;
+		}
+	}
+
+	.dropdown > a {
+		position: relative;		
+		padding-right: 32px;
+
+		&:after {
+			@extend .tk-icon;	
+			@extend .tk-icon-triangle-down:before;	
+			right: 5px;
+			font-size: $side-size;
+			position: absolute;
+			top: 50%;
+			margin-top: -8px;
+			color: $color-brand-2;
+		}
+	}	
+
+	.dropdown.open > ul {
+		display: block;
+	}
+
+	.dropdown.open > a {
+		position: relative;		
+		padding-right: 26px;
+
+		&:after {			
+			@extend .tk-icon-triangle-up:before;				
+		}
+	}	
+
+	.active > a {
+		color: $color-brand-2;
+	}
+}
+
+.no-js ul.sidebar-nav {
+	.dropdown > ul {
+		display: block;
+	}
+}
+
+/**
+ * Sidebar for full width page
+ */
+
+.sidebar-nav-fw { //sidebar modifier full width	
+	> li > a {
+		padding-left: $space-half;
+	}	
+}
+
+/**
+ * Sidebar Actions
+ */
+
+%sidebar-list { //extendable style
+
+	padding: 0;
+	margin: 0 0 $space-xs 0;
+
+	@media (min-width: $screen-md-min) {		
+		margin-bottom: $space-lg;
+	}
+	
+	li {
+		list-style: none;
+		padding: 0;
+		margin: 0;				
+	}
+
+	a {		
+		padding: $side-pad-sm 20px $side-pad-sm $side-pad-sm;
+		display: block;		
+		position: relative;
+		font-size: $side-size;					
+
+		@media (min-width: $screen-lg-min) {			
+			padding: $side-pad-md 20px $side-pad-md $side-pad-md;			
+		}			
+
+		&:hover {
+			text-decoration: none;			
+		}
+
+		&:before {			
+			@extend .tk-icon;	
+			@extend .tk-icon-chevron-right:before;				
+			position: absolute;
+			top: 50%;
+			margin-top: -8px;
+			right: 6px;
+			color: $color-brand-2;
+		}
+	}
+
+	[class*="tk-icon"] {
+		position: relative;
+		top: 3px;
+		margin-right: 6px;		
+	}
+
+}
+
+.sidebar-university, //deprecated
+.sidebar-contact, //deprecated
+.sidebar-cta-list {	// plain list
+
+	@extend %sidebar-list;
+
+	a {
+		border-bottom: 1px solid $color-border;
+		color: $color-font;
+	}
+
+	[class*="tk-icon"] {
+		color: $color-brand-2;
+	}
+}
+
+.sidebar-cta, //depracted
+.sidebar-cta-btn {	//gold boxes
+	@extend %sidebar-list;
+
+	a {
+		@extend .all-caps;
+		color: white;
+		background: $color-brand-2;		
+		border-bottom: 1px solid white;	
+		font-size: $side-size-sm;		
+
+		&:before {
+			color: white;
+		}			
+
+		&:hover {			
+			background: $color-brand-2-dark;
+		}
+	}
+	
+}
+

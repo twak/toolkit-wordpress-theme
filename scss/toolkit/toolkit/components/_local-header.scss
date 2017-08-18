@@ -1,0 +1,112 @@
+/**
+ * $LOCAL HEADER
+ */
+
+.local-header {	
+	color: white;
+	background: $color-local-header;
+}
+
+	.local-header-inner {		
+		display: table;
+		width: 100%;
+		a {
+			color: white;			
+		}
+	}
+
+		.local-header-title {		
+			display: table-cell;
+			vertical-align: middle;
+			padding: 10px 40px 10px 0;						
+			
+			> a {
+				font-size: 18px;
+				
+				margin: 0;			
+				font-family: $font-family-sans-serif;
+		
+				@media (min-width: $screen-xs-min) {
+					font-size: 18px;					
+				}
+
+				@media (min-width: $screen-sm-min) {
+					font-size: 20px;							
+				}
+
+				.tk-icon {
+					vertical-align: middle;
+				}
+			}
+
+			a {
+				border: 0;
+				color: white;
+				&:hover {
+					color: white;
+					text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
+				}
+			}
+		}
+
+		.local-header-search {
+			display: table-cell;
+			text-align: right;		
+			vertical-align: middle;
+			@media (min-width: $screen-xs-min) {
+				font-size: 20px;
+			}
+		}
+
+		.local-header-cta {
+			display: table-cell;
+			text-align: right;		
+			vertical-align: middle;
+			height: 100%;
+
+			a {
+				background: $color-brand-1-dark;
+				padding: 10px;								
+				text-transform: uppercase;
+				font-size: 15px;				
+				display: inline-block;
+				transition: background 0.25s ease;
+
+				@media (min-width: $screen-sm-min) {								
+					font-size: 16px;						
+				}
+
+				&:hover {
+					background: $color-brand-1;
+					text-decoration: none;
+				}
+					
+			}
+		
+		}
+		
+			.sm-toggle-search {					
+				transition: background 0.25s ease;
+
+				@media (min-width: $screen-xs-min) {
+					display: inline-block;
+					padding: 6px 12px;
+				}
+
+				&:hover {
+					background: $color-brand-1-dark;
+				}
+			}
+
+			.site-search-btn:before {			
+				@extend .tk-icon;	
+				@extend .tk-icon-search:before;	
+				font-size: 22px;				
+				position: relative;
+				top: 2px;
+			}
+
+			.active .site-search-btn:before {
+				@extend .tk-icon-close:before;		
+			}
+

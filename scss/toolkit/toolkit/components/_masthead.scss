@@ -1,0 +1,119 @@
+/**
+ * University masthead
+ */
+
+.masthead {	
+	@extend .clearfix;
+	background: $color-masthead;
+	position: relative; //for absolutely position navicon
+}
+
+.site-logo {
+	
+	float: right;
+	position: relative;
+	overflow: hidden;
+	width: 32px;
+    height: 32px;
+    margin: 6px;
+
+	@media (min-width: $screen-xs-min) {		
+		margin: 10px $space-xs 10px 15px;    		
+		width: 183px; //for ie svg size				
+		height: 53px;
+  	}
+
+	img {	
+		width: 183px;	
+		position: absolute;
+		max-width: none;
+		right: 0;
+		top: 0;
+		@media (min-width: $screen-xs-min) {
+			width: 100%;
+			position: static;
+			//clip-path: inset(0 0px 20px 139px);
+		}		
+	}
+}
+
+//deprecated
+
+.logo { //logo container
+	float: right;
+	margin: 6px;
+	max-width: 183px; //for ie svg size		
+	@media (min-width: $screen-xs-min) {		
+       	margin: 10px 10px 10px 15px;       	
+  	}
+}
+
+	.logo-full { //full logo with mark and type
+		display: none;
+		@media (min-width: $screen-xs-min) {
+       		display: block;
+  		}
+	}
+
+	.logo-mark { //mobile logo, just the logo mark
+		@media (min-width: $screen-xs-min) {
+       		display: none;
+  		}
+	}
+
+
+.masthead-links { //small masthead link container
+	background: $color-masthead-dark;
+	margin-top: -1px;
+    padding-top: 1px;
+	@media (min-width: $screen-xs-min) {    	
+    	float: left;
+    	background: none;   	     
+    	margin-left: $space-xs;	;  
+  	}  
+}
+
+	.masthead-link { //small masthead link inline
+		color: white;
+		font-size: 13px;
+		display: inline-block;
+		padding: 6px 6px;		
+		background: none;		
+		border: 0;		
+		border-right: 1px solid $color-masthead-light;
+		@media (min-width: $screen-xs-min) {
+			border: 0;
+			padding: 2px 3px;		
+		}
+		&:hover,
+		&:focus {
+			color: white;
+		}
+	}
+
+	.masthead-link-quicklinks { //featured masthead link e.g. quicklinks trigger
+		text-transform: uppercase;
+		font-size: 13px;
+        background: $color-masthead-dark;
+		@media (min-width: $screen-xs-min) {       		
+       		padding: 4px 6px;			
+       		font-size: 14px;
+       		border: 1px solid $color-white;
+    	    border-top: 0;
+    	    margin-top: -1px;
+  		}
+		&:after {		
+			@extend .tk-icon;	
+			@extend .tk-icon-16;
+			@extend .tk-icon-triangle-down:before;						    
+			position: relative;
+		    top: 2px;
+		    left: 2px;
+		}  		
+	}
+
+	.state-quicklinks-active .masthead-link-quicklinks {		
+		&:after {						
+			@extend .tk-icon-triangle-up:before;			
+		}
+	}

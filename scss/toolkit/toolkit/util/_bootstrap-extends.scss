@@ -1,0 +1,62 @@
+/**
+ * BOOTSTRAP EXTENDS - Used to add additional styles to already existing boostrap styles
+ */
+
+/**
+ * Collapse
+ */
+
+.no-js .collapse { //accessibility: shows collapsed element when javscript is turned off 	         
+	display: block;    
+}
+
+.no-js .fade {
+	opacity: 1;
+}
+
+/**
+ * Panels
+ */
+
+.panel-title {
+	font-family: $font-family-sans-serif;
+}
+
+/**
+ * List group items
+ */
+
+.list-group-item-heading {
+	font-family: $font-family-sans-serif;	
+}
+
+/* Other */
+
+.badge {
+	padding: 2px 6px 6px 6px;
+}
+
+.container-flush {
+	padding: 0;
+}
+
+//
+
+.row-reduce-gutter > [class*='col-'] { //reduce the gutter on the columns
+    padding-left: $space-half;
+    padding-right: $space-half;   
+}
+
+/* Improve blockquote */
+
+blockquote .small, 
+blockquote footer, 
+blockquote small {
+	display: inline-block;
+}
+
+//removes max-width off media img
+
+.media-object {
+    max-width: none !important;      
+}

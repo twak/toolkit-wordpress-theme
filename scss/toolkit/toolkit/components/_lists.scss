@@ -1,0 +1,101 @@
+/**
+ * List Items - For general lists see typography
+ */
+
+.list-no-style {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		list-style: none;
+	}
+}
+
+.list-nav { //list item inline as nav
+	@extend .list-no-style;	
+	padding: $space-half 0;
+	margin-bottom: $space-half;
+	border-bottom: 1px solid $color-border;
+
+	li {		
+		display: inline-block;
+		margin-right: 8px;
+	}
+
+	a {	
+		color: $color-font;
+		text-transform: uppercase;
+		&:hover {
+			color: $color-link;
+		}
+	}
+
+	.glyphicon,
+	.tk-icon {
+		font-size: 90%;
+		margin-left: 5px;
+	}
+
+	.other-nav,//deprecated
+	.title,
+	.list-title {
+		font-style: italic;
+		color: $color-font-light;
+	}
+}
+
+
+.list-related { //used on research opp index
+	@extend .list-no-style;       
+    margin: 0 0 10px 0;
+
+    li {
+    	@extend %all-caps;
+        display: inline-block;
+        list-style: none;
+        margin-right: 10px;        
+        color: $color-font-lighter;
+    }
+}
+
+.key-facts, //deprecated
+.list-facts { 
+	@extend .list-no-style;       	
+
+	.title,
+	.list-title {
+		text-transform: uppercase;
+		font-weight: $font-weight-book;
+	}
+
+	.list-label {
+		font-weight: $font-weight-semibold;
+	}
+
+	li {		
+		line-height: 140%;
+		font-size: 15px;
+		&:before {
+		    position: relative;
+		    content: "-";
+		    left: -5px;
+		    color: $color-brand-2;
+		}
+		@media (min-width: $screen-xs-min) {
+			font-size: 16px;
+			line-height: 160%;
+			padding: 5px 0;		
+			&:before {
+				display: none;
+			}
+		}
+	}
+}
+
+.list-featured {
+	@extend .list-no-style;
+	@extend .p;
+	text-align: center;
+	padding-bottom: $space-lg;	
+}

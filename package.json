@@ -14,6 +14,7 @@
   "licenseuri": "http://www.gnu.org/licenses/gpl-2.0.txt",
   "homepage": "https://bitbucket.org/university-of-leeds/toolkit-wordpress-theme",
   "devDependencies": {
+    "fs-path": "0.0.23",
     "gulp": "^3.9.1",
     "gulp-banner": "^0.1.3",
     "gulp-bower": "0.0.13",

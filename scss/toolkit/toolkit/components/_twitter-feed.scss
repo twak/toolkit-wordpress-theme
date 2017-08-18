@@ -1,0 +1,65 @@
+/* Footer twitter feed */
+
+.footer-twitter-feed,// //depracated
+.twitter-feed-footer,
+.twitter-feed {
+	//background: $color-module-light;
+		
+	.twitter-user {
+
+		overflow: hidden;
+
+		@extend %heading-related;
+
+		a {
+			color: $color-font;			
+		}
+
+		.tk-icon-social-twitter {
+			margin-right: 5px;
+			font-size: 32px;
+			float: left;
+			color: $color-brand-2;
+		}
+	}		
+
+		.tweet {	
+			font-size: 15px;	
+			margin-bottom: $space;
+			padding-bottom: $space;
+			border-bottom: 1px solid $color-border;
+			@media(min-width: $screen-sm-min){
+				border: 0;
+				padding: 0;
+			}
+		}
+
+		[class*="col-"]:last-child > .tweet{						
+			border: 0;			
+			margin: 0;
+			padding: 0;
+		}
+
+		.tweet-content {	
+			font-size: 15px;
+			margin-bottom: $space-half/2;
+			line-height: 170%;
+			a {
+				border-bottom: 1px solid $color-border;
+			}
+		}
+
+		.tweet-footer{	
+			font-size: 15px;
+			color: $color-brand-2;	
+			font-family: $font-family-serif;
+			margin-bottom: $space-half/2;
+		}
+}
+
+.footer-twitter-feed,// //depracated
+.twitter-feed-footer {
+	border-top: 1px solid $color-border-light;
+	background: $color-module-lighter;
+	padding: $space 0;
+}

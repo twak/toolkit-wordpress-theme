@@ -1,0 +1,210 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#video-controls,
+.a-enter-vr {
+
+	width: 100%;	
+	height: 80px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;  
+    padding: 0px 10px 10px 10px;
+    
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.75) 100%);
+
+	button,input {
+		float: left;
+	}
+}
+
+input[type="range"] {
+	margin: 0;
+}
+
+#play-pause,
+.a-enter-vr-button {
+	position: absolute;
+	background-color: rgba(0,0,0,0.5);
+
+	border: 0;
+	color: white;
+	display: block;
+	bottom: 10px;
+	left: 10px;
+
+    width: 10%;
+    max-width: 90px;
+    min-width: 70px;
+    height: 60px;
+    padding: 0;    
+}
+
+.a-enter-vr-button {
+	right: 10px;
+	left: auto;
+}
+
+#seek-bar {
+	width: 100%;	
+}
+       
+// Styling Cross-Browser Compatible Range Inputs with Sass
+// Github: https://github.com/darlanrod/input-range-sass
+// Author: Darlan Rod https://github.com/darlanrod
+// Version 1.4.1
+// MIT License
+
+$track-color: #eceff1 !default;
+$thumb-color: #607d8b !default;
+
+$thumb-radius: 12px !default;
+$thumb-height: 24px !default;
+$thumb-width: 24px !default;
+$thumb-shadow-size: 4px !default;
+$thumb-shadow-blur: 4px !default;
+$thumb-shadow-color: rgba(0, 0, 0, .2) !default;
+$thumb-border-width: 2px !default;
+$thumb-border-color: #eceff1 !default;
+
+$track-width: 100% !default;
+$track-height: 10px !default;
+$track-shadow-size: 1px !default;
+$track-shadow-blur: 1px !default;
+$track-shadow-color: rgba(0, 0, 0, .2) !default;
+$track-border-width: 2px !default;
+$track-border-color: #cfd8dc !default;
+
+$track-radius: 5px !default;
+$contrast: 5% !default;
+
+/* Overwrite variables */
+$track-color: rgba(255, 255, 255, 0.5);
+$thumb-color: rgba(255, 255, 255, 1);
+
+$thumb-radius: 12px;
+$thumb-height: 12px;
+$thumb-width: 12px;
+$thumb-shadow-size: 0px;
+$thumb-shadow-blur: 0px;
+$thumb-shadow-color: rgba(0, 0, 0, .2);
+$thumb-border-width: 0px;
+$thumb-border-color: #eceff1;
+
+$track-width: 100%;
+$track-height: 5px;
+$track-shadow-size: 0px;
+$track-shadow-blur: 0px;
+$track-shadow-color: rgba(0, 0, 0, 0);
+$track-border-width: 0px;
+$track-border-color: #cfd8dc;
+
+$track-radius:0px;
+$contrast: 5%;
+
+@mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
+	box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
+}
+
+@mixin track {
+	cursor: pointer;
+	height: $track-height;
+	transition: all .2s ease;
+	width: $track-width;
+}
+
+@mixin thumb {
+	@include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
+	background: $thumb-color;
+	border: $thumb-border-width solid $thumb-border-color;
+	border-radius: $thumb-radius;
+	cursor: pointer;
+	height: $thumb-height;
+	width: $thumb-width;
+}
+
+[type='range'] {
+	-webkit-appearance: none;
+	margin: $thumb-height / 2 0;
+	width: $track-width;
+
+	&:focus {
+		outline: 0;
+
+		&::-webkit-slider-runnable-track {
+			background: lighten($track-color, $contrast);
+		}
+
+		&::-ms-fill-lower {
+			background: $track-color;
+		}
+
+		&::-ms-fill-upper {
+			background: lighten($track-color, $contrast);
+		}
+	}
+
+	&::-webkit-slider-runnable-track {
+		@include track;
+		@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+		background: $track-color;
+		border: $track-border-width solid $track-border-color;
+		border-radius: $track-radius;
+	}
+
+	&::-webkit-slider-thumb {
+		@include thumb;
+		-webkit-appearance: none;
+		margin-top: ((-$track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2);
+	}
+
+	&::-moz-range-track {
+		@include track;
+		@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+		background: $track-color;
+		border: $track-border-width solid $track-border-color;
+		border-radius: $track-radius;
+	}
+
+	&::-moz-range-thumb {
+		@include thumb;
+	}
+
+	&::-ms-track {
+		@include track;
+		background: transparent;
+		border-color: transparent;
+		border-width: ($thumb-height / 2) 0;
+		color: transparent;
+	}
+
+	&::-ms-fill-lower {
+		@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+		background: darken($track-color, $contrast);
+		border: $track-border-width solid $track-border-color;
+		border-radius: $track-radius * 2;
+	}
+
+	&::-ms-fill-upper {
+		@include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color);
+		background: $track-color;
+		border: $track-border-width solid $track-border-color;
+		border-radius: $track-radius * 2;
+	}
+
+	&::-ms-thumb {
+		@include thumb;
+		margin-top: 0;
+	}
+}
+
+// Styling Cross-Browser Compatible Range Inputs with Sass
+// Github: https://github.com/darlanrod/input-range-sass
+// Author: Darlan Rod https://github.com/darlanrod
+// Version 1.4.1
+// MIT License

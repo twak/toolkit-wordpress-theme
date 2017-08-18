@@ -1,0 +1,14 @@
+/*
+ * Select toggle
+ * Hide and shows elements on change os select 
+ */
+
+.select-toggle-content {
+	display: none;
+	&.active {
+		display: block;
+	}
+	.no-js & {
+		display: block;
+	}
+}
