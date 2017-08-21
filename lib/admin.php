@@ -28,9 +28,27 @@ if ( ! class_exists( 'tk_admin' ) ) {
                 switch ($current_version) {
                     case false:
                         // theme before versioning was added to database
-                    case "0.3.0":
+                    case "0.2.0":
+                    case "0.2.1":
+                    case "0.2.2":
+                    case "0.2.3":
+                    case "0.2.4":
+                    case "0.2.5":
+                    case "0.2.6":
+                    case "0.2.7":
+                    case "0.2.8":
+                    case "0.2.9":
+                    case "0.2.10":
+                    case "0.2.11":
+                    case "0.2.12":
+                    case "0.2.13":
+                    case "0.2.14":
+                    case "0.2.15":
+                    case "0.2.16":
+                    case "0.2.17":
                         // upgrade from 0.2.x to 0.3.0
                         include dirname(__FILE__) . '/upgrade/0.3.0.php';
+                    case "0.3.0":
                         
                 }
             }

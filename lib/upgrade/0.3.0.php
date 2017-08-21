@@ -142,11 +142,11 @@ $tk_page_widget_fields = array(
         'new_key' => 'field_tk_page_widgets_cards'
     ),
     array(
-        'old_key' => 'field_57e9211d9e8cb'
+        'old_key' => 'field_57e9211d9e8cb',
         'new_key' => 'field_tk_page_widgets_cards_content_tab'
     ),
     array(
-        'old_key' => 'field_57e3a0cc85c29'
+        'old_key' => 'field_57e3a0cc85c29',
         'new_key' => 'field_tk_page_widgets_cards_title'
     ),
     array(
@@ -182,7 +182,7 @@ $tk_page_widget_fields = array(
         'new_key' => 'field_tk_page_widgets_cards_card_link_external'
     ),
     array(
-        'old_key' => 'field_57e9206cc346d'
+        'old_key' => 'field_57e9206cc346d',
         'new_key' => 'field_tk_page_widgets_cards_appearance_tab'
     ),
     array(
@@ -221,7 +221,6 @@ $tk_page_widget_fields = array(
 function tk_update_acf( $fields )
 {
     global $wpdb;
-    $keys = array();
     foreach ( $fields as $field ) {
         if ( isset( $field['old_key'] ) ) {
             // remove definition from database

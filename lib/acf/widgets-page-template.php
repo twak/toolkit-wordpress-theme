@@ -16,7 +16,7 @@ acf_add_local_field_group(array (
             'type' => 'flexible_content',
             'instructions' => 'Add any combination of widgets, drag and drop.',
             'button_label' => 'Add Widget',
-            'layouts' => apply_filters( 'group_tk_page_widget_layouts', array (
+            'layouts' => array (
                 array (
                     'key' => 'field_tk_page_widgets_content',
                     'name' => 'content_widget',
@@ -165,7 +165,7 @@ acf_add_local_field_group(array (
                             ),
                             'return_format' => 'value',
                         ),
-                    ),
+                    )
                 ),
                 array (
                     'key' => 'field_tk_page_widgets_posts',
