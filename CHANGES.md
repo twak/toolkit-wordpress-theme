@@ -1,9 +1,9 @@
 ChangeLog
 =========
 
-### 0.2.17 (Upcoming release)
+### 0.3.0
 
- * Drop Caps added to TinyMCE
+ * Advanced Custom Fields for page widgets taken out of UI configuration
  * Styles added to editor-styles.css
  * ‘Fat footer’ added from toolkit. Now supports large footer menus
  * WordPress specific SCSS to include breakpoints
@@ -13,6 +13,10 @@ ChangeLog
  * Typekit moved to separate file
  * Splitting out header into separate template files
  * Fixed social icon sizes in the footer
+
+### 0.2.17 (07/08/2017)
+
+ * Bugfix release for 404 page (removed page listing)
 
 ### 0.2.16 (17/07/2017)
 
