@@ -3,8 +3,10 @@
  * Theme options fields for ACF
  */
 
-// Hide the custom field in the sidebar
-//add_filter('acf/settings/show_admin', '__return_false');
+// Hide the custom field in the sidebar for non-administrators
+if ( ( is_multisite() && ! is_super_admin() ) || ( ! is_multisite() && ! is_admin() ) ) {
+    add_filter('acf/settings/show_admin', '__return_false');
+}
 
 // only run if ACF plugin is loaded
 
