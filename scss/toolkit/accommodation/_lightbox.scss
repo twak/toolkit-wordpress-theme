@@ -1,0 +1,51 @@
+/* Accomodation gallery lightbox */
+
+[class*="lightbox-view-"] {
+    .rs-img-2-1 {
+        position: relative;            
+    }  
+    .rs-img-2-1:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -36px;
+        margin-left: -36px;
+        width: 72px;
+        height: 72px;
+        opacity: 0.8;        
+        font-size: 72px;
+        @extend .tk-icon;   
+        color: $color-masthead-dark;                
+    }
+}
+
+.lightbox-view-vr {    
+    .rs-img-2-1:before {
+        @extend .tk-icon-content-vr:before;
+    }
+}
+.lightbox-view-video {    
+    .rs-img-2-1:before {
+        @extend .tk-icon-action-play:before;
+    }
+}
+
+
+.lightbox-button {    
+    background: $color-masthead;
+    color: $color-white !important;
+    position: absolute;
+    text-transform: uppercase;
+    padding: $space;
+    bottom: $space;
+    left: $space;
+    z-index: 1;   
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        background: $color-masthead-light;
+    }
+}
+
+

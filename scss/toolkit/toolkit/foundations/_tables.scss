@@ -1,0 +1,115 @@
+/**
+ * Tables (Scroll and responsive)
+ */
+
+//General table styles
+
+table { //overwrite BS styles so all tables have borders by default
+	border: 1px solid $table-border-color;
+    tr {
+        > th,
+        > td {           
+            border: 1px solid $table-border-color;
+        }
+    }
+    a {
+        //color: $color-font;
+    }
+    
+}
+
+.table { //override BS
+    > thead > tr > th {       
+        border-bottom: 0px solid $table-border-color;
+    }
+}
+
+
+.borderless, //deprecated
+.table-unbordered {
+    border: none;
+    td, 
+    th, {
+        border: none;
+    }
+}
+
+.table-bordered-striped {
+    border: 0;
+    thead,
+    tbody {
+        border-left: 0 !important;
+        border-right: 0 !important;
+    }
+    tr {
+        > th,
+        > td {
+            border-left: 0 !important;
+            border-right: 0 !important;
+        }
+    }
+}
+
+//Simple two column responsive. Becomes stacked
+
+//Fix this so more flexible
+
+.accordion-content table.table-responsive {
+    margin: 10px 0 0 0;
+    tr {
+        display: block;
+        text-align: left;
+        @media (min-width: $screen-xs-min) {
+            display: table-row;
+        }
+        td {
+            display: block;
+            @media (min-width: $screen-xs-min) {
+                display: table-cell;
+            }
+            &:first-child {
+                display: block;
+                width: 100%;
+                text-align: left;
+                padding-bottom: 0;
+                vertical-align: top;
+                .heading {
+                    text-align: left;
+                    padding-right: 21px;
+                    vertical-align: text-top;
+                    text-transform: uppercase;
+                    display: block;
+                    color: $color-brand-2;
+                    @media (min-width: $screen-xs-min) {
+                        text-align: right;
+                    }
+                }
+                @media (min-width: $screen-xs-min) {
+                    width: auto;
+                    display: table-cell;
+                    text-align: right;
+                    padding-bottom: 10px;
+                }
+            }
+        }
+    }
+    tbody {
+        display: block;
+    }
+}
+
+/* Table for research opps directory index*/
+
+.table-research-opps {
+    @media (min-width: $screen-sm-min) {        
+        tr td {
+            width: 17.6666667%;
+        }
+        tr td:first-child {
+            width: 47%;
+        }
+    }
+}
+
+/* See tablesaw plugin for more tables */
+

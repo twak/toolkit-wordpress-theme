@@ -1,0 +1,49 @@
+/*
+  vertical divider
+*/
+
+@mixin divider-setup($namespace: ""){
+
+	.divider-right#{$namespace} {
+		border: 0;
+	    border-right: 1px solid $color-brand-2;
+	}
+
+	.divider-left#{$namespace} {
+		border: 0;
+	    border-left: 1px solid $color-brand-2;
+	}
+
+	.divider-top#{$namespace} {
+		border: 0;
+	    border-top: 1px solid $color-brand-2;
+	}
+
+	.divider-bottom#{$namespace} {
+		border: 0;
+	    border-bottom: 1px solid $color-brand-2;
+	}
+
+}
+
+@include divider-setup();
+
+@media (min-width: $screen-xs-min) {
+    @include divider-setup("-xs");
+}
+
+@media (min-width: $screen-sm-min) {
+    @include divider-setup("-sm");
+}
+
+@media (min-width: $screen-md-min) {
+    @include divider-setup("-md");
+}
+
+@media (min-width: $screen-lg-min) {
+    @include divider-setup("-lg");
+}
+
+
+
+

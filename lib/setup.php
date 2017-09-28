@@ -11,9 +11,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function register()
         {
-            /* ensure content width variable is set */
-            add_action( 'template_redirect', array( __CLASS__, 'set_content_width' ) );
-
             /* add favicons */
             add_action( 'wp_head', array( __CLASS__, 'add_favicons' ) );
 
@@ -22,9 +19,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
 
             /* add theme support for various features */
             add_action( 'after_setup_theme', array( __CLASS__, 'add_theme_support' ) );
-
-            /* add custom image sizes */
-            add_action( 'after_setup_theme', array( __CLASS__, 'add_image_sizes' ) );
 
             /* Threaded Comments script inclusion */
             add_action( 'get_header', array( __CLASS__, 'enable_threaded_comments' ) );
@@ -40,9 +34,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
 
             /* change separator character for titles */
             add_filter( 'document_title_separator', array( __CLASS__, 'change_separator' ) );
-
-            /* Remove thumbnail width and height dimensions */
-            add_filter( 'post_thumbnail_html', array( __CLASS__, 'remove_thumbnail_dimensions' ), 10 );
 
             /* Add page slug to body class */
             add_filter( 'body_class', array( __CLASS__, 'add_slug_to_body_class' ) );
@@ -68,18 +59,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* adds support for excerpts on pages */
             add_action( 'init', array( __CLASS__, 'add_excerpts_to_pages' ) );
 
-        }
-
-        /**
-         * sets the content_width global variable
-         * @see https://codex.wordpress.org/Content_Width
-         * @see https://core.trac.wordpress.org/ticket/21256 
-         * TRAC ticket which gives example of setting it dynamically
-         */
-        public static function set_content_width()
-        {
-            global $content_width;
-            $content_width = 900;
         }
 
         /**
@@ -240,33 +219,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
         }
 
         /**
-         * adds custom image sizes
-         */
-        public static function add_image_sizes()
-        {
-            // Large Thumbnail
-            add_image_size( 'large', 700, '', true );
-
-            // Medium Thumbnail
-            add_image_size( 'medium', 250, '', true );
-
-            // Small Thumbnail
-            add_image_size( 'small', 120, '', true );
-
-            // Profile image
-            add_image_size( 'profile-size', 400, '', true );
-
-            // Featured image
-            add_image_size( 'featured-size', 800, 400, true );
-
-            // Banner swiper size small 
-            add_image_size( 'banner-size-small', 1000, 500, true );
-
-            // Banner swiper size large
-            add_image_size( 'banner-size-large', 1400, 700, true );
-        }
-
-        /**
          * Enable Threaded Comments by including default script
          */
         public static function enable_threaded_comments()
@@ -357,15 +309,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function change_separator()
         {
             return ':';
-        }
-
-        /**
-         * Remove thumbnail width and height dimensions that prevent fluid images in the_thumbnail
-         */
-        public static function remove_thumbnail_dimensions( $html )
-        {
-            $html = preg_replace('/(width|height)=\"\d*\"\s/', "", $html);
-            return $html;
         }
 
         /**

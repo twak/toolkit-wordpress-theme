@@ -1,0 +1,139 @@
+/**
+ * Clearfix 
+ */
+
+@mixin tk-clearfix(){ //We cant extend boostrap mixins so have to replicate it
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+/**
+ * Forms Mixins
+ */
+
+@mixin hide-accessibly() {
+    position: absolute !important;    
+    clip: rect(1px, 1px, 1px, 1px);    
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+@mixin form-state-focus() { //$TEUXDEUX remove important
+    background-color: $color-module-light;
+    border: 1px solid $color-masthead !important;
+    outline: 0  !important;
+    box-shadow: 0 0 3px rgba($color-brand-2, 1) !important;
+}
+
+@mixin form-state-disabled() {
+    background-color: $color-module;
+    border-style: dotted;
+}
+
+//Transitions
+
+// How to use: 
+// basic: 
+// @include transition(); 
+// animate margin and make duration slow
+// @include transition(margin, $duration: slow);
+// animate background and change properties
+// @include transition(background, $duration: 3s, $effect: ease-in, $delay: 3s);
+
+@mixin tk-transition($property:all, $duration: 0.5s, $effect: ease, $delay: 0) {
+
+    //Property
+    transition-property: $property;
+
+    //Duration
+    @if $duration == slow {
+        transition-duration: 1s;
+    }
+    @else if $duration == fast {
+        transition-duration: 0.25s;
+    }
+    @else {
+        transition-duration: $duration;
+    }
+
+    //Custom Bezier
+    @if $effect == zoom {
+        transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+    }
+    //Effect - See http://easings.net/
+    @else if $effect == easeInExpo {
+        transition-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+    }
+    @else if $effect == easeInBack {
+        transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+    @else if $effect == easeInOutBack {
+        transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }   
+    @else {
+        transition-timing-function: $effect;
+    }
+
+    transition-delay: $delay;
+}
+
+
+/* Skin mixins*/
+
+
+//Shadows
+@mixin tk-box-shadow-light(){
+    box-shadow: 0 1px 2px rgba(0,0,0,.17);
+}
+
+@mixin tk-box-shadow-dark(){
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+
+/**
+ * Borders
+ */
+
+@mixin border-top-brand-1() {
+    border-top: 5px solid $color-brand-1-light;
+}
+
+@mixin border-top-brand-2() {
+    border-top: 5px solid $color-brand-2;
+}
+
+@mixin border-bottom-brand-1() {
+    border-bottom: 5px solid $color-brand-1-light;
+}
+
+@mixin border-left-brand-1() {
+    border-left: 5px solid $color-brand-1-light;
+}
+
+@mixin border-top-brand-2() {
+    border-top: 5px solid $color-brand-2;
+}
+
+@mixin border-right-brand-2() {
+    border-right: 5px solid $color-brand-2;
+}
+
+@mixin border-bottom-brand-2() {
+    border-bottom: 5px solid $color-brand-2;
+}
+
+@mixin border-left-brand-2() {
+    border-left: 5px solid $color-brand-2;
+}
+
+@mixin border-bottom-divider() {
+    border-bottom: 1px solid $color-border;
+}

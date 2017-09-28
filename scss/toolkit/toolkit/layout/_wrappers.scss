@@ -1,0 +1,82 @@
+/**
+ * Wrappers - Alternative to BS .container
+ */
+
+[class*="wrapper"] {
+	@extend .clearfix;
+	margin: 0 auto;
+}
+
+.wrapper-lg {	
+	max-width: $wrapper-lg;
+}
+
+.wrapper-md {
+    max-width: $wrapper-md;
+}
+
+.wrapper-sm {
+    max-width: $wrapper-sm;
+}
+
+.wrapper-xs {
+    max-width: $wrapper-xs;
+}
+
+/**
+ * Wrapper padding
+ */
+
+/**
+ Just a reminder :)
+
+$space-xl: 						26px;
+$space-lg: 						22px;
+$space:                         16px;
+$space-sm: 						12px;
+$space-xs: 						10px;
+$space-half:                    8px;
+
+*/
+
+.wrapper-padded, //deprecated
+.wrapper-pd {	
+	padding: 0 $space-sm;
+	@media (min-width: $screen-xs-min) {
+		padding: 0 $space;
+	}
+}
+
+.wrapper-pd-lg {	
+	padding: 0 $space-lg;
+	@media (min-width: $screen-md-min) {
+		padding: 0 $space-lg*3;
+	}
+}
+
+.wrapper-pd-md {
+	padding: 0 $space;
+	@media (min-width: $screen-md-min) {		
+		padding: 0 30px;
+	}
+}
+
+.wrapper-pd-sm {
+	padding: 0 $space-sm;	
+}
+
+.wrapper-pd-xs {
+	padding: 0 $space-xs;	
+}
+
+.wrapper-pd-xxs {
+	padding: 0 6px;	
+}
+
+
+.box-pd {
+	padding: $space-sm;
+	@media (min-width: $screen-xs-min) {
+		padding: $space;
+	}
+}

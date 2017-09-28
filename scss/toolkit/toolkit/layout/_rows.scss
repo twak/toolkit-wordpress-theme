@@ -1,0 +1,21 @@
+/**
+ * Custom row class that repliactes .row - for Jadu because row is used in the control center
+ */
+
+.tk-row { //use this intead of row because fo jadu
+    @extend .clearfix;
+    margin-left:  ceil(($grid-gutter-width / -2)); // replicating @include make-row;
+    margin-right: floor(($grid-gutter-width / -2));    
+    position: relative;
+}
+
+.row-flush,
+.tk-row-flush { //flush grid
+	margin: 0;
+	padding: 0;
+
+	[class*="col-"] {
+		padding: 0;
+	}
+}
+

@@ -12,22 +12,26 @@
 		        <?php the_terms($post->ID, 'category', '<span class="name-divider">', ', ', '</span>'); ?>
 		        <span><time><span class="date"><?php the_time('l j F Y'); ?></span></time></span>
 		    </p>
-		    <h1 class="heading-underline"><?php the_title(); ?></h1>		    
+			<?php do_action('tk_title_before'); ?>
+		    <h1 class="heading-underline"><?php the_title(); ?></h1>
+			<?php do_action('tk_title_after'); ?>
 		</div>		
 		
 		<article id="post-<?php the_ID(); ?>" <?php post_class('wrapper-xs wrapper-pd article'); ?>>
 
 		    <?php tk_social_links('top', 'below'); ?>
 
-			<?php if ( has_post_thumbnail()) : // Check if Thumbnail exists ?>
+			<?php if ( has_post_thumbnail() && tk_display_featured_image() ) : // Check if Thumbnail exists and if it is set to be displayed ?>
 				<div class="rs-img rs-img-2-1 featured-img" style="background-image: url('<?php the_post_thumbnail_url( 'featured-size' ); ?>');">					
 					<?php the_post_thumbnail( 'featured-size' ); // Declare pixel size you need inside the array ?>					
 				</div>
-			<?php endif; ?>				
+			<?php endif; ?>
 
-			<div class="jadu-cms">		
-				<?php the_content(); // Dynamic Content ?>
-			</div>
+			<?php do_action('tk_content_before'); ?>
+            <div class="jadu-cms">
+				<?php the_content(); ?>
+            </div>
+			<?php do_action('tk_content_after'); ?>
 
 			<?php 
 			$show_tags = get_field( 'tk_post_page_settings_tags', 'option' );

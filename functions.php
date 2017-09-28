@@ -10,10 +10,20 @@ require_once get_template_directory() . '/lib/admin.php';
 /* plugin activation */
 require_once get_template_directory() . '/lib/plugins.php';
 
+/* theme scripts */
+require_once get_template_directory() . '/lib/scripts.php';
+
+/* theme styles */
+require_once get_template_directory() . '/lib/styles.php';
+
+/* theme media */
+require_once get_template_directory() . '/lib/media.php';
+
 /* ACF fields */
 require_once get_template_directory() . '/lib/acf/theme-options.php';
+require_once get_template_directory() . '/lib/acf/theme-options-admin.php';
 require_once get_template_directory() . '/lib/acf/pages.php';
-//require_once get_template_directory() . '/lib/acf/widgets-page-template.php';
+require_once get_template_directory() . '/lib/acf/widgets-page-template.php';
 
 /* Theme setup */
 require_once get_template_directory() . '/lib/setup.php';
@@ -38,6 +48,9 @@ require_once get_template_directory() . '/lib/navigation.php';
 
 // Sidebar
 require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php';
+
+// Footer menu
+require_once get_template_directory() . '/lib/custom-walkers/footer-nav.php';
 
 
 /* Not sure if/where these are used... */

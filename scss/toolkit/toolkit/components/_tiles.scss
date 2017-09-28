@@ -1,0 +1,406 @@
+// Breakpoints
+
+@mixin break($point) {
+    @if $point==md {
+        @media (max-width: 1000px) { //less than 1000px
+            @content;
+        }
+    }
+    @if $point==sm {
+        @media (max-width: 800px) {
+            @content;
+        }
+    }   
+}
+
+body {  
+
+  // @include break(md){
+  //   border: 2px solid green;    
+  // }
+  // @include break(sm){
+  //   border: 2px solid blue;    
+  // }
+  
+}
+
+/**
+ * Tiles grid
+ */
+
+@mixin tiles-grid-setup($namespace: ""){
+
+    //Flat card
+    .tiles-col-1-1#{$namespace} {
+        width: 100%;
+    }
+
+    .tiles-col-1-2#{$namespace} {
+        width: 50%;
+    }
+
+    .tiles-col-1-4#{$namespace} {
+       
+        width: 25%;
+       
+    }
+
+}
+
+@include tiles-grid-setup();
+
+
+@include break(md) {
+    @include tiles-grid-setup('-md');    
+}
+
+@include break(sm) {
+    @include tiles-grid-setup('-sm');    
+}
+
+//Multi
+
+.tiles-grid {
+    width: 100%;    
+    overflow: hidden;
+}
+
+[class^='tiles-col-'] {
+    float: left;
+}
+
+.tiles-col-right {
+    float: right;
+}
+
+.tiles-col-right-md {
+    @include break(md) {
+        float: right;
+    }
+}
+
+
+/* Tiles */
+
+.tile {
+    background: $color-module-dark;
+    position: relative;
+    transition: all 0.25s ease;
+    @include break(sm) {        
+        border-right: 4px solid white;
+        border-left: 4px solid white;
+        border-bottom: 4px solid white;
+    }
+}
+
+
+/* Tile Skin */
+
+.tile-skin-img { //tile with bg image
+    overflow: hidden;
+    &:hover {
+        .tile-bg {            
+            @include break(md) {
+                transform: scale(1);
+            }
+        }
+    }
+
+    &:hover:after {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,1) 100%);
+        border: 2px solid red;
+    }
+}
+
+
+
+.tile-skin-brand-1 { //backgrounds colors
+    background: $color-brand-1;
+    &:hover {
+        background: $color-brand-1-dark;
+    }
+}
+
+.tile-skin-brand-2 { //backgrounds colors
+    background: $color-brand-2;
+    &:hover {
+        background: $color-brand-2-dark;
+    }
+}
+
+.tile-skin-nav { //tilenav
+    background: none;
+    @include break(sm) {
+        display: none;
+    }
+    &:hover {
+        background: none;
+    }
+}
+
+/* tile Layout*/
+
+
+@mixin tiles-shape-setup($namespace: ""){
+
+    //rectangle
+    .tile-shape-rectangle#{$namespace} {
+        width: 100%;
+        padding-bottom: 50%;
+    }
+
+     //square
+    .tile-shape-square#{$namespace} {
+        width: 100%;
+        padding-bottom: 100%;
+    }
+
+}
+
+@include tiles-shape-setup();
+
+@include break(md) {
+    @include tiles-shape-setup('-md');    
+}
+
+@include break(sm) {
+    @include tiles-shape-setup('-sm');    
+}
+
+
+/* tile Children */
+
+/*
+<div class="tile">
+  <span class="tile-bg></span>
+  <div class="tile-inner">Content</div>
+  <a class="tile-link" href="#">Link</a>
+</div>
+*/
+
+//tile__bg
+.tile-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transform: scale(1);
+    transition: all 0.25s ease;
+    .tile-shape-split & {
+        width: 50%;
+        margin-left: 50%;
+    }
+    .tile-shape-split-md & {
+        @include break(md) {
+            width: 50%;
+            margin-left: 50%;
+        }
+    }
+    .tile-skin-img &:after {
+        background: rgba(black, 0.5);
+        background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.7) 100%);
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+        transition: opacity 0.25s ease;
+    }
+    .tile-skin-img:hover &:after{
+        opacity: 1;
+    }
+}
+
+//tile inner
+.tile-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+//tile inner nav
+.tile-inner ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+        font-size: 16px;
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+        text-transform: uppercase;
+        color: $color-font;
+        text-shadow: none;
+        letter-spacing: 0.02em;
+        &:after {
+            @extend .tk-icon;
+            @extend .tk-icon-chevron-right:before;      
+            margin-left: 5px;
+            position: relative;
+            top: 2px;           
+            color: $color-brand-2;
+        }   
+
+        &:hover {
+            border-bottom: 1px solid $color-module-darker;
+        }
+    }
+}
+
+.tile-inner[min-width~="450px"] ul li {
+    font-size: 18px;
+}
+
+.tile-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-indent: -9999px;
+    z-index: 1;
+}
+
+/* Content - Lives inside .tile-inner */
+
+.content,//deprecated
+.tile-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    color: white;
+    overflow: hidden;
+    font-size: 16px;
+
+    h3 {    
+        margin: 0 0 10px 0;
+        line-height: 125%;
+        font-weight: 300;   
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.25);     
+
+        &:after {
+            @extend .tk-icon;                
+            @extend .tk-icon-chevron-right:before;
+            position: relative;
+            top: 5px;
+        }
+    }
+
+    p {        
+        line-height: 130%;
+        margin: 0 0 6px 0;    
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.25);   
+    }
+
+    a {
+        color: $color-white;
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.25);   
+    }
+
+}
+
+//split
+
+.tile-shape-split { //splits the tile into 2 by changing .content & .tile__bg
+    .content,//deprecated
+    .tile-content {
+        width: 50%;
+    }
+}
+
+.tile-shape-split-md {
+    @include break(md) {
+        .content,//deprecated
+        .tile-content {
+            width: 50%;
+        }
+    }
+}
+
+.tile-skin-no-img {
+    &[class*='-shape-split'] {
+        .content,//deprecated
+        .tile-content {
+            width: 100% !important;
+        }
+        .tile-bg {
+            background: none !important;
+        }
+    }
+}
+
+.tile .more {
+    display: none;
+}
+
+.tile[min-width~="440px"] .more {
+    display: inline;
+}
+
+.tile p {
+    font-size: 14px;    
+    display: none;
+}
+
+.tile[min-width~="450px"] p {
+    font-size: 16px;
+    display: block;
+}
+
+.tile[min-width~="600px"] p {
+    font-size: 18px;
+}
+
+.tile h3 {
+    font-size: 18px;       
+}
+
+.tile[min-width~="450px"] h3 {
+    font-size: 22px;  
+}
+
+.tile[min-width~="600px"] h3 {
+    font-size: 28px;      
+}
+
+@media (min-width: $screen-sm-min) { //when we've got a sidebar
+    .tile h3 {
+        font-size: 22px;          
+    }
+}
+
+
+
+
+.content__inner,//deprecated
+.tile-content-inner {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: $space-xs;
+    @media (min-width: $screen-xs-min) {
+        //padding: $space;
+    }
+}
+
+.tile[min-width~="450px"] .content__inner{
+
+}
+
+//content goes to top instead of bottom
+.content--alt .content__inner,//deprecated
+.tile-content-alt .tile-content-inner {
+    top: 0;
+}

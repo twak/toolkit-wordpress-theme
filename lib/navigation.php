@@ -118,10 +118,11 @@ add_action('init', 'register_tk_menu');
 function register_tk_menu()
 {
     register_nav_menus(array(
-        'header-menu' => 'Header Menu', // Main Navigation
-        'footer-menu' => 'Footer Menu' // Footer links
+        'header-menu'   => 'Header Menu', // Main Navigation
+        'footer-menu'   => 'Footer Menu' // Footer links
     ));
 }
+
 
 // Remove the <div> surrounding the dynamic navigation to cleanup markup
 add_filter('wp_nav_menu_args', 'tk_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
@@ -156,7 +157,69 @@ if (function_exists('register_sidebar'))
         'before_title' => '<h3>',
         'after_title' => '</h3>'
     ));
+
+    // Footer Left
+    register_sidebar( array(
+        'name'          => __( 'Footer left', 'theme_text_domain' ),
+        'id'            => 'footer-left',
+        'description'   => '',
+        'class'         => '',
+        'before_widget' => '<ul class="quicklinks-list">',
+        'after_widget'  => '</ul>',
+        'before_title'  => '<li class="title">',
+        'after_title'   => '</li>' 
+    ));
+
+    // Footer Middle Left
+    register_sidebar( array(
+        'name'          => __( 'Footer Middle Left', 'theme_text_domain' ),
+        'id'            => 'footer-middle-left',
+        'description'   => '',
+        'class'         => '',
+        'before_widget' => '<ul class="quicklinks-list">',
+        'after_widget'  => '</ul>',
+        'before_title'  => '<li class="title">',
+        'after_title'   => '</li>' 
+    ));
+
+    // Footer Middle Right
+    register_sidebar( array(
+        'name'          => __( 'Footer Middle Right', 'theme_text_domain' ),
+        'id'            => 'footer-middle-right',
+        'description'   => '',
+        'class'         => '',
+        'before_widget' => '<ul class="quicklinks-list">',
+        'after_widget'  => '</ul>',
+        'before_title'  => '<li class="title">',
+        'after_title'   => '</li>' 
+    ));
+
+    // Footer Right
+    register_sidebar( array(
+        'name'          => __( 'Footer Right', 'theme_text_domain' ),
+        'id'            => 'footer-right',
+        'description'   => '',
+        'class'         => '',
+        'before_widget' => '<ul class="quicklinks-list">',
+        'after_widget'  => '</ul>',
+        'before_title'  => '<li class="title">',
+        'after_title'   => '</li>' 
+    ));
 }
+
+// Unregister unwanted widgets
+ function unregister_default_widgets() {
+    unregister_widget('WP_Widget_Calendar');
+    unregister_widget('WP_Widget_Meta');
+    unregister_widget('WP_Widget_Search');
+    unregister_widget('WP_Widget_RSS');
+    unregister_widget('WP_Widget_Tag_Cloud');
+    unregister_widget('Twenty_Eleven_Ephemera_Widget');
+    unregister_widget('WP_Widget_Media_Audio');
+    unregister_widget('WP_Widget_Media_Video');
+    unregister_widget('WP_Widget_Media_Image');
+ }
+ add_action('widgets_init', 'unregister_default_widgets', 11);
 
 /**
  * $CUSTOM BREADCRUMBS
@@ -176,6 +239,8 @@ function the_breadcrumb() {
        
     // Do not display on the homepage
     if ( !is_front_page() ) {
+
+	    do_action('tk_breadcrumb_before');
        
         // Build the breadcrums
         echo '<div class="wrapper-pd-xs"><ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
@@ -366,6 +431,8 @@ function the_breadcrumb() {
         }
        
         echo '</ul></div>';
+
+	    do_action('tk_breadcrumb_after');
            
     } else { // leave space
         echo "";

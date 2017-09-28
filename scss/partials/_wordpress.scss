@@ -74,3 +74,25 @@ a {
 .site-footer-lower {
   box-shadow: 0 999em 0 999em #111;
 }
+.site-footer-upper [class*=tk-icon] {
+	font-size: 32px;
+}
+.quicklinks-list {
+	ul {
+		padding-left: 0;
+	}
+	.recentcomments {
+		color: #f7f7f7;
+		.url {
+			font-size: 14px;
+		}
+	}
+	.textwidget {
+		color: #f7f7f7;
+		padding-left: 6px;
+		p {
+			margin-bottom: 15px;
+    		font-size: 14px;
+		}
+	}
+}

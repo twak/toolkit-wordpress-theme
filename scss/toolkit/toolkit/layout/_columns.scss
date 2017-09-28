@@ -1,0 +1,86 @@
+/**
+ * Columns - Used for the page sidebar layout
+ */
+
+.column-container {    
+    position: relative; //normal clearfix breaks safari table layout
+    overflow: hidden;
+
+    .column-container-primary {
+        //padding-bottom: 10px;       
+        @media (min-width: $screen-md-min) {
+            float: left;
+            width: 78%;     
+            //padding-bottom: 40px;               
+        }
+        @media (min-width: $screen-lg-min) {            
+            width: 75%;                 
+        }
+    }
+
+    .column-container-secondary {    
+    
+        position: relative;
+               
+        @media (min-width: $screen-md-min) {
+            float: left;
+            width: 22%;                
+            padding-bottom: 40px;            
+            max-width: 320px;                                   
+        }    
+
+        @media (min-width: $screen-lg-min) {            
+            width: 25%;     
+                                 
+        }    
+        @media (min-width: 1170px) {            
+            padding-left: 10px;  
+        }
+    }
+
+    .column-container-secondary-right {           
+        @media (min-width: $screen-md-min) {
+            float: right;
+            width: 25%;        
+            border-right: 0;        
+        }    
+    }
+
+}
+
+//full width modifier option
+
+.column-container-fw {
+
+    @media (min-width: $screen-md-min) {  
+        display: table;
+        width: 100%;
+    }
+
+    .column-container-primary {       
+        @media (min-width: $screen-md-min) {     
+            width: auto;                   
+            //padding-bottom: 40px;  
+            display: table-cell;      
+            float: none;                   
+            max-width: 5px; //when the swiper is in this container max width stops it from overflowing
+        }
+    }
+
+    .column-container-secondary {     
+
+        padding-left: 0;           
+           
+        @media (min-width: $screen-md-min) {
+            float: none;                                    
+            display: table-cell;
+            background: $color-module;   
+            padding: 0 0 40px 0; 
+            width: 220px;        
+        }    
+
+        @media (min-width: $screen-lg-min) {
+            width: 300px;                       
+        }
+    }
+}

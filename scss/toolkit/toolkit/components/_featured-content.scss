@@ -1,0 +1,243 @@
+
+/* Featured content */
+
+.featured-content {   
+
+    .heading-underline.color-white {      
+        &:before {
+            background: $color-white;
+        }            
+    }  
+
+    blockquote {          
+
+        @media(min-width: $screen-xs-min){
+            border: 0;
+            padding: 0;
+            margin: 0;
+            text-align: center;  
+            
+            color: $color-font;        
+            position: relative;
+            margin-bottom: 30px;  
+            font-size: 24px;    
+
+            footer {
+                display: block;
+                @extend .heading-related;
+                color: $color-brand-2;
+                padding: $space-sm 0;
+            }      
+            &:before {
+                content: "";
+                position: absolute;
+                width: 50%;
+                height: 1px;
+                bottom: -8px;
+                left: 25%;
+                background-color: $color-brand-2;               
+            }
+            &.color-white {
+                p {
+                    color: $color-font !important;
+                }
+                &:before {                                      
+                    background-color: $color-white;
+                }
+                footer {
+
+                }            
+            }  
+        }   
+
+        &.color-white {
+            border-left: 4px solid $color-white;  
+            @media(min-width: $screen-xs-min){
+                border-left: 0;
+            }
+        }              
+    } 
+
+    .more-divider {
+        text-align: left;
+        border-top: 1px solid $color-brand-2;
+        display: block;
+        padding-top: $space;
+        border-bottom: 0;
+        &:hover {
+            border-bottom: 0;
+        }
+        &.color-white {
+            border-top: 1px solid $color-white;
+            color: $color-white;
+            &:after {
+                color: white;
+            }
+        }
+    }
+
+    .featured-content-img {
+        margin-bottom: $space-sm;
+        @media(min-width: $screen-xs-min){  
+            margin-bottom: $space-xl;
+        }
+    }      
+}
+
+/* Flex box supported */
+
+/* Flex box rectangle */
+
+//Tablet
+.featured-content.featured-content-rectangle {       
+
+    @media(min-width: $screen-xs-min){          
+        .featured-content-img {
+            width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+//No flexbox fallback
+.no-flexbox .featured-content.featured-content-rectangle {
+
+    position: relative;    
+
+    &.featured-content-reverse {
+        
+    }
+    
+    @media(min-width: $screen-sm-min){                 
+       
+        .featured-content-img {     
+           position: absolute;
+           bottom: 0;
+           left: 0;
+           width: 50%;
+        }   
+
+        .featured-content-content {                        
+            padding-left: $space-lg;                                
+            width: 50%;   
+            margin-left: 50%;         
+        }        
+    }
+}
+
+//Flexbox display
+.flexbox .featured-content.featured-content-rectangle {       
+
+    @media(min-width: $screen-sm-min){         
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+        .featured-content-img,
+        .featured-content-content,
+        .featured-content-heading {
+            align-self: flex-start;
+            flex-grow: 0;
+            flex-shrink: 0;
+            //border: 1px solid red;
+        }
+        
+        .featured-content-heading {
+            flex-basis: 100%;
+            order: 1;          
+        }
+        
+        .featured-content-img {
+            flex-basis: 40%;
+            max-width: 40%; //ie11
+            order: 2;
+        }
+                
+        .featured-content-content {
+            flex-basis: 58%; 
+            max-width: 58%; //ie11    
+            padding: 0 0 0 2%;  
+            order: 3;           
+        }
+    }
+}
+
+/* Flex box square */
+
+//Tablet
+.flexbox .featured-content.featured-content-square {   
+
+    @media(min-width: $screen-xs-min){          
+        .featured-content-img {
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .featured-content-content .cms {                
+        text-align: center;                   
+    }
+}
+
+// no flex fallback
+.no-flexbox .featured-content.featured-content-square {
+
+    @media(min-width: $screen-sm-min){     
+        display: table;
+        width: 100%;
+        
+        .featured-content-img,
+        .featured-content-content {                        
+            display: table-cell;
+            width: 50%;   
+            vertical-align: middle;               
+        }   
+
+        .featured-content-content {                        
+            padding-left: $space-lg;
+        }        
+    }
+}
+
+//Flexbox square
+.flexbox .featured-content.featured-content-square {       
+
+    @media(min-width: $screen-sm-min){    
+
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        flex-wrap: wrap;// issue for ie11
+        
+        .featured-content-img,
+        .featured-content-content {
+            align-self: center;
+            flex-grow: 0;
+            flex-shrink: 0;
+            //border: 1px solid red;
+        }
+                      
+        .featured-content-img {
+            max-width: 40%; //ie11
+            flex-basis: 40%;            
+        }
+                
+        .featured-content-content {
+            max-width: 58%; //ie11
+            flex-basis: 58%;         
+            padding: 0 0 0 2%;  //must use % for ie11, border box not recognised                  
+        }
+    }
+}
+
+//Reverse order i.e. image left image right
+.flexbox .featured-content.featured-content-reverse {
+    @media(min-width: $screen-sm-min){    
+        flex-direction: row-reverse;
+        .featured-content-content {                    
+            padding: 0 2% 0 0;              
+        }
+    }
+}

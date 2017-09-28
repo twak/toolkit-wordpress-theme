@@ -1,0 +1,41 @@
+/**
+ * Expander
+ */
+
+.expander {
+    margin-bottom: $space;
+}
+    .expander-header {
+        @extend .clearfix;
+        @include border-bottom-divider();
+        padding:  10px 0 10px 0;
+    }
+        .expander-trigger {
+            text-decoration: none;
+            cursor: pointer;                        
+            color: $color-font;
+            @extend %all-caps;
+          
+            &:hover,
+            &:focus {
+                color: $color-brand-2;
+                text-decoration: none;
+            }
+            &:after {
+                @extend .tk-icon;   
+                @extend .tk-icon-close:before; 
+                padding-left: 5px;
+                position: relative;
+                top: 1px;
+            }
+            &.collapsed {
+                &:after {
+                     @extend .tk-icon-chevron-down:before; 
+                }
+            }
+        }
+
+    .expander-body {
+        
+    }
+

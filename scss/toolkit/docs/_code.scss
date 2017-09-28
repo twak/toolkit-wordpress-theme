@@ -1,0 +1,397 @@
+
+//Callouts
+
+.tk-callout {
+    padding: $space-sm;
+    margin: $space 0;
+    border: 1px solid $color-border-light;
+    border-left-width: 3px;    
+    background: $color-module-lighter;
+    border-radius: 3px;        
+}
+.tk-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px
+}
+.tk-callout p:last-child {
+    margin-bottom: 0
+}
+.tk-callout code {
+    border-radius: 3px
+}
+.tk-callout+.bs-callout {
+    margin-top: -5px
+}
+.tk-callout-danger {
+    border-left-color: #ce4844
+}
+.tk-callout-danger h4 {
+    color: #ce4844
+}
+.tk-callout-warning {
+    border-left-color: #aa6708
+}
+.tk-callout-warning h4 {
+    color: #aa6708
+}
+.tk-callout-info {
+    border-left-color: #1b809e
+}
+.tk-callout-info h4 {
+    color: #1b809e
+}
+
+// Typography 
+
+.tk-docs {
+
+	> h1[id],
+	> h2[id],
+	> h3[id],
+	> h4[id]{
+		font-weight: 600;
+	}
+
+    > h1[id] {
+        border-bottom: 1px solid $color-border;
+        font-size: 35px;
+        padding-bottom: 10px;
+        margin-top: 20px;
+    }
+
+    > h2[id] {
+		font-size: 25px;
+    }
+
+    > h3[id] {
+		font-size: 20px;
+    }
+
+    pre {
+        border-radius: 5px; 
+    }
+
+    > p,
+    > ul li {
+        font-size: 17px;
+        margin-bottom: $space;
+        color: #474441;
+    }
+
+    > p > a, 
+    > ul a {
+        border-bottom: 1px solid $color-border-light;
+        &:hover {
+            text-decoration: none;
+            border-bottom: 1px solid $color-font;
+            color: $color-font;
+        }
+    }
+
+    code {
+        white-space: pre;
+        font-size: 13px;
+    }
+
+    > p code,
+    > ul code, {
+       
+        border-radius: 3px;
+        border: 1px solid $color-border-light;
+        background: $color-module-light;
+        color: #387a9f;
+
+        span {
+            font-size: 13px !important;
+        }
+    }
+}
+
+//Code styles
+
+.tk-example {
+    border: 1px solid $color-border;
+    border-bottom: 0;
+    padding:  60px 15px 15px 15px;
+    border-radius: 0;    
+    position: relative;
+    &:before {      
+        content:"Example";
+        text-transform: uppercase;
+        color: $color-font-light;
+        font-size: 14px;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+    }
+}
+
+.tk-docs {
+
+    pre {
+        margin: 0;
+        border: 1px solid $color-border-light;
+        //padding: 10px;
+        border-radius: 5px;
+        overflow: scroll !important;
+        margin-bottom: 40px;
+        box-shadow: none;   
+        box-shadow: 0;
+        position: relative;
+        margin: 0px 0 30px 0;
+        border-radius: 3px;        
+        background: $color-module-lighter;;            
+        overflow: visible;
+        padding: 20px 0;    
+        color:     
+
+        code {
+            line-height: 1.6em;
+        }
+    }    
+
+    .tk-example + pre {
+        //border-radius: 0;      
+    }
+
+}
+//Navigation
+
+//tk docs back to top
+
+.back-to-top {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	border: 3px solid red;	
+}
+
+//tk docs nav (sidebar)
+
+.nav-docs {
+    padding: 20px;    
+
+    ul {
+        padding: 0 0 0 20px;
+    }
+    
+    li {
+        list-style: none;
+    }
+
+    a {
+        font-size: 14px;
+        border-left: 1px solid white;
+        padding:  2px 0 2px 10px;
+        color: $color-font;
+        display: block;
+
+        &:hover,
+        &:focus {
+            border-left: 1px solid $color-brand-2;
+            text-decoration: none;
+        }
+    }
+
+    ul a {
+        color: $color-font-light;
+    }
+
+    .active {
+        color: $color-brand-2;
+        border-left: 1px solid $color-brand-2;
+    }
+}
+
+.docs-nav-fixed .nav-docs {
+    position: fixed;
+    top: 0;    
+    overflow: scroll;
+    height: 100%;
+}
+
+// Toolkit icons square panel
+
+.tk-icons {
+    margin: 0 -10px 20px;
+    overflow: hidden
+}
+.tk-icons-list {
+    padding-left: 0;
+    list-style: none
+}
+.tk-icons li {
+    float: left;
+    width: 25%;
+    height: 115px;
+    padding: 10px;
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #fff
+}
+.tk-icons .tk-icon {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px
+}
+.tk-icons .tk-icon-class {
+    display: block;
+    text-align: center;
+    word-wrap: break-word
+}
+.tk-icons li:hover {
+    color: #fff;
+    background-color: #563d7c
+}
+@media (min-width: 768px) {
+    .tk-icons {    
+        margin-right: 0;
+        margin-left: 0
+    }
+    .tk-icons li {
+        width: 12.5%;
+        font-size: 12px
+    }
+}
+
+//Kitchen sink
+
+.swatch {
+    border: 1px solid $color-border;
+    padding: $space-half/2;
+    border-radius: $border-radius-base;
+    width: 9%;
+    min-width: 80px;
+    float:left;
+    margin:  0 0.5%  $space-half/2 0.5%;
+
+    h4 {
+        margin: 0;
+        font-size: 12px;
+        text-align: center;     
+        font-family: $font-family-sans-serif;
+    }
+}
+
+.swatch-box {
+    width: 100%;
+    padding-bottom: 100%;
+    background: #eee;
+    margin-bottom: $space-half/2;
+}
+
+.bg-brand-1 {
+    background: $color-brand-1;
+}
+.bg-brand-1-dark {
+    background: $color-brand-1-dark;
+}
+.bg-brand-1-light {
+    background: $color-brand-1-light;
+}
+.bg-brand-2 {
+    background: $color-brand-2;
+}
+.bg-brand-2-dark {
+    background: $color-brand-2-dark;
+}
+.bg-brand-2-light {
+    background: $color-brand-2-light;
+}
+// .bg-brand-3 {
+//     background: $color-brand-3;
+// }
+// .bg-brand-3-dark {
+//     background: $color-brand-3-dark;
+// }
+// .bg-brand-3-light {
+//     background: $color-brand-3-light;
+// }
+
+// Warnings 
+
+.bg-warning {
+    background: $brand-warning;
+}
+.bg-danger {
+    background: $brand-danger;
+}
+.bg-info {
+    background: $brand-info;
+}
+.bg-success {
+    background: $brand-success;
+}
+
+// General
+
+.swatch {
+
+    .bg-white {
+        background: $color-white;
+    }
+    .bg-off-white {
+        background: $color-off-white;
+    }
+
+    .bg-masthead {
+        background: $color-masthead;
+    }
+    .bg-masthead-dark {
+        background: $color-masthead-dark;
+    }
+    .bg-masthead-light {
+        background: $color-masthead-light;
+    }
+     .bg-masthead-darker {
+        background: $color-masthead-darker;
+    }
+    .bg-masthead-lighter {
+        background: $color-masthead-lighter;
+    }
+
+    .bg-border {
+        background: $color-border;
+    }
+    .bg-border-light {
+        background: $color-border-light;
+    }
+    .bg-border-dark {
+        background: $color-border-dark;
+    }
+    .bg-module-dark {
+        background: $color-module-dark;
+    }
+    .bg-module-darker {
+        background: $color-module-darker;
+    }
+    .bg-module {
+        background: $color-module;
+    }
+    .bg-module-light {
+        background: $color-module-light;
+    }
+    .bg-module-lighter {
+        background: $color-module-lighter;
+    }
+
+    .bg-font {
+        background: $color-font;
+    }
+    .bg-font-light {
+        background: $color-font-light;
+    }
+    .bg-font-lighter {
+        background: $color-font-lighter;
+    }
+    .bg-link {
+        background: $color-link;
+    }
+    .bg-banner {
+        background: $color-masthead;
+    }
+}

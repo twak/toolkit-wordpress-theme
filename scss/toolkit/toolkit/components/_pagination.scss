@@ -1,0 +1,41 @@
+/**
+* Pagination - Customising the BT pagination
+*/
+
+.pagination {
+  
+    > li {
+        display: inline-block;  
+        margin-bottom: 3px;              
+    } 
+
+    > li > a,
+    > li > span {
+        display: block;
+        float: none;
+        margin: 0;
+        text-align: center;
+        padding: $space-half/2 $space-sm;
+        
+        @media(min-width: $screen-sm-min){
+            padding: $space-half $space; 
+        }         
+    }  
+
+    > li.next > a,
+    > li.next > span,
+    > li.prev > a,
+    > li.prev > span {
+        padding: $space-half/2 $space-xs;
+        @media(min-width: $screen-sm-min){
+            padding: $space-half $space-sm;          
+        }
+    }
+
+    [class*="tk-icon"] {
+        position: relative;
+        top: 4px;
+        width: 10px;
+    } 
+    
+}

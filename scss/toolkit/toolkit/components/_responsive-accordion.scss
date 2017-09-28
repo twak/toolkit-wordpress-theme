@@ -1,0 +1,173 @@
+/* Responsive Accordion */
+
+/* .accordion-plain parent class removes the solid border and background color to the accordion content and trigger 
+
+used in:
+* People single for publications
+* Courses
+* Keys contact on people
+* Accomodation
+etc
+
+*/
+
+/*
+
+<div class="accordion">
+    <div class="accordion-trigger">
+    </div>
+    <div class="accordion-content">
+    </div>
+</div>
+
+
+*/
+
+.accordion {
+
+}
+
+.accordion-trigger {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border: 1px solid $color-border;
+    padding: $space-half $space*2 $space-half $space-half;
+    margin-bottom: $spacer;
+
+    * {
+        margin: 0;
+        //line-height: 30px;
+        background: none;
+        color: $text-color !important;
+    }
+
+    a {
+        text-decoration-color: none;
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+
+    &:after {
+        @extend .tk-icon;
+        @extend .tk-icon-chevron-down:before;
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        margin-top: -8px;
+        font-size: 16px;
+    }
+
+    &.active:after {
+        @extend .tk-icon;
+        @extend .tk-icon-chevron-up:before;
+    }
+
+
+    &.active {
+        background-color: $color-module;
+    }
+
+    //override accordion behaviour when wanting to show on large screen
+    &.show-large, //deprecated
+    &.show-lg {
+        @media (min-width: $screen-sm) {
+            background: none;
+            border: none;
+            padding-top: 17px;
+            margin-bottom: 5px;
+            * {
+                line-height: inherit;
+                margin: inherit;
+            }
+            &:after{
+                display: none;
+            }
+        }
+    }
+
+}
+
+.accordion-content {    
+    border: 1px solid $color-border;
+    padding: $space-half;
+    background: $color-module-lighter;
+    margin-bottom: $spacer;
+    
+    @media(min-width: $screen-xs-min){
+        padding: $space;
+    }
+
+    &.show-large, //deprecated
+    &.show-lg {
+        @media (min-width: $screen-sm) {
+            margin-bottom:  $space;
+            display: block !important; //to always override the accordion on large screen (if has class .show-large)
+            padding-right: $space;
+        }
+    }
+
+    &.active {
+        display: block;
+    }
+
+    table,
+    .flag-featured{
+        background: $color-white;
+    }
+
+    .js & {
+        display: none;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+}
+
+/* Plain accordion */
+
+.accordion-plain  {   
+    .accordion-trigger {
+        padding-left: 0;
+        padding-right: 0;
+        @extend %all-caps;
+        border: none;
+        border-top: 1px solid $color-border;
+        margin-bottom: 0;
+        background: none;
+        &.active {
+            background: none;
+        }
+        &:last-of-type  {       
+            border-bottom: 1px solid $color-border;        
+        }
+        &.active:last-of-type  {       
+            border-bottom: 0;        
+        }
+
+    }
+
+    .accordion-content {   
+        overflow: hidden;
+        border: none;
+        border-top: 1px solid $color-border;
+        margin: 0; 
+        background: none;
+        padding-right: 0;
+        padding-left: 0;
+        &:last-of-type  {       
+            border-bottom: 1px solid $color-border;        
+        }
+    }
+
+    .accordion-content-flush {
+
+    }
+}
+

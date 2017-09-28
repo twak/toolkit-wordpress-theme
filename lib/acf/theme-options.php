@@ -3,14 +3,17 @@
  * Theme options fields for ACF
  */
 
-// Hide the custom field in the sidebar
-//add_filter('acf/settings/show_admin', '__return_false');
+// Hide the custom field in the sidebar for non-administrators
+if ( ( is_multisite() && ! is_super_admin() ) || ( ! is_multisite() && ! is_admin() ) ) {
+    add_filter('acf/settings/show_admin', '__return_false');
+}
 
 // only run if ACF plugin is loaded
 
-if( function_exists('acf_add_local_field_group') && function_exists('acf_add_options_page') ):
+add_action( 'acf/init', 'tk_add_acf_theme_options', 10 );
 
-
+function tk_add_acf_theme_options()
+{
 	/**
 	 * Theme Options Page
 	 */
@@ -310,6 +313,4 @@ if( function_exists('acf_add_local_field_group') && function_exists('acf_add_opt
 	    'active' => 1,
 	    'description' => '',
 	));
-
-
-endif;
+}

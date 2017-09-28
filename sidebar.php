@@ -7,8 +7,9 @@ if ($post->post_parent) {
     $first_parent = '';
 }
 ?>
+
 <aside class="column-container-secondary" role="complementary">
-   
+	<?php do_action('tk_sidebar_before'); ?>
     <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent; ?></button>
 
     <div class="sidebar-container <?php if($GLOBALS[ 'full_width' ]){ echo "sidebar-container-fw"; }?>">
@@ -67,7 +68,7 @@ if ($post->post_parent) {
 		</div>
 
 	</div>
-
+	<?php do_action('tk_sidebar_after'); ?>
 </aside>
 <!-- ./column-container-secondary-->
 <!-- $/SIDEBAR -->

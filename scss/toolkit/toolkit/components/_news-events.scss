@@ -1,0 +1,170 @@
+/** 
+ * News and events widget ajax filter
+ */
+
+.filter-box {
+    display: none;
+    position: relative;    
+
+    ul {
+        background: white;
+        padding: $space;    
+        box-shadow: 0px 1px 2px rgba(black, 0.25);        
+        margin: 0;
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        left: 0;
+        z-index: 1;
+
+        &:after {
+            content: "";
+            display: block; /* reduce the damage in FF3.0 */
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            width: 0;
+            border-width: 0 10px 10px;
+            border-style: solid;
+            border-color: #fff transparent;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        li a {
+            &:after {
+                @extend .tk-icon;
+                @extend .tk-icon-chevron-right:before;       
+                margin-left: 5px;
+                position: relative;
+                top: 2px;           
+                color: $color-brand-2;
+            }
+        }
+    }
+}
+
+.filter-box.active {
+    display: block;    
+}
+
+
+/* Event cards 
+
++----+-------+
+| 12 | Event |
++----+-------+
+
+*/
+
+.event-card {
+    
+    margin-bottom: $space-sm;
+    display: table;
+    width: 100%;      
+    @extend .skin-box-white;
+
+    .event-card-date {               
+
+        padding: $space-half/2 $space-xs $space-sm $space-sm; 
+        display: table-cell;
+        vertical-align: top;
+        border-right: 1px solid $color-border-light;
+        width: 15%; 
+
+        @media(min-width: $screen-sm-min) {
+            padding: $space-xs 0 $space-sm $space-sm; 
+            border: 0;
+            width: 17%; 
+        }
+
+        @media(min-width: $screen-md-min) {
+            vertical-align: middle;            
+            background: $color-module-dark;
+            padding: 0px $space $space-half/2 $space;
+            border-top: 4px solid $color-brand-2;        
+            width: 17%; 
+        }
+
+        .day {
+            display: block;
+            text-align: center;   
+            color: $color-font-dark;  
+            font-size: 30px;       
+            
+            line-height: 110%;
+            margin: 0;
+            letter-spacing: 1px;
+            @media(min-width: $screen-xs-min) {
+                font-size: 40px;
+            }
+        }
+
+        .month {
+            display: block;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 14px;
+            color: $color-font-light;
+            letter-spacing: 1px;
+            @media(min-width: $screen-xs-min) {
+                font-size: 15px;
+            }
+        }
+    }
+    .event-card-content {        
+        vertical-align: top;
+        display: table-cell !important; //overwrite equalizer
+        padding: $space-sm;
+
+        @media(min-width: $screen-sm-min) {
+            padding: $space;       
+        }
+
+        @media(min-width: $screen-md-min) {              
+            vertical-align: middle;
+        }
+
+    }
+
+    h3, p {
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 20px;        
+        line-height: 120%;        
+        margin-bottom: $space-half;
+        position: relative;
+
+        &:after {
+            @extend .tk-icon;
+            @extend .tk-icon-chevron-right:before;
+            position: relative;
+            top: 4px;
+        }
+
+       
+        a {
+            text-decoration: none;
+            color: #4D4D4D;                   
+        }
+    }
+
+    .location,
+    .type {
+        color: $color-font-light;
+        font-size: 15px;
+        margin-bottom: 6px;
+        display: inline-block;
+        line-height: 140%;
+    }
+    
+}
+
+
+
+
