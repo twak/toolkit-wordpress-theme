@@ -102,46 +102,6 @@ function tk_add_acf_theme_options()
 					),
 				),
 			),
-			array(
-				'key' => 'field_tk_tab_posts',
-				'label' => 'Posts',
-				'type' => 'tab',
-			),
- 	        array (
-	            'key' => 'field_tk_post_page_settings_title',
-	            'label' => 'Posts archive page title',
-	            'name' => 'tk_post_page_settings_title',
-	            'instructions' => 'The title of the page that shows your blog posts (default: Blog)',
-	            'type' => 'text',
-	        ),
-            array (
-                'key' => 'field_tk_post_page_settings_tags',
-                'label' => 'Show tags',
-                'name' => 'tk_post_page_settings_tags',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'show_tags'   => 'Show tags at the foot of each post'
-                )
-            ),
-            array (
-                'key' => 'field_tk_post_page_settings_search',
-                'label' => 'Hide Search',
-                'name' => 'tk_post_page_settings_search',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'hide_search'   => 'Hide search box on the posts archive page'
-                )
-            ),
-            array (
-                'key' => 'field_tk_content_settings_dropcap',
-                'label' => 'Drop Cap',
-                'name' => 'tk_content_settings_dropcap',
-                'instructions' => 'Special formatting can be applied to the first paragraph of posts, but this relies on the post starting with text in a paragraph(!)',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'hide_search'   => 'Format the first paragraph of content using a larger font and with a drop capital on the first word'
-                )
-            ),
 			array (
 				'key' => 'field_tk_tab_social',
 				'label' => 'Social Media',
