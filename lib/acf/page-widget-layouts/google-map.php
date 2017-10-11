@@ -7,7 +7,7 @@ function tk_add_google_map_page_widget( $widgets )
 {
     $widgets[] = array(
         'key' => 'field_tk_page_widgets_google_map',
-        'name' => 'map',
+        'name' => 'map_widget',
         'label' => 'Map',
         'display' => 'block',
         'sub_fields' => array (
@@ -71,19 +71,19 @@ function tk_add_google_map_page_widget( $widgets )
                         'library' => 'all',
                     ),
                     array (
-                        'key' => 'field_tk_page_widgets_google_map_location_size',
-                        'label' => 'Marker size',
-                        'name' => 'marker_size',
-                        'type' => 'select',
-                        'choices' => array ("tiny", "mid", "small", "normal"),
-                        'default_value' => "normal",
-                    ),
-                    array (
-                        'key' => 'field_tk_page_widgets_google_map_location_color',
+                        'key' => 'field_tk_page_widgets_google_map_location_markercolour',
                         'label' => 'Marker colour',
                         'name' => 'marker_colour',
                         'type' => 'select',
-                        'choices' => array ("black", "brown", "green", "purple", "yellow", "blue", "gray", "orange", "red", "white"),
+                        'choices' => array (
+                            "green"   => "Green", 
+                            "purple"  => "Purple", 
+                            "yellow"  => "Yellow", 
+                            "blue"    => "Blue", 
+                            "orange"  => "Orange", 
+                            "red"     => "Red", 
+                        ),
+                        'return_format' => "value",
                         'default_value' => "red",
                     ),
                     array (
@@ -92,7 +92,7 @@ function tk_add_google_map_page_widget( $widgets )
                         'name' => 'show_directions',
                         'type' => 'true_false',
                         'default_value' => 1,
-                        'ui' = 1,
+                        'ui' => 1,
                     ),
                     array (
                         'key' => 'field_tk_page_widgets_google_map_location_map',
@@ -113,4 +113,5 @@ function tk_add_google_map_page_widget( $widgets )
 }
 
 /* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_google_map_page_widget' );
+add_filter( 'group_tk_page_widgets', 'tk_add_google_map_page_widget', 10 );
+

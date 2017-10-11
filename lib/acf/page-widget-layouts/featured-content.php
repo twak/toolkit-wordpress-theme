@@ -3,7 +3,7 @@
  * featured content widget
  */
 
-function tk_add_geatured_content_page_widget( $widgets )
+function tk_add_featured_content_page_widget( $widgets )
 {
     $widgets[] = array (
         'key' => 'field_tk_page_widgets_featured',
@@ -111,4 +111,4 @@ function tk_add_geatured_content_page_widget( $widgets )
 }
 
 /* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_featured_content_page_widget' );
+add_filter( 'group_tk_page_widgets', 'tk_add_featured_content_page_widget', 6 );

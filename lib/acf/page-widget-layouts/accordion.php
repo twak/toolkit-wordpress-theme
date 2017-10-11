@@ -44,4 +44,4 @@ function tk_add_accordion_page_widget( $widgets )
 }
 
 /* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_accordion_page_widget' );
+add_filter( 'group_tk_page_widgets', 'tk_add_accordion_page_widget', 9 );

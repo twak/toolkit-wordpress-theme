@@ -30,4 +30,4 @@ function tk_add_news_events_posts_widget( $widgets )
 }
 
 /* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_news_events_posts_widget' );
+add_filter( 'group_tk_page_widgets', 'tk_add_news_events_posts_widget', 8 );

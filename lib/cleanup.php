@@ -131,10 +131,10 @@ if ( ! class_exists( 'tk_cleanup') ) {
          */
         public static function remove_cssjs_ver( $src )
         {
-            if( strpos( $src, '?ver=' ) ) {
+            if( false !== strpos( $src, 'ver=' ) ) {
                 $src = remove_query_arg( 'ver', $src );
-                return $src;
             }
+            return $src;
         }
     }
     tk_cleanup::register();
