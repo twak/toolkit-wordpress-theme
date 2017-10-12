@@ -266,16 +266,25 @@ if ( ! class_exists( 'tk_setup' ) ) {
         public static function admin_scripts() 
         {
             global $post_type;
-            if( $post_type == 'post' || $post_type == 'page' ) {
-                wp_register_script(
-                    'tk-admin-js', 
-                    get_template_directory_uri() . '/js/admin.js', 
-                    array('jquery'), 
-                    tk_admin::$version,
-                    true
-                );
-                wp_enqueue_script('tk-admin-js');
-            }
+            /* add some javascript variables to indicate activation status of plugins */
+            $admin_vars = array(
+                'news_plugin' => post_type_exists('news'),
+                'events_plugin' => post_type_exists('events'),
+                'profiles_plugin' => post_type_exists('profiles')
+            );
+            wp_register_script(
+                'tk-admin-js', 
+                get_template_directory_uri() . '/js/admin.js', 
+                array('jquery'), 
+                tk_admin::$version,
+                true
+            );
+            wp_localize_script(
+                'tk-admin-js',
+                'tkadmin',
+                $admin_vars
+            );
+            wp_enqueue_script('tk-admin-js');
         }
 
         /**

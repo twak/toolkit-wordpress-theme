@@ -123,15 +123,15 @@ if ( !function_exists( 'tk_display_featured_image' ) ) {
 
     function tk_display_featured_image( $post_id = false )
     {
+        if ( false === $post_id ) {
+            $post_id = get_queried_object_id();
+        }
         if ( class_exists( 'tk_media' ) && method_exists('tk_media', 'show_featured_image' ) ) {
             return tk_media::show_featured_image( $post_id );
         } else {
-            if ( false === $post_id ) {
-                $post_id = get_queried_object_id();
-            }
             $field_value = get_post_meta( $post_id, 'tk_show_featured_image', true );
             // make sure the return value is numeric rather than boolean
-            return ($field_value)? 1: 0;
+            return ($field_value === "1")? true: false;
         }
     }
 }

@@ -96,3 +96,16 @@ a {
 		}
 	}
 }
+
+.table-profiles tbody tr td:first-child {
+  width:80px;
+}
+.table-profiles.columns-5 td {
+  width:22%;
+}
+.table-profiles.columns-4 td {
+  width:27%;
+}
+.table-profiles.columns-3 td {
+  width:36%;
+}

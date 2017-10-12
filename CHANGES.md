@@ -1,6 +1,13 @@
 ChangeLog
 =========
 
+### 0.3.1
+
+ * Advanced custom fields for page widgets refactored to allow easy addition of widgets in child themes
+ * Columns in table view for profiles put under CSS control to equalise them
+ * Added a new page widget to allow inclusion of google maps
+ * Added configurable title and content for 404 (page not found) page to theme options
+
 ### 0.3.0
 
  * Advanced Custom Fields for page widgets taken out of UI configuration
