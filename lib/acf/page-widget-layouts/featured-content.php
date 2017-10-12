@@ -24,13 +24,52 @@ function tk_add_featured_content_page_widget( $widgets )
                 'maxlength' => 75
             ),
             array (
+                'key' => 'field_tk_page_widgets_featured_media_type',
+                'label' => 'Media Type',
+                'name' => 'featured_content_widget_media_type',
+                'type' => 'radio',
+                'choices' => array(
+                    'image' => 'Image',
+                    'video' => 'Video'
+                ),
+                'allow_null' => 0,
+                'default_value' => "image",
+                'layout' => 'horizontal',
+                'return_format' => 'value'
+            ),
+            array (
                 'key' => 'field_tk_page_widgets_featured_image',
                 'label' => 'Image',
                 'name' => 'featured_content_widget_image',
                 'type' => 'image',
                 'return_format' => 'url',
                 'preview_size' => 'thumbnail',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_tk_page_widgets_featured_media_type',
+                            'operator' => '==',
+                            'value' => 'image'
+                        )
+                    )
+                ),
                 'library' => 'all',
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_featured_video',
+                'label' => 'Video',
+                'name' => 'featured_content_widget_video',
+                'type' => 'oembed',
+                'instructions' => 'Enter a Youtube or Vimeo URL',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_tk_page_widgets_featured_media_type',
+                            'operator' => '==',
+                            'value' => 'video'
+                        )
+                    )
+                )
             ),
             array (
                 'key' => 'field_tk_page_widgets_featured_content',

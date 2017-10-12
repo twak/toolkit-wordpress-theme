@@ -19,6 +19,9 @@ if ( ! class_exists( "tk_media" ) ) {
             /* Remove thumbnail width and height dimensions */
             add_filter( 'post_thumbnail_html', array( __CLASS__, 'remove_thumbnail_dimensions' ), 10 );
 
+            /* add responsive embeds */
+            add_filter('embed_oembed_html', array( __CLASS__, 'responsive_embed' ), 10, 3);
+
             /* setting to determine whether featured iamge is included at the top of single templates */
             add_filter( 'admin_post_thumbnail_html', array( __CLASS__, 'add_featured_image_display_settings' ), 10, 2 );
             add_action( 'save_post', array( __CLASS__, 'save_featured_image_display_settings' ), 10, 3 );
@@ -117,6 +120,17 @@ if ( ! class_exists( "tk_media" ) ) {
             $field_value = get_post_meta( $post_id, 'tk_show_featured_image', true );
             // make sure the return value is numeric rather than boolean
             return ($field_value)? 1: 0;
+        }
+
+        /**
+         * Adds a responsive embed wrapper around oEmbed content
+         * @param  string $html The oEmbed markup
+         * @param  string $url  The URL being embedded
+         * @param  array  $attr An array of attributes
+         * @return string       Updated embed markup
+         */
+        public static function responsive_embed($html, $url, $attr) {
+            return $html!=='' ? '<div class="embed-responsive embed-responsive-16by9">'.$html.'</div>' : '';
         }
        
     }
