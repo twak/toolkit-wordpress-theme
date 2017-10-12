@@ -76,12 +76,12 @@
 			switch ($row_layout):						
 			    case 'content_widget': // Content Widget
 	
-				get_template_part('widgets/widget', 'content'); 				
+				    get_template_part('widgets/widget', 'content'); 				
 		    					        
 			    break;					  
 			    case 'featured_content_widget': // Content Widget
 	
-				get_template_part('widgets/widget', 'featured-content'); 				
+				    get_template_part('widgets/widget', 'featured-content'); 				
 		    					        
 			    break;					      
 			    case 'news_events_widget': // News and Events    
@@ -108,6 +108,11 @@
 
 			    	get_template_part('widgets/widget', 'accordion');
 			    break;
+                case 'map_widget': // Google maps widget
+
+                    get_template_part('widgets/widget', 'google-map');
+                    break;
+                    
 			    default:
 
 			    	echo "Select widget";
