@@ -106,6 +106,23 @@ function tk_add_cards_page_widget( $widgets )
                             ),
                         ),
                     ),
+                    array (
+                        'key' => 'field_tk_page_widgets_cards_card_link_text',
+                        'label' => 'Link text',
+                        'name' => 'cards_widget_card_link_text',
+                        'type' => 'text',
+                        'maxlength' => 75,
+                        'placeholder' => "More",
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_tk_page_widgets_cards_card_link_type',
+                                    'operator' => '!=',
+                                    'value' => 'no-link',
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
             array (

@@ -92,6 +92,18 @@ if($card_stacked_flag){
 <?php
 		if( have_rows('cards_widget_card') ):		
 			while( have_rows('cards_widget_card') ) : the_row();
+                if (get_sub_field('cards_widget_card_link_option') == 'internal') {
+                    $link_url = get_sub_field('cards_widget_card_internal_link');
+                } elseif (get_sub_field('cards_widget_card_link_option') == 'external') {
+                    $link_url = get_sub_field('cards_widget_card_external_link');
+                } else {
+                    $link_url = false;
+                }
+                $link_text = get_sub_field('cards_widget_card_link_text');
+                if ( ! $link_text ) {
+                    $link_text = 'More';
+                }
+
 ?>
 
 <?php if($card_stacked_flag){ ?>
@@ -108,16 +120,11 @@ if($card_stacked_flag){
 				<?php if(get_sub_field('cards_widget_card_image')) { //Image ?>
 					<div class="card-img <?php echo $cards_widget_image_width; ?>">
 						<div class="rs-img rs-img-<?php echo $cards_widget_image_proportion; ?>" style="background-image: url('<?php the_sub_field('cards_widget_card_image'); ?>');">
-
-						<?php if(get_sub_field('cards_widget_card_link_option') == 'internal') { ?>			
-		            		<a href="<?php the_sub_field('cards_widget_card_internal_link');?>">
-		            	<?php } elseif(get_sub_field('cards_widget_card_link_option') == 'external'){ ?>		
-		            		<a href="<?php the_sub_field('cards_widget_card_external_link');?>">
+						<?php if ( $link_url ) { ?>			
+		            		<a href="<?php echo $link_url; ?>">
 		            	<?php } ?>
-
 				            <img src="./assets/img/placeholders/ph-news-01.jpg" alt="2:1">
-
-				        <?php if(get_sub_field('cards_widget_card_link_option') != 'no-link') { ?>			
+				        <?php if ( $link_url ) { ?>
 		            		</a>
 		            	<?php } ?>		
 				        </div>
@@ -128,19 +135,13 @@ if($card_stacked_flag){
 											
 					<?php if(get_sub_field('cards_widget_card_title')) { //Title ?>			
 						<h3 class="heading-link-alt">
-
-						<?php if(get_sub_field('cards_widget_card_link_option') == 'internal') { ?>			
-		            		<a href="<?php the_sub_field('cards_widget_card_internal_link');?>">
-		            	<?php } elseif(get_sub_field('cards_widget_card_link_option') == 'external'){ ?>		
-		            		<a href="<?php the_sub_field('cards_widget_card_external_link');?>">
+                        <?php if ( $link_url ) { ?>         
+		            		<a href="<?php echo $link_url; ?>">
 		            	<?php } ?>
-						
 		            	<?php the_sub_field('cards_widget_card_title'); ?>
-
-		            	<?php if(get_sub_field('cards_widget_card_link_option') != 'no-link') { ?>			
+                        <?php if ( $link_url ) { ?>         
 		            		</a>
 		            	<?php } ?>	
-		            	
 		            	</h3>
 					<?php }?>
 
@@ -148,10 +149,8 @@ if($card_stacked_flag){
 						<div class="note"><?php the_sub_field('cards_widget_card_content'); ?></div>
 					<?php }?>		
 
-					<?php if(get_sub_field('cards_widget_card_link_option') == 'internal') { ?>			
-		            		<a class="more" href="<?php the_sub_field('cards_widget_card_internal_link');?>">More</a>
-		            <?php } elseif(get_sub_field('cards_widget_card_link_option') == 'external'){ ?>		
-		            		<a class="more" href="<?php the_sub_field('cards_widget_card_external_link');?>">More</a>
+                    <?php if ( $link_url ) { ?>         
+		            	<a class="more" href="<?php echo $link_url; ?>"><?php echo $link_text; ?></a>
 		            <?php } ?>
 		            	
 		                    			
