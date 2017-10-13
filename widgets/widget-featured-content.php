@@ -6,7 +6,17 @@ if(get_sub_field('featured_content_widget_background') == 'grey'){
 	$featured_content_background = "";
 }
 
-$link_url = (get_sub_field('featured_content_widget_link_option') == 'internal') ? get_sub_field('featured_content_widget_internal_link'): get_sub_field('featured_content_widget_external_link');
+if (get_sub_field('featured_content_widget_link_option') == 'internal') {
+    $link_url = get_sub_field('featured_content_widget_internal_link');
+} elseif (get_sub_field('featured_content_widget_link_option') == 'external') {
+    $link_url = get_sub_field('featured_content_widget_external_link');
+} else {
+    $link_url = false;
+}
+$link_text = get_sub_field('featured_content_widget_link_text');
+if ( ! $link_text ) {
+    $link_text = 'More';
+}
 
 ?>
 
@@ -27,7 +37,7 @@ $link_url = (get_sub_field('featured_content_widget_link_option') == 'internal')
 			        </div>    
 
 			        <?php if ( $link_url ) { ?>			
-	            		<a class="more" href="<?php echo $link_url; ?>">More</a>
+	            		<a class="more" href="<?php echo $link_url; ?>"><?php echo $link_text; ?></a>
 	            	<?php } ?>
 	            	
 			    </div>

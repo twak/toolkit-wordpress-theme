@@ -127,6 +127,23 @@ function tk_add_featured_content_page_widget( $widgets )
                 ),
             ),
             array (
+                'key' => 'field_tk_page_widgets_featured_link_text',
+                'label' => 'Link text',
+                'name' => 'featured_content_widget_link_text',
+                'type' => 'text',
+                'maxlength' => 75,
+                'placeholder' => "More",
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_featured_link_type',
+                            'operator' => '!=',
+                            'value' => 'no-link',
+                        ),
+                    ),
+                ),
+            ),
+            array (
                 'key' => 'field_tk_page_widgets_featured_appearance_tab',
                 'label' => 'Appearance',
                 'type' => 'tab',
