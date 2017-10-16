@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+### 0.3.2
+
+ * Fixed a bug in the page/post title character limit script
+ * removed toolkit plugins from TGMPA control (these should now be installed using github updater)
+ 
 ### 0.3.1
 
  * Advanced custom fields for page widgets refactored to allow easy addition of widgets in child themes

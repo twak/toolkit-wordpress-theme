@@ -37,18 +37,6 @@ gulp.task('package-plugins', ['bower'], function() {
   gulp.src('bower_components/github-updater/**', {base: 'bower_components/'})
     .pipe(zip('github-updater.zip'))
     .pipe(gulp.dest('lib/plugins'));
-  gulp.src('bower_components/toolkit-events/**', {base: 'bower_components/'})
-    .pipe(zip('toolkit-events.zip'))
-    .pipe(gulp.dest('lib/plugins'));
-  gulp.src('bower_components/toolkit-news/**', {base: 'bower_components/'})
-    .pipe(zip('toolkit-news.zip'))
-    .pipe(gulp.dest('lib/plugins'));
-  gulp.src('bower_components/toolkit-profiles/**', {base: 'bower_components/'})
-    .pipe(zip('toolkit-profiles.zip'))
-    .pipe(gulp.dest('lib/plugins'));
-  gulp.src('bower_components/toolkit-shortcodes/**', {base: 'bower_components/'})
-    .pipe(zip('toolkit-shortcodes.zip'))
-    .pipe(gulp.dest('lib/plugins'));
 });
 
 // Compile Sass

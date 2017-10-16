@@ -1,7 +1,7 @@
 {
   "name": "toolkit-wordpress-theme",
   "themename": "Toolkit Wordpress Theme",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Wordpress theme for the University of Leeds toolkit",
   "main": "style.css",
   "repository": {
