@@ -45,7 +45,7 @@
             });
         }	
         // limit number of characters on title field in posts and pages
-        if ($('body').hasClass('post-type-post') || $('body').hasClass('post-type-page')) {
+        if (($('body').hasClass('post-php') || $('body').hasClass('post-new-php')) && ($('body').hasClass('post-type-post') || $('body').hasClass('post-type-page'))) {
     		var maxTitleLength = 75;
 
     		// Add span to the input displaying the characters remaining
