@@ -10,7 +10,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
         /**
          * theme version
          */
-        public static $version = "0.3.1";
+        public static $version = "0.3.2";
 
         public static function register()
         {
@@ -46,9 +46,9 @@ if ( ! class_exists( 'tk_admin' ) ) {
                     case "0.2.15":
                     case "0.2.16":
                     case "0.2.17":
-                        // upgrade from 0.2.x to 0.3.1
-                        include dirname(__FILE__) . '/upgrade/0.3.1.php';
-                    case "0.3.1":
+                        // upgrade from 0.2.x to 0.3.2
+                        include dirname(__FILE__) . '/upgrade/0.3.2.php';
+                    case "0.3.2":
                         
                 }
             }
