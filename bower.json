@@ -19,10 +19,6 @@
   "devDependencies": {
     "tmhOAuth": "themattharris/tmhOAuth#^0.8.4",
     "TGM-Plugin-Activation": "TGMPA/TGM-Plugin-Activation#^2.6.1",
-    "toolkit-events": "https://bitbucket.org/university-of-leeds/toolkit-events.git#master",
-    "toolkit-profiles": "https://bitbucket.org/university-of-leeds/toolkit-profiles.git#master",
-    "toolkit-shortcodes": "https://bitbucket.org/university-of-leeds/toolkit-shortcodes.git#master",
-    "toolkit-news": "https://bitbucket.org/university-of-leeds/toolkit-news.git#master",
     "github-updater": "afragen/github-updater#^7.1.0"
   }
 }
