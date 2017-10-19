@@ -94,11 +94,16 @@
 					get_template_part('widgets/widget', 'banner'); 
 
 			    break;
-			    case 'cards_widget': //Banner Widget    
-					
-					get_template_part('widgets/widget', 'cards'); 
+                case 'cards_widget': //Banner Widget    
+                    
+                    get_template_part('widgets/widget', 'cards'); 
 
-			    break;
+                break;
+                case 'columns_widget': //Banner Widget    
+                    
+                    get_template_part('widgets/widget', 'columns'); 
+
+                break;
 			    case 'tiles_widget': //Banner Widget    
 					
 					get_template_part('widgets/widget', 'tiles'); 
@@ -115,7 +120,7 @@
                     
 			    default:
 
-			    	echo "Select widget";
+			    	echo "";
 			       
 			endswitch;    				       	
 		?>
