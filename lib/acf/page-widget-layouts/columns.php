@@ -1,6 +1,6 @@
 <?php
 /**
- * accordion page widget
+ * columns page widget
  */
 
 function tk_add_columns_page_widget( $widgets )
