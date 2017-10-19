@@ -1,19 +1,25 @@
 ChangeLog
 =========
 
-### 0.3.2
+### 0.3.3
+
+ * Fixed google maps widget script loading (only loads when map widget it used in page)
+ * Added Google API theme setting for google maps (falls back to one owned by Web Solutions)
+ * Added columns widget
+
+### 0.3.2 (16/10/2013)
 
  * Fixed a bug in the page/post title character limit script
- * removed toolkit plugins from TGMPA control (these should now be installed using github updater)
+ * Removed toolkit plugins from TGMPA control (these should now be installed using github updater)
  
-### 0.3.1
+### 0.3.1 (13/10/2017)
 
  * Advanced custom fields for page widgets refactored to allow easy addition of widgets in child themes
  * Columns in table view for profiles put under CSS control to equalise them
  * Added a new page widget to allow inclusion of google maps
  * Added configurable title and content for 404 (page not found) page to theme options
 
-### 0.3.0
+### 0.3.0 (28/09/2017)
 
  * Advanced Custom Fields for page widgets taken out of UI configuration
  * Styles added to editor-styles.css

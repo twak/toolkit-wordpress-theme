@@ -14,11 +14,11 @@ $cards_widget_columns = "";
 if(get_sub_field('cards_widget_columns')) {
 	$card_columns = get_sub_field('cards_widget_columns');
 	if($card_columns == 4){
-		$cards_widget_columns = "3";
+		$cards_widget_columns = "col-sm-6 col-md-3";
 	} elseif($card_columns == 3){
-		$cards_widget_columns = "4";	
+		$cards_widget_columns = "col-sm-4";	
 	} else {
-		$cards_widget_columns = "6";	
+		$cards_widget_columns = "col-sm-6";	
 	}
 } 
 
@@ -37,6 +37,7 @@ if(get_sub_field('cards_widget_background')) {
 
 //Image proportion & width
 $cards_widget_image_proportion = "";
+$cards_widget_image_width = "";
 if(get_sub_field('cards_widget_image_proportion')) {
 	if(get_sub_field('cards_widget_image_proportion') == "square") {
 		$cards_widget_image_proportion = "1-1";
@@ -108,7 +109,7 @@ if($card_stacked_flag){
 
 <?php if($card_stacked_flag){ ?>
 
-			<div class="col-sm-<?php echo $cards_widget_columns; ?>">
+			<div class="<?php echo $cards_widget_columns; ?>">
 				<div class="card-flat card-stacked-sm skin-bd-b <?php echo $cards_single_background; ?>">
 
 <?php } else { ?>

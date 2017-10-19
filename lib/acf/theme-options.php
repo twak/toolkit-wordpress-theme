@@ -24,7 +24,12 @@ function tk_add_acf_theme_options()
         'parent_slug'   => 'themes.php',
         'capability'    => 'edit_posts',
         'redirect'      => false
-    ));  
+    ));
+
+    /**
+     * google API key
+     */
+    acf_update_setting('google_api_key', tk_get_google_api_key());  
 
 	/** 
 	 * Theme Options
@@ -102,6 +107,20 @@ function tk_add_acf_theme_options()
 					),
 				),
 			),
+            array(
+                'key' => 'field_tk_google_api_intro',
+                'name' => 'tk_google_api_intro',
+                'type' => 'message',
+                'message' => '<h3>Google API key</h3><p>If you are using the Google maps widget on your pages, it is <em>strongly recommended</em> that you create your own API key in the <a href="https://console.developers.google.com/apis/" target="_blank">Google API console</a>. The key needs to enable Google Static Maps API, Google Maps Directions API, Google Maps Distance Matrix API, Google Maps Elevation API, Google Maps Geocoding API and Google Places API Web Services</p>',
+                'new_lines' => '',
+                'esc_html' => 0,
+            ),
+            array (
+                'key' => 'field_tk_google_api_key',
+                'label' => 'Google API key',
+                'name' => 'tk_google_api_key',
+                'type' => 'text',
+            ),
 			array(
 				'key' => 'field_tk_tab_posts',
 				'label' => 'Posts',
