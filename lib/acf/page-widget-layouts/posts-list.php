@@ -19,8 +19,8 @@ function tk_add_posts_list_widget( $widgets )
             ),
             array (
                 'key' => 'field_tk_widgets_posts_list_content',
-                'label' => 'Posts list',
-                'name' => 'posts_list',
+                'label' => 'Posts lists',
+                'name' => 'posts_list_widgets',
                 'type' => 'flexible_content',
                 'layouts' => apply_filters('tk_post_type_list', array() ),
                 'button_label' => 'Add List',

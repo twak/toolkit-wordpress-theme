@@ -117,7 +117,10 @@
 
                     get_template_part('widgets/widget', 'google-map');
                     break;
-                    
+                case 'posts_list_widget': // Posts list widget
+
+                    get_template_part('widgets/widget', 'posts-list');
+                    break;
 			    default:
 
 			    	echo "";
