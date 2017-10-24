@@ -6,82 +6,53 @@
  * where multiple layouts are configured, displayed in tabs.
  */
 
-//$layouts = get_sub_field('posts_list_widgets');
+$layouts = get_sub_field('posts_list_widgets');
 $widget_title = get_sub_field( 'widget_title' );
-if ( have_rows('posts_list_widgets') ) {
+if ( count( $layouts ) ) {
     // collect data for tabs and panels here
     $tabs = array();
     $panels = array();
 
     // see if there is any content to display
     $tab_count = 1;
-    while ( have_rows('posts_list_widgets') ) : the_row();
-        $layout = get_row_layout();
-        print($layout);
-        switch ($layout) {
+    foreach ( $layouts as $layout ) {
+        $layout_name = $layout['acf_fc_layout'];
+        switch ($layout_name) {
             case 'posts_list':
-                $panel = tk_post_list_widget_get_posts_list( array(
-                    'posts_filter' => get_sub_field('posts_filter'),
-                    'post_category' => get_sub_field('post_category'),
-                    'post_tag' => get_sub_field('post_tag')
-                ) );
+                $panel = tk_post_list_widget_get_posts_list( $layout );
                 if ( '' !== $panel ) {
-                    $archive_link = '';
-                    $archive_link_url = get_post_type_archive_link('post');
-                    $archive_link_text = get_sub_field('link_text');
-                    if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
-                    }
+                    $archive_link = tk_get_post_archive_link( $layout, 'post' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
                     // tab link
-                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
+                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, $layout['tab_text'] );
                     $tab_count++;
                 }
                 break;
             case 'news_list':
-                $panel = tk_post_list_widget_get_news_list( array(
-                    'news_filter' => get_sub_field('news_filter'),
-                    'news_category' => get_sub_field('news_category'),
-                    'news_tag' => get_sub_field('news_tag') 
-                ) );
+                $panel = tk_post_list_widget_get_news_list( $layout );
                 if ( $panel ) {
-                    $archive_link = '';
-                    $archive_link_url = get_post_type_archive_link('news');
-                    $archive_link_text = get_sub_field('link_text');
-                    if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
-                    }
+                    $archive_link = tk_get_post_archive_link( $layout, 'news' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
                     // tab link
-                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
+                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, $layout['tab_text'] );
                     $tab_count++;
                 }
                 break;
             case 'events_list':
-                $panel = tk_post_list_widget_get_events_list( array(
-                    'events_filter' => get_sub_field('events_filter'),
-                    'event_category' => get_sub_field('event_category'),
-                    'event_tag' => get_sub_field('event_tag'),
-                    'show_past_events' => get_sub_field('show_past_events')
-                ) );
+                $panel = tk_post_list_widget_get_events_list( $layout );
                 if ( $panel ) {
-                    $archive_link = '';
-                    $archive_link_url = get_post_type_archive_link('events');
-                    $archive_link_text = get_sub_field('link_text');
-                    if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
-                    }
+                    $archive_link = tk_get_post_archive_link( $layout, 'events' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
                     // tab link
-                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
+                    $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, $layout['tab_text'] );
                     $tab_count++;
                 }
                 break;
         }
-    endwhile;
+    }
     $is_active = true;
     $tab_content = '';
     $panel_content = '';
@@ -93,19 +64,21 @@ if ( have_rows('posts_list_widgets') ) {
         if ( count($tabs) > 1) {
             // more than one list
             $tab_content .= '<div class="tk-tabs-header"><ul class="nav nav-tabs tk-nav-tabs pull-left">';
+            $panel_content = '<div class="tab-content">';
             foreach ( $tabs as $id => $tab ) {
                 if ( $is_active ) {
-                    $class = 'active';
+                    $class = ' active in';
                     $classattr = ' class="active"';
                     $is_active = false;
                 } else {
                     $class = '';
                     $classattr = '';
                 }
-                $tab_content .= sprintf('<li%>%s</li>', $classattr, $tab );
-                $panel_content .= sprintf( '<div class="tab-pane fade in%s" id="%s">%s</div>',$class, $id, $panels[$id] );
+                $tab_content .= sprintf('<li%s>%s</li>', $classattr, $tab );
+                $panel_content .= sprintf( '<div class="tab-pane fade%s" id="%s">%s</div>', $class, $id, $panels[$id] );
             }
             $tab_content .= '</ul></div>';
+            $panel_content .= '</div>';
         } else {
             // one list
             $panel_content = sprintf('<div>%s</div>', implode('', $panels) );
@@ -405,6 +378,47 @@ function tk_post_list_widget_get_events_list( $settings )
         }
     }
     return $out;
+}
+/**
+ * returns the HTML for an archive link
+ * @param array
+ */
+function tk_get_post_archive_link( $layout, $post_type )
+{
+    $taxonomies = array(
+        'post' => array(
+            'category' => 'category',
+            'tag' => 'post_tag'
+        ),
+        'events' => array(
+            'category' => 'event_category',
+            'tag' => 'event_tag'
+        ),
+        'news' => array(
+            'category' => 'news_category',
+            'tag' => 'news_tag'
+        )
+    );
+    $archive_link = '';
+    if ( isset( $layout['link_text'] ) && $layout['link_text'] ) {
+        $archive_link_text = $layout['link_text'];
+        $archive_link_url = false;
+        if ( isset($layout['link_to_category']) && $layout['link_to_category'] ) {
+            if ( isset($layout['link_category']) && $layout['link_category'] ) {
+                $archive_link_url = get_term_link($layout['link_category'], $taxonomies[$post_type]['category']);
+            }
+        }
+        if ( isset( $layout['link_to_tag'] ) && $layout['link_to_tag'] ) {
+            if ( isset($layout['link_tag']) && $layout['link_tag'] ) {
+                $archive_link_url = get_term_link($layout['link_tag'], $taxonomies[$post_type]['tag']);
+            }
+        }
+        if ( ! $archive_link_url || is_wp_error($archive_link_url) ) {
+            $archive_link_url = get_post_type_archive_link($post_type);
+        }
+        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
+    }
+    return $archive_link;
 }
 
 /**

@@ -24,7 +24,7 @@ function tk_add_posts_list_widget( $widgets )
                 'type' => 'flexible_content',
                 'layouts' => apply_filters('tk_post_type_list', array() ),
                 'button_label' => 'Add List',
-                'max' => 4,
+                //'max' => 4,
             )
         )
     );
@@ -53,15 +53,6 @@ function tk_add_news_post_list_widget( $layouts )
                     'prepend' => '',
                     'append' => '',
                     'maxlength' => 20,
-                ),
-                array (
-                    'key' => 'field_tk_page_widgets_posts_list_news_link',
-                    'label' => 'Link text',
-                    'name' => 'link_text',
-                    'type' => 'text',
-                    'instructions' => 'This will link to the News Archive Page',
-                    'default_value' => 'View all News',
-                    'placeholder' => 'View all News',
                 ),
                 array (
                     'key' => 'field_tk_page_widgets_posts_list_news_filter',
@@ -114,6 +105,87 @@ function tk_add_news_post_list_widget( $layouts )
                     'field_type' => 'checkbox',
                     'return_format' => 'id',
                     'multiple' => 1,
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_link_text',
+                    'label' => 'Link text',
+                    'name' => 'link_text',
+                    'type' => 'text',
+                    'instructions' => 'This will link to the News Archive Page',
+                    'default_value' => 'View all News',
+                    'placeholder' => 'View all News',
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_link_to_cat',
+                    'label' => 'Link to category archive page?',
+                    'name' => 'link_to_category',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_news_filter',
+                                'operator' => '==',
+                                'value' => 'category',
+                            ),
+                        ),
+                    ),
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_link_category',
+                    'label' => 'Select category',
+                    'name' => 'link_category',
+                    'type' => 'taxonomy',
+                    'taxonomy' => 'news_category',
+                    'field_type' => 'select',
+                    'add_term' => 0,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_news_link_to_cat',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
+                    'return_format' => 'id',
+                    'multiple' => 0,
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_link_to_tag',
+                    'label' => 'Link to tag archive page?',
+                    'name' => 'link_to_tag',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_news_filter',
+                                'operator' => '==',
+                                'value' => 'tag',
+                            ),
+                        ),
+                    ),
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_link_tag',
+                    'label' => 'Select tag',
+                    'name' => 'link_tag',
+                    'type' => 'taxonomy',
+                    'taxonomy' => 'news_tag',
+                    'field_type' => 'select',
+                    'add_term' => 0,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_news_link_to_tag',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
+                    'return_format' => 'id',
+                    'multiple' => 0,
                 ),
             ),
         );
@@ -210,6 +282,87 @@ function tk_add_events_post_list_widget( $layouts )
                     'default_value' => 0,
                     'ui' => 1,
                 ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_link_text',
+                    'label' => 'Link text',
+                    'name' => 'link_text',
+                    'type' => 'text',
+                    'instructions' => 'This will link to an Events Archive Page',
+                    'default_value' => 'View all Events',
+                    'placeholder' => 'View all Events',
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_link_to_cat',
+                    'label' => 'Link to category archive page?',
+                    'name' => 'link_to_category',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_events_filter',
+                                'operator' => '==',
+                                'value' => 'category',
+                            ),
+                        ),
+                    ),
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_link_category',
+                    'label' => 'Select category',
+                    'name' => 'link_category',
+                    'type' => 'taxonomy',
+                    'taxonomy' => 'event_category',
+                    'field_type' => 'select',
+                    'add_term' => 0,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_events_link_to_cat',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
+                    'return_format' => 'id',
+                    'multiple' => 0,
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_link_to_tag',
+                    'label' => 'Link to tag archive page?',
+                    'name' => 'link_to_tag',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_events_filter',
+                                'operator' => '==',
+                                'value' => 'tag',
+                            ),
+                        ),
+                    ),
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_link_tag',
+                    'label' => 'Select tag',
+                    'name' => 'link_tag',
+                    'type' => 'taxonomy',
+                    'taxonomy' => 'event_tag',
+                    'field_type' => 'select',
+                    'add_term' => 0,
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_events_link_to_tag',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
+                    'return_format' => 'id',
+                    'multiple' => 0,
+                ),
             ),
         );
     }
@@ -294,6 +447,87 @@ function tk_add_posts_post_list_widget( $layouts )
                 'field_type' => 'checkbox',
                 'return_format' => 'id',
                 'multiple' => 1,
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_link_text',
+                'label' => 'Link text',
+                'name' => 'link_text',
+                'type' => 'text',
+                'instructions' => 'This will link to a Post Archive Page',
+                'default_value' => 'View all Posts',
+                'placeholder' => 'View all Posts',
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_link_to_cat',
+                'label' => 'Link to category archive page?',
+                'name' => 'link_to_category',
+                'type' => 'true_false',
+                'ui' => 1,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_posts_list_posts_filter',
+                            'operator' => '==',
+                            'value' => 'category',
+                        ),
+                    ),
+                ),
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_link_category',
+                'label' => 'Select category',
+                'name' => 'link_category',
+                'type' => 'taxonomy',
+                'taxonomy' => 'category',
+                'field_type' => 'select',
+                'add_term' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_posts_list_posts_link_to_cat',
+                            'operator' => '==',
+                            'value' => 1,
+                        ),
+                    ),
+                ),
+                'return_format' => 'id',
+                'multiple' => 0,
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_link_to_tag',
+                'label' => 'Link to tag archive page?',
+                'name' => 'link_to_tag',
+                'type' => 'true_false',
+                'ui' => 1,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_posts_list_posts_filter',
+                            'operator' => '==',
+                            'value' => 'tag',
+                        ),
+                    ),
+                ),
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_link_tag',
+                'label' => 'Select tag',
+                'name' => 'link_tag',
+                'type' => 'taxonomy',
+                'taxonomy' => 'post_tag',
+                'field_type' => 'select',
+                'add_term' => 0,
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_posts_list_posts_link_to_tag',
+                            'operator' => '==',
+                            'value' => 1,
+                        ),
+                    ),
+                ),
+                'return_format' => 'id',
+                'multiple' => 0,
             ),
         ),
     );
