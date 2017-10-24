@@ -1,38 +1,45 @@
 <?php 
+/**
+ * Template to display lists of posts
+ * Data comes from ACF repeater field which gathers settings for different
+ * post types. Maximum of four posts are displayed as stacked cards, and
+ * where multiple layouts are configured, displayed in tabs.
+ */
 
-$layouts = get_field('posts_list_widgets');
+$layouts = get_sub_field('posts_list_widgets');
+
 if ( count($layouts) ) {
+    // collect data for tabs and panels here
     $tabs = array();
     $panels = array();
-    // first see if there is any content to display
+
+    // see if there is any content to display
     while ( have_rows('posts_list_widgets') ) : the_row();
         $layout = get_row_layout();
         $tab_count = 1;
         switch ($layout) {
             case 'posts_list':
                 $panel = tk_post_list_widget_get_posts_list( array(
-                    'index' => $tab_count,
-                    'active' => $is_active,
                     'posts_filter' => get_sub_field('posts_filter'),
                     'post_category' => get_sub_field('post_category'),
-                    'post_tag' => get_sub_field('post_tag') 
+                    'post_tag' => get_sub_field('post_tag')
                 ) );
-                if ( $panel ) {
+                if ( '' !== $panel ) {
                     $archive_link = '';
                     $archive_link_url = get_post_type_archive_link('post');
                     $archive_link_text = get_sub_field('link_text');
                     if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text)
+                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
                     }
+                    // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
+                    // tab link
                     $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
                     $tab_count++;
                 }
                 break;
             case 'news_list':
                 $panel = tk_post_list_widget_get_news_list( array(
-                    'index' => $tab_count,
-                    'active' => $is_active,
                     'news_filter' => get_sub_field('news_filter'),
                     'news_category' => get_sub_field('news_category'),
                     'news_tag' => get_sub_field('news_tag') 
@@ -42,17 +49,17 @@ if ( count($layouts) ) {
                     $archive_link_url = get_post_type_archive_link('news');
                     $archive_link_text = get_sub_field('link_text');
                     if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text)
+                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
                     }
+                    // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
+                    // tab link
                     $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
                     $tab_count++;
                 }
                 break;
             case 'events_list':
                 $panel = tk_post_list_widget_get_events_list( array(
-                    'index' => $tab_count,
-                    'active' => $is_active,
                     'events_filter' => get_sub_field('events_filter'),
                     'event_category' => get_sub_field('event_category'),
                     'event_tag' => get_sub_field('event_tag'),
@@ -63,9 +70,11 @@ if ( count($layouts) ) {
                     $archive_link_url = get_post_type_archive_link('events');
                     $archive_link_text = get_sub_field('link_text');
                     if ( $archive_link_text ) {
-                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text)
+                        $archive_link = sprintf('<p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="%s">%s</a></p>', $archive_link_url, $archive_link_text);
                     }
+                    // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
+                    // tab link
                     $tabs['posts-list-tab-' . $tab_count] = sprintf('<a href="#posts-list-tab-%s" data-toggle="tab">%s</a>', $tab_count, get_sub_field('tab_text') );
                     $tab_count++;
                 }
@@ -94,7 +103,7 @@ if ( count($layouts) ) {
                     $classattr = '';
                 }
                 $tab_content .= sprintf('<li%>%s</li>', $classattr, $tab );
-                $panel_content .= '<div class="tab-pane fade in%s" id="%s">%s</div>',$class, $id, $panels[$id] );
+                $panel_content .= sprintf( '<div class="tab-pane fade in%s" id="%s">%s</div>',$class, $id, $panels[$id] );
             }
             $tab_content .= '</ul></div>';
         } else {
@@ -106,6 +115,12 @@ if ( count($layouts) ) {
     }
 }
 
+/**
+ * Gets a list of news using a custom query
+ * @uses tk_get_post_card()
+ * @param array settings from ACF fields
+ * @return string HTML (cards)
+ */
 function tk_post_list_widget_get_news_list( $settings )
 {
     $out = '';
@@ -117,25 +132,27 @@ function tk_post_list_widget_get_news_list( $settings )
     );
 
     // see whether we are filtering by category or tag and add tax_query
-    if ( $settings['news_filter'] === 'category' ) {
-        if ( isset( $settings['news_category'] ) && count( $settings['news_category'] ) ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'news_category',
-                    'field' => 'term_id',
-                    'terms' => $settings['news_category'] 
-                )
-            );
-        }
-    } elseif ( $settings['news_filter'] === 'tag' ) {
-        if ( isset( $settings['news_tag'] ) && count( $settings['news_tag'] ) ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'news_tag',
-                    'field' => 'term_id',
-                    'terms' => $settings['news_tag'] 
-                )
-            );
+    if ( isset( $settings['news_filter'] ) ) {
+        if ( $settings['news_filter'] === 'category' ) {
+            if ( isset( $settings['news_category'] ) && count( $settings['news_category'] ) ) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'news_category',
+                        'field' => 'term_id',
+                        'terms' => $settings['news_category'] 
+                    )
+                );
+            }
+        } elseif ( $settings['news_filter'] === 'tag' ) {
+            if ( isset( $settings['news_tag'] ) && count( $settings['news_tag'] ) ) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'news_tag',
+                        'field' => 'term_id',
+                        'terms' => $settings['news_tag'] 
+                    )
+                );
+            }
         }
     }
 
@@ -162,6 +179,12 @@ function tk_post_list_widget_get_news_list( $settings )
     return $out;
 }
 
+/**
+ * Gets a list of posts using a custom query
+ * @uses tk_get_post_card()
+ * @param array settings from ACF fields
+ * @return string HTML (cards)
+ */
 function tk_post_list_widget_get_posts_list( $settings )
 {
     $out = '';
@@ -173,28 +196,30 @@ function tk_post_list_widget_get_posts_list( $settings )
     );
 
     // see whether we are filtering by category or tag and add tax_query
-    if ( $settings['posts_filter'] === 'category' ) {
-        if ( isset( $settings['post_category'] ) && count( $settings['post_category'] ) ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'category',
-                    'field' => 'term_id',
-                    'terms' => $settings['post_category'] 
-                )
-            );
-        }
-    } elseif ( $settings['posts_filter'] === 'tag' ) {
-        if ( isset( $settings['post_tag'] ) && count( $settings['post_tag'] ) ) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'post_tag',
-                    'field' => 'term_id',
-                    'terms' => $settings['post_tag'] 
-                )
-            );
+    if ( isset( $settings['post_filter'] ) ) {
+        if ( $settings['posts_filter'] === 'category' ) {
+            if ( isset( $settings['post_category'] ) && count( $settings['post_category'] ) ) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'category',
+                        'field' => 'term_id',
+                        'terms' => $settings['post_category'] 
+                    )
+                );
+            }
+        } elseif ( $settings['posts_filter'] === 'tag' ) {
+            if ( isset( $settings['post_tag'] ) && count( $settings['post_tag'] ) ) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'post_tag',
+                        'field' => 'term_id',
+                        'terms' => $settings['post_tag'] 
+                    )
+                );
+            }
         }
     }
-
+    print_r($args);
     // fetch news items
     $loop_posts = new WP_Query( $args );
     $has_posts = $loop_posts->post_count > 0;
@@ -218,44 +243,44 @@ function tk_post_list_widget_get_posts_list( $settings )
     return $out;
 }
 
-
-function tk_post_list_widget_get_events_list()
+/**
+ * Gets a list of events using a custom query
+ * First a query is made for current/future events, then (if specified in
+ * settings) past events if there is any space
+ * @uses tk_get_post_card()
+ * @param array settings from ACF fields
+ * @return string HTML (cards)
+ */
+function tk_post_list_widget_get_events_list( $settings )
 {
-    $posts_data['events'] = array();
-
-    $posts_data['events']['settings'] = get_sub_field( 'events_settings' );
-    
-    $today = date('Ymd');
-
+    $out = '';
     $tax_query = false;
 
-    $loop_past_events = false;
-
-    if ( $posts_data['events']['settings'] ) {
-
-        // see whether we are filtering by category or tag and add tax_query
-        if ( $posts_data['events']['settings']['events_filter'] === 'category' ) {
-            if ( isset( $posts_data['events']['settings']['events_category'] ) && count( $posts_data['events']['settings']['events_category'] ) ) {
+    // see whether we are filtering by category or tag and add tax_query
+    if ( isset( $settings['events_filter'] ) ) {
+        if ( $settings['events_filter'] === 'category' ) {
+            if ( isset( $settings['events_category'] ) && count( $settings['events_category'] ) ) {
                 $tax_query = array(
                     array(
                         'taxonomy' => 'events_category',
                         'field' => 'term_id',
-                        'terms' => $posts_data['events']['settings']['events_category'] 
+                        'terms' => $settings['events_category'] 
                     )
                 );
             }
-        } elseif ( $posts_data['events']['settings']['events_filter'] === 'tag' ) {
-            if ( isset( $posts_data['events']['settings']['events_tag'] ) && count( $posts_data['events']['settings']['events_tag'] ) ) {
+        } elseif ( $settings['events_filter'] === 'tag' ) {
+            if ( isset( $settings['events_tag'] ) && count( $settings['events_tag'] ) ) {
                 $tax_query = array(
                     array(
                         'taxonomy' => 'events_tag',
                         'field' => 'term_id',
-                        'terms' => $posts_data['events']['settings']['events_tag'] 
+                        'terms' => $settings['events_tag'] 
                     )
                 );
             }
         }
     }
+
     $args_current = array(
         'post_type'         => 'events', 
         'posts_per_page'    => 4,
@@ -290,9 +315,8 @@ function tk_post_list_widget_get_events_list()
 
     // fetch current events
     $loop_current_events = new WP_Query( $args_current );
-    $has_events = $loop_current_events->post_count > 0;
-    $posts_data['events']['posts'] = array();
-    if ( $loop_current_events->post_count ) {
+    $has_events = $loop_current_events->post_count;
+    if ( $has_events ) {
         while ( $loop_current_events->have_posts() ) : $loop_current_events->the_post();
             if ( get_field( 'tk_events_start_date' ) ) {                            
                 $start_date = get_field('tk_events_start_date');
@@ -310,18 +334,18 @@ function tk_post_list_widget_get_events_list()
             } else {
                 $thumbnail_url = false;
             }
-            $posts_data['events']['posts'][] = array(
+            $out .= tk_get_post_card( array(
                 'type' => 'event',
                 'title' => get_the_title(),
                 'url' => get_permalink(),
                 'excerpt' => tk_get_excerpt('tk_card_length'),
                 'date' => $event_date,
                 'thumbnail_url' => $thumbnail_url
-            );
+            ) );
         endwhile;
     }
 
-    if ( $posts_data['events']['settings'] && $posts_data['events']['settings']['show_past_events'] ) {
+    if ( isset( $settings['show_past_events'] ) && $settings['show_past_events'] ) {
         // showing past events - first figure if we need any
         $remainder = 4 - $has_events;
         if ( $remainder > 0 ) {
@@ -368,25 +392,31 @@ function tk_post_list_widget_get_events_list()
                     } else {
                         $thumbnail_url = false;
                     }
-                    $posts_data['events']['posts'][] = array(
+                    $out .= tk_get_post_card( array(
                         'type' => 'event',
                         'title' => get_the_title(),
                         'url' => get_permalink(),
                         'excerpt' => tk_get_excerpt('tk_card_length'),
                         'date' => $event_date,
                         'thumbnail_url' => $thumbnail_url
-                    );
+                    ) );
                 endwhile;
-            }
-            if ( ! $has_events ) {
-                $has_events = $loop_past_events->post_count > 0;
             }
         }
     }
+    return $out;
 }
 
-
-
+/**
+ * returns the HTML for a card based on data passed in associative array
+ * @param array with the following members
+ *  - type (post type)
+ *  - title
+ *  - thumbnail_url
+ *  - date
+ *  - url
+ *  - excerpt
+ */
 function tk_get_post_card( $post )
 {
     $out = sprintf('<div class="%s-item col-sm-6 col-md-3"><div class="card card-stacked skin-box-white skin-bd-b">', $post['type'] );
