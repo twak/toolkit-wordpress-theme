@@ -7,7 +7,7 @@ function tk_add_posts_list_widget( $widgets )
 {
     $widgets[] = array (
         'key' => 'field_tk_widgets_posts_list_widget',
-        'label' => 'Posts list',
+        'label' => 'Post Lists',
         'name' => 'posts_list_widget',
         'instructions' => 'Add lists of your latest four posts',
         'sub_fields' => array(
@@ -19,7 +19,7 @@ function tk_add_posts_list_widget( $widgets )
             ),
             array (
                 'key' => 'field_tk_widgets_posts_list_content',
-                'label' => 'Posts lists',
+                'label' => 'Lists',
                 'name' => 'posts_list_widgets',
                 'type' => 'flexible_content',
                 'layouts' => apply_filters('tk_post_type_list', array() ),
@@ -39,7 +39,7 @@ function tk_add_news_post_list_widget( $layouts )
         $layouts[] = array(
             'key' => 'field_tk_widgets_posts_list_news',
             'name' => 'news_list',
-            'label' => 'News List',
+            'label' => 'List of News',
             'display' => 'block',
             'sub_fields' => array (
                 array (
@@ -128,7 +128,7 @@ function tk_add_events_post_list_widget( $layouts )
         $layouts[] = array(
             'key' => 'field_tk_widgets_posts_list_events',
             'name' => 'events_list',
-            'label' => 'Events List',
+            'label' => 'List of Events',
             'display' => 'block',
             'sub_fields' => array (
                 array (
@@ -222,7 +222,7 @@ function tk_add_posts_post_list_widget( $layouts )
     $layouts[] = array(
         'key' => 'field_tk_widgets_posts_list_posts',
         'name' => 'posts_list',
-        'label' => 'Posts List',
+        'label' => 'List of Posts',
         'display' => 'block',
         'sub_fields' => array (
             array (

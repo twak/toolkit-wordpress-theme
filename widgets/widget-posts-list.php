@@ -6,17 +6,18 @@
  * where multiple layouts are configured, displayed in tabs.
  */
 
-$layouts = get_sub_field('posts_list_widgets');
-
-if ( count($layouts) ) {
+//$layouts = get_sub_field('posts_list_widgets');
+$widget_title = get_sub_field( 'widget_title' );
+if ( have_rows('posts_list_widgets') ) {
     // collect data for tabs and panels here
     $tabs = array();
     $panels = array();
 
     // see if there is any content to display
+    $tab_count = 1;
     while ( have_rows('posts_list_widgets') ) : the_row();
         $layout = get_row_layout();
-        $tab_count = 1;
+        print($layout);
         switch ($layout) {
             case 'posts_list':
                 $panel = tk_post_list_widget_get_posts_list( array(
@@ -86,7 +87,6 @@ if ( count($layouts) ) {
     $panel_content = '';
     if ( count($tabs) ) {
         print('<div class="skin-row-module-light container-row"><div class="wrapper-lg wrapper-pd-md">');
-        $widget_title = get_sub_field( 'widget_title' );
         if ( $widget_title ) {
             printf('<h3 class="h2-lg heading-underline">%s</h3>', $widget_title );
         }
@@ -108,7 +108,7 @@ if ( count($layouts) ) {
             $tab_content .= '</ul></div>';
         } else {
             // one list
-            $panel_content = sprintf('<div>%s</div>', $implode('', $panels) );
+            $panel_content = sprintf('<div>%s</div>', implode('', $panels) );
         }
         print $tab_content . $panel_content;
         print('</div></div>');
@@ -196,7 +196,7 @@ function tk_post_list_widget_get_posts_list( $settings )
     );
 
     // see whether we are filtering by category or tag and add tax_query
-    if ( isset( $settings['post_filter'] ) ) {
+    if ( isset( $settings['posts_filter'] ) ) {
         if ( $settings['posts_filter'] === 'category' ) {
             if ( isset( $settings['post_category'] ) && count( $settings['post_category'] ) ) {
                 $args['tax_query'] = array(
@@ -219,8 +219,8 @@ function tk_post_list_widget_get_posts_list( $settings )
             }
         }
     }
-    print_r($args);
-    // fetch news items
+
+    // fetch posts
     $loop_posts = new WP_Query( $args );
     $has_posts = $loop_posts->post_count > 0;
     if ( $has_posts ) {
