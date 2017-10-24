@@ -3,6 +3,77 @@
  * pluggable functions
  */
 
+
+/**
+ * 50 Word Callback for Index page Excerpts
+ * call using html5wp_excerpt('html5wp_index');
+ * DEPRECATED
+ */
+if ( ! function_exists( 'html5wp_index' ) ) {
+    function html5wp_index($length) {
+        return 50; //used on flags
+    }
+}
+/**
+ * 20 Word Callback for Custom Post Excerpts
+ * call using html5wp_excerpt('html5wp_custom_post');
+ * DEPRECATED
+ */
+if ( ! function_exists( 'html5wp_custom_post' ) ) {
+    function html5wp_custom_post($length) {
+        return 20; // used on cards
+    }
+}
+/**
+ * Custom Excerpts callback
+ * DEPRECATED
+ */
+if ( ! function_exists( '' ) ) {
+    function html5wp_excerpt($length_callback = '', $more_callback = '') {
+        echo tk_get_excerpt($length_callback, $more_callback);
+    }
+}
+
+/**
+ * 20 Word Callback for Custom Post Excerpts
+ * call using tk_get_excerpt('tk_card_length');
+ */
+if ( ! function_exists( 'tk_card_length' ) ) {
+    function tk_card_length( $length ) {
+        return 20;
+    }
+}
+/**
+ * 20 Word Callback for Custom Post Excerpts
+ * call using tk_get_excerpt('tk_index_length');
+ */
+if ( ! function_exists( 'tk_index_length' ) ) {
+    function tk_index_length( $length ) {
+        return 50;
+    }
+}
+
+/**
+ * Custom Excerpts callback
+ * @return string HTML excerpt
+ */
+if ( ! function_exists( 'tk_get_excerpt' ) ) {
+    function tk_get_excerpt($length_callback = '', $more_callback = '')
+    {
+        global $post;
+        if (function_exists($length_callback)) {
+            add_filter('excerpt_length', $length_callback);
+        }
+        if (function_exists($more_callback)) {
+            add_filter('excerpt_more', $more_callback);
+        }
+        $output = get_the_excerpt();
+        $output = apply_filters('wptexturize', $output);
+        $output = apply_filters('convert_chars', $output);
+        $output = '<p>' . $output . '</p>';
+        return $output;
+    }
+}
 /**
  * this is used to determine whether the layout is full width, by retrieving the tk_theme_layout option
  * @return boolean
