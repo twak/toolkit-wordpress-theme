@@ -24,3 +24,13 @@ if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(tk, s);
 })();
+
+(function($) {
+
+    $(function() {
+        $('.sidebar-widget').on('click', 'h3', function(){
+            $(this).closest('.sidebar-widget').find('ul').toggleClass('show');
+        });
+    });
+
+}(jQuery));
