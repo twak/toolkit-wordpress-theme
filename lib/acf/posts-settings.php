@@ -67,6 +67,16 @@ class tk_post_settings {
 			                'hide_search'   => 'Format the first paragraph of content using a larger font and with a drop capital on the first word'
 		                )
 	                ),
+	                array (
+		                'key' => 'field_tk_sidebar_posts_option',
+		                'label' => 'Sidebar',
+		                'name' => 'posts_sidebar_flag',
+		                'type' => 'true_false',
+		                'instructions' => 'Show sidebar on posts front page and single post views.',
+		                'required' => 0,
+		                'default_value' => 0,
+		                'save_other_choice' => 0,
+	                ),
                 ),
                 'location' => array (
                     array (
