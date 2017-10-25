@@ -9,7 +9,6 @@ if ( ( is_multisite() && ! is_super_admin() ) || ( ! is_multisite() && ! is_admi
 }
 
 // only run if ACF plugin is loaded
-
 add_action( 'acf/init', 'tk_add_acf_theme_options', 10 );
 
 function tk_add_acf_theme_options()
