@@ -15,7 +15,7 @@ the_breadcrumb(); ?>
 
         <div class="column-container-primary">
 
-            <div class="wrapper-pd wrapper-sm">
+            <div class="wrapper-pd wrapper-sm text-center">
     <?php else :  ?>
             <div class="wrapper-sm wrapper-pd text-center">
     <?php endif; ?>
