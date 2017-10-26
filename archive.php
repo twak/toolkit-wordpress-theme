@@ -33,7 +33,7 @@ if ( ! $hide_search ) {
 }
 
 get_template_part('loop-flag'); 
-get_template_part('pagination');  
+get_template_part('pagination');
 
 print('</div>');
 

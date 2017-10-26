@@ -24,7 +24,7 @@ function tk_add_banner_page_widget( $widgets )
                 'max' => 4,
                 'layout' => 'row',
                 'button_label' => 'Add Slide',
-                'collapsed' => '',
+                'collapsed' => 'field_tk_page_widgets_banner_slide_title',
                 'sub_fields' => array (
                     array (
                         'key' => 'field_tk_page_widgets_banner_slide_image',
@@ -77,6 +77,7 @@ function tk_add_banner_page_widget( $widgets )
                             ),
                         ),
                         'default_value' => 'More',
+                        'maxlength' => 35
                     ),
                     array (
                         'key' => 'field_tk_page_widgets_banner_slide_link_internal',
@@ -116,6 +117,7 @@ function tk_add_banner_page_widget( $widgets )
                         'name' => 'banner_widget_slide_tab_title',
                         'type' => 'text',
                         'default_value' => 'Tab',
+                        'maxlength' => 35
                     ),
                 ),
             ),

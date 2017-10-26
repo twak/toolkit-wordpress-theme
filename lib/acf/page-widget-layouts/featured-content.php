@@ -42,7 +42,7 @@ function tk_add_featured_content_page_widget( $widgets )
                 'label' => 'Image',
                 'name' => 'featured_content_widget_image',
                 'type' => 'image',
-                'return_format' => 'url',
+                'return_format' => 'array',
                 'preview_size' => 'thumbnail',
                 'conditional_logic' => array(
                     array(
@@ -54,6 +54,29 @@ function tk_add_featured_content_page_widget( $widgets )
                     )
                 ),
                 'library' => 'all',
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_featured_image_aspect',
+                'label' => 'Image',
+                'name' => 'featured_content_widget_image_aspect',
+                'type' => 'radio',
+                'choices' => array(
+                    'rectangular' => 'Rectangular',
+                    'square' => 'Square',
+                ),
+                'allow_null' => 0,
+                'default_value' => "rectangular",
+                'layout' => 'horizontal',
+                'return_format' => 'value',
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_tk_page_widgets_featured_media_type',
+                            'operator' => '==',
+                            'value' => 'image'
+                        )
+                    )
+                ),
             ),
             array (
                 'key' => 'field_tk_page_widgets_featured_video',
