@@ -52,14 +52,3 @@ require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php'
 
 // Footer menu
 require_once get_template_directory() . '/lib/custom-walkers/footer-nav.php';
-
-
-
-
-// Adds instruction text after the post title input
-function emersonthis_edit_form_after_title() {
-    $tip = '<strong>TIP:</strong> To create a single line break use SHIFT+RETURN. By default, RETURN creates a new paragraph.';
-    echo '<p style="margin-bottom:0;">'.$tip.'</p>';
-}
-add_action( 'edit_form_after_title', 'emersonthis_edit_form_after_title' );
-
