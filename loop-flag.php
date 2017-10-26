@@ -17,7 +17,7 @@
 			<p class="heading-related"><?php the_terms($post->ID, 'category', '<span class="name-divider">', ', ', '</span>'); ?><?php the_time('l j F Y'); ?></p>
 			<h4 class="heading-link"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></h4>							
 			<div class="excerpt">				
-				<?php html5wp_excerpt('html5wp_index'); // Build your custom callback length in functions.php ?>
+				<?php tk_get_excerpt('tk_index_length'); ?>
 			</div>
 		</div>
 	</article>	

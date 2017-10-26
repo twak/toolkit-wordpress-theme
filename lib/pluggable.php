@@ -5,36 +5,6 @@
 
 
 /**
- * 50 Word Callback for Index page Excerpts
- * call using html5wp_excerpt('html5wp_index');
- * DEPRECATED
- */
-if ( ! function_exists( 'html5wp_index' ) ) {
-    function html5wp_index($length) {
-        return 50; //used on flags
-    }
-}
-/**
- * 20 Word Callback for Custom Post Excerpts
- * call using html5wp_excerpt('html5wp_custom_post');
- * DEPRECATED
- */
-if ( ! function_exists( 'html5wp_custom_post' ) ) {
-    function html5wp_custom_post($length) {
-        return 20; // used on cards
-    }
-}
-/**
- * Custom Excerpts callback
- * DEPRECATED
- */
-if ( ! function_exists( '' ) ) {
-    function html5wp_excerpt($length_callback = '', $more_callback = '') {
-        echo tk_get_excerpt($length_callback, $more_callback);
-    }
-}
-
-/**
  * 20 Word Callback for Custom Post Excerpts
  * call using tk_get_excerpt('tk_card_length');
  */
