@@ -57,7 +57,7 @@ function tk_add_featured_content_page_widget( $widgets )
             ),
             array (
                 'key' => 'field_tk_page_widgets_featured_image_aspect',
-                'label' => 'Image',
+                'label' => 'Image shape',
                 'name' => 'featured_content_widget_image_aspect',
                 'type' => 'radio',
                 'choices' => array(
