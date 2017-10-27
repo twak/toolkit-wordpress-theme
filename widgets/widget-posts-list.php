@@ -21,6 +21,7 @@ if ( count( $layouts ) ) {
             case 'posts_list':
                 $panel = tk_post_list_widget_get_posts_list( $layout );
                 if ( '' !== $panel ) {
+                    // link to archive
                     $archive_link = tk_get_post_archive_link( $layout, 'post' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
@@ -31,7 +32,8 @@ if ( count( $layouts ) ) {
                 break;
             case 'news_list':
                 $panel = tk_post_list_widget_get_news_list( $layout );
-                if ( $panel ) {
+                if ( '' !== $panel ) {
+                    // link to archive
                     $archive_link = tk_get_post_archive_link( $layout, 'news' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
@@ -42,7 +44,8 @@ if ( count( $layouts ) ) {
                 break;
             case 'events_list':
                 $panel = tk_post_list_widget_get_events_list( $layout );
-                if ( $panel ) {
+                if ( '' !== $panel ) {
+                    // link to archive
                     $archive_link = tk_get_post_archive_link( $layout, 'events' );
                     // list html
                     $panels['posts-list-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
@@ -53,16 +56,18 @@ if ( count( $layouts ) ) {
                 break;
         }
     }
-    $is_active = true;
-    $tab_content = '';
-    $panel_content = '';
+
+    // display content
     if ( count($tabs) ) {
+        $is_active = true;
+        $tab_content = '';
+        $panel_content = '';
         print('<div class="skin-row-module-light container-row"><div class="wrapper-lg wrapper-pd-md">');
         if ( $widget_title ) {
             printf('<h3 class="h2-lg heading-underline">%s</h3>', $widget_title );
         }
         if ( count($tabs) > 1) {
-            // more than one list
+            // more than one list - output tabs
             $tab_content .= '<div class="tk-tabs-header"><ul class="nav nav-tabs tk-nav-tabs pull-left">';
             $panel_content = '<div class="tab-content">';
             foreach ( $tabs as $id => $tab ) {
