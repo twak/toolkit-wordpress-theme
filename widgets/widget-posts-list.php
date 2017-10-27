@@ -18,7 +18,7 @@ if ( count( $layouts ) ) {
     foreach ( $layouts as $layout ) {
         $layout_name = $layout['acf_fc_layout'];
         switch ($layout_name) {
-            case 'posts_list':
+            case 'post_list':
                 $panel = tk_post_list_widget_get_posts_list( $layout );
                 if ( '' !== $panel ) {
                     // link to archive

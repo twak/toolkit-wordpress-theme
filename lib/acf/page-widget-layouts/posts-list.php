@@ -45,7 +45,7 @@ function tk_add_posts_post_list_widget( $layouts )
         'display' => 'block',
         'sub_fields' => array (
             array (
-                'key' => 'field_tk_page_widgets_posts_list_posts_tab',
+                'key' => 'field_tk_page_widgets_posts_list_posts_tab_text',
                 'label' => 'Tab text',
                 'name' => 'tab_text',
                 'type' => 'text',
