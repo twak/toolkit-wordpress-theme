@@ -39,7 +39,7 @@ the_breadcrumb(); ?>
 				</div>
 			<?php endif; ?>
 
-			<?php //do_action('tk_content_before'); ?>
+			<?php do_action('tk_content_before'); ?>
             <div class="jadu-cms">
 				<?php the_content(); ?>
             </div>
