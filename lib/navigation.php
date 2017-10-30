@@ -97,6 +97,14 @@ function link_to_menu_editor( $args )
 
 add_filter( 'wp_nav_menu_objects', 'menu_set_dropdown', 10, 2 );
 function menu_set_dropdown( $sorted_menu_items, $args ) {
+    // add dropdown classes to header menu
+    if ( 'header-menu' === $args->theme_location ) {
+        foreach ( $sorted_menu_items as $key => $obj ) {
+            if ( in_array('menu-item-has-children', $sorted_menu_items[$key]->classes) ) {
+                $sorted_menu_items[$key]->classes[] = 'tk-nav-dropdown';
+            }
+        }
+    }
     $last_top = 0;
     foreach ( $sorted_menu_items as $key => $obj ) {
         // it is a top lv item?
