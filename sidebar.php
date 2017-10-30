@@ -8,7 +8,7 @@ if ($post->post_parent) {
 }
 ?>
 
-<aside class="column-container-secondary" role="complementary">
+<aside class="column-container-secondary">
 	<?php do_action('tk_sidebar_before'); ?>
     <button class="sidebar-button js-sidebar-trigger">In this section: <?php echo $first_parent; ?></button>
 

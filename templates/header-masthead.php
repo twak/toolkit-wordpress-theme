@@ -1,4 +1,4 @@
-<header class="masthead" role="banner">
+<header class="masthead">
 	<div class="<?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 		<!-- Open button -->
 		<div class="masthead-links">

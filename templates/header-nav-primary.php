@@ -1,4 +1,4 @@
-<nav class="tk-nav tk-nav-priority" role="navigation">
+<nav class="tk-nav tk-nav-priority">
 	<div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 		<div class="tk-nav-header">
 			<button class="btn-icon" data-state="body-state" data-class="state-navicon-active">Close</button>

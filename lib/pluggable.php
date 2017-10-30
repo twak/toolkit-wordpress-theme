@@ -107,14 +107,14 @@ if ( ! function_exists( 'tk_social_links' ) ) {
 		$url = get_permalink();
 		$title = esc_attr( get_the_title() );
 		$media = ( has_post_thumbnail() ) ? get_the_post_thumbnail_url(): '';
-		$description = esc_attr( get_the_excerpt() );
+		$description = esc_attr( tk_get_excerpt('tk_card_length') );
 
 		// this allows child themes to alter the array of icons for social sharing
 		$social_links_fmt = array(
 			'twitter' => '<a href="#" data-type="twitter" data-url="%1$s" data-description="%2$s" data-via="twitter" class="js-pretty-social"><span class="icon-font-text">Twitter</span><span class="tk-icon-social-twitter"></span></a>',
-			'facebook' => '<a href="#" data-type="facebook" data-url="%1$s" data-title="%2$s" data-description="%3$s" data-media="%4$s" class="js-pretty-social"><span class="icon-font-text">Facebook</span><span class="tk-icon-social-facebook"></span></a>',
+			'facebook' => '<a href="#" data-type="facebook" data-url="%1$s" data-title="%2$s" data-media="%4$s" class="js-pretty-social"><span class="icon-font-text">Facebook</span><span class="tk-icon-social-facebook"></span></a>',
 			'google' => '<a href="#" data-type="googleplus" data-url="%1$s" data-description="%2$s" class="js-pretty-social"><span class="icon-font-text">Google+</span><span class="tk-icon-social-google"></span></a>',
-			'linkedin' => '<a href="#" data-type="linkedin" data-url="%1$s" data-title="%2$s" data-description="%3$s" data-via="linkedin" data-media="%4$s" class="js-pretty-social"><span class="icon-font-text">Linkedin</span><span class="tk-icon-social-linkedin"></span></a>'
+			'linkedin' => '<a href="#" data-type="linkedin" data-url="%1$s" data-title="%2$s" data-via="linkedin" data-media="%4$s" class="js-pretty-social"><span class="icon-font-text">Linkedin</span><span class="tk-icon-social-linkedin"></span></a>'
 		);
 
 		// start output
@@ -126,7 +126,7 @@ if ( ! function_exists( 'tk_social_links' ) ) {
 			printf( $social_links_fmt[$link], $url, $title, $description, $media );
 		}
 		$hr = ( $rule === 'below' || $rule === 'both' ) ? '<hr>': '';
-		printf('</div><hr></div>', $hr );
+		printf('</div>%s</div>', $hr );
 	}
 }
 

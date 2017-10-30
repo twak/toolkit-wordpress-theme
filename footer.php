@@ -5,7 +5,7 @@
 			<?php get_template_part( 'templates/tweets' ); ?>
 
             <?php do_action('tk_footer_before') ?>
-			<footer class="site-footer" role="contentinfo">	
+			<footer class="site-footer">	
 					
 				<?php get_template_part( 'templates/footer-links' ); ?>
 
