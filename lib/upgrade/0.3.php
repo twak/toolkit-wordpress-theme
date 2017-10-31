@@ -1,6 +1,6 @@
 <?php
 /**
- * upgrade script for version 0.3.0
+ * upgrade script for version 0.3
  * converts ACF page widgets to PHP definitions
  * removes the definitions in the wordpress database
  * renames the fields for the content in postmeta
