@@ -17,7 +17,16 @@ $link_text = get_sub_field('featured_content_widget_link_text');
 if ( ! $link_text ) {
     $link_text = 'More';
 }
-
+if ( get_sub_field('featured_content_widget_image_aspect') == 'square' ) {
+    $img_class = '';
+} else {
+    $img_class = ' rs-img-2-1';
+}
+$img_url = false;
+$img_array = get_sub_field('featured_content_widget_image');
+if ( ! empty($img_array) ) {
+    $img_url = $img_array['sizes']['large'];
+}
 ?>
 
 <!-- Featured Content Widget-->
@@ -42,10 +51,10 @@ if ( ! $link_text ) {
 	            	
 			    </div>
 			    <div class="col-sm-4 col-md-6">			    	
-			    	<?php if(get_sub_field('featured_content_widget_media_type') != "video" && get_sub_field('featured_content_widget_image')): ?>
-			        <div class="rs-img rs-img-2-1" style="background-image: url('<?php the_sub_field('featured_content_widget_image'); ?>');">
+			    	<?php if(get_sub_field('featured_content_widget_media_type') != "video" && $img_url): ?>
+			        <div class="rs-img<?php echo $img_class; ?>" style="background-image: url('<?php echo $img_url; ?>');">
 				        <?php if ( $link_url ) : ?><a href="<?php echo $link_url; ?>"><?php endif; ?>
-			            	<img src="<?php the_sub_field('featured_content_widget_image'); ?>" alt="<?php the_sub_field('featured_content_widget_heading'); ?>">
+			            	<img src="<?php echo $img_url; ?>" alt="<?php the_sub_field('featured_content_widget_heading'); ?>">
 			            <?php if ( $link_url ) : ?></a><?php endif; ?>			
 			        </div>
 			        <?php elseif(get_sub_field('featured_content_widget_media_type') == "video" && get_sub_field('featured_content_widget_video')): ?>

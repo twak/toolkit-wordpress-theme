@@ -24,7 +24,12 @@ function tk_add_acf_theme_options()
         'parent_slug'   => 'themes.php',
         'capability'    => 'edit_posts',
         'redirect'      => false
-    ));  
+    ));
+
+    /**
+     * google API key
+     */
+    acf_update_setting('google_api_key', tk_get_google_api_key());  
 
 	/** 
 	 * Theme Options
@@ -102,45 +107,19 @@ function tk_add_acf_theme_options()
 					),
 				),
 			),
-			array(
-				'key' => 'field_tk_tab_posts',
-				'label' => 'Posts',
-				'type' => 'tab',
-			),
- 	        array (
-	            'key' => 'field_tk_post_page_settings_title',
-	            'label' => 'Posts archive page title',
-	            'name' => 'tk_post_page_settings_title',
-	            'instructions' => 'The title of the page that shows your blog posts (default: Blog)',
-	            'type' => 'text',
-	        ),
-            array (
-                'key' => 'field_tk_post_page_settings_tags',
-                'label' => 'Show tags',
-                'name' => 'tk_post_page_settings_tags',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'show_tags'   => 'Show tags at the foot of each post'
-                )
+            array(
+                'key' => 'field_tk_google_api_intro',
+                'name' => 'tk_google_api_intro',
+                'type' => 'message',
+                'message' => '<h3>Google API key</h3><p>If you are using the Google maps widget on your pages, it is <em>strongly recommended</em> that you create your own API key in the <a href="https://console.developers.google.com/apis/" target="_blank">Google API console</a>. The key needs to enable Google Static Maps API, Google Maps Directions API, Google Maps Distance Matrix API, Google Maps Elevation API, Google Maps Geocoding API and Google Places API Web Services</p>',
+                'new_lines' => '',
+                'esc_html' => 0,
             ),
             array (
-                'key' => 'field_tk_post_page_settings_search',
-                'label' => 'Hide Search',
-                'name' => 'tk_post_page_settings_search',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'hide_search'   => 'Hide search box on the posts archive page'
-                )
-            ),
-            array (
-                'key' => 'field_tk_content_settings_dropcap',
-                'label' => 'Drop Cap',
-                'name' => 'tk_content_settings_dropcap',
-                'instructions' => 'Special formatting can be applied to the first paragraph of posts, but this relies on the post starting with text in a paragraph(!)',
-                'type' => 'checkbox',
-                'choices' => array(
-                    'hide_search'   => 'Format the first paragraph of content using a larger font and with a drop capital on the first word'
-                )
+                'key' => 'field_tk_google_api_key',
+                'label' => 'Google API key',
+                'name' => 'tk_google_api_key',
+                'type' => 'text',
             ),
 			array (
 				'key' => 'field_tk_tab_social',

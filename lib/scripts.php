@@ -1,7 +1,14 @@
 <?php
-
+function tk_get_google_api_key()
+{
+    $api_key = get_field( 'tk_google_api_key', 'option' );
+    if ( ! $api_key ) {
+        $api_key = 'AIzaSyBBUKSi1deZSSGaOvXaR-3p4pkwHzZO0s0';
+    }
+    return $api_key;
+}
 function tk_register_theme_scripts() {
-    $api_key = 'AIzaSyBBUKSi1deZSSGaOvXaR-3p4pkwHzZO0s0';
+    $api_key = tk_get_google_api_key();
 	wp_register_script(
         'tk_wordpress',
         get_template_directory_uri() . '/js/toolkit-wordpress.js', 
@@ -27,8 +34,6 @@ function tk_register_theme_scripts() {
 function tk_enqueue_theme_scripts()
 {
     wp_enqueue_script('tk_wordpress');
-    wp_enqueue_script('google_maps_api');
-    wp_enqueue_script('google_map_widget');
 }
 
 add_action( 'init', 'tk_register_theme_scripts' );

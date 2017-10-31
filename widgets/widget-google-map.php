@@ -2,11 +2,13 @@
 /**
  * google maps widget
  */
-$api_key = 'AIzaSyBBUKSi1deZSSGaOvXaR-3p4pkwHzZO0s0';
+$api_key = tk_get_google_api_key();
 $type = get_sub_field('start_type');
 $zoom = get_sub_field('start_zoom');
 
 if( have_rows( 'locations' ) ) {
+    wp_enqueue_script('google_maps_api');
+    wp_enqueue_script('google_map_widget');
 
     print('<div class="container-row"><div class="wrapper-md wrapper-pd-md">');
 

@@ -82,46 +82,46 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 ),
                 array(
                     "filename" => "favicon.ico",
-                    "rel" => "shortcut icon"
+                    "rel" => "icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-180x180-precomposed.png",
                     "sizes" => "180x180",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-152x152-precomposed.png",
                     "sizes" => "152x152",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-144x144-precomposed.png",
                     "sizes" => "144x144",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-120x120-precomposed.png",
                     "sizes" => "120x120",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-114x114-precomposed.png",
                     "sizes" => "114x114",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-76x76-precomposed.png",
                     "sizes" => "76x76",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-72x72-precomposed.png",
                     "sizes" => "72x72",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 ),
                 array(
                     "filename" => "apple-touch-icon-precomposed.png",
-                    "rel" => "apple-touch-icon-precomposed"
+                    "rel" => "apple-touch-icon"
                 )
             ));
             foreach ( $icons as $icon ) {
@@ -135,7 +135,7 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 }
                 if ( $uri ) {
                     $sizes_attr = ( isset( $icon["sizes"] ) ) ? sprintf(' sizes="%s"', esc_attr( $icon["sizes"] ) ): "";
-                    $rel_attr = ( isset( $icon["rel"] ) ) ? sprintf(' rel="%s"', esc_attr( $icon["rel"] ) ): "";
+                    $rel_attr = ( isset( $icon["rel"] ) ) ? sprintf(' rel="%s"', esc_attr( $icon["rel"] ) ): ' rel="icon"';
                     printf("<link%s%s href=\"%s\">\n", $rel_attr, $sizes_attr, $uri );
                 }
             }

@@ -39,8 +39,26 @@
             } else {
                 // fit to bounds
                 map.fitBounds( bounds );
+                fixFitBounds(map);
             }
-        };        
+        },
+        // this waits for the initial zoom change from fitBounds (async) and resets the zoom level if neccessary
+        fixFitBounds = function(map){
+            // listen for zoom changes
+            google.maps.event.addListener(map, 'zoom_changed', function() {
+                // add the listener for bounds changes
+                zoomChangeBoundsListener = google.maps.event.addListener(map, 'bounds_changed', function(event) {
+                    // see if the zoom is greater than that set in the widget
+                    if (this.getZoom() > this.startZoom && this.initialZoom == true) {
+                        // Change max/min zoom
+                        this.setZoom(this.startZoom);
+                        this.initialZoom = false;
+                    }
+                    // remove the listener
+                    google.maps.event.removeListener(zoomChangeBoundsListener);
+                });
+            });
+        };      
         $('.tk-map').each(function(){
             // get markers
             var tkmarkers = $(this).find('.tk-marker'),
@@ -57,6 +75,10 @@
     
             // add a markers reference
             map.markers = [];
+
+            // save initial zoom level
+            map.startZoom = tkzoom;
+            map.initialZoom = true;
 
             // add markers
             tkmarkers.each(function(){

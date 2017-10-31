@@ -138,7 +138,7 @@
                                 <div class="card-content equalize-inner">          
                                     <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
                                     <p class="heading-related"><?php the_time('l j F Y'); ?></p>     				                                    
-                                    <div class="note"><?php html5wp_excerpt('html5wp_custom_post'); ?></div>
+                                    <div class="note"><?php echo tk_get_excerpt('tk_card_length'); ?></div>
                                     <a class="more" href="<?php the_permalink(); ?>">more</a>
                                 </div>
                             </div>		
@@ -231,7 +231,7 @@
 		                        <div class="card-content equalize-inner">   		                        	
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		                            <p class="heading-related"><?php echo $event_date; ?></p>     				                                    
-		                            <div class="note"><?php html5wp_excerpt('html5wp_custom_post'); ?></div>
+		                            <div class="note"><?php echo tk_get_excerpt('tk_card_length'); ?></div>
 		                            <a class="more" href="<?php the_permalink(); ?>">more</a>
 		                        </div>
 		                    </div>                           
@@ -248,7 +248,7 @@
 		                        <div class="card-content equalize-inner">   		                        	
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		                            <p class="heading-related">No date set</p>     				                                    
-		                            <div class="note"><?php html5wp_excerpt('html5wp_custom_post'); ?></div>
+		                            <div class="note"><?php echo tk_get_excerpt('tk_card_length'); ?></div>
 		                            <a class="more" href="<?php the_permalink(); ?>">more</a>
 		                        </div>
 		                    </div>                           
@@ -309,7 +309,7 @@
 		                        <div class="card-content equalize-inner">   
 		                            <h3 class="heading-link-alt"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		                            <p class="heading-related"><?php echo get_field('event_start_date');//the_time('l j F Y'); ?></p>     				                                    
-		                            <div class="note"><?php html5wp_excerpt('html5wp_custom_post'); ?></div>
+		                            <div class="note"><?php echo tk_get_excerpt('tk_card_length'); ?></div>
 		                            <a class="more" href="<?php the_permalink(); ?>">more</a>
 		                        </div>
 		                    </div>                           

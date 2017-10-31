@@ -1,79 +1,41 @@
-<?php /* Template Name: Widgets Page Template */ get_header(); 
+<?php
+/* Template Name: Widgets Page Template */ 
+get_header(); 
 
-/*
- * TODO: Add accordion widget to page template
- */
 
-?>
+if (have_posts()): while (have_posts()) : the_post();
 
-<?php 
-	//Widget top glag
-	if(get_field('widget_top')): $widget_top_flag = 1; else : $widget_top_flag = 0; endif; 		
-	//Widgets flag
-	if(get_field('widgets')): $widgets = get_field('widgets'); endif;
-	$widget_counter = 0;
+if( ! $GLOBALS['full_width']) { 
+    the_breadcrumb();
+}
 
-?>
-
-<?php get_header(); ?>
-
-<?php if(!$GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
-
-<?php if(!$GLOBALS[ 'theme_sidebar_flag' ]){ //close wrapper ?>
-
-</div>
-
-<?php } ?>
-
-<?php 
+if( ! $GLOBALS['theme_sidebar_flag']) {
+    //close wrapper
+    print('</div>');
+} else {
+    // print sidebar
+    ?>
+    <div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
+    <?php get_sidebar(); ?>
+    <div class="column-container-primary">  
+    <?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
+        <header class="wrapper-padded wrapper-sm">  
+            <h1 class="heading-underline"><?php the_title(); ?></h1>
+        </header>                   
+    <?php
+}
 	
 	if( have_rows('widgets') ):
-		while( have_rows('widgets') ): 
-			the_row(); //widgets flexi field			
-			$widget_counter++;	
+        $widget_counter = 0;
 
-			if($GLOBALS[ 'theme_sidebar_flag' ]){ //if we have a sidebar
-				if($widget_top_flag){ //if we have set the top flag widget
-					if($widget_counter == 2 ){ //if we've loop through once
-?>
-						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
-							<?php get_sidebar(); ?>
-						    <div class="column-container-primary">  
-						    <?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
-<?php 
-						if(!is_front_page()){				    
-?>							
-						    	<header class="wrapper-pd wrapper-sm">	
-									<h1 class="heading-underline"><?php the_title(); ?></h1>
-								</header>		
-<?php
-						}	
-?>						
-<?php 
-					} 
-				} else {
-					if($widget_counter < 2 ){ //if we've loop first time
-?>			
-						<div class="column-container <?php if($GLOBALS[ 'full_width' ]){ echo "column-container-fw"; }?>">
-							<?php get_sidebar(); ?>
-						    <div class="column-container-primary">  
-						    <?php if($GLOBALS[ 'full_width' ]){ the_breadcrumb(); } ?>
-						    	<header class="wrapper-padded wrapper-sm">	
-									<h1 class="heading-underline"><?php the_title(); ?></h1>
-								</header>					
-<?php 
-					}
-				} 
-			} 
-?>
+		while( have_rows('widgets') ): the_row();
+            $widget_counter++;
 
-		<div class="widget" id="widget-<?php echo $widget_counter; ?>">			
-
-		<?php 
+            printf('<div class="widget" id="widget-%s">', $widget_counter);			
 						
 			$row_layout = get_row_layout();		
 
-			switch ($row_layout):						
+			switch ($row_layout) {						
 			    case 'content_widget': // Content Widget
 	
 				    get_template_part('widgets/widget', 'content'); 				
@@ -94,11 +56,16 @@
 					get_template_part('widgets/widget', 'banner'); 
 
 			    break;
-			    case 'cards_widget': //Banner Widget    
-					
-					get_template_part('widgets/widget', 'cards'); 
+                case 'cards_widget': //Banner Widget    
+                    
+                    get_template_part('widgets/widget', 'cards'); 
 
-			    break;
+                break;
+                case 'columns_widget': //Banner Widget    
+                    
+                    get_template_part('widgets/widget', 'columns'); 
+
+                break;
 			    case 'tiles_widget': //Banner Widget    
 					
 					get_template_part('widgets/widget', 'tiles'); 
@@ -112,62 +79,23 @@
 
                     get_template_part('widgets/widget', 'google-map');
                     break;
-                    
+                case 'posts_list_widget': // Posts list widget
+
+                    get_template_part('widgets/widget', 'posts-list');
+                    break;
 			    default:
 
-			    	echo "Select widget";
+			    	echo "";
 			       
-			endswitch;    				       	
-		?>
+			}
+            print('</div>');
+        endwhile;
+    endif;
+endwhile; endif; // posts loop
 
-		</div>
-
-	<?php endwhile; ?>
-
-<?php 
-endif; ?>
-
-
-<?php if (have_posts()): while (have_posts()) : the_post(); ?>
-
-	<br>
-		
-	<div id="post-<?php the_ID(); ?>" <?php post_class('wrapper-sm wrapper-padded'); ?>>
-
-		<?php if (has_post_thumbnail()) { the_post_thumbnail(); } ?>
-
-		<div class="jadu-cms">
-			<?php the_content(); ?>					
-		</div>
-
-		<?php edit_post_link(); ?>
-
-	</div>			
-
-<?php endwhile; ?>
-
-<?php else: ?>
-	
-	<div>
-		<h2><?php _e( 'Sorry, nothing to display.', 'html5blank' ); ?></h2>
-	</div>			
-
-<?php endif; ?>
-
-
-<?php if($GLOBALS[ 'theme_sidebar_flag' ]){ ?>
-
-	</div><!-- ./column-container-primary-->	 
-</div><!-- ./column-container-->
-
-<?php } ?>
-
-<?php if(!$GLOBALS[ 'theme_sidebar_flag' ]){ // open wrapper ?>
-
-<div>
-
-<?php } ?>
-
-
-
-<?php get_footer(); ?>
+if( $GLOBALS['theme_sidebar_flag'] ) {
+    print('</div></div>');
+} else {
+    print('<div>');
+}
+get_footer();

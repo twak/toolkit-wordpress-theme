@@ -1,4 +1,4 @@
-<nav id="quicklinks" class="quicklinks collapse" role="navigation">
+<nav id="quicklinks" class="quicklinks collapse">
 	<div class="wrapper-relative <?php if(!$GLOBALS[ 'full_width' ]){ echo "wrapper-lg"; }?>">
 		<div class="quicklinks-inner">
 			<div class="row">

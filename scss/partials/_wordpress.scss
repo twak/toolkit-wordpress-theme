@@ -97,15 +97,20 @@ a {
 	}
 }
 
-.table-profiles tbody tr td:first-child {
-  width:80px;
+@media screen and (max-width: 1169px) {
+	.sidebar {
+		margin-left: 10px;
+	}
 }
-.table-profiles.columns-5 td {
-  width:22%;
-}
-.table-profiles.columns-4 td {
-  width:27%;
-}
-.table-profiles.columns-3 td {
-  width:36%;
+
+@media screen and (max-width: 1023px) {
+	.sidebar-widget {
+		h3 {
+			cursor: pointer;
+		}
+		ul {
+			display: none;
+		}
+	}
+
 }
