@@ -16,7 +16,7 @@
 		<span class="author">Published by <?php the_author_posts_link(); ?></span>
 		<span class="comments"><?php if (comments_open( get_the_ID() ) ) comments_popup_link( __( 'Leave your thoughts', 'html5blank' ), __( '1 Comment', 'html5blank' ), __( '% Comments', 'html5blank' )); ?></span>		
 
-		<?php tk_get_excerpt('tk_index_length'); ?>
+		<?php echo tk_get_excerpt('tk_index_length'); ?>
 
 	</article>	
 

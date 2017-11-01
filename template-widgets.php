@@ -33,61 +33,10 @@ if( ! $GLOBALS['theme_sidebar_flag']) {
 
             printf('<div class="widget" id="widget-%s">', $widget_counter);			
 						
-			$row_layout = get_row_layout();		
+			$row_layout = get_row_layout();
 
-			switch ($row_layout) {						
-			    case 'content_widget': // Content Widget
-	
-				    get_template_part('widgets/widget', 'content'); 				
-		    					        
-			    break;					  
-			    case 'featured_content_widget': // Content Widget
-	
-				    get_template_part('widgets/widget', 'featured-content'); 				
-		    					        
-			    break;					      
-			    case 'news_events_widget': // News and Events    
+		    get_template_part('templates/widgets/tk', $row_layout);
 
-					get_template_part('widgets/widget', 'news-events'); 
-			      					      			
-				break;					    
-			    case 'banner_widget': //Banner Widget    
-					
-					get_template_part('widgets/widget', 'banner'); 
-
-			    break;
-                case 'cards_widget': //Banner Widget    
-                    
-                    get_template_part('widgets/widget', 'cards'); 
-
-                break;
-                case 'columns_widget': //Banner Widget    
-                    
-                    get_template_part('widgets/widget', 'columns'); 
-
-                break;
-			    case 'tiles_widget': //Banner Widget    
-					
-					get_template_part('widgets/widget', 'tiles'); 
-
-			    break;
-			    case 'accordion_widget': // Accordion widget
-
-			    	get_template_part('widgets/widget', 'accordion');
-			    break;
-                case 'map_widget': // Google maps widget
-
-                    get_template_part('widgets/widget', 'google-map');
-                    break;
-                case 'posts_list_widget': // Posts list widget
-
-                    get_template_part('widgets/widget', 'posts-list');
-                    break;
-			    default:
-
-			    	echo "";
-			       
-			}
             print('</div>');
         endwhile;
     endif;
