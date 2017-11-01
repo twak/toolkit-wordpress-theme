@@ -199,7 +199,13 @@ add_filter('tk_post_type_list', 'tk_add_posts_post_list_widget', 10 );
  */
 function tk_add_news_post_list_widget( $layouts )
 {
-    if ( post_type_exists( 'news' ) ) {
+    /** 
+     * need to check if plugin is active
+     * can't use post_type_exists() as this is called too early (before the post type is registered)
+     * @see https://codex.wordpress.org/Function_Reference/is_plugin_active
+     */
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    if ( is_plugin_active( 'toolkit-news/init.php' ) ) {
         $layouts[] = array(
             'key' => 'field_tk_widgets_posts_list_news',
             'name' => 'news_list',
@@ -362,7 +368,13 @@ add_filter('tk_post_type_list', 'tk_add_news_post_list_widget', 11 );
  */
 function tk_add_events_post_list_widget( $layouts )
 {
-    if ( post_type_exists( 'events' ) ) {
+    /** 
+     * need to check if plugin is active
+     * can't use post_type_exists() as this is called too early (before the post type is registered)
+     * @see https://codex.wordpress.org/Function_Reference/is_plugin_active
+     */
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    if ( is_plugin_active( 'toolkit-events/init.php' ) ) {
         $layouts[] = array(
             'key' => 'field_tk_widgets_posts_list_events',
             'name' => 'events_list',

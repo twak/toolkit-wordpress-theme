@@ -140,7 +140,7 @@ function tk_post_list_widget_get_news_list( $settings )
     if ( $has_news ) {
         while ( $loop_news->have_posts() ) : $loop_news->the_post();
             if ( has_post_thumbnail() ) {
-                $thumbnail_url = get_post_thumbnail_url();
+                $thumbnail_url = get_the_post_thumbnail_url();
             } else {
                 $thumbnail_url = false;
             }
@@ -204,7 +204,7 @@ function tk_post_list_widget_get_posts_list( $settings )
     if ( $has_posts ) {
         while ( $loop_posts->have_posts() ) : $loop_posts->the_post();
             if ( has_post_thumbnail() ) {
-                $thumbnail_url = get_post_thumbnail_url();
+                $thumbnail_url = get_the_post_thumbnail_url();
             } else {
                 $thumbnail_url = false;
             }
