@@ -25,7 +25,7 @@ function tk_add_columns_page_widget( $widgets )
                 'label' => 'Columns',
                 'name' => 'columns',
                 'type' => 'repeater',
-                'instructions' => 'Add up to 4 columns',
+                'instructions' => 'Add up to 3 columns',
                 'collapsed' => '',
                 'layout' => 'row',
                 'max' => 3,
