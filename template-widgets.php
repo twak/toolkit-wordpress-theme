@@ -34,7 +34,7 @@ if( ! $GLOBALS['theme_sidebar_flag']) {
             printf('<div class="widget" id="widget-%s">', $widget_counter);			
 						
 			$row_layout = get_row_layout();
-
+            
 		    get_template_part('templates/widgets/tk', $row_layout);
 
             print('</div>');
