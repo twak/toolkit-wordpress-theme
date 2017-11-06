@@ -36,7 +36,7 @@ function tk_enqueue_theme_scripts()
     wp_enqueue_script('tk_wordpress');
 }
 
-add_action( 'init', 'tk_register_theme_scripts' );
+add_action( 'acf/init', 'tk_register_theme_scripts' );
 add_action( 'wp_enqueue_scripts', 'tk_enqueue_theme_scripts' );
 
 

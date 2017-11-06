@@ -30,8 +30,6 @@ function tk_add_posts_list_widget( $widgets )
     );
     return $widgets;
 }
-/* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_posts_list_widget', 10 );
  
 /**
  * Settings for posts
