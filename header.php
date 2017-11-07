@@ -31,8 +31,10 @@ $GLOBALS['colour'] = tk_colour();
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
-
-        <?php get_template_part('templates/header-google-tag-manager'); ?>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
 		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
