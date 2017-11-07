@@ -17,6 +17,9 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* add SEO stuff */
             add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
 
+            /* add webmaster tools meta */
+            add_action( 'wp_head', array( __CLASS__, 'webmaster_tools_meta' ) );
+
             /* add theme support for various features */
             add_action( 'after_setup_theme', array( __CLASS__, 'add_theme_support' ) );
 
@@ -198,6 +201,32 @@ if ( ! class_exists( 'tk_setup' ) ) {
             printf('<meta name="twitter:description" content="%s" />', $description_attr );
             print("\n<!-- Canonical URL -->\n");
             printf('<link rel="canonical" href="%s" />', $url );
+        }
+
+        /**
+         * adds <meta> tags to validate site with google and bing
+         */
+        public static function webmaster_tools_meta()
+        {
+            $google_meta = self::validate_meta_tag( get_field( 'tk_google_search_console_meta', 'option' ) );
+            if ( $google_meta ) {
+                echo $google_meta;
+            }
+            $bing_meta = self::validate_meta_tag( get_field( 'tk_bing_webmaster_tools_meta', 'option' ) );
+            if ( $bing_meta ) {
+                echo $bing_meta;
+            }
+        }
+
+        private static function validate_meta_tag( $tag )
+        {
+            if ( $tag ) {
+                $tag = trim($tag);
+                if ( preg_match( '/^<meta[^>]*>$/', $tag ) ) {
+                    return $tag;
+                }
+            }
+            return false;
         }
 
         /**
