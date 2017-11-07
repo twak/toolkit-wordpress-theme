@@ -50,15 +50,6 @@ function tk_theme_options_general_tab( $options )
             'esc_html' => 0,
         ),
         array (
-            'key' => 'field_tk_google_tagmanager',
-            'label' => 'Include corporate tag manager',
-            'name' => 'tk_google_tagmanager',
-            'type' => 'checkbox',
-            'choices' => array(
-                'include_tagmanager'   => 'Include the corporate tagmanager code in each page'
-            )
-        ),
-        array (
             'key' => 'field_tk_google_analytics',
             'label' => 'Google Analytics tracking codes',
             'name' => 'tk_google_analytics',

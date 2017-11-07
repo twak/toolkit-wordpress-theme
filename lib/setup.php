@@ -292,14 +292,12 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function analytics_footer()
         {
-            print("<script>\n");
-            print("(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n");
-            print("(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n");
-            print("m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n");
-            print("})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');\n");
-            print("ga('create', 'UA-12466371-3', 'auto', 'leedstracker');\n");
-            print("ga('leedstracker.send', 'pageview');\n");
             if ( have_rows('tk_google_analytics', 'option') ) {
+                print("<script>\n");
+                print("(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n");
+                print("(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n");
+                print("m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n");
+                print("})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');\n");
                 while ( have_rows('tk_google_analytics', 'option') ) : the_row();
                     $code = get_sub_field('tk_google_analytics_code');
                     $label = strtolower(preg_replace('/[^a-zA-Z0-9]*/', '', $code));
@@ -308,8 +306,8 @@ if ( ! class_exists( 'tk_setup' ) ) {
                         printf("ga('%s.send', 'pageview');\n", $label);
                     }
                 endwhile;
+                print("</script>\n");
             }
-            print("</script>\n");
         }
 
         /**
