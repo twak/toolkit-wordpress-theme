@@ -6,92 +6,94 @@
  * where multiple layouts are configured, displayed in tabs.
  */
 
-include_once(dirname(__FILE__) . '/posts_list_widget_functions.php');
-
 $tk_layouts = get_sub_field('posts_list_widgets');
 $widget_title = get_sub_field( 'widget_title' );
 if ( count( $tk_layouts ) ) {
-    // collect data for tabs and panels here
-    $tabs = array();
-    $panels = array();
+    // collect data for lists here
+    $lists = array();
 
     // see if there is any content to display
     $tab_count = 1;
     $widget_instance = tk_post_list_widget_get_instance();
     foreach ( $tk_layouts as $tk_layout ) {
         $layout_name = $tk_layout['acf_fc_layout'];
-        switch ($layout_name) {
-            case 'post_list':
-                $panel = tk_post_list_widget_get_posts_list( $tk_layout );
-                if ( '' !== $panel ) {
-                    // link to archive
-                    $archive_link = tk_get_post_archive_link( $tk_layout, 'post' );
-                    // list html
-                    $panels['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
-                    // tab link
-                    $tabs['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('<a href="#posts-list-%s-tab-%s" data-toggle="tab">%s</a>', $widget_instance, $tab_count, $tk_layout['tab_text'] );
-                    $tab_count++;
-                }
-                break;
-            case 'news_list':
-                $panel = tk_post_list_widget_get_news_list( $tk_layout );
-                if ( '' !== $panel ) {
-                    // link to archive
-                    $archive_link = tk_get_post_archive_link( $tk_layout, 'news' );
-                    // list html
-                    $panels['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
-                    // tab link
-                    $tabs['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('<a href="#posts-list-%s-tab-%s" data-toggle="tab">%s</a>', $widget_instance, $tab_count, $tk_layout['tab_text'] );
-                    $tab_count++;
-                }
-                break;
-            case 'events_list':
-                $panel = tk_post_list_widget_get_events_list( $tk_layout );
-                if ( '' !== $panel ) {
-                    // link to archive
-                    $archive_link = tk_get_post_archive_link( $tk_layout, 'events' );
-                    // list html
-                    $panels['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('%s<div class="equalize"><div class="tk-row row-reduce-gutter">%s</div></div>', $archive_link, $panel );
-                    // tab link
-                    $tabs['posts-list-' . $widget_instance . '-tab-' . $tab_count] = sprintf('<a href="#posts-list-%s-tab-%s" data-toggle="tab">%s</a>', $widget_instance, $tab_count, $tk_layout['tab_text'] );
-                    $tab_count++;
-                }
-                break;
+        $list = apply_filters( 'tk_post_list_widget_layout', array(), $layout_name, $tk_layout );
+        if ( ! empty( $list ) ) {
+            $lists[] = $list;
         }
     }
 
-    // display content
-    if ( count($tabs) ) {
-        $is_active = true;
-        $tab_content = '';
-        $panel_content = '';
-        print('<div class="skin-row-module-light container-row"><div class="wrapper-lg wrapper-pd-md">');
-        if ( $widget_title ) {
-            printf('<h3 class="h2-lg heading-underline">%s</h3>', $widget_title );
-        }
-        if ( count($tabs) > 1) {
-            // more than one list - output tabs
-            $tab_content .= '<div class="tk-tabs-header"><ul class="nav nav-tabs tk-nav-tabs pull-left">';
-            $panel_content = '<div class="tab-content">';
-            foreach ( $tabs as $id => $tab ) {
-                if ( $is_active ) {
-                    $class = ' active in';
-                    $classattr = ' class="active"';
-                    $is_active = false;
-                } else {
-                    $class = '';
-                    $classattr = '';
-                }
-                $tab_content .= sprintf('<li%s>%s</li>', $classattr, $tab );
-                $panel_content .= sprintf( '<div class="tab-pane fade%s" id="%s">%s</div>', $class, $id, $panels[$id] );
+    if ( count( $lists ) ) {
+        ?>
+        <div class="skin-row-module-light container-row">
+            <div class="wrapper-lg wrapper-pd-md">
+            <?php if ( $widget_title ) : ?>
+                <h3 class="h2-lg heading-underline"><?php echo $widget_title; ?></h3>
+            <?php endif; ?>
+            <?php
+            // output tabs if there is more than one list to display
+
+            // active class for first tab
+            $active = ' class="active"';
+            if ( count( $lists ) > 1 ) {
+                ?>
+                <div class="tk-tabs-header">
+                    <ul class="nav nav-tabs tk-nav-tabs pull-left">
+                    <?php foreach ( $lists as $list ) : ?>
+                        <li<?php echo $active; $active = ''; ?>>
+                            <a href="#posts-list-<?php echo $list["instance_id"]; ?>" data-toggle="tab"><?php echo $list["tab_text"]; ?></a>
+                        </li>;
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php
             }
-            $tab_content .= '</ul></div>';
-            $panel_content .= '</div>';
-        } else {
-            // one list
-            $panel_content = sprintf('<div>%s</div>', implode('', $panels) );
-        }
-        print $tab_content . $panel_content;
-        print('</div></div>');
+            // output content in stacked cards
+
+            // active class for first tab content block
+            $active = ' active in';
+            // output lists
+            foreach ( $lists as $list ) : ?>
+                <div class="tab-content">
+                    <?php if ( count( $lists ) > 1 ) : // tabs require additional wrapper ?>
+                    <div class="tab-pane fade<?php echo $active; $active = ''; ?>" id="#posts-list-<?php echo $list["instance_id"]; ?>">
+                    <?php endif; ?>
+                    <div class="equalize">
+                        <div class="tk-row row-reduce-gutter">
+                        <?php if ( ! empty( $list["archive_link"] ) ) : ?>
+                            <p class="tk-tabs-cta"><a class="more more-all more-dark pull-right" href="<?php echo $list["archive_link"]["url"]; ?>"><?php echo $list["archive_link"]["text"]; ?></a></p>
+                        <?php endif; ?>
+                        <?php foreach($list["items"] as $item ) : ?>
+                            <div class="<?php echo $list["post_type"]; ?>-item col-sm-6 col-md-3">
+                                <div class="card card-stacked skin-box-white skin-bd-b">
+                                <?php if ( $item['thumbnail_url'] ) : ?>
+                                    <div class="card-img">
+                                        <div class="rs-img rs-img-2-1" style="background-image: url('<?php echo $item['thumbnail_url']; ?>');">
+                                            <a href="<?php echo $item["url"]; ?>">
+                                                <img src="<?php echo $item['thumbnail_url']; ?>" alt="<?php echo esc_attr($item["title"] ); ?>">
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                    <div class="card-content equalize-inner">
+                                        <h3 class="heading-link-alt"><a href="<?php echo $item["url"]; ?>"><?php echo esc_attr($item["title"] ); ?></a></h3>
+                                        <?php if ( $item['date'] ) : ?>
+                                        <p class="heading-related"><?php echo $item["date"]; ?></p>
+                                        <?php endif; ?>
+                                        <div class="note"><?php echo $item["excerpt"]; ?></div>
+                                        <a class="more" href="<?php echo $item["url"]; ?>">more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php if ( count( $lists ) > 1 ) : ?>
+                    </div>
+                <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php
     }
 }
