@@ -8,7 +8,7 @@ function tk_theme_options_admin_tab( $options )
     if ( ! is_super_admin() ) {
         return $options;
     }
-    $tab = array(
+    $tab = apply_filters('tk_theme_options_admin_tab', array(
         array (
             'key' => 'field_tk_tab_network_admin',
             'label' => 'Admin',
@@ -47,6 +47,6 @@ function tk_theme_options_admin_tab( $options )
                 ),
             ),
         ),
-    );
+    ) );
     return array_merge( $options, $tab );
 }

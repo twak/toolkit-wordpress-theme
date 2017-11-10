@@ -5,7 +5,7 @@
 
 function tk_theme_options_sponsors_tab( $options )
 {
-    $tab = array(
+    $tab = apply_filters( 'tk_theme_options_sponsors_tab', array(
         array (
             'key' => 'field_tk_tab_sponsors',
             'label' => 'Sponsor/Partner logos',
@@ -44,6 +44,6 @@ function tk_theme_options_sponsors_tab( $options )
                 ),
             ),
         ),
-    );
+    ) );
     return array_merge( $options, $tab );
 }

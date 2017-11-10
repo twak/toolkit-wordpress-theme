@@ -5,7 +5,7 @@
 
 function tk_theme_options_general_tab( $options )
 {
-    $tab = array(
+    $tab = apply_filters( 'tk_theme_options_general_tab', array(
         array (
             'key' => 'field_tk_tab_general',
             'label' => 'General Settings',
@@ -89,6 +89,6 @@ function tk_theme_options_general_tab( $options )
             'name' => 'tk_google_api_key',
             'type' => 'text',
         )
-    );
+    ) );
     return array_merge( $options, $tab );
 }
