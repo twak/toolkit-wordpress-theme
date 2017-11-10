@@ -13,8 +13,6 @@ if ( count( $tk_layouts ) ) {
     $lists = array();
 
     // see if there is any content to display
-    $tab_count = 1;
-    $widget_instance = tk_post_list_widget_get_instance();
     foreach ( $tk_layouts as $tk_layout ) {
         $layout_name = $tk_layout['acf_fc_layout'];
         $list = apply_filters( 'tk_post_list_widget_layout', array(), $layout_name, $tk_layout );
@@ -42,10 +40,11 @@ if ( count( $tk_layouts ) ) {
                     <?php foreach ( $lists as $list ) : ?>
                         <li<?php echo $active; $active = ''; ?>>
                             <a href="#posts-list-<?php echo $list["instance_id"]; ?>" data-toggle="tab"><?php echo $list["tab_text"]; ?></a>
-                        </li>;
+                        </li>
                     <?php endforeach; ?>
                     </ul>
                 </div>
+                <div class="tab-content">
                 <?php
             }
             // output content in stacked cards
@@ -54,9 +53,8 @@ if ( count( $tk_layouts ) ) {
             $active = ' active in';
             // output lists
             foreach ( $lists as $list ) : ?>
-                <div class="tab-content">
                     <?php if ( count( $lists ) > 1 ) : // tabs require additional wrapper ?>
-                    <div class="tab-pane fade<?php echo $active; $active = ''; ?>" id="#posts-list-<?php echo $list["instance_id"]; ?>">
+                    <div class="tab-pane fade<?php echo $active; $active = ''; ?>" id="posts-list-<?php echo $list["instance_id"]; ?>">
                     <?php endif; ?>
                     <div class="equalize">
                         <div class="tk-row row-reduce-gutter">
@@ -88,11 +86,14 @@ if ( count( $tk_layouts ) ) {
                         <?php endforeach; ?>
                         </div>
                     </div>
-                <?php if ( count( $lists ) > 1 ) : ?>
+                <?php if ( count( $lists ) > 1 ) : // close tab pane ?>
                     </div>
                 <?php endif; ?>
-                </div>
             <?php endforeach; ?>
+            <?php if ( count( $lists ) > 1 ) : // close tab_content ?>
+                </div>
+            <?php endif; ?>
+            </div>
         </div>
     <?php
     }

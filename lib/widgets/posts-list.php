@@ -17,7 +17,7 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
         /**
          * constructor - set up with Wordpress API
          */
-        public __construct()
+        public function __construct()
         {
             /**
              * add filter for post_widget layouts
@@ -29,7 +29,7 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
          * gets an instance ID for each list
          * @return integer
          */
-        private function get_instance()
+        private function get_instance_id()
         {
             return self::$tk_post_list_widget_instance++;
         }
@@ -112,10 +112,11 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
             // if there are any news items, populate the return array with data
             if ( count( $items ) ) {
                 return array(
-                    "post_type" => "news",
+                    "post_type"    => "news",
                     "archive_link" => $this->get_archive_link( $layout, 'news' ),
-                    "instance_id" => $this->get_instance_id(),
-                    "items" => $items
+                    "tab_text"     => $layout["tab_text"],
+                    "instance_id"  => $this->get_instance_id(),
+                    "items"        => $items
                 );
             } else {
                 return array();
@@ -127,7 +128,7 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
          * @param array settings from ACF fields
          * @return string HTML (cards)
          */
-        public function get_posts_list( $layout )
+        public function get_post_list( $layout )
         {
             $items = array();
 
@@ -187,10 +188,11 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
             // if there are any post items, populate the return array with data
             if ( count( $items ) ) {
                 return array(
-                    "post_type" => "post",
+                    "post_type"    => "post",
                     "archive_link" => $this->get_archive_link( $layout, 'post' ),
-                    "instance_id" => $this->get_instance_id(),
-                    "items" => $items
+                    "tab_text"     => $layout["tab_text"],
+                    "instance_id"  => $this->get_instance_id(),
+                    "items"        => $items
                 );
             } else {
                 return array();
@@ -363,10 +365,11 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
             // if there are any event items, populate the return array with data
             if ( count( $items ) ) {
                 return array(
-                    "post_type" => "events",
+                    "post_type"    => "events",
                     "archive_link" => $this->get_archive_link( $layout, 'events' ),
-                    "instance_id" => $this->get_instance_id(),
-                    "items" => $items
+                    "tab_text"     => $layout["tab_text"],
+                    "instance_id"  => $this->get_instance_id(),
+                    "items"        => $items
                 );
             } else {
                 return array();
