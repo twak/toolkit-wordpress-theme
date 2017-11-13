@@ -162,21 +162,24 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 $url = wp_get_canonical_url( $post_id );
             }
             if ( is_post_type_archive() ) {
-                $post_type = get_post_type();
-                $post_type_obj = get_post_type_object($post_type);
-                $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
-                if ( ! $title ) {
-                    $title = $post_type_obj->labels->name;
-                    if ( $post_type == 'post' ) {
-                        $title = "Blog";
+                global $wp_query;
+                $post_type = isset($wp_query->query['post_type']) ? $wp_query->query['post_type']: false;
+                if ( $post_type ) {
+                    $post_type_obj = get_post_type_object($post_type);
+                    $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
+                    if ( ! $title ) {
+                        $title = $post_type_obj->labels->name;
+                        if ( $post_type == 'post' ) {
+                            $title = "Blog";
+                        }
                     }
+                    $title_attr = esc_attr( $title );
+                    $description = get_field('tk_' . $post_type . '_page_settings_introduction', 'option');
+                    if ( $description ) {
+                        $description_attr = esc_attr( trim( strip_tags( $description ) ) );
+                    }
+                    $url = get_post_type_archive_link($post_type);
                 }
-                $title_attr = esc_attr( $title );
-                $description = get_field('tk_' . $post_type . '_page_settings_introduction', 'option');
-                if ( $description ) {
-                    $description_attr = esc_attr( trim( strip_tags( $description ) ) );
-                }
-                $url = get_post_type_archive_link($post_type);
             }
             print("<!-- SEO -->\n");
             printf('<meta name="description" content="%s" />', $description_attr );
