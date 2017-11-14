@@ -17,6 +17,10 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* add SEO stuff */
             add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
 
+            /* add GTM */
+            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_noscript' ), 1 );
+            add_action( 'wp_head', array( __CLASS__, 'add_gtm_script' ), 1 );
+
             /* add webmaster tools meta */
             add_action( 'wp_head', array( __CLASS__, 'webmaster_tools_meta' ) );
 
@@ -201,6 +205,39 @@ if ( ! class_exists( 'tk_setup' ) ) {
             printf('<meta name="twitter:description" content="%s" />', $description_attr );
             print("\n<!-- Canonical URL -->\n");
             printf('<link rel="canonical" href="%s" />', $url );
+        }
+
+        /**
+         * Adds <noscript> part of GTM include - called by tk_after_body
+         */
+        public static function add_gtm_noscript()
+        {
+            if ( apply_filters( 'include_corporate_gtm', true ) ) {
+            ?>
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+            <?php
+            }
+        }
+
+        /**
+         * Adds <script> part of GTM include - called by wp_head
+         */
+        public static function add_gtm_script()
+        {
+            if ( apply_filters( 'include_corporate_gtm', true ) ) {
+            ?>
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-WJPZM2T');</script>
+            <!-- End Google Tag Manager -->
+            <?php
+            }
         }
 
         /**
