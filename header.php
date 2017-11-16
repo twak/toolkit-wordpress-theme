@@ -18,14 +18,12 @@ $GLOBALS['colour'] = tk_colour();
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
         <meta name="copyright" content="Copyright (c)<?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All Rights Reserved." />
 
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?>>
-
-        <?php get_template_part('templates/header-google-tag-manager'); ?>
+        <?php do_action( 'tk_after_body' ); ?>
 
 		<div class="site-container <?php if($GLOBALS[ 'full_width' ]){ echo "site-container-lg"; }?>">
 
