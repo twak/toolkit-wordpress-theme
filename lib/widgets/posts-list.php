@@ -92,18 +92,13 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
             $has_news = $loop_news->post_count > 0;
             if ( $has_news ) {
                 while ( $loop_news->have_posts() ) : $loop_news->the_post();
-                    if ( has_post_thumbnail() ) {
-                        $thumbnail_url = get_the_post_thumbnail_url();
-                    } else {
-                        $thumbnail_url = false;
-                    }
                     $items[] = array(
                         'type' => 'news',
                         'title' => get_the_title(),
                         'url' => get_permalink(),
                         'excerpt' => tk_get_excerpt('tk_card_length'),
                         'date' => get_the_time('l j F Y'),
-                        'thumbnail_url' => $thumbnail_url
+                        'thumbnail_url' =>  $this->get_thumbnail_url( $layout, get_the_ID() )
                     );
                 endwhile;
                 wp_reset_postdata();
@@ -168,18 +163,13 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
             $has_posts = $loop_posts->post_count > 0;
             if ( $has_posts ) {
                 while ( $loop_posts->have_posts() ) : $loop_posts->the_post();
-                    if ( has_post_thumbnail() ) {
-                        $thumbnail_url = get_the_post_thumbnail_url();
-                    } else {
-                        $thumbnail_url = false;
-                    }
                     $items[] = array(
                         'type' => 'post',
                         'title' => get_the_title(),
                         'url' => get_permalink(),
                         'excerpt' => tk_get_excerpt('tk_card_length'),
                         'date' => get_the_time('l j F Y'),
-                        'thumbnail_url' => $thumbnail_url
+                        'thumbnail_url' =>  $this->get_thumbnail_url( $layout, get_the_ID() )
                     );
                 endwhile;
                 wp_reset_postdata();
@@ -285,18 +275,13 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
                     } else {
                         $event_date = '';
                     }
-                    if ( has_post_thumbnail() ) {
-                        $thumbnail_url = get_the_post_thumbnail_url();
-                    } else {
-                        $thumbnail_url = false;
-                    }
                     $items[] = array(
                         'type' => 'event',
                         'title' => get_the_title(),
                         'url' => get_permalink(),
                         'excerpt' => tk_get_excerpt('tk_card_length'),
                         'date' => $event_date,
-                        'thumbnail_url' => $thumbnail_url
+                        'thumbnail_url' =>  $this->get_thumbnail_url( $layout, get_the_ID() )
                     );
                 endwhile;
                 wp_reset_postdata();
@@ -344,18 +329,13 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
                             } else {
                                 $event_date = '';
                             }
-                            if ( has_post_thumbnail() ) {
-                                $thumbnail_url = get_the_post_thumbnail_url();
-                            } else {
-                                $thumbnail_url = false;
-                            }
                             $items[] = array(
                                 'type' => 'event',
                                 'title' => get_the_title(),
                                 'url' => get_permalink(),
                                 'excerpt' => tk_get_excerpt('tk_card_length'),
                                 'date' => $event_date,
-                                'thumbnail_url' => $thumbnail_url
+                                'thumbnail_url' => $this->get_thumbnail_url( $layout, $post )
                             );
                         endwhile;
                         wp_reset_postdata();
@@ -415,6 +395,25 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
                 }
             }
             return $archive_link;
+        }
+
+        /**
+         * gets the thumbnail URL for a post
+         */
+        function get_thumbnail_url( $layout, $post_id )
+        {
+            if ( $layout['show_featured_image'] ) {
+                if ( has_post_thumbnail( $post_id ) ) {
+                    return get_the_post_thumbnail_url( $post_id );
+                } else {
+                    if ( $layout['default_featured_image'] ) {
+                        return $layout['default_featured_image']['sizes']['medium_large'];
+                    } else {
+                        return get_template_directory_uri() . '/dist/img/uol-2-1-tower.png';
+                    }
+                }
+            }
+            return false;
         }
     }
     new tk_posts_list_widget();
