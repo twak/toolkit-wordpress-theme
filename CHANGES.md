@@ -1,30 +1,48 @@
 ChangeLog
 =========
 
-### 0.3.3
+### 0.3.6 (upcoming)
 
- * Fixed google maps widget script loading (only loads when map widget it used in page)
- * Added Google API theme setting for google maps (falls back to one owned by Web Solutions)
+ * Refactored posts list widget to separate logic from template
+ * Added new corporate Google Tag Manager code and removed other GA codes
+ * Added ACF filters to allow child themes to extend theme options and page widgets
+
+### 0.3.5 (02/11/2017)
+
+ * Another bugfix release – new posts lists widget was polluting the global namespace and halting page rendering
+
+### 0.3.4 (01/11/2017)
+
+ * Bugfix release (excerpts not showing on post archives)
+ * Refactored widgets page template inclusions to make adding new templates for new widgets easier
+ * Corrected instructions on new columns page widget
+
+### 0.3.3 (31/10/2017)
+
  * Added columns widget
+ * Added google API key to theme settings for use with google maps widget
+ * Moved Post settings to their own settings page
+ * Added sidebar for posts
+ * Added option to display square images in featured posts widget
+ * Added character limits on tabs and link text in banner widget to ensure consistent display
+ * Added classes to menu items so they display correctly when a menu is added to a sidebar in a widget
 
 ### 0.3.2 (16/10/2013)
 
- * Fixed a bug in the page/post title character limit script
- * Removed toolkit plugins from TGMPA control (these should now be installed using github updater)
+ * Removed length restriction on cards to ensure backward compatibility.
+ * Fixed a bug in the title length restriction script
+ * Removed tgmpa configuration for toolkit plugins (now managed via GitHub Updater only)
  
 ### 0.3.1 (13/10/2017)
 
- * Advanced custom fields for page widgets refactored to allow easy addition of widgets in child themes
- * Columns in table view for profiles put under CSS control to equalise them
- * Added a new page widget to allow inclusion of google maps
- * Added configurable title and content for 404 (page not found) page to theme options
+ * Added configurable text and title for 404 page to theme options
+ * Added video option to featured content widget and added responsive embed code to media
+ * Refactored page widget ACF definitions to be added using filters
+ * Added Google Maps widget
 
 ### 0.3.0 (28/09/2017)
 
  * Advanced Custom Fields for page widgets taken out of UI configuration
- * Styles added to editor-styles.css
- * ‘Fat footer’ added from toolkit. Now supports large footer menus
- * WordPress specific SCSS to include breakpoints
  * Quicklinks moved to separate include
  * Fixed rendering order to parent theme CSS is loaded before child theme
  * Quicklinks now support child-theme overriding

@@ -5,7 +5,7 @@
 
 function tk_theme_options_social_media_tab( $options )
 {
-    $tab = array(
+    $tab = apply_filters( 'tk_theme_options_social_media_tab', array(
         array (
             'key' => 'field_tk_tab_social',
             'label' => 'Social Media',
@@ -120,6 +120,6 @@ function tk_theme_options_social_media_tab( $options )
             'preview_size' => 'thumbnail',
             'library' => 'all'
         ),
-    );
+    ) );
     return array_merge( $options, $tab );
 }

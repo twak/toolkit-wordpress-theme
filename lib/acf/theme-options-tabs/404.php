@@ -5,7 +5,7 @@
 
 function tk_theme_options_404_tab( $options )
 {
-    $tab = array(
+    $tab = apply_filters( 'tk_theme_options_404_tab', array(
         array (
             'key' => 'field_tk_tab_404',
             'label' => '404 page',
@@ -28,6 +28,6 @@ function tk_theme_options_404_tab( $options )
             'placeholder' => 'Sorry, the page you are looking for could not be found on this site',
             'media_upload' => 1,
         ),
-    );
+    ) );
     return array_merge( $options, $tab );
 }

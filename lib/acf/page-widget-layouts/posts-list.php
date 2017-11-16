@@ -53,6 +53,30 @@ function tk_add_posts_post_list_widget( $layouts )
                 'maxlength' => 20
             ),
             array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_show_featured_image',
+                'label' => 'Show featured images for posts?',
+                'name' => 'show_featured_image',
+                'type' => 'true_false',
+                'ui' => 1,
+                'default_value' => 1
+            ),
+            array (
+                'key' => 'field_tk_page_widgets_posts_list_posts_default_featured_image',
+                'label' => 'Default featured image placeholder',
+                'name' => 'default_featured_image',
+                'instructions' => 'Choose an image to act as a placeholder when a featured image is not set',
+                'type' => 'image',
+                'conditional_logic' => array (
+                    array (
+                        array (
+                            'field' => 'field_tk_page_widgets_posts_list_posts_show_featured_image',
+                            'operator' => '==',
+                            'value' => 1,
+                        ),
+                    ),
+                ),
+            ),
+            array (
                 'key' => 'field_tk_page_widgets_posts_list_posts_filter',
                 'label' => 'Posts Filter',
                 'name' => 'posts_filter',
@@ -219,6 +243,31 @@ function tk_add_news_post_list_widget( $layouts )
                     'default_value' => 'News',
                     'placeholder' => 'News',
                     'maxlength' => 20,
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_show_featured_image',
+                    'label' => 'Show featured images for news items?',
+                    'name' => 'show_featured_image',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'default_value' => 1
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_news_default_featured_image',
+                    'label' => 'Default featured image placeholder',
+                    'name' => 'default_featured_image',
+                    'instructions' => 'Choose an image to act as a placeholder when a featured image is not set',
+                    'type' => 'image',
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_news_show_featured_image',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
+                    'return_format' => 'array',  
                 ),
                 array (
                     'key' => 'field_tk_page_widgets_posts_list_news_filter',
@@ -388,6 +437,30 @@ function tk_add_events_post_list_widget( $layouts )
                     'default_value' => 'Events',
                     'placeholder' => 'Events',
                     'maxlength' => 20
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_show_featured_image',
+                    'label' => 'Show featured images for events?',
+                    'name' => 'show_featured_image',
+                    'type' => 'true_false',
+                    'ui' => 1,
+                    'default_value' => 1
+                ),
+                array (
+                    'key' => 'field_tk_page_widgets_posts_list_events_default_featured_image',
+                    'label' => 'Default featured image placeholder',
+                    'name' => 'default_featured_image',
+                    'instructions' => 'Choose an image to act as a placeholder when a featured image is not set',
+                    'type' => 'image',
+                    'conditional_logic' => array (
+                        array (
+                            array (
+                                'field' => 'field_tk_page_widgets_posts_list_events_show_featured_image',
+                                'operator' => '==',
+                                'value' => 1,
+                            ),
+                        ),
+                    ),
                 ),
                 array (
                     'key' => 'field_tk_page_widgets_posts_list_events_filter',
