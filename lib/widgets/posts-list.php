@@ -335,7 +335,7 @@ if ( ! class_exists( 'tk_posts_list_widget' ) ) {
                                 'url' => get_permalink(),
                                 'excerpt' => tk_get_excerpt('tk_card_length'),
                                 'date' => $event_date,
-                                'thumbnail_url' => $this->get_thumbnail_url( $layout, $post )
+                                'thumbnail_url' => $this->get_thumbnail_url( $layout, get_the_ID() )
                             );
                         endwhile;
                         wp_reset_postdata();
