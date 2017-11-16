@@ -5,7 +5,7 @@
 
 function tk_theme_options_general_tab( $options )
 {
-    $tab = array(
+    $tab = apply_filters( 'tk_theme_options_general_tab', array(
         array (
             'key' => 'field_tk_tab_general',
             'label' => 'General Settings',
@@ -79,6 +79,6 @@ function tk_theme_options_general_tab( $options )
             'type' => 'text',
             'instructions' => 'If you would like to validate your site with <a href="https://www.bing.com/webmaster/" target="_blank">Bing Webmaster Tools</a>, put the code for your <code>&lt;meta&gt;</code> tag in here (include the whole tag)',
         )
-    );
+    ) );
     return array_merge( $options, $tab );
 }
