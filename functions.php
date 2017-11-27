@@ -24,10 +24,12 @@ require_once get_template_directory() . '/lib/media.php';
 
 /* ACF fields */
 require_once get_template_directory() . '/lib/acf/theme-options.php';
-require_once get_template_directory() . '/lib/acf/theme-options-admin.php';
 require_once get_template_directory() . '/lib/acf/pages.php';
 require_once get_template_directory() . '/lib/acf/widgets-page-template.php';
 require_once get_template_directory() . '/lib/acf/posts-settings.php';
+
+/* widgets template functions */
+require_once get_template_directory() . '/lib/widgets/posts-list.php';
 
 /* Theme setup */
 require_once get_template_directory() . '/lib/setup.php';

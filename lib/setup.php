@@ -17,6 +17,13 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* add SEO stuff */
             add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
 
+            /* add GTM */
+            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_noscript' ), 1 );
+            add_action( 'wp_head', array( __CLASS__, 'add_gtm_script' ), 1 );
+
+            /* add webmaster tools meta */
+            add_action( 'wp_head', array( __CLASS__, 'webmaster_tools_meta' ) );
+
             /* add theme support for various features */
             add_action( 'after_setup_theme', array( __CLASS__, 'add_theme_support' ) );
 
@@ -162,21 +169,24 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 $url = wp_get_canonical_url( $post_id );
             }
             if ( is_post_type_archive() ) {
-                $post_type = get_post_type();
-                $post_type_obj = get_post_type_object($post_type);
-                $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
-                if ( ! $title ) {
-                    $title = $post_type_obj->labels->name;
-                    if ( $post_type == 'post' ) {
-                        $title = "Blog";
+                global $wp_query;
+                $post_type = isset($wp_query->query['post_type']) ? $wp_query->query['post_type']: false;
+                if ( $post_type ) {
+                    $post_type_obj = get_post_type_object($post_type);
+                    $title = get_field('tk_' . $post_type . '_page_settings_title', 'option');
+                    if ( ! $title ) {
+                        $title = $post_type_obj->labels->name;
+                        if ( $post_type == 'post' ) {
+                            $title = "Blog";
+                        }
                     }
+                    $title_attr = esc_attr( $title );
+                    $description = get_field('tk_' . $post_type . '_page_settings_introduction', 'option');
+                    if ( $description ) {
+                        $description_attr = esc_attr( trim( strip_tags( $description ) ) );
+                    }
+                    $url = get_post_type_archive_link($post_type);
                 }
-                $title_attr = esc_attr( $title );
-                $description = get_field('tk_' . $post_type . '_page_settings_introduction', 'option');
-                if ( $description ) {
-                    $description_attr = esc_attr( trim( strip_tags( $description ) ) );
-                }
-                $url = get_post_type_archive_link($post_type);
             }
             print("<!-- SEO -->\n");
             printf('<meta name="description" content="%s" />', $description_attr );
@@ -198,6 +208,65 @@ if ( ! class_exists( 'tk_setup' ) ) {
             printf('<meta name="twitter:description" content="%s" />', $description_attr );
             print("\n<!-- Canonical URL -->\n");
             printf('<link rel="canonical" href="%s" />', $url );
+        }
+
+        /**
+         * Adds <noscript> part of GTM include - called by tk_after_body
+         */
+        public static function add_gtm_noscript()
+        {
+            if ( apply_filters( 'include_corporate_gtm', true ) ) {
+            ?>
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+            <?php
+            }
+        }
+
+        /**
+         * Adds <script> part of GTM include - called by wp_head
+         */
+        public static function add_gtm_script()
+        {
+            if ( apply_filters( 'include_corporate_gtm', true ) ) {
+            ?>
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-WJPZM2T');</script>
+            <!-- End Google Tag Manager -->
+            <?php
+            }
+        }
+
+        /**
+         * adds <meta> tags to validate site with google and bing
+         */
+        public static function webmaster_tools_meta()
+        {
+            $google_meta = self::validate_meta_tag( get_field( 'tk_google_search_console_meta', 'option' ) );
+            if ( $google_meta ) {
+                echo $google_meta;
+            }
+            $bing_meta = self::validate_meta_tag( get_field( 'tk_bing_webmaster_tools_meta', 'option' ) );
+            if ( $bing_meta ) {
+                echo $bing_meta;
+            }
+        }
+
+        private static function validate_meta_tag( $tag )
+        {
+            if ( $tag ) {
+                $tag = trim($tag);
+                if ( preg_match( '/^<meta[^>]*>$/', $tag ) ) {
+                    return $tag;
+                }
+            }
+            return false;
         }
 
         /**
@@ -292,24 +361,32 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function analytics_footer()
         {
-            print("<script>\n");
-            print("(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n");
-            print("(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n");
-            print("m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n");
-            print("})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');\n");
-            print("ga('create', 'UA-12466371-3', 'auto', 'leedstracker');\n");
-            print("ga('leedstracker.send', 'pageview');\n");
-            if ( have_rows('tk_google_analytics', 'option') ) {
-                while ( have_rows('tk_google_analytics', 'option') ) : the_row();
-                    $code = get_sub_field('tk_google_analytics_code');
-                    $label = strtolower(preg_replace('/[^a-zA-Z0-9]*/', '', $code));
-                    if ( ! empty($code) && ! empty($label) ) {
-                        printf("ga('create', '%s', 'auto', '%s');\n", $code, $label);
-                        printf("ga('%s.send', 'pageview');\n", $label);
-                    }
-                endwhile;
-            }
-            print("</script>\n");
+            if ( have_rows('tk_google_analytics', 'option') ) :
+            	?>
+
+					<script>
+					(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+					    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+					})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                    <?php
+                        while ( have_rows('tk_google_analytics', 'option') ) : the_row();
+
+		                    $code = get_sub_field('tk_google_analytics_code');
+		                    $label = strtolower(preg_replace('/[^a-zA-Z0-9]*/', '', $code));
+
+                            if ( ! empty($code) && ! empty($label) ) {
+	                            echo "ga('create', '{$code}', 'auto', '{$label}');";
+	                            echo "ga('{$label}.send', 'pageview');";
+                            }
+                        endwhile;
+                    ?>
+
+					</script>
+
+				<?php
+
+            endif;
         }
 
         /**

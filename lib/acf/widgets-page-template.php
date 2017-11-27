@@ -11,7 +11,7 @@ function tk_add_acf_page_widget_layouts()
     /* include layout definitions */
     foreach (glob(dirname(__FILE__) . "/page-widget-layouts/*.php") as $filename)
     {
-        include $filename;
+        include_once $filename;
     }
 }
 
@@ -58,3 +58,13 @@ function tk_add_acf_page_widgets()
         ),
     ) );
 }
+/* add widgets */
+add_filter( 'group_tk_page_widgets', 'tk_add_banner_page_widget', 4 );
+add_filter( 'group_tk_page_widgets', 'tk_add_content_page_widget', 8 );
+add_filter( 'group_tk_page_widgets', 'tk_add_featured_content_page_widget', 12 );
+add_filter( 'group_tk_page_widgets', 'tk_add_cards_page_widget', 16 );
+add_filter( 'group_tk_page_widgets', 'tk_add_accordion_page_widget', 20 );
+add_filter( 'group_tk_page_widgets', 'tk_add_columns_page_widget', 24 );
+add_filter( 'group_tk_page_widgets', 'tk_add_posts_list_widget', 28 );
+add_filter( 'group_tk_page_widgets', 'tk_add_google_map_page_widget', 32 );
+add_filter( 'group_tk_page_widgets', 'tk_add_news_events_posts_widget', 36);

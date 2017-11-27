@@ -1,21 +1,20 @@
 <?php
 /**
- * Fields for ACF Accessible only to Network Admins
+ * ACF field definitions for Admin Tab on options page
  */
 
-add_action( 'acf/init', 'tk_add_filter_theme_option_scripts', 1 );
-function tk_add_filter_theme_option_scripts()
+function tk_theme_options_admin_tab( $options )
 {
-    add_filter('tk_theme_options_fields', 'tk_add_theme_option_scripts', 10, 1 );
-}
-function tk_add_theme_option_scripts( $fields ) {
-    if ( is_super_admin() ) {
-        array_push( $fields, array (
+    if ( ! is_super_admin() ) {
+        return $options;
+    }
+    $tab = apply_filters('tk_theme_options_admin_tab', array(
+        array (
             'key' => 'field_tk_tab_network_admin',
             'label' => 'Admin',
             'type' => 'tab',
-        ) );         
-        array_push( $fields, array (
+        ),         
+        array (
             'key' => 'field_tk_theme_scripts',
             'label' => 'Scripts',
             'name' => 'tk_theme_scripts',
@@ -47,7 +46,7 @@ function tk_add_theme_option_scripts( $fields ) {
                     'return_format' => 'value',
                 ),
             ),
-        ) );
-    }
-    return $fields;
+        ),
+    ) );
+    return array_merge( $options, $tab );
 }

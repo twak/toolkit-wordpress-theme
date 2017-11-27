@@ -145,6 +145,3 @@ function tk_add_banner_page_widget( $widgets )
     );
     return $widgets;
 }
-
-/* add to page widgets group */
-add_filter( 'group_tk_page_widgets', 'tk_add_banner_page_widget', 4 );
