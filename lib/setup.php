@@ -153,13 +153,25 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function add_seo()
         {
+            /*
+             * removed 28/11/2017
+             * Users reported some SEO and twitter card plugins were not functioning - this was due to 
+             * the output here coming after the output of those plugins (and thereby overwriting them)
+             * also, the logic in getting the description, image and title can result in empty attributes
+             * it would probably be better defining custom fields for each post/page to make these values
+             * configurable on a post-by-post basis, then store defaults in the theme options. In any case,
+             * this functionality should be optional so it can be switched off when other plugins are used
+             * Peter Edwards <p.l.edwards@leeds.ac.uk>
+             */
+            
+            /*
             $post_id = get_queried_object_id();
             $sitename_attr = esc_attr( get_bloginfo('name') );
             $title_attr = esc_attr( get_bloginfo('name') );
             $description_attr = esc_attr( get_bloginfo('description') );
             $thumbnail_attr = '';
             $url = home_url();
-            /* see if the request is for a single page or other post type */
+
             if ( ! is_front_page() && $post_id && ( is_single( $post_id ) || is_page ( $post_id ) ) ) {
                 $title_attr = esc_attr( get_the_title( $post_id ) ) . ' | ' . $title_attr;
                 $description_attr = esc_attr( trim( strip_tags( get_the_excerpt( $post_id ) ) ) );
@@ -206,8 +218,13 @@ if ( ! class_exists( 'tk_setup' ) ) {
                 printf('<meta name="twitter:image" content="%s" />', $thumbnail_attr );
             }
             printf('<meta name="twitter:description" content="%s" />', $description_attr );
+            */
+            $url = wp_get_canonical_url();
+            if ( false === $url ) {
+                $url = home_url();
+            }
             print("\n<!-- Canonical URL -->\n");
-            printf('<link rel="canonical" href="%s" />', $url );
+            printf("<link rel=\"canonical\" href=\"%s\">\n", $url );
         }
 
         /**
