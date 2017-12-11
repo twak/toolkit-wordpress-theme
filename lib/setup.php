@@ -51,6 +51,9 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* Custom View Article link to Post */
             add_filter( 'excerpt_more', array( __CLASS__, 'excerpt_more' ) );
 
+            /* remove hash from more link */
+            add_filter( 'the_content_more_link', array( __CLASS__, 'remove_more_link_scroll' ) );        
+
             /* Allow shortcodes in Dynamic Sidebar */
             add_filter( 'widget_text', 'do_shortcode' );
 
@@ -451,6 +454,16 @@ if ( ! class_exists( 'tk_setup' ) ) {
         }
 
         /**
+         * removes the hash from the more link
+         * to prevent scrollingh of page
+         */
+        public static function remove_more_link_scroll( $link )
+        {
+            $link = preg_replace( '|#more-[0-9]+|', '', $link );
+            return $link;
+        }
+
+        /*
          * add excerpt support for pages
          */
         public static function add_excerpts_to_pages()
