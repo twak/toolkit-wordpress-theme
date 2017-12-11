@@ -5,6 +5,14 @@
 $api_key = tk_get_google_api_key();
 $type = get_sub_field('start_type');
 $zoom = get_sub_field('start_zoom');
+$heading = get_sub_field('map_widget_heading');
+if ( $heading ) {
+?>
+        <h3 class="h2-lg heading-underline">
+            <?php echo $heading; ?>
+        </h3>
+<?php
+}
 
 if( have_rows( 'locations' ) ) {
     wp_enqueue_script('google_maps_api');
@@ -32,6 +40,15 @@ if( have_rows( 'locations' ) ) {
             $firstmarker = false;
         }
 
+        /* marker colour */
+        $marker_colour = get_sub_field('marker_colour');
+        if ( ! $marker_colour ) {
+            $marker_colour = "red";
+        }
+
+        /* show info window for marker? */
+        $show_popup = get_sub_field('show_popup');        
+
         /* get content of infowindow */
         $title = get_sub_field('title');
         $image = get_sub_field('image');
@@ -40,28 +57,18 @@ if( have_rows( 'locations' ) ) {
         } else {
             $description = '';
         }
-
-        /* marker style */
-        $marker_size = get_sub_field('marker_size');
-        if ( ! $marker_size ) {
-            $marker_size = "normal";
-        }
-        $marker_colour = get_sub_field('marker_colour');
-        if ( ! $marker_colour ) {
-            $marker_colour = "red";
-        }
-
         /* show link to google maps for directions? */
         $show_directions_link = get_sub_field('show_directions');
 
         /* construct marker in static map */
-        $staticmap_uri .= '&markers=size:' . $marker_size;
+        $staticmap_uri .= '&markers=size:normal';
         $staticmap_uri .= '%7Ccolor:' . $marker_colour;
         $staticmap_uri .= '%7Clabel:' . strtoupper( $title[0] );
         $staticmap_uri .= '%7C' . $location['lat'] . ',' . $location['lng'];
         /* get marker HTML */
         $marker_html .= sprintf('<div class="tk-marker container-row" data-lat="%s" data-lng="%s" data-title="%s" data-colour="%s">', $location['lat'], $location['lng'], esc_attr( $title ), $marker_colour );
-        if ( ! empty($description) || $image ) {
+        /* show a popup if configured and non-empty */
+        if ( $show_popup && ( ! empty($description) || $image || $show_directions_link ) ) {
             $marker_html .= '<div class="tk-infowindow card-flat skin-box-module">';
             if ( $image ) {
                 $marker_html .= sprintf('<div class="card-img card-img-1-4"><img src="%s" alt="%s"></div>', $image['sizes']['thumbnail'], esc_attr( $title ) );
