@@ -5,6 +5,14 @@
 $api_key = tk_get_google_api_key();
 $type = get_sub_field('start_type');
 $zoom = get_sub_field('start_zoom');
+$heading = get_sub_field('map_widget_heading');
+if ( $heading ) {
+?>
+        <h3 class="h2-lg heading-underline">
+            <?php echo $heading; ?>
+        </h3>
+<?php
+}
 
 if( have_rows( 'locations' ) ) {
     wp_enqueue_script('google_maps_api');

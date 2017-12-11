@@ -12,6 +12,13 @@ function tk_add_google_map_page_widget( $widgets )
         'display' => 'block',
         'sub_fields' => array (
             array (
+                'key' => 'field_tk_page_widgets_google_map_heading',
+                'label' => 'Heading',
+                'name' => 'map_widget_heading',
+                'type' => 'text',
+                'maxlength' => 75
+            ),
+            array (
                 'key' => 'field_tk_page_widgets_google_map_type',
                 'label' => 'Map type',
                 'name' => 'start_type',
@@ -22,9 +29,7 @@ function tk_add_google_map_page_widget( $widgets )
                     'HYBRID' => 'Mixture of road and satellite views',
                     'TERRAIN' => 'Physical map based on terrain information',
                 ),
-                'default_value' => array (
-                    0 => 'ROADMAP',
-                ),
+                'default_value' => 'ROADMAP',
                 'ui' => 1,
                 'return_format' => 'value',
             ),
