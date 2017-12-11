@@ -55,22 +55,6 @@ function tk_add_google_map_page_widget( $widgets )
                         'required' => 1,
                     ),
                     array (
-                        'key' => 'field_tk_page_widgets_google_map_location_description',
-                        'label' => 'Description',
-                        'name' => 'description',
-                        'type' => 'textarea',
-                        'new_lines' => 'wpautop',
-                    ),
-                    array (
-                        'key' => 'field_tk_page_widgets_google_map_location_image',
-                        'label' => 'Image',
-                        'name' => 'image',
-                        'type' => 'image',
-                        'return_format' => 'array',
-                        'preview_size' => 'thumbnail',
-                        'library' => 'all',
-                    ),
-                    array (
                         'key' => 'field_tk_page_widgets_google_map_location_markercolour',
                         'label' => 'Marker colour',
                         'name' => 'marker_colour',
@@ -87,12 +71,63 @@ function tk_add_google_map_page_widget( $widgets )
                         'default_value' => "red",
                     ),
                     array (
+                        'key' => 'field_tk_page_widgets_google_map_infowindow',
+                        'label' => 'Include popup for marker?',
+                        'name' => 'show_popup',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                    ),
+                    array (
+                        'key' => 'field_tk_page_widgets_google_map_location_description',
+                        'label' => 'Description',
+                        'name' => 'description',
+                        'type' => 'textarea',
+                        'new_lines' => 'wpautop',
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_tk_page_widgets_google_map_infowindow',
+                                    'operator' => '==',
+                                    'value' => 1,
+                                ),
+                            ),
+                        ),
+                    ),
+                    array (
+                        'key' => 'field_tk_page_widgets_google_map_location_image',
+                        'label' => 'Image',
+                        'name' => 'image',
+                        'type' => 'image',
+                        'return_format' => 'array',
+                        'preview_size' => 'thumbnail',
+                        'library' => 'all',
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_tk_page_widgets_google_map_infowindow',
+                                    'operator' => '==',
+                                    'value' => 1,
+                                ),
+                            ),
+                        ),
+                    ),
+                    array (
                         'key' => 'field_tk_page_widgets_google_map_location_directions',
                         'label' => 'Include link to google maps for directions?',
                         'name' => 'show_directions',
                         'type' => 'true_false',
                         'default_value' => 1,
                         'ui' => 1,
+                        'conditional_logic' => array (
+                            array (
+                                array (
+                                    'field' => 'field_tk_page_widgets_google_map_infowindow',
+                                    'operator' => '==',
+                                    'value' => 1,
+                                ),
+                            ),
+                        ),
                     ),
                     array (
                         'key' => 'field_tk_page_widgets_google_map_location_map',
