@@ -37,10 +37,15 @@ if ( ! function_exists( 'tk_get_excerpt' ) ) {
         if (function_exists($more_callback)) {
             add_filter('excerpt_more', $more_callback);
         }
-        $output = get_the_excerpt();
-        $output = apply_filters('wptexturize', $output);
-        $output = apply_filters('convert_chars', $output);
-        $output = '<p>' . $output . '</p>';
+        $show = get_field( 'tk_post_page_settings_excerpt', 'option' );
+        if ( $post->post_type == 'post' && 'full' === $show ) {
+            $output = apply_filters( 'the_content', get_the_content('Continue reading...') );
+        } else {
+            $output = get_the_excerpt();
+            $output = apply_filters('wptexturize', $output);
+            $output = apply_filters('convert_chars', $output);
+            $output = '<p>' . $output . '</p>';
+        }
         return $output;
     }
 }

@@ -51,8 +51,8 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* Custom View Article link to Post */
             add_filter( 'excerpt_more', array( __CLASS__, 'excerpt_more' ) );
 
-            /* Drop caps setting */
-            add_action( 'plugins_loaded', array( __CLASS__, 'drop_cap_settings' ) );
+            /* remove hash from more link */
+            add_filter( 'the_content_more_link', array( __CLASS__, 'remove_more_link_scroll' ) );        
 
             /* Allow shortcodes in Dynamic Sidebar */
             add_filter( 'widget_text', 'do_shortcode' );
@@ -453,43 +453,17 @@ if ( ! class_exists( 'tk_setup' ) ) {
             return '...';
         }
 
-        public static function drop_cap_settings()
-        {
-            /* drop caps on posts - controlled by theme option */
-            if ( function_exists('get_field') && get_field( 'tk_content_settings_dropcap', 'option' ) ) {
-                add_filter( 'the_content', array( __CLASS__, 'add_drop_caps' ), 30 );
-                add_filter( 'the_excerpt', array( __CLASS__, 'add_drop_caps' ), 30 );
-            }
-        }
-
         /**
-         * adds summary class and drop cap to first paragraph
+         * removes the hash from the more link
+         * to prevent scrollingh of page
          */
-        public static function add_drop_caps($content)
+        public static function remove_more_link_scroll( $link )
         {
-            global $post;
-
-            //only posts
-            if ( ! empty($post) && $post->post_type == "post")
-            {
-                if ( preg_match("/\<p\>[A-Z]/i", $content, $matches ) ) {
-                    $match = $matches[0];
-                    if ( ! empty($match) ) {
-                        $letter = str_replace("<p>", "", $match);
-                        $dropcap = '<p class="summary"><span class="dropcaps">' . $letter . '</span>';
-                        $firstChar = strpos($content, $match);
-                        if ($firstChar !== false) {
-                            $beforeStr = substr($content, 0, $firstChar);
-                            $afterStr = substr($content, $firstChar + strlen($match) );
-                            $content = $beforeStr . $dropcap . $afterStr;
-                        }
-                    }
-                }
-            }
-            return $content;
+            $link = preg_replace( '|#more-[0-9]+|', '', $link );
+            return $link;
         }
 
-        /**
+        /*
          * add excerpt support for pages
          */
         public static function add_excerpts_to_pages()
