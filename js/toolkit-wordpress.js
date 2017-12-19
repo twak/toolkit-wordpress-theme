@@ -34,3 +34,14 @@ if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
     });
 
 }(jQuery));
+
+// Toggle Category sidebar widget
+(function($) {
+
+    $(function() {
+        $('.widget_categories').on('click', '.js-widget-toggle', function(){
+            $(this).toggleClass('js-widget-toggle--active').parent().find('.sidebar-nav--widget').toggleClass('show');
+        });
+    });
+
+}(jQuery));

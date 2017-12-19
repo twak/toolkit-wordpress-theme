@@ -164,8 +164,8 @@ if (function_exists('register_sidebar'))
         'id' => 'widget-area-1',
         'before_widget' => '<div id="%1$s" class="%2$s">',
         'after_widget' => '</div>',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
+        'before_title' => '<h4 class="sidebar-heading heading-related">',
+        'after_title' => '</h4>'
     ));
 
 	// Define Sidebar Widget Area Posts
@@ -175,8 +175,8 @@ if (function_exists('register_sidebar'))
 		'id' => 'widget-area-posts',
 		'before_widget' => '<div id="%1$s" class="%2$s">',
 		'after_widget' => '</div>',
-		'before_title' => '<h3>',
-		'after_title' => '</h3>'
+		'before_title' => '<h4 class="sidebar-heading heading-related">',
+		'after_title' => '</h4>'
 	));
 
     // Define Sidebar Widget Area 2

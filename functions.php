@@ -29,7 +29,7 @@ require_once get_template_directory() . '/lib/acf/widgets-page-template.php';
 require_once get_template_directory() . '/lib/acf/posts-settings.php';
 
 /* widgets template functions */
-require_once get_template_directory() . '/lib/widgets/posts-list.php';
+require_once get_template_directory() . '/lib/page-widgets/posts-list.php';
 
 /* Theme setup */
 require_once get_template_directory() . '/lib/setup.php';
@@ -54,3 +54,5 @@ require_once get_template_directory() . '/lib/custom-walkers/sidebar-walker.php'
 
 // Footer menu
 require_once get_template_directory() . '/lib/custom-walkers/footer-nav.php';
+
+require_once get_template_directory() . '/lib/widgets.php';
