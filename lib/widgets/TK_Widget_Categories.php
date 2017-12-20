@@ -1,10 +1,23 @@
 <?php
 /**
  * Class TK_Widget_Categories
+ * Custom categories widget extends standard WordPress widget:
+ * https://developer.wordpress.org/reference/classes/wp_widget_categories/
  */
 class TK_Widget_Categories extends WP_Widget_Categories {
 
-	function widget( $args, $instance ) {
+	/**
+     * Outputs the content for the current Categories widget instance.
+	 *
+     * @since 2.8.0
+     *
+     * @staticvar bool $first_dropdown
+     *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Categories widget instance.
+	 */
+	public function widget( $args, $instance ) {
 		static $first_dropdown = true;
 
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Categories' );
