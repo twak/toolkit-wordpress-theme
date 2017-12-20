@@ -132,6 +132,10 @@ a {
 		margin-top: -9px;
 		font-size: 16px;
 	}
+	
+	.site-footer & {
+		display: none;
+	}
 }
 
 	@media screen and (min-width: 1024px) {
@@ -170,11 +174,14 @@ a {
 
 @media screen and (max-width: 1024px) {
 
-	.sidebar-nav--widget,
-	.sidebar-nav,
-	.textwidget {
-		display: none;
+	.column-container-secondary {
+		.sidebar-nav--widget,
+		.sidebar-nav,
+		.textwidget {
+			display: none;
+		}
 	}
+
 }
 
 .textwidget {
