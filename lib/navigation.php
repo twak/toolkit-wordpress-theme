@@ -127,7 +127,7 @@ function tk_menu_set_dropdown( $sorted_menu_items, $args ) {
  */
 add_filter('widget_nav_menu_args', 'tk_menu_in_sidebar', 10, 4 );
 function tk_menu_in_sidebar( $nav_menu_args, $nav_menu, $args, $instance ) {
-    $nav_menu_args['menu_class'] = 'sidebar-nav';
+    $nav_menu_args['menu_class'] = 'widget-nav';
     return $nav_menu_args;
 }
 
