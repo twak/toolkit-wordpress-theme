@@ -1,7 +1,23 @@
 <?php
+include_once get_template_directory() . '/lib/widgets/register-sidebars.php';
 include_once get_template_directory() . '/lib/widgets/TK_Widget_Categories.php';
 include_once get_template_directory() . '/lib/widgets/TK_Nav_Menu_Widget.php';
 include_once get_template_directory() . '/lib/widgets/TK_Widget_Text.php';
+
+// Unregister unwanted widgets
+function unregister_default_widgets() {
+	unregister_widget('WP_Widget_Calendar');
+	unregister_widget('WP_Widget_Meta');
+	unregister_widget('WP_Widget_Search');
+	unregister_widget('WP_Widget_RSS');
+	unregister_widget('WP_Widget_Tag_Cloud');
+	unregister_widget('Twenty_Eleven_Ephemera_Widget');
+	unregister_widget('WP_Widget_Media_Audio');
+	unregister_widget('WP_Widget_Media_Video');
+	unregister_widget('WP_Widget_Media_Image');
+}
+add_action('widgets_init', 'unregister_default_widgets', 11);
+
 
 function tk_categories_widget_register() {
 	unregister_widget( 'WP_Widget_Categories' );
