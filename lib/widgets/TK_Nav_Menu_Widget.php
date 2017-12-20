@@ -1,8 +1,8 @@
 <?php
 /**
- * Class TK_Widget_Categories
- * Custom categories widget extends standard WordPress widget:
- * https://developer.wordpress.org/reference/classes/wp_widget_categories/
+ * Class TK_Nav_Menu_Widget
+ * Custom navigation widget extends standard WordPress widget:
+ * https://developer.wordpress.org/reference/classes/wp_nav_menu_widget/
  */
 class TK_Nav_Menu_Widget extends WP_Nav_Menu_Widget {
 

@@ -113,7 +113,7 @@ a {
 	&:before {
 		font-family: tk-icons!important;
 		speak: none;
-		content: "\EA13";
+		content: "\EA01";
 		color: #aa8f6f;
 		position: absolute;
 		top: 50%;
@@ -168,13 +168,29 @@ a {
 		}
 	}
 
-@media screen and (max-width: 1169px) {
+@media screen and (max-width: 1024px) {
 
-	.sidebar-nav--widget {
+	.sidebar-nav--widget,
+	.sidebar-nav,
+	.textwidget {
 		display: none;
 	}
+}
 
-	.sidebar-nav {
-		display: none;
+.textwidget {
+	padding: 6px 12px;
+}
+
+@media (min-width: 1024px){
+	.textwidget {
+		margin-bottom: 0;
+		display: block;
+		padding: 7px;
+	}
+}
+
+@media (min-width: 1170px) {
+	.textwidget {
+		padding: 8px 16px 8px 0;
 	}
 }
