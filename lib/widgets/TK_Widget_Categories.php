@@ -1,6 +1,9 @@
 <?php
-
+/**
+ * Class TK_Widget_Categories
+ */
 class TK_Widget_Categories extends WP_Widget_Categories {
+
 	function widget( $args, $instance ) {
 		static $first_dropdown = true;
 
@@ -89,10 +92,5 @@ class TK_Widget_Categories extends WP_Widget_Categories {
 
 		echo $args['after_widget'];
 	}
-}
 
-function my_categories_widget_register() {
-	unregister_widget( 'WP_Widget_Categories' );
-	register_widget( 'TK_Widget_Categories' );
 }
-add_action( 'widgets_init', 'my_categories_widget_register' );
