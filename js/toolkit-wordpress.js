@@ -39,8 +39,8 @@ if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
 (function($) {
 
     $(function() {
-        $('.widget_categories').on('click', '.js-widget-toggle', function(){
-            $(this).toggleClass('js-widget-toggle--active').parent().find('.sidebar-nav--widget').toggleClass('show');
+        $('.widget_categories, .widget_nav_menu').on('click', '.js-widget-toggle', function(){
+            $(this).toggleClass('js-widget-toggle--active').parent().find('.sidebar-nav--widget, .sidebar-nav').toggleClass('show');
         });
     });
 
