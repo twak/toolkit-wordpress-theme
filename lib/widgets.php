@@ -17,6 +17,7 @@ function unregister_default_widgets() {
 	unregister_widget('WP_Widget_Media_Audio');
 	unregister_widget('WP_Widget_Media_Video');
 	unregister_widget('WP_Widget_Media_Image');
+
 }
 add_action('widgets_init', 'unregister_default_widgets', 11);
 
@@ -44,10 +45,9 @@ function tk_archives_widget_register() {
 	register_widget( 'TK_Widget_Archives' );
 }
 add_action( 'widgets_init', 'tk_archives_widget_register' );
+
 function tk_recent_posts_widget_register() {
 	unregister_widget( 'WP_Widget_Recent_Posts' );
 	register_widget( 'TK_Widget_Recent_Posts' );
 }
 add_action( 'widgets_init', 'tk_recent_posts_widget_register' );
-
-
