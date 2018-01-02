@@ -39,7 +39,7 @@ if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
 (function($) {
 
     $(function() {
-        $('.widget-section, .widget_categories, .widget_nav_menu, .widget_text, .widget_archive').on('click', '.js-widget-toggle', function(){
+        $('.widget-section, .widget_categories, .widget_nav_menu, .widget_text, .widget_archive, .widget_recent_entries').on('click', '.js-widget-toggle', function(){
             $(this).toggleClass('js-widget-toggle--active').parent().find('.sidebar-nav, .widget-nav, .textwidget').toggleClass('show');
         });
     });
