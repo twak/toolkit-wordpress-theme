@@ -27,7 +27,7 @@ if (function_exists('register_sidebar'))
 
 	// Footer Left
 	register_sidebar( array(
-		'name'          => __( 'Footer left', 'theme_text_domain' ),
+		'name'          => __( 'Footer Left', 'theme_text_domain' ),
 		'id'            => 'footer-left',
 		'description'   => '',
 		'class'         => '',
