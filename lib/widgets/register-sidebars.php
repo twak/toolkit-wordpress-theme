@@ -25,17 +25,6 @@ if (function_exists('register_sidebar'))
 		'after_title' => '</h4>'
 	));
 
-	// Define Sidebar Widget Area 2
-	register_sidebar(array(
-		'name' => 'Widget Footer',
-		'description' => 'Footer widgets', 'html5blank',
-		'id' => 'widget-area-2',
-		'before_widget' => '<div id="%1$s" class="%2$s col-sm-6 col-md-3">',
-		'after_widget' => '</div>',
-		'before_title' => '<h3>',
-		'after_title' => '</h3>'
-	));
-
 	// Footer Left
 	register_sidebar( array(
 		'name'          => __( 'Footer left', 'theme_text_domain' ),
