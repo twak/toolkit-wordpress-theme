@@ -84,7 +84,7 @@ class TK_Widget_Categories extends WP_Widget_Categories {
 			<?php
 		} else {
 			?>
-			<ul class="sidebar-nav widget-nav js-widget-content">
+			<ul class="widget-nav js-widget-content">
 				<?php
 				$cat_args['title_li'] = '';
 

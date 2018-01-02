@@ -109,6 +109,43 @@ a {
 			font-size: 14px;
 		}
 
+
+		.dropdown {
+
+			> a {
+				position: relative;
+
+				&:after {
+					font-family: tk-icons!important;
+					speak: none;
+					font-style: normal;
+					font-variant: normal;
+					font-weight: 400;
+					text-decoration: none;
+					text-transform: none;
+					line-height: 1;
+					font-size: 16px;
+					-webkit-font-smoothing: antialiased;
+					content: "\EA25";
+					right: 5px;
+					font-size: 16px;
+					position: absolute;
+					top: 50%;
+					margin-top: -8px;
+					color: #aa8f6f;
+				}
+			}
+			
+			&.open {
+				>a {
+					&:after {
+						content: "\EA28";
+					}
+				}
+			}
+
+		}
+
 		a {
 			display: block;
 			font-size: 16px;
@@ -122,6 +159,15 @@ a {
 				background: #f4f2f0;
 			}
 		}
+
+		ul {
+			display: none;
+			padding: 0;
+			margin: 0;
+			border-left: 2px solid #aa8f6f;
+			background: rgba(77,72,67,.04);
+		}
+		
 
 
 	}
