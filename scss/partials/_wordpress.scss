@@ -142,7 +142,7 @@ a {
 @media (min-width: 1170px) {
 	.sidebar-widget {
 		.widget-nav {
-			a {
+			>ul>a {
 				padding: 8px 16px 8px 0;
 			}
 		}

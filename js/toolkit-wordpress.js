@@ -44,4 +44,16 @@ if (document.getElementsByTagName("html")[0].className.indexOf("lt-ie9") == -1){
         });
     });
 
+    $(function() {
+
+        $( ".widget_categories li" ).has( "ul" ).addClass('dropdown').each(function(){
+            $('>a', this).removeAttr("href").css( 'cursor', 'pointer' );;
+        });
+
+        $( ".widget_categories li.dropdown").on('click', function(e){
+            $(this).toggleClass('open');
+        });
+
+    });
+
 }(jQuery));
