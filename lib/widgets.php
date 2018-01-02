@@ -3,6 +3,7 @@ include_once get_template_directory() . '/lib/widgets/register-sidebars.php';
 include_once get_template_directory() . '/lib/widgets/TK_Widget_Categories.php';
 include_once get_template_directory() . '/lib/widgets/TK_Nav_Menu_Widget.php';
 include_once get_template_directory() . '/lib/widgets/TK_Widget_Text.php';
+include_once get_template_directory() . '/lib/widgets/TK_Widget_Archives.php';
 
 // Unregister unwanted widgets
 function unregister_default_widgets() {
@@ -36,3 +37,10 @@ function tk_text_widget_register() {
 	register_widget( 'TK_Widget_Text' );
 }
 add_action( 'widgets_init', 'tk_text_widget_register' );
+
+function tk_archives_widget_register() {
+	unregister_widget( 'WP_Widget_Archives' );
+	register_widget( 'TK_Widget_Archives' );
+}
+add_action( 'widgets_init', 'tk_archives_widget_register' );
+
