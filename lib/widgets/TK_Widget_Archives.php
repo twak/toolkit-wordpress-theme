@@ -1,8 +1,8 @@
 <?php
 /**
- * Class TK_Widget_TArchives
- * Custom navigation widget extends standard WordPress widget:
- * https://developer.wordpress.org/reference/classes/wp_nav_menu_widget/
+ * Class TK_Widget_Archives
+ * Custom archives widget extends standard WordPress widget:
+ * https://developer.wordpress.org/reference/classes/wp_widget_archives/
  */
 class TK_Widget_Archives extends WP_Widget_Archives {
 
