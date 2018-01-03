@@ -196,6 +196,13 @@ a {
 			>ul>a {
 				padding: 8px 16px 8px 0;
 			}
+
+			.sub-menu,
+			.children {
+				a {
+					padding: 8px;
+				}
+			}
 		}
 	}
 }
