@@ -4,6 +4,9 @@
  *  Custom functions, support, custom post types and more.
  */
 
+/* environment settings */
+require_once get_template_directory() . '/lib/environment.php';
+
 /* theme admin */
 require_once get_template_directory() . '/lib/admin.php';
 
