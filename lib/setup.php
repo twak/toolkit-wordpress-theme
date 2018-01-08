@@ -18,8 +18,7 @@ if ( ! class_exists( 'tk_setup' ) ) {
             add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
 
             /* add GTM */
-            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_noscript' ), 1 );
-            add_action( 'wp_head', array( __CLASS__, 'add_gtm_script' ), 1 );
+            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_script' ), 1 );
 
             /* add webmaster tools meta */
             add_action( 'wp_head', array( __CLASS__, 'webmaster_tools_meta' ) );
@@ -230,21 +229,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
         /**
          * Adds <noscript> part of GTM include - called by tk_after_body
          */
-        public static function add_gtm_noscript()
-        {
-            if ( apply_filters( 'include_corporate_gtm', true ) ) {
-            ?>
-            <!-- Google Tag Manager (noscript) -->
-            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-            <!-- End Google Tag Manager (noscript) -->
-            <?php
-            }
-        }
-
-        /**
-         * Adds <script> part of GTM include - called by wp_head
-         */
         public static function add_gtm_script()
         {
             if ( apply_filters( 'include_corporate_gtm', true ) ) {
@@ -256,6 +240,10 @@ if ( ! class_exists( 'tk_setup' ) ) {
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-WJPZM2T');</script>
             <!-- End Google Tag Manager -->
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
             <?php
             }
         }
@@ -321,14 +309,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function scripts_styles()
         {
-            wp_register_style(
-                'style', 
-                get_template_directory_uri() . '/style.css', 
-                array(), 
-                tk_admin::$version, 
-                'all'
-            );
-            wp_enqueue_style('style');
 
             wp_register_script(
                 'modernizr', 
