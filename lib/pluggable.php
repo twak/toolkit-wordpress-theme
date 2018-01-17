@@ -94,6 +94,24 @@ if ( ! function_exists( 'tk_colour' ) ) {
 }
 
 /**
+ * this is used to retrieve the google API key
+ * @return string
+ */
+if ( ! function_exists( 'tk_get_google_api_key' ) ) {
+    function tk_get_google_api_key()
+    {
+        $api_key = false;
+        if ( function_exists( 'get_field' ) ) {
+            $api_key = get_field( 'tk_google_api_key', 'option' );
+        }
+        if ( ! $api_key ) {
+            $api_key = 'AIzaSyBBUKSi1deZSSGaOvXaR-3p4pkwHzZO0s0';
+        }
+        return $api_key;
+    }
+}
+
+/**
  * this outputs the social sharing icons
  * @param string suffix for contaner ID attribute (needs different ones for multiple instances)
  * @return void
