@@ -2,6 +2,8 @@
 /**
  * template for archive pages
  */
+$posts_sidebar = get_field('posts_sidebar_flag', 'option');
+
 get_header();
 the_breadcrumb();
 
@@ -16,7 +18,24 @@ if ( ! $title ) {
         $title = "Blog";
     }
 }
-printf('<div class="wrapper-sm wrapper-pd"><h1 class="heading-underline">%s</h1>', $title );
+if ( is_archive() && ( is_month() || is_year() ) ) {
+    if ( is_year() ) {
+        $title .= ': ' . get_the_date( 'Y' );
+    } elseif ( is_month() ) {
+        $title .= ': ' . get_the_date( 'F Y' );
+    }
+}
+if($posts_sidebar) : ?>
+<div class="column-container">
+    <?php get_sidebar('posts'); ?>
+
+    <div class="column-container-primary">
+        <div class="wrapper-pd wrapper-sm">
+<?php else: ?>
+    <div class="wrapper-sm wrapper-pd">
+<?php endif;
+
+printf('<h1 class="heading-underline">%s</h1>', $title );
 
 $hide_search = get_field('tk_' . $post_type . '_page_settings_search', 'option');
 if ( ! $hide_search ) {
@@ -36,5 +55,13 @@ get_template_part('loop-flag');
 get_template_part('pagination');
 
 print('</div>');
+
+if($posts_sidebar) : ?>
+    </div> <!-- /.column-container-primary -->
+</div> <!-- /.column-container -->
+<?php else: ?>
+
+<?php endif;
+
 
 get_footer();

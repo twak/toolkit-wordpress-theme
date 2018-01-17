@@ -18,8 +18,7 @@ if ( ! class_exists( 'tk_setup' ) ) {
             add_action( 'wp_head', array( __CLASS__, 'add_seo' ) );
 
             /* add GTM */
-            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_noscript' ), 1 );
-            add_action( 'wp_head', array( __CLASS__, 'add_gtm_script' ), 1 );
+            add_action( 'tk_after_body', array( __CLASS__, 'add_gtm_script' ), 1 );
 
             /* add webmaster tools meta */
             add_action( 'wp_head', array( __CLASS__, 'webmaster_tools_meta' ) );
@@ -51,8 +50,8 @@ if ( ! class_exists( 'tk_setup' ) ) {
             /* Custom View Article link to Post */
             add_filter( 'excerpt_more', array( __CLASS__, 'excerpt_more' ) );
 
-            /* Drop caps setting */
-            add_action( 'plugins_loaded', array( __CLASS__, 'drop_cap_settings' ) );
+            /* remove hash from more link */
+            add_filter( 'the_content_more_link', array( __CLASS__, 'remove_more_link_scroll' ) );        
 
             /* Allow shortcodes in Dynamic Sidebar */
             add_filter( 'widget_text', 'do_shortcode' );
@@ -230,21 +229,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
         /**
          * Adds <noscript> part of GTM include - called by tk_after_body
          */
-        public static function add_gtm_noscript()
-        {
-            if ( apply_filters( 'include_corporate_gtm', true ) ) {
-            ?>
-            <!-- Google Tag Manager (noscript) -->
-            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-            <!-- End Google Tag Manager (noscript) -->
-            <?php
-            }
-        }
-
-        /**
-         * Adds <script> part of GTM include - called by wp_head
-         */
         public static function add_gtm_script()
         {
             if ( apply_filters( 'include_corporate_gtm', true ) ) {
@@ -256,6 +240,10 @@ if ( ! class_exists( 'tk_setup' ) ) {
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
             })(window,document,'script','dataLayer','GTM-WJPZM2T');</script>
             <!-- End Google Tag Manager -->
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJPZM2T"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
             <?php
             }
         }
@@ -321,14 +309,6 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function scripts_styles()
         {
-            wp_register_style(
-                'style', 
-                get_template_directory_uri() . '/style.css', 
-                array(), 
-                tk_admin::$version, 
-                'all'
-            );
-            wp_enqueue_style('style');
 
             wp_register_script(
                 'modernizr', 
@@ -453,43 +433,17 @@ if ( ! class_exists( 'tk_setup' ) ) {
             return '...';
         }
 
-        public static function drop_cap_settings()
-        {
-            /* drop caps on posts - controlled by theme option */
-            if ( function_exists('get_field') && get_field( 'tk_content_settings_dropcap', 'option' ) ) {
-                add_filter( 'the_content', array( __CLASS__, 'add_drop_caps' ), 30 );
-                add_filter( 'the_excerpt', array( __CLASS__, 'add_drop_caps' ), 30 );
-            }
-        }
-
         /**
-         * adds summary class and drop cap to first paragraph
+         * removes the hash from the more link
+         * to prevent scrollingh of page
          */
-        public static function add_drop_caps($content)
+        public static function remove_more_link_scroll( $link )
         {
-            global $post;
-
-            //only posts
-            if ( ! empty($post) && $post->post_type == "post")
-            {
-                if ( preg_match("/\<p\>[A-Z]/i", $content, $matches ) ) {
-                    $match = $matches[0];
-                    if ( ! empty($match) ) {
-                        $letter = str_replace("<p>", "", $match);
-                        $dropcap = '<p class="summary"><span class="dropcaps">' . $letter . '</span>';
-                        $firstChar = strpos($content, $match);
-                        if ($firstChar !== false) {
-                            $beforeStr = substr($content, 0, $firstChar);
-                            $afterStr = substr($content, $firstChar + strlen($match) );
-                            $content = $beforeStr . $dropcap . $afterStr;
-                        }
-                    }
-                }
-            }
-            return $content;
+            $link = preg_replace( '|#more-[0-9]+|', '', $link );
+            return $link;
         }
 
-        /**
+        /*
          * add excerpt support for pages
          */
         public static function add_excerpts_to_pages()

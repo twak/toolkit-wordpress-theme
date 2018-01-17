@@ -37,10 +37,15 @@ if ( ! function_exists( 'tk_get_excerpt' ) ) {
         if (function_exists($more_callback)) {
             add_filter('excerpt_more', $more_callback);
         }
-        $output = get_the_excerpt();
-        $output = apply_filters('wptexturize', $output);
-        $output = apply_filters('convert_chars', $output);
-        $output = '<p>' . $output . '</p>';
+        $show = get_field( 'tk_post_page_settings_excerpt', 'option' );
+        if ( $post->post_type == 'post' && 'full' === $show ) {
+            $output = apply_filters( 'the_content', get_the_content('Continue reading...') );
+        } else {
+            $output = get_the_excerpt();
+            $output = apply_filters('wptexturize', $output);
+            $output = apply_filters('convert_chars', $output);
+            $output = '<p>' . $output . '</p>';
+        }
         return $output;
     }
 }
@@ -86,6 +91,24 @@ if ( ! function_exists( 'tk_colour' ) ) {
 		}
 		return $colour;
 	}
+}
+
+/**
+ * this is used to retrieve the google API key
+ * @return string
+ */
+if ( ! function_exists( 'tk_get_google_api_key' ) ) {
+    function tk_get_google_api_key()
+    {
+        $api_key = false;
+        if ( function_exists( 'get_field' ) ) {
+            $api_key = get_field( 'tk_google_api_key', 'option' );
+        }
+        if ( ! $api_key ) {
+            $api_key = 'AIzaSyBBUKSi1deZSSGaOvXaR-3p4pkwHzZO0s0';
+        }
+        return $api_key;
+    }
 }
 
 /**

@@ -124,7 +124,7 @@ if($card_stacked_flag){
 						<?php if ( $link_url ) { ?>			
 		            		<a href="<?php echo $link_url; ?>">
 		            	<?php } ?>
-				            <img src="./assets/img/placeholders/ph-news-01.jpg" alt="2:1">
+				            <img src="<?php the_sub_field('cards_widget_card_image'); ?>" alt="2:1">
 				        <?php if ( $link_url ) { ?>
 		            		</a>
 		            	<?php } ?>		

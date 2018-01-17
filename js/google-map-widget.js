@@ -3,7 +3,8 @@
  */
 (function($) {
     $(document).ready(function(){
-        var add_marker = function( $marker, map ) {
+        var infowindow,
+        add_marker = function( $marker, map ) {
             // create marker
             var marker = new google.maps.Marker({
                 position    : new google.maps.LatLng( $marker.data('lat'), $marker.data('lng') ),
@@ -15,12 +16,15 @@
             map.markers.push( marker );
             // if marker contains HTML, add it to an infoWindow
             if( $marker.html() ) {
-                // create info window
-                var infowindow = new google.maps.InfoWindow({
-                    content     : $marker.find('.tk-infowindow').html()
-                });
                 // show info window when marker is clicked
                 google.maps.event.addListener(marker, 'click', function() {
+                    if ( infowindow ) {
+                        infowindow.close();
+                    }
+                    // create info window
+                    infowindow = new google.maps.InfoWindow({
+                        content     : $marker.find('.tk-infowindow').html()
+                    });
                     infowindow.open( map, marker );
                 });
             }
