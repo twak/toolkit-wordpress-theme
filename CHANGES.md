@@ -1,7 +1,20 @@
 ChangeLog
 =========
 
-### 0.3.6 (upcoming)
+### 0.3.8 (17/01/2018)
+
+ * Added field to show or hide page title and breadcrumb for widgets page template when sidebar is hidden.
+ * Re-factored sidebars and created new widgets to use in them which contain the correct CSS classes
+ * Moved all GTM code to body.
+ * Re-factored styles inclusion scripts and added Typekit CSS - removed Typekit JS
+ * Added environment settings to prevent GTM loading in non-production environments
+ * Added an option to Post Settings to show the full post or excerpt on archive pages
+
+### 0.3.7 (28/11/2017)
+
+ * Removed SEO output from the main theme as this was interfering with SEO plugins (hotfix)
+
+### 0.3.6 (27/11/2017)
 
  * Refactored posts list widget to separate logic from template
  * Added new corporate Google Tag Manager code and removed other GA codes
