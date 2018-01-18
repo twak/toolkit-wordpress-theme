@@ -20,7 +20,7 @@ if ( ! class_exists( 'tk_styles' ) ) {
             add_action( 'wp_enqueue_scripts', array( $this, 'tk_theme_styles' ), 10 );
         }
 
-        public static function tk_typekit()
+        public function tk_typekit()
         {
             wp_enqueue_style(
                 'tk_typekit',
