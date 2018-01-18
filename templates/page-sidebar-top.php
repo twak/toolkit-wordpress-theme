@@ -2,10 +2,10 @@
 <?php
 // get some variables
 $full_width = tk_full_width();
-$show_breadcrumb = get_field('output_breadcrumb');
-$show_title = get_field('output_page_title');
+$is_widget_template = ( basename( get_page_template() ) === "template-widgets.php" );
+$show_breadcrumb = $is_widget_template ? get_field('output_breadcrumb'): true;
+$show_title = $is_widget_template ? get_field('output_page_title'): true;
 $show_sidebar = tk_sidebar();
-$page_template = basename( get_page_template() );
 
 // showing sidebar
 if ( $show_sidebar ) :
@@ -45,7 +45,7 @@ else :
         <?php do_action('tk_title_after'); ?>
     </header>                   
     <?php endif;
-    if ( $page_template === "template-widgets.php" ) :
+    if ( $is_widget_template ) :
         //close wrapper if on widgets page template
         print('</div>');
     endif;

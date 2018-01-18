@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+### 0.3.11 (18/01/2018)
+
+ * Hotfix release for bug in default template without sidebar (title and breadcrumb hidden by default when should be shown)
+
 ### 0.3.10 (18/01/2018)
 
  * Hotfix release for bug in text widget
