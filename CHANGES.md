@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+### 0.3.10 (18/01/2018)
+
+ * Hotfix release for bug in text widget
+
 ### 0.3.9 (18/01/2018)
 
  * Hotfix release for bug in styles loader
