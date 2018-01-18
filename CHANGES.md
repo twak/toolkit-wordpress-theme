@@ -1,6 +1,10 @@
 ChangeLog
 =========
 
+### 0.3.9 (18/01/2018)
+
+ * Hotfix release for bug in styles loader
+
 ### 0.3.8 (17/01/2018)
 
  * Added field to show or hide page title and breadcrumb for widgets page template when sidebar is hidden.
