@@ -317,3 +317,13 @@ a {
 		padding: 8px 16px 8px 0;
 	}
 }
+/* post password protection form */
+.post-password-form {
+    input[type=submit],
+    label {
+        width:100%;
+        @media (min-width: 1024px){
+            width:50%;
+        }
+    }
+}
