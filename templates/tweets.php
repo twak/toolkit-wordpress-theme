@@ -34,7 +34,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
                     <?php
                     if ( ! empty( $avatar ) ) {
                         $avatar_url = $avatar['sizes']['thumbnail'];
-                        printf('<br><a href="https://twitter.com/%s"><img src="%s" style="width:50px;height:auto;"></a>', $screen_name, $avatar_url);
+                        printf('<br><a href="https://twitter.com/%s" target="_blank"><img src="%s" alt="Twitter user icon" style="width:50px;height:auto;"></a>', $screen_name, $avatar_url);
                     }
                     ?>
                 </div>       
