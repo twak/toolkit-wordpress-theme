@@ -358,7 +358,8 @@ if ( ! class_exists( 'tk_setup' ) ) {
          */
         public static function analytics_footer()
         {
-            if ( have_rows('tk_google_analytics', 'option') ) :
+            if ( apply_filters( 'include_ga_footer', true ) ) :
+                if ( have_rows('tk_google_analytics', 'option') ) :
             	?>
 
 					<script>
@@ -382,7 +383,7 @@ if ( ! class_exists( 'tk_setup' ) ) {
 					</script>
 
 				<?php
-
+                endif;
             endif;
         }
 
