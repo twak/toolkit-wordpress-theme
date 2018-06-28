@@ -1,18 +1,18 @@
 {
   "name": "toolkit-wordpress-theme",
   "themename": "Toolkit Wordpress Theme",
-  "version": "0.3.12",
+  "version": "0.3.14",
   "description": "Wordpress theme for the University of Leeds toolkit",
   "main": "style.css",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/university-of-leeds/toolkit-wordpress-theme.git"
+    "url": "https://github.com/universityofleeds/toolkit-wordpress-theme.git"
   },
   "author": "Web Team, University of Leeds",
   "authoruri": "http://it.leeds.ac.uk/",
   "license": "GPL-2.0",
   "licenseuri": "http://www.gnu.org/licenses/gpl-2.0.txt",
-  "homepage": "https://bitbucket.org/university-of-leeds/toolkit-wordpress-theme",
+  "homepage": "https://github.com/universityofleeds/toolkit-wordpress-theme",
   "devDependencies": {
     "fs-path": "0.0.23",
     "gulp": "^3.9.1",
@@ -22,7 +22,7 @@
     "gulp-git": "^2.4.0",
     "gulp-header": "^1.8.8",
     "gulp-replace": "^0.5.4",
-    "gulp-sass": "^2.3.2",
+    "gulp-sass": "^3.0.0",
     "gulp-zip": "^3.2.0",
     "inquirer": "^3.1.1",
     "run-sequence": "^1.2.2",

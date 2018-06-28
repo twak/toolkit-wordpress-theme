@@ -34,7 +34,7 @@ if ( $screen_name && $consumer_key && $consumer_secret && $access_token && $acce
                     <?php
                     if ( ! empty( $avatar ) ) {
                         $avatar_url = $avatar['sizes']['thumbnail'];
-                        printf('<br><a href="https://twitter.com/%s"><img src="%s" style="width:50px;height:auto;"></a>', $screen_name, $avatar_url);
+                        printf('<br><a href="https://twitter.com/%s" target="_blank"><img src="%s" alt="Twitter user icon" style="width:50px;height:auto;"></a>', $screen_name, $avatar_url);
                     }
                     ?>
                 </div>       
@@ -132,20 +132,20 @@ function tk_parse_tweet($tweet, $options = array())
         // link to user mentions
         if ( isset( $tweet->entities->user_mentions ) ) {
             foreach ( $tweet->entities->user_mentions as $entity ) {
-                $ChAr[$entity->indices[0]] = "<a href='https://twitter.com/" . $entity->screen_name . "' class='user'>" . $ChAr[$entity->indices[0]];
+                $ChAr[$entity->indices[0]] = "<a target='_blank' href='https://twitter.com/" . $entity->screen_name . "' class='user'>" . $ChAr[$entity->indices[0]];
                 $ChAr[$entity->indices[1] -1] .= "</a>";
             }
         }
         // links to hashtags
         if ( isset( $tweet->entities->hashtags ) ) {
             foreach ( $tweet->entities->hashtags as $entity ) {
-                $ChAr[$entity->indices[0]] = "<a href='https://twitter.com/search?q=%23" . $entity->text . "'>" . $ChAr[$entity->indices[0]];
+                $ChAr[$entity->indices[0]] = "<a target='_blank' href='https://twitter.com/search?q=%23" . $entity->text . "'>" . $ChAr[$entity->indices[0]];
                 $ChAr[$entity->indices[1] - 1] .= "</a>";
             }
         }
         if ( isset( $tweet->entities->urls ) ) {
             foreach ( $tweet->entities->urls as $entity ) {
-                $ChAr[$entity->indices[0]] = "<a href='" . $entity->expanded_url . "'>" . $entity->display_url . "</a>";
+                $ChAr[$entity->indices[0]] = "<a target='_blank' href='" . $entity->expanded_url . "'>" . $entity->display_url . "</a>";
                 for ($i = $entity->indices[0] + 1; $i < $entity->indices[1]; $i++ ) {
                     $ChAr[$i] = '';
                 }
@@ -153,7 +153,7 @@ function tk_parse_tweet($tweet, $options = array())
         }
         if ( isset( $tweet->entities->media ) ) {
             foreach ( $tweet->entities->media as $entity ) {
-                $ChAr[$entity->indices[0]] = "<a href='" . $entity->expanded_url . "'>" . $entity->display_url . "</a>";
+                $ChAr[$entity->indices[0]] = "<a target='_blank' href='" . $entity->expanded_url . "'>" . $entity->display_url . "</a>";
                 for ( $i = $entity->indices[0] + 1; $i < $entity->indices[1]; $i++) {
                     $ChAr[$i] = '';
                 }
@@ -164,7 +164,7 @@ function tk_parse_tweet($tweet, $options = array())
         $text .= htmlentities(strip_tags($tweet->text, '<br><p>'));
     }
     if ($is_retweet) {
-        $text = sprintf('RT <a class="user" href="http://twitter.com/%1$s">@%1$s</a>: %2$s', $tweet->user->screen_name, $text );
+        $text = sprintf('RT <a target="_blank"  class="user" href="http://twitter.com/%1$s">@%1$s</a>: %2$s', $tweet->user->screen_name, $text );
     }
     return $text;
 }

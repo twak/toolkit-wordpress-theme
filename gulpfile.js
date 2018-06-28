@@ -49,7 +49,7 @@ gulp.task('sass', function() {
     'Author URI:          '+pkg.authoruri,
     'Version:             '+pkg.version,
     'Theme URI:           '+pkg.homepage,
-    'Bitbucket Theme URI: '+pkg.homepage,
+    'GitHub Theme URI:    '+pkg.homepage,
     'License:             '+pkg.license,
     'License URI:         '+pkg.licenseuri,
     '*/',
