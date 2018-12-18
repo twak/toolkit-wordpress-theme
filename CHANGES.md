@@ -1,6 +1,21 @@
 ChangeLog
 =========
 
+### 0.3.14 (28/06/2018)
+
+ * Added a new filter to control the inclusion of Google Analytics tags (in preparation for the roll-out of a privacy/cookie plugin)
+
+### 0.3.13 (13/03/2018)
+
+ * Updated quick links list in site header
+ * Fixed some accessibility issues in the twitter output
+ * Converted theme to use the GutHub endpoint for the GitHub Updater Plugin (discontinued use of bitbucket)  
+
+### 0.3.12 (06/02/2018)
+
+ * Fixed password protection in Widgets page template
+ * Re-enabled the Media widget (this revealed a bug in core whereby media scripts were not enqueued on the Widgets page if this widget was disabled)
+
 ### 0.3.11 (18/01/2018)
 
  * Hotfix release for bug in default template without sidebar (title and breadcrumb hidden by default when should be shown)
