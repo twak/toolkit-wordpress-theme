@@ -10,7 +10,7 @@ if ( ! class_exists( 'tk_admin' ) ) {
         /**
          * theme version
          */
-        public static $version = "0.3.14";
+        public static $version = "0.3.15";
 
         public static function register()
         {
@@ -48,8 +48,8 @@ if ( ! class_exists( 'tk_admin' ) ) {
                     case "0.2.17":
                         // upgrade from 0.2.x to 0.3.x
                         include dirname(__FILE__) . '/upgrade/0.3.php';
-                    case "0.3.14":
-                        
+                    case "0.3.15":
+
                 }
             }
             /* update the version option */

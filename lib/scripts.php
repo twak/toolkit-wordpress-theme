@@ -18,7 +18,7 @@ if ( ! class_exists( 'tk_scripts' ) ) {
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_theme_scripts' ), 10 );
 
             /* add hooks to output scripts configured in Appearance->Theme Settings via ACF */
-            add_action( 'acf/init', array( $this, 'add_theme_settings_scripts' ) );
+            add_action( 'acf/init', array( $this, 'add_theme_settings_scripts' ), 99 );
         }
 
         /**
@@ -53,9 +53,9 @@ if ( ! class_exists( 'tk_scripts' ) ) {
         {
             wp_register_script(
                 'tk_wordpress',
-                get_template_directory_uri() . '/js/toolkit-wordpress.js', 
+                get_template_directory_uri() . '/js/toolkit-wordpress.js',
                 array('jquery'),
-                tk_admin::$version, 
+                tk_admin::$version,
                 true
             );
         }
@@ -81,16 +81,23 @@ if ( ! class_exists( 'tk_scripts' ) ) {
         /**
          * Output site specific scripts to head
          * Set in: Site Admin->Appearance->Theme Scripts
+		 * As these options are not defined for non-admin users, we need to get the ACF
+		 * values "raw" from the wp_options table using get_option, and as this is a
+		 * repeater field, the number of stored options is in the actual option, then
+		 * the subfields use a prefix and zero-based index
          */
         public function site_scripts_output_head(){
 
-        	$scriptEntries = get_field('tk_theme_scripts', 'option');
+        	$scriptEntries = get_option( 'options_tk_theme_scripts', false );
 
         	if ( $scriptEntries ) {
-                foreach ($scriptEntries as $scriptEntry) {
-
-        			if ($scriptEntry['tk_theme_script_placement'] == 'wp_head'){
-        				echo $scriptEntry['tk_theme_script'];
+                for ( $i = 0; $i < $scriptEntries; $i++ ) {
+					$placement = get_option( 'options_tk_theme_scripts_' . $i . '_tk_theme_script_placement', false );
+        			if ( 'wp_head' === $placement ) {
+						$script =  get_option( 'options_tk_theme_scripts_' . $i . '_tk_theme_script', false );
+						if ( $script ) {
+							echo $script;
+						}
         			}
         		}
             }
@@ -98,16 +105,23 @@ if ( ! class_exists( 'tk_scripts' ) ) {
         /**
          * Output site specific scripts to footer
          * Set in: Site Admin->Appearance->Theme Scripts
+		 * As these options are not defined for non-admin users, we need to get the ACF
+		 * values "raw" from the wp_options table using get_option, and as this is a
+		 * repeater field, the number of stored options is in the actual option, then
+		 * the subfields use a prefix and zero-based index
          */
         public function site_scripts_output_footer(){
 
-        	$scriptEntries = get_field('tk_theme_scripts', 'option');
+        	$scriptEntries = get_option( 'options_tk_theme_scripts', false );
 
-            if ( $scriptEntries ) {
-        		foreach ($scriptEntries as $scriptEntry) {
-
-        			if ($scriptEntry['tk_theme_script_placement'] == 'wp_footer'){
-        				echo $scriptEntry['tk_theme_script'];
+        	if ( $scriptEntries ) {
+                for ( $i = 0; $i < $scriptEntries; $i++ ) {
+					$placement = get_option( 'options_tk_theme_scripts_' . $i . '_tk_theme_script_placement', false );
+        			if ( 'wp_footer' === $placement ) {
+						$script =  get_option( 'options_tk_theme_scripts_' . $i . '_tk_theme_script', false );
+						if ( $script ) {
+							echo $script;
+						}
         			}
         		}
             }
